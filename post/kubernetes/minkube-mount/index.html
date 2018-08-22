@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>minikube 在掛載本機遇到的神奇問題</title>
+	<meta name="description" content="">
+	<meta name="generator" content="Hugo 0.47.1" />
+	<meta property="og:title" content="minikube 在掛載本機遇到的神奇問題" />
+<meta property="og:description" content="開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mengzn.github.io/post/kubernetes/minkube-mount/" /><meta property="article:published_time" content="2018-07-02T02:12:05&#43;08:00"/>
+<meta property="article:modified_time" content="2018-07-02T02:12:05&#43;08:00"/>
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<script type="text/javascript" src="/js/scripts.js"></script>
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container-outer">
+		<header class="header">
+			<div class="container container-inner">
+				<div class="logo" role="banner">
+					<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
+						<div class="logo__title">Meng Ze&#39;s Blog</div>
+						<div class="logo__tagline">Record my learning process</div>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/post/">HOME</a></li>
+		<li class="menu__item"><a class="menu__link" href="/about/">ABOUT ME</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper flex">
+
+<main class="main content">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">minikube 在掛載本機遇到的神奇問題</h1><div class="post__meta meta">
+<svg class="icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+<time class="post__meta-date meta-date" datetime="2018-07-02T02:12:05">July 02, 2018</time>
+<span class="post__meta-categories meta-categories">
+	<svg class="icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta-categories__list"><a class="meta-categories__link" href="/categories/kubernetes" rel="category">kubernetes</a></span>
+</span></div>
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		
+	</div>
+</div>
+<div class="post__content clearfix">
+			<p>開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。
+</p>
+
+<p>以下是我當時遇到狀況的環境，到V0.28.0還有此問題存在。</p>
+
+<blockquote>
+<p><strong>Note:</strong></p>
+
+<p>重現當時問題採用的是V0.28.0版本的minikube</p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Environment</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>minikube version</td>
+<td>v0.24.0</td>
+</tr>
+
+<tr>
+<td>OS</td>
+<td>macOS</td>
+</tr>
+
+<tr>
+<td>Driver</td>
+<td>virtualbox</td>
+</tr>
+
+<tr>
+<td>ISO version</td>
+<td>minikube-v0.23.6.iso</td>
+</tr>
+</tbody>
+</table>
+
+<p>我們要掛載資料夾或檔案至minkube的Virtual Machine 上的時候，會執行mount的動作。
+可參考<a href="https://github.com/kubernetes/minikube/blob/master/docs/host_folder_mount.md">官方網站</a>的掛載方式。</p>
+
+<pre><code class="language-bash">$minikube mount ~/app:/app
+Mounting /home/jason/app into /app on the minikubeVM
+This daemon process needs to stay alive for the mount to still be accessible...
+ufs starting
+</code></pre>
+
+<p>透過minikube的指令連進虛擬機內</p>
+
+<pre><code class="language-bash">$minkube ssh
+_             _
+_         _ ( )           ( )
+___ ___  (_)  ___  (_)| |/')  _   _ | |_      __
+/' _ ` _ `\| |/' _ `\| || , &lt;  ( ) ( )| '_`\  /'__`\
+| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+
+
+</code></pre>
+
+<p>開發人員會將自己開發的程式透過Persistent Volumes的方式讓pod存取。
+例如:
+網頁程式設計人員撰寫PHP的程式碼，只要更新本地的程式碼minikube的pod就可以線上迭代，大幅地增加開發人員的速度。</p>
+
+<p>我們要將app這個資料夾透過hostpath的方式掛載到minikube上</p>
+
+<pre><code class="language-bash">$cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-volume
+spec:
+  containers:
+  - image: nginx
+    name: test-volume
+    volumeMounts:
+    - mountPath: /app
+      name: test-volume
+  volumes:
+  - name: test-volume
+    hostPath:
+      path: /app
+EOF
+</code></pre>
+
+<p>透過kubectl 指令確認pod正常運作</p>
+
+<pre><code class="language-bash">$kubectl get pod
+NAME                            READY     STATUS        RESTARTS   AGE
+test-volume                     1/1       Running       0          1m
+</code></pre>
+
+<p>這實在pod內出現神奇的問題，透過kubectl連進pod去看一下。</p>
+
+<pre><code class="language-bash">$kubectl exec -ti test-volume sh
+
+$ls -al
+drwxr-xr-x   1 root root    4096 Jul  2 19:13 .
+drwxr-xr-x   1 root root    4096 Jul  2 19:13 ..
+-rwxr-xr-x   1 root root       0 Jul  2 19:13 .dockerenv
+drwxrwxr-x   1  501 20        64 Jul  2 18:50 app
+...
+</code></pre>
+
+<p>因為uid、gid的這個問題會導致無法存取app內的文件</p>
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16"><path d="M16 9.5c0 .373-.24.74-.5 1l-5 5c-.275.26-.634.5-1 .5-.373 0-.74-.24-1-.5L1 8a2.853 2.853 0 0 1-.7-1C.113 6.55 0 5.973 0 5.6V1.4C0 1.034.134.669.401.401.67.134 1.034 0 1.4 0h4.2c.373 0 .95.113 1.4.3.45.187.732.432 1 .7l7.5 7.502c.26.274.5.632.5.998zM3.5 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/kubernetes/" rel="tag">kubernetes</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/minikube/" rel="tag">minikube</a></li>
+	</ul>
+</div>
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Meng Ze avatar" src="/img/apple.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Meng Ze</span>
+	</div>
+	<div class="authorbox__description">
+		Meng 專注於雲端世界的耕耘者，喜歡潛水慢跑等休閒運動。
+	</div>
+</div>
+	
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/openstack/kolla-kubernetes/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Kolla Kubernetes</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/post/kubernetes/istio1.0-install/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Istio1.0 安裝及簡易操作</p></a>
+	</div>
+</nav>
+	
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mengzn" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+</main>
+
+
+<aside class="sidebar">
+	
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/kubernetes/istio1.0-install/">Istio1.0 安裝及簡易操作</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/kubernetes/minkube-mount/">minikube 在掛載本機遇到的神奇問題</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/openstack/kolla-kubernetes/">Kolla Kubernetes</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/golang/pointer/">簡單介紹一下golang的指標</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/grpc/proto/">初嚐Protocol Buffer</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/sdn/ovs-commonly-command/">OVS Commonly Command</a></li>
+		</ul>
+	</div>
+</div>
+	
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/golang">Golang</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/grpc">Grpc</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/istio">Istio</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/kubernetes">Kubernetes</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/networking">Networking</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/openstack">Openstack</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/servicemesh">Servicemesh</a></li>
+		</ul>
+	</div>
+</div>
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/ameng0330" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="LinkedIn" rel="noopener noreferrer" href="https://linkedin.com/in/meng-ze-li-0330" target="_blank">
+				<svg class="widget-social__link-icon icon-linkedin" viewBox="0 0 352 352" width="24" height="24" fill="#fff"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Telegram" rel="noopener noreferrer" href="https://t.me/Jason0330" target="_blank">
+				<svg class="widget-social__link-icon icon-telegram" viewBox="0 0 132 110" width="24" height="24"><path fill="#ddd" d="M50 103c-4 0-3-1-5-5L34 60l88-52"/><path fill="#aaa" d="M50 103c3 0 4-1 6-3l16-16-20-12"/><path fill="#fff" d="M52 72l48 36c6 3 10 2 11-5l20-93c2-8-3-11-8-9L7 45c-8 4-8 8-1 10l29 9 69-43c3-2 6-1 4 1"/></svg>
+				<span>Telegram</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/MengZn" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:jason.meng.lee@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>jason.meng.lee@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang" title="Golang">Golang</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/grpc" title="Grpc">Grpc</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/istio" title="Istio">Istio</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/minikube" title="Minikube">Minikube</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/openstack" title="Openstack">Openstack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ovs" title="Ovs">Ovs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/proto" title="Proto">Proto</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sdn" title="Sdn">Sdn</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/servicemesh" title="Servicemesh">Servicemesh</a>
+	</div>
+</div>
+</aside>
+	</div>
+		<footer class="footer">
+			<div class="container container-inner">
+				<div class="footer__copyright">&copy; 2018 Meng Ze&#39;s Blog. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span></div>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+		label: "Menu",
+	});
+</script></body>
+</html>

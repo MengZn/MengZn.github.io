@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Meng Ze&#39;s Blog</title>
+    <link>https://mengzn.github.io/</link>
+    <description>Recent content on Meng Ze&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 04 Aug 2018 17:39:26 +0800</lastBuildDate>
+    
+	<atom:link href="https://mengzn.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Istio1.0 安裝及簡易操作</title>
+      <link>https://mengzn.github.io/post/kubernetes/istio1.0-install/</link>
+      <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
+      
+      <guid>https://mengzn.github.io/post/kubernetes/istio1.0-install/</guid>
+      <description>&lt;h2 id=&#34;istio-簡介&#34;&gt;Istio 簡介&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://istio.io/&#34;&gt;Istio&lt;/a&gt;提供了一個完整的微服務應用解決方案，透過為整個服務網路提供行為監控和細粒度的控制來滿足微服務應用程序的多樣化需求。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>minikube 在掛載本機遇到的神奇問題</title>
+      <link>https://mengzn.github.io/post/kubernetes/minkube-mount/</link>
+      <pubDate>Mon, 02 Jul 2018 02:12:05 +0800</pubDate>
+      
+      <guid>https://mengzn.github.io/post/kubernetes/minkube-mount/</guid>
+      <description>&lt;p&gt;開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kolla Kubernetes</title>
+      <link>https://mengzn.github.io/post/openstack/kolla-kubernetes/</link>
+      <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
+      
+      <guid>https://mengzn.github.io/post/openstack/kolla-kubernetes/</guid>
+      <description>&lt;p&gt;kolla是為了提供production-ready的 OpenStack Cloud 之container和deployment tools。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>簡單介紹一下golang的指標</title>
+      <link>https://mengzn.github.io/post/golang/pointer/</link>
+      <pubDate>Fri, 11 May 2018 17:39:26 +0800</pubDate>
+      
+      <guid>https://mengzn.github.io/post/golang/pointer/</guid>
+      <description>&lt;p&gt;學習golang也一段時間了，紀錄一下當時學習遇到的問題。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>初嚐Protocol Buffer</title>
+      <link>https://mengzn.github.io/post/grpc/proto/</link>
+      <pubDate>Wed, 09 May 2018 02:12:05 +0800</pubDate>
+      
+      <guid>https://mengzn.github.io/post/grpc/proto/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://cdn-images-1.medium.com/max/900/1*3Eb-ajNJwwrIITFGMIwPTw.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OVS Commonly Command</title>
+      <link>https://mengzn.github.io/post/sdn/ovs-commonly-command/</link>
+      <pubDate>Sun, 06 May 2018 22:20:02 +0800</pubDate>
+      
+      <guid>https://mengzn.github.io/post/sdn/ovs-commonly-command/</guid>
+      <description>&lt;p&gt;記錄一下，Open vSwitch (OVS)常用的指令。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://mengzn.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://mengzn.github.io/about/</guid>
+      <description> Here are my personal notes and learning process.
+李孟澤/Jason Lee
+System Developer
+Skill Focus on Cloud Native Open Source
+ Kubernetes OpenStack Networking Ansible Android  </description>
+    </item>
+    
+  </channel>
+</rss>
