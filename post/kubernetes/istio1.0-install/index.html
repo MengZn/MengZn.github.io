@@ -262,18 +262,40 @@ istio-sidecar-injector-d96cd9459-ws647      <span style="color:#ae81ff">1</span>
 istio-statsd-prom-bridge-549d687fd9-mb99f   <span style="color:#ae81ff">1</span>/1       Running   <span style="color:#ae81ff">0</span>          4m
 istio-telemetry-6c587bdbc4-tzblq            <span style="color:#ae81ff">2</span>/2       Running   <span style="color:#ae81ff">0</span>          4m
 prometheus-6ffc56584f-xcpsj                 <span style="color:#ae81ff">1</span>/1       Running   <span style="color:#ae81ff">0</span>          4m
+
+
+root@sdn-k8s-b4:/home/ubuntu|⇒  kubectl get pod,svc
+NAME                                       READY     STATUS      RESTARTS   AGE
+pod/app-debug-6b4f85c9cc-gq7nx             <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">1</span>          28d
+pod/config                                 <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/hello-55f998cd56-d2q8n                 <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/hellogo-bb9bd67f7-ckmkc                <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/myapp-pod                              <span style="color:#ae81ff">0</span>/1       Completed   <span style="color:#ae81ff">0</span>          1d
+pod/myapp-pod2                             <span style="color:#ae81ff">0</span>/1       Completed   <span style="color:#ae81ff">0</span>          1d
+pod/network-controller-server-tcp-7x6vm    <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/network-controller-server-tcp-kjtm9    <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/network-controller-server-unix-2rnfv   <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/network-controller-server-unix-lh8qh   <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/nginx-6f858d4d45-vrlgb                 <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/onos-65df85486f-tvk5t                  <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          1d
+pod/skydive-agent-9x2n4                    <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          6h
+pod/skydive-agent-rww57                    <span style="color:#ae81ff">1</span>/1       Running     <span style="color:#ae81ff">0</span>          6h
+pod/skydive-analyzer-5f9556687f-gvdbj      <span style="color:#ae81ff">2</span>/2       Running     <span style="color:#ae81ff">0</span>          6h
+
+
 $kubectl get svc -n istio-system
-NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>                                                                                                     AGE
-istio-citadel              ClusterIP   <span style="color:#ae81ff">10</span>.106.166.113   &lt;none&gt;        <span style="color:#ae81ff">8060</span>/TCP,9093/TCP                                                                                           5m
-istio-egressgateway        NodePort    <span style="color:#ae81ff">10</span>.100.183.7     &lt;none&gt;        <span style="color:#ae81ff">80</span>:31607/TCP,443:31053/TCP                                                                                  5m
-istio-galley               ClusterIP   <span style="color:#ae81ff">10</span>.109.104.146   &lt;none&gt;        <span style="color:#ae81ff">443</span>/TCP,9093/TCP                                                                                            5m
-istio-ingressgateway       NodePort    <span style="color:#ae81ff">10</span>.101.66.117    &lt;none&gt;        <span style="color:#ae81ff">80</span>:31380/TCP,443:31390/TCP,31400:31400/TCP,15011:32388/TCP,8060:32100/TCP,15030:30847/TCP,15031:32749/TCP   5m
-istio-pilot                ClusterIP   <span style="color:#ae81ff">10</span>.102.202.205   &lt;none&gt;        <span style="color:#ae81ff">15010</span>/TCP,15011/TCP,8080/TCP,9093/TCP                                                                       5m
-istio-policy               ClusterIP   <span style="color:#ae81ff">10</span>.97.181.32     &lt;none&gt;        <span style="color:#ae81ff">9091</span>/TCP,15004/TCP,9093/TCP                                                                                 5m
-istio-sidecar-injector     ClusterIP   <span style="color:#ae81ff">10</span>.96.165.139    &lt;none&gt;        <span style="color:#ae81ff">443</span>/TCP                                                                                                     5m
-istio-statsd-prom-bridge   ClusterIP   <span style="color:#ae81ff">10</span>.101.82.72     &lt;none&gt;        <span style="color:#ae81ff">9102</span>/TCP,9125/UDP                                                                                           5m
-istio-telemetry            ClusterIP   <span style="color:#ae81ff">10</span>.108.94.224    &lt;none&gt;        <span style="color:#ae81ff">9091</span>/TCP,15004/TCP,9093/TCP,42422/TCP                                                                       5m
-prometheus                 ClusterIP   <span style="color:#ae81ff">10</span>.104.3.226     &lt;none&gt;        <span style="color:#ae81ff">9090</span>/TCP                                                                                                    5m</code></pre></div></p>
+NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>                                                                        AGE
+istio-citadel              ClusterIP   <span style="color:#ae81ff">10</span>.106.166.113   &lt;none&gt;        <span style="color:#ae81ff">8060</span>/TCP,9093/TCP                                                              5m
+istio-egressgateway        NodePort    <span style="color:#ae81ff">10</span>.100.183.7     &lt;none&gt;        <span style="color:#ae81ff">80</span>:31607/TCP,443:31053/TCP                                                     5m
+istio-galley               ClusterIP   <span style="color:#ae81ff">10</span>.109.104.146   &lt;none&gt;        <span style="color:#ae81ff">443</span>/TCP,9093/TCP                                                               5m
+istio-ingressgateway       NodePort    <span style="color:#ae81ff">10</span>.101.66.117    &lt;none&gt;        <span style="color:#ae81ff">80</span>:31380/TCP,443:31390/TCP,31400:31400/TCP,15011:32388/TCP,8060:32100/TCP,
+<span style="color:#ae81ff">15030</span>:30847/TCP,15031:32749/TCP                                                5m
+istio-pilot                ClusterIP   <span style="color:#ae81ff">10</span>.102.202.205   &lt;none&gt;        <span style="color:#ae81ff">15010</span>/TCP,15011/TCP,8080/TCP,9093/TCP                                          5m
+istio-policy               ClusterIP   <span style="color:#ae81ff">10</span>.97.181.32     &lt;none&gt;        <span style="color:#ae81ff">9091</span>/TCP,15004/TCP,9093/TCP                                                    5m
+istio-sidecar-injector     ClusterIP   <span style="color:#ae81ff">10</span>.96.165.139    &lt;none&gt;        <span style="color:#ae81ff">443</span>/TCP                                                                        5m
+istio-statsd-prom-bridge   ClusterIP   <span style="color:#ae81ff">10</span>.101.82.72     &lt;none&gt;        <span style="color:#ae81ff">9102</span>/TCP,9125/UDP                                                              5m
+istio-telemetry            ClusterIP   <span style="color:#ae81ff">10</span>.108.94.224    &lt;none&gt;        <span style="color:#ae81ff">9091</span>/TCP,15004/TCP,9093/TCP,42422/TCP                                          5m
+prometheus                 ClusterIP   <span style="color:#ae81ff">10</span>.104.3.226     &lt;none&gt;        <span style="color:#ae81ff">9090</span>/TCP                                                                       5m</code></pre></div></p>
 
 <h2 id="範例-bookinfo-application">範例：Bookinfo Application</h2>
 
