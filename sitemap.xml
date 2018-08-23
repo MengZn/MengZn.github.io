@@ -3,159 +3,159 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://mengzn.github.io/post/kubernetes/istio1.0-install/</loc>
+    <loc>http://mengzn.github.io/post/kubernetes/istio1.0-install/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/post/kubernetes/minkube-mount/</loc>
+    <loc>http://mengzn.github.io/post/kubernetes/minkube-mount/</loc>
     <lastmod>2018-07-02T02:12:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/post/openstack/kolla-kubernetes/</loc>
+    <loc>http://mengzn.github.io/post/openstack/kolla-kubernetes/</loc>
     <lastmod>2018-05-21T23:25:20+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/post/golang/pointer/</loc>
+    <loc>http://mengzn.github.io/post/golang/pointer/</loc>
     <lastmod>2018-05-11T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/post/grpc/proto/</loc>
+    <loc>http://mengzn.github.io/post/grpc/proto/</loc>
     <lastmod>2018-05-09T02:12:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/post/sdn/ovs-commonly-command/</loc>
+    <loc>http://mengzn.github.io/post/sdn/ovs-commonly-command/</loc>
     <lastmod>2018-05-06T22:20:02+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/about/</loc>
+    <loc>http://mengzn.github.io/about/</loc>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/categories/</loc>
+    <loc>http://mengzn.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/golang/</loc>
+    <loc>http://mengzn.github.io/tags/golang/</loc>
     <lastmod>2018-05-11T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/categories/golang/</loc>
+    <loc>http://mengzn.github.io/categories/golang/</loc>
     <lastmod>2018-05-11T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/grpc/</loc>
+    <loc>http://mengzn.github.io/tags/grpc/</loc>
     <lastmod>2018-05-09T02:12:05+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/categories/grpc/</loc>
+    <loc>http://mengzn.github.io/categories/grpc/</loc>
     <lastmod>2018-05-09T02:12:05+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/post/</loc>
+    <loc>http://mengzn.github.io/post/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/istio/</loc>
-    <lastmod>2018-08-04T17:39:26+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://mengzn.github.io/categories/istio/</loc>
+    <loc>http://mengzn.github.io/tags/istio/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/kubernetes/</loc>
+    <loc>http://mengzn.github.io/categories/istio/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/categories/kubernetes/</loc>
+    <loc>http://mengzn.github.io/tags/kubernetes/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/</loc>
+    <loc>http://mengzn.github.io/categories/kubernetes/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/minikube/</loc>
+    <loc>http://mengzn.github.io/</loc>
+    <lastmod>2018-08-04T17:39:26+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://mengzn.github.io/tags/minikube/</loc>
     <lastmod>2018-07-02T02:12:05+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/categories/networking/</loc>
+    <loc>http://mengzn.github.io/categories/networking/</loc>
     <lastmod>2018-05-06T22:20:02+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/openstack/</loc>
+    <loc>http://mengzn.github.io/tags/openstack/</loc>
     <lastmod>2018-05-21T23:25:20+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/categories/openstack/</loc>
+    <loc>http://mengzn.github.io/categories/openstack/</loc>
     <lastmod>2018-05-21T23:25:20+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/ovs/</loc>
+    <loc>http://mengzn.github.io/tags/ovs/</loc>
     <lastmod>2018-05-06T22:20:02+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/proto/</loc>
+    <loc>http://mengzn.github.io/tags/proto/</loc>
     <lastmod>2018-05-09T02:12:05+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/sdn/</loc>
+    <loc>http://mengzn.github.io/tags/sdn/</loc>
     <lastmod>2018-05-06T22:20:02+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/servicemesh/</loc>
+    <loc>http://mengzn.github.io/tags/servicemesh/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/categories/servicemesh/</loc>
+    <loc>http://mengzn.github.io/categories/servicemesh/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mengzn.github.io/tags/</loc>
+    <loc>http://mengzn.github.io/tags/</loc>
     <lastmod>2018-05-11T17:39:26+08:00</lastmod>
     <priority>0</priority>
   </url>
