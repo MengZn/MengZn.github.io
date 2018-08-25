@@ -13,10 +13,10 @@
     
     <item>
       <title>Istio1.0 安裝及簡易操作</title>
-      <link>http://mengzn.github.io/post/kubernetes/istio1.0-install/</link>
+      <link>http://mengzn.github.io/post/kubernetes/istio/istio1.0-install/</link>
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
       
-      <guid>http://mengzn.github.io/post/kubernetes/istio1.0-install/</guid>
+      <guid>http://mengzn.github.io/post/kubernetes/istio/istio1.0-install/</guid>
       <description>&lt;h2 id=&#34;istio-簡介&#34;&gt;Istio 簡介&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://istio.io/&#34;&gt;Istio&lt;/a&gt;提供了一個完整的微服務應用解決方案，透過為整個服務網路提供行為監控和細粒度的控制來滿足微服務應用程序的多樣化需求。

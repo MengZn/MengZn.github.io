@@ -121,212 +121,137 @@
 <p>這邊利用的是kubeadm進行kubernetes的安裝『版本是Kubernetes1.10』，可以參考<a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/">官方網站</a>的部屬方式。</p>
 
 <p>安裝 Kubernetes latest version  and other dependencies:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$curl</span> -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo -E apt-key add -
+<span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF &gt; kubernetes.list
+</span><span style="color:#cd0000">deb http://apt.kubernetes.io/ kubernetes-xenial main
+</span><span style="color:#cd0000">EOF</span>
 
-<pre><code class="language-bash">$curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo -E apt-key add -
-$cat &lt;&lt;EOF &gt; kubernetes.list
-deb http://apt.kubernetes.io/ kubernetes-xenial main
-EOF
+<span style="color:#00cdcd">$sudo</span> cp -aR kubernetes.list /etc/apt/sources.list.d/kubernetes.list
 
-$sudo cp -aR kubernetes.list /etc/apt/sources.list.d/kubernetes.list
-
-$sudo apt-get update
-$sudo apt-get install -y docker.io kubelet kubeadm kubectl
-</code></pre>
-
+<span style="color:#00cdcd">$sudo</span> apt-get update
+<span style="color:#00cdcd">$sudo</span> apt-get install -y docker.io kubelet kubeadm kubectl</code></pre></div>
 <p>Kubernetes v1.8+ 要求關閉系統 Swap，如果不想關閉系統的Swap需要修改 kubelet 設定參數，我們利用以下指令關閉系統Swap：</p>
-
-<pre><code class="language-bash">$swapoff -a &amp;&amp; sysctl -w vm.swappiness=0
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$swapoff</span> -a <span style="color:#39c">&amp;&amp;</span> sysctl -w vm.swappiness<span style="color:#39c">=</span><span style="color:#cd00cd">0</span></code></pre></div>
 <p>透過以下指令啟動Docker Daemon。</p>
-
-<pre><code class="language-bash">$systemctl enable docker &amp;&amp; systemctl start docker
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$systemctl</span> <span style="color:#cd00cd">enable</span> docker <span style="color:#39c">&amp;&amp;</span> systemctl start docker</code></pre></div>
 <p>確認Docker是否支援Cgroup Driver或是Systemd Driver，進一步修改 kubelet 設定參數。</p>
-
-<pre><code class="language-bash">$CGROUP_DRIVER=$(sudo docker info | grep &quot;Cgroup Driver&quot; | awk '{print $3}')
-$sudo sed -i &quot;s|KUBELET_KUBECONFIG_ARGS=|KUBELET_KUBECONFIG_ARGS=--cgroup-driver=$CGROUP_DRIVER |g&quot; /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$CGROUP_DRIVER</span><span style="color:#39c">=</span><span style="color:#cdcd00">$(</span>sudo docker info | grep <span style="color:#cd0000">&#34;Cgroup Driver&#34;</span> | awk <span style="color:#cd0000">&#39;{print $3}&#39;</span><span style="color:#cdcd00">)</span>
+<span style="color:#00cdcd">$sudo</span> sed -i <span style="color:#cd0000">&#34;s|KUBELET_KUBECONFIG_ARGS=|KUBELET_KUBECONFIG_ARGS=--cgroup-driver=</span><span style="color:#00cdcd">$CGROUP_DRIVER</span><span style="color:#cd0000"> |g&#34;</span> /etc/systemd/system/kubelet.service.d/10-kubeadm.conf</code></pre></div>
 <p>將橋接的IPv4流量傳遞給iptables</p>
-
-<pre><code class="language-bash">$cat &lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf
-net.ipv4.ip_forward = 1
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
-$sysctl -p /etc/sysctl.d/k8s.conf
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf
+</span><span style="color:#cd0000">net.ipv4.ip_forward = 1
+</span><span style="color:#cd0000">net.bridge.bridge-nf-call-ip6tables = 1
+</span><span style="color:#cd0000">net.bridge.bridge-nf-call-iptables = 1
+</span><span style="color:#cd0000">EOF</span>
+<span style="color:#00cdcd">$sysctl</span> -p /etc/sysctl.d/k8s.conf</code></pre></div>
 <p>設置Kubernetes Server CIDR的DNS位置。</p>
-
-<pre><code class="language-bash">$sudo sed -i 's/10.96.0.10/10.3.3.10/g' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> sed -i <span style="color:#cd0000">&#39;s/10.96.0.10/10.3.3.10/g&#39;</span> /etc/systemd/system/kubelet.service.d/10-kubeadm.conf</code></pre></div>
 <p>利用以下重新載入kubelet相關的啟動參數</p>
-
-<pre><code class="language-bash">$sudo systemctl daemon-reload
-$sudo systemctl stop kubelet
-$sudo systemctl enable kubelet
-$sudo systemctl start kubelet
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> systemctl daemon-reload
+<span style="color:#00cdcd">$sudo</span> systemctl stop kubelet
+<span style="color:#00cdcd">$sudo</span> systemctl <span style="color:#cd00cd">enable</span> kubelet
+<span style="color:#00cdcd">$sudo</span> systemctl start kubelet</code></pre></div>
 <p>在master節點上使用kubeadm進行kubernetes 叢集的初始化</p>
-
-<pre><code class="language-bash">$sudo kubeadm init --feature-gates CoreDNS=true --pod-network-cidr=10.1.0.0/16 --service-cidr=10.3.3.0/24
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> kubeadm init --feature-gates <span style="color:#00cdcd">CoreDNS</span><span style="color:#39c">=</span><span style="color:#cd00cd">true</span> --pod-network-cidr<span style="color:#39c">=</span><span style="color:#cd00cd">10</span>.1.0.0/16 --service-cidr<span style="color:#39c">=</span><span style="color:#cd00cd">10</span>.3.3.0/24</code></pre></div>
 <p>會得到下列輸出，我們利用下列輸出的資訊將其他節點加入叢集。</p>
-
-<pre><code class="language-bash">You can now join any number of machines by running the following on each node
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">You can now join any number of machines by running the following on each node
 as root:
 
-  kubeadm join 10.0.0.181:6443 --token pieol0.2kfzpwhosxuqhe6t --discovery-token-ca-cert-hash sha256:e55b423135642404ffc60bcae4793732f18b4ce2866a8419c87b7dd92724a481
-</code></pre>
-
+  kubeadm join <span style="color:#cd00cd">10</span>.0.0.181:6443 --token pieol0.2kfzpwhosxuqhe6t --discovery-token-ca-cert-hash sha256:e55b423135642404ffc60bcae4793732f18b4ce2866a8419c87b7dd92724a481</code></pre></div>
 <p>在其他節點上我們可以利用以下指令加入叢集。</p>
-
-<pre><code class="language-bash">$kubeadm join 10.0.0.181:6443 --token pieol0.2kfzpwhosxuqhe6t --discovery-token-ca-cert-hash sha256:e55b423135642404ffc60bcae4793732f18b4ce2866a8419c87b7dd92724a481
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubeadm</span> join <span style="color:#cd00cd">10</span>.0.0.181:6443 --token pieol0.2kfzpwhosxuqhe6t --discovery-token-ca-cert-hash sha256:e55b423135642404ffc60bcae4793732f18b4ce2866a8419c87b7dd92724a481</code></pre></div>
 <p>在master節點設定kube config。</p>
-
-<pre><code class="language-bash">$mkdir -p $HOME/.kube
-$sudo -H cp /etc/kubernetes/admin.conf $HOME/.kube/config
-$sudo -H chown $(id -u):$(id -g) $HOME/.kube/config
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$mkdir</span> -p <span style="color:#00cdcd">$HOME</span>/.kube
+<span style="color:#00cdcd">$sudo</span> -H cp /etc/kubernetes/admin.conf <span style="color:#00cdcd">$HOME</span>/.kube/config
+<span style="color:#00cdcd">$sudo</span> -H chown <span style="color:#cdcd00">$(</span>id -u<span style="color:#cdcd00">)</span>:<span style="color:#cdcd00">$(</span>id -g<span style="color:#cdcd00">)</span> <span style="color:#00cdcd">$HOME</span>/.kube/config</code></pre></div>
 <p>在master 安裝Kubernetes CNI，這邊採用的是Canal。</p>
-
-<pre><code class="language-bash">$wget https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/rbac.yaml
-$kubectl apply -f rbac.yaml
-$wget https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/canal.yaml
-$sed -i &quot;s@10.244.0.0/16@10.1.0.0/16@&quot; canal.yaml
-$kubectl apply -f canal.yaml
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$wget</span> https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/rbac.yaml
+<span style="color:#00cdcd">$kubectl</span> apply -f rbac.yaml
+<span style="color:#00cdcd">$wget</span> https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/canal.yaml
+<span style="color:#00cdcd">$sed</span> -i <span style="color:#cd0000">&#34;s@10.244.0.0/16@10.1.0.0/16@&#34;</span> canal.yaml
+<span style="color:#00cdcd">$kubectl</span> apply -f canal.yaml</code></pre></div>
 <p>因為我們要把kubernetes master當作openstack controller的角色，我們將kubernetes master 的節點污染拿掉。</p>
-
-<pre><code class="language-bash">$kubectl taint nodes --all=true  node-role.kubernetes.io/master:NoSchedule-
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> taint nodes --all<span style="color:#39c">=</span><span style="color:#cd00cd">true</span>  node-role.kubernetes.io/master:NoSchedule-</code></pre></div>
 <p>在CNI安裝完成後可透過下列指令來檢查，Node &amp; Pod是否都準備好了。</p>
-
-<pre><code class="language-bash">$kubectl get pod,node -o wide --all-namespaces
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> get pod,node -o wide --all-namespaces
 
 NAMESPACE     NAME                                READY     STATUS    RESTARTS   AGE
-kube-system   pod/canal-297sw                     3/3       Running   0          2m
-kube-system   pod/canal-f82qj                     3/3       Running   0          2m
-kube-system   pod/canal-zxfbk                     3/3       Running   0          2m
-kube-system   pod/coredns-7997f8864c-cglcr        1/1       Running   0          9m
-kube-system   pod/coredns-7997f8864c-sxf2c        1/1       Running   0          9m
-kube-system   pod/etcd-node1                      1/1       Running   0          8m
-kube-system   pod/kube-apiserver-node1            1/1       Running   0          8m
-kube-system   pod/kube-controller-manager-node1   1/1       Running   0          8m
-kube-system   pod/kube-proxy-6gwws                1/1       Running   0          6m
-kube-system   pod/kube-proxy-9xbdq                1/1       Running   0          6m
-kube-system   pod/kube-proxy-z54k4                1/1       Running   0          9m
-kube-system   pod/kube-scheduler-node1            1/1       Running   0          8m
+kube-system   pod/canal-297sw                     <span style="color:#cd00cd">3</span>/3       Running   <span style="color:#cd00cd">0</span>          2m
+kube-system   pod/canal-f82qj                     <span style="color:#cd00cd">3</span>/3       Running   <span style="color:#cd00cd">0</span>          2m
+kube-system   pod/canal-zxfbk                     <span style="color:#cd00cd">3</span>/3       Running   <span style="color:#cd00cd">0</span>          2m
+kube-system   pod/coredns-7997f8864c-cglcr        <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          9m
+kube-system   pod/coredns-7997f8864c-sxf2c        <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          9m
+kube-system   pod/etcd-node1                      <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          8m
+kube-system   pod/kube-apiserver-node1            <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          8m
+kube-system   pod/kube-controller-manager-node1   <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          8m
+kube-system   pod/kube-proxy-6gwws                <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          6m
+kube-system   pod/kube-proxy-9xbdq                <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          6m
+kube-system   pod/kube-proxy-z54k4                <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          9m
+kube-system   pod/kube-scheduler-node1            <span style="color:#cd00cd">1</span>/1       Running   <span style="color:#cd00cd">0</span>          8m
 
 NAME      STATUS     ROLES     AGE       VERSION
 node1     Ready   master    8m        v1.10.3
 node2     Ready   master    8m        v1.10.3
-node3     Ready   master    8m        v1.10.3
-</code></pre>
-
+node3     Ready   master    8m        v1.10.3</code></pre></div>
 <p>利用BusyBox ，驗證Kubernetes 環境例如DNS 是否有通。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> run -i -t <span style="color:#cdcd00">$(</span>uuidgen<span style="color:#cdcd00">)</span> --image<span style="color:#39c">=</span>busybox --restart<span style="color:#39c">=</span>Never
+<span style="color:#00cdcd">$nslookup</span> kubernetes
 
-<pre><code class="language-bash">$kubectl run -i -t $(uuidgen) --image=busybox --restart=Never
-$nslookup kubernetes
 
-
-Server:    10.3.3.10
-Address 1: 10.3.3.10 kube-dns.kube-system.svc.cluster.local
+Server:    <span style="color:#cd00cd">10</span>.3.3.10
+Address <span style="color:#cd00cd">1</span>: <span style="color:#cd00cd">10</span>.3.3.10 kube-dns.kube-system.svc.cluster.local
 
 Name:      kubernetes
-Address 1: 10.3.3.1 kubernetes.default.svc.cluster.local
-</code></pre>
-
+Address <span style="color:#cd00cd">1</span>: <span style="color:#cd00cd">10</span>.3.3.1 kubernetes.default.svc.cluster.local</code></pre></div>
 <p>為kubernetes Helm 建立Tiller Service Account以及綁定Cluster-Admin Role</p>
-
-<pre><code class="language-bash">$kubectl create serviceaccount tiller --namespace kube-system
-$cat &lt;&lt;EOF | kubectl create -f -
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: tiller-clusterrolebinding
-subjects:
-- kind: ServiceAccount
-  name: tiller
-  namespace: kube-system
-roleRef:
-  kind: ClusterRole
-  name: cluster-admin
-  apiGroup: &quot;&quot;
-EOF
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> create serviceaccount tiller --namespace kube-system
+<span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF | kubectl create -f -
+</span><span style="color:#cd0000">kind: ClusterRoleBinding
+</span><span style="color:#cd0000">apiVersion: rbac.authorization.k8s.io/v1beta1
+</span><span style="color:#cd0000">metadata:
+</span><span style="color:#cd0000">  name: tiller-clusterrolebinding
+</span><span style="color:#cd0000">subjects:
+</span><span style="color:#cd0000">- kind: ServiceAccount
+</span><span style="color:#cd0000">  name: tiller
+</span><span style="color:#cd0000">  namespace: kube-system
+</span><span style="color:#cd0000">roleRef:
+</span><span style="color:#cd0000">  kind: ClusterRole
+</span><span style="color:#cd0000">  name: cluster-admin
+</span><span style="color:#cd0000">  apiGroup: &#34;&#34;
+</span><span style="color:#cd0000">EOF</span></code></pre></div>
 <p>接著我們安裝Kubernetes Helm，用來管理Helm package的元件。</p>
-
-<pre><code class="language-bash">$curl -L https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get &gt; get_helm.sh
-$chmod 700 get_helm.sh
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$curl</span> -L https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get &gt; get_helm.sh
+<span style="color:#00cdcd">$chmod</span> <span style="color:#cd00cd">700</span> get_helm.sh
 $./get_helm.sh
-$helm init --service-account tiller
-</code></pre>
-
+<span style="color:#00cdcd">$helm</span> init --service-account tiller</code></pre></div>
 <p>由於kolla kubernetes 需要用到ansible git ，我們在master的節點需要安裝ansible ，其他節點需安裝python。</p>
-
-<pre><code class="language-bash">$sudo apt-get update &amp;&amp; sudo apt-get install -y software-properties-common git python python-pip
-$sudo apt-add-repository -y ppa:ansible/ansible
-$sudo apt-get update &amp;&amp;  sudo apt-get install -y ansible
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> apt-get update <span style="color:#39c">&amp;&amp;</span> sudo apt-get install -y software-properties-common git python python-pip
+<span style="color:#00cdcd">$sudo</span> apt-add-repository -y ppa:ansible/ansible
+<span style="color:#00cdcd">$sudo</span> apt-get update <span style="color:#39c">&amp;&amp;</span>  sudo apt-get install -y ansible</code></pre></div>
 <p>建立一個資料夾方便我們接下來的步驟</p>
-
-<pre><code class="language-bash">$mkdir kolla-bringup
-$cd kolla-bringup
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$mkdir</span> kolla-bringup
+<span style="color:#00cdcd">$cd</span> kolla-bringup</code></pre></div>
 <p>下載 kolla-kubernetes &amp; kolla ansible</p>
-
-<pre><code class="language-bash">$git clone http://github.com/openstack/kolla-ansible
-$git clone http://github.com/openstack/kolla-kubernetes
-$cd kolla-kubernetes
-$git checkout 22ed0c232d7666afb6e288001b8814deea664992
-$cd ../kolla-ansible
-$git checkout origin/stable/pike
-$cd ..
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$git</span> clone http://github.com/openstack/kolla-ansible
+<span style="color:#00cdcd">$git</span> clone http://github.com/openstack/kolla-kubernetes
+<span style="color:#00cdcd">$cd</span> kolla-kubernetes
+<span style="color:#00cdcd">$git</span> checkout 22ed0c232d7666afb6e288001b8814deea664992
+<span style="color:#00cdcd">$cd</span> ../kolla-ansible
+<span style="color:#00cdcd">$git</span> checkout origin/stable/pike
+<span style="color:#00cdcd">$cd</span> ..</code></pre></div>
 <p>使用pip 安裝kolla-kubernetes &amp; kolla-ansible所需要的套件</p>
-
-<pre><code class="language-bash">$sudo pip install -U kolla-ansible/ kolla-kubernetes
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> pip install -U kolla-ansible/ kolla-kubernetes</code></pre></div>
 <p>把相關設定檔製到/etc底下</p>
-
-<pre><code class="language-bash">$cp -Ra  kolla-kubernetes/etc/kolla/ /etc
-$cp -Ra  kolla-kubernetes/etc/kolla-kubernetes/ /etc
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$cp</span> -Ra  kolla-kubernetes/etc/kolla/ /etc
+<span style="color:#00cdcd">$cp</span> -Ra  kolla-kubernetes/etc/kolla-kubernetes/ /etc</code></pre></div>
 <p>pip剛剛安裝的項目這時候可以幫我們生成default passwords</p>
-
-<pre><code class="language-bash">$sudo kolla-kubernetes-genpwd
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> kolla-kubernetes-genpwd</code></pre></div>
 <p>建立一個Kubernetes namespaces來隔離Kolla deployment</p>
-
-<pre><code class="language-bash">$kubectl create namespace kolla
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> create namespace kolla</code></pre></div>
 <p>使用Label標記要成為Controller及Compute的節點，我們這邊將node1當成Controller，node2 node3當成Compute</p>
-
-<pre><code class="language-bash">$kubectl label node node1 kolla_controller=true
-$kubectl label node node2 kolla_compute=true
-$kubectl label node node3 kolla_compute=true
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> label node node1 <span style="color:#00cdcd">kolla_controller</span><span style="color:#39c">=</span><span style="color:#cd00cd">true</span>
+<span style="color:#00cdcd">$kubectl</span> label node node2 <span style="color:#00cdcd">kolla_compute</span><span style="color:#39c">=</span><span style="color:#cd00cd">true</span>
+<span style="color:#00cdcd">$kubectl</span> label node node3 <span style="color:#00cdcd">kolla_compute</span><span style="color:#39c">=</span>true</code></pre></div>
 <p>將/etc/kolla/globals.yml設定檔，修改成與自己環境相符</p>
 
 <p>將/etc/kolla/globals.yml中的network_interface設置為Management interface name。例如：eth1</p>
@@ -334,365 +259,305 @@ $kubectl label node node3 kolla_compute=true
 <p>將/etc/kolla/globals.yml中的neutron_external_interface設置為neutron external interface name。例如：eth2</p>
 
 <p>將相關的openstack設定加入/etc/kolla/globals.yml</p>
-
-<pre><code class="language-bash">$cat &lt;&lt;EOF &gt; add-to-globals.yml
-kolla_install_type: &quot;source&quot;
-tempest_image_alt_id: &quot;{{ tempest_image_id }}&quot;
-tempest_flavor_ref_alt_id: &quot;{{ tempest_flavor_ref_id }}&quot;
-
-neutron_plugin_agent: &quot;openvswitch&quot;
-api_interface_address: 0.0.0.0
-tunnel_interface_address: 0.0.0.0
-orchestration_engine: KUBERNETES
-memcached_servers: &quot;memcached&quot;
-keystone_admin_url: &quot;http://keystone-admin:35357/v3&quot;
-keystone_internal_url: &quot;http://keystone-internal:5000/v3&quot;
-keystone_public_url: &quot;http://keystone-public:5000/v3&quot;
-glance_registry_host: &quot;glance-registry&quot;
-neutron_host: &quot;neutron&quot;
-keystone_database_address: &quot;mariadb&quot;
-glance_database_address: &quot;mariadb&quot;
-nova_database_address: &quot;mariadb&quot;
-nova_api_database_address: &quot;mariadb&quot;
-neutron_database_address: &quot;mariadb&quot;
-cinder_database_address: &quot;mariadb&quot;
-ironic_database_address: &quot;mariadb&quot;
-placement_database_address: &quot;mariadb&quot;
-rabbitmq_servers: &quot;rabbitmq&quot;
-openstack_logging_debug: &quot;True&quot;
-enable_heat: &quot;no&quot;
-enable_cinder: &quot;yes&quot;
-enable_cinder_backend_lvm: &quot;yes&quot;
-enable_cinder_backend_iscsi: &quot;yes&quot;
-enable_cinder_backend_rbd: &quot;no&quot;
-enable_ceph: &quot;no&quot;
-enable_elasticsearch: &quot;no&quot;
-enable_kibana: &quot;no&quot;
-glance_backend_ceph: &quot;no&quot;
-cinder_backend_ceph: &quot;no&quot;
-nova_backend_ceph: &quot;no&quot;
-EOF
-$cat ./add-to-globals.yml | sudo tee -a /etc/kolla/globals.yml
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF &gt; add-to-globals.yml
+</span><span style="color:#cd0000">kolla_install_type: &#34;source&#34;
+</span><span style="color:#cd0000">tempest_image_alt_id: &#34;{{ tempest_image_id }}&#34;
+</span><span style="color:#cd0000">tempest_flavor_ref_alt_id: &#34;{{ tempest_flavor_ref_id }}&#34;
+</span><span style="color:#cd0000">
+</span><span style="color:#cd0000">neutron_plugin_agent: &#34;openvswitch&#34;
+</span><span style="color:#cd0000">api_interface_address: 0.0.0.0
+</span><span style="color:#cd0000">tunnel_interface_address: 0.0.0.0
+</span><span style="color:#cd0000">orchestration_engine: KUBERNETES
+</span><span style="color:#cd0000">memcached_servers: &#34;memcached&#34;
+</span><span style="color:#cd0000">keystone_admin_url: &#34;http://keystone-admin:35357/v3&#34;
+</span><span style="color:#cd0000">keystone_internal_url: &#34;http://keystone-internal:5000/v3&#34;
+</span><span style="color:#cd0000">keystone_public_url: &#34;http://keystone-public:5000/v3&#34;
+</span><span style="color:#cd0000">glance_registry_host: &#34;glance-registry&#34;
+</span><span style="color:#cd0000">neutron_host: &#34;neutron&#34;
+</span><span style="color:#cd0000">keystone_database_address: &#34;mariadb&#34;
+</span><span style="color:#cd0000">glance_database_address: &#34;mariadb&#34;
+</span><span style="color:#cd0000">nova_database_address: &#34;mariadb&#34;
+</span><span style="color:#cd0000">nova_api_database_address: &#34;mariadb&#34;
+</span><span style="color:#cd0000">neutron_database_address: &#34;mariadb&#34;
+</span><span style="color:#cd0000">cinder_database_address: &#34;mariadb&#34;
+</span><span style="color:#cd0000">ironic_database_address: &#34;mariadb&#34;
+</span><span style="color:#cd0000">placement_database_address: &#34;mariadb&#34;
+</span><span style="color:#cd0000">rabbitmq_servers: &#34;rabbitmq&#34;
+</span><span style="color:#cd0000">openstack_logging_debug: &#34;True&#34;
+</span><span style="color:#cd0000">enable_heat: &#34;no&#34;
+</span><span style="color:#cd0000">enable_cinder: &#34;yes&#34;
+</span><span style="color:#cd0000">enable_cinder_backend_lvm: &#34;yes&#34;
+</span><span style="color:#cd0000">enable_cinder_backend_iscsi: &#34;yes&#34;
+</span><span style="color:#cd0000">enable_cinder_backend_rbd: &#34;no&#34;
+</span><span style="color:#cd0000">enable_ceph: &#34;no&#34;
+</span><span style="color:#cd0000">enable_elasticsearch: &#34;no&#34;
+</span><span style="color:#cd0000">enable_kibana: &#34;no&#34;
+</span><span style="color:#cd0000">glance_backend_ceph: &#34;no&#34;
+</span><span style="color:#cd0000">cinder_backend_ceph: &#34;no&#34;
+</span><span style="color:#cd0000">nova_backend_ceph: &#34;no&#34;
+</span><span style="color:#cd0000">EOF</span>
+<span style="color:#00cdcd">$cat</span> ./add-to-globals.yml | sudo tee -a /etc/kolla/globals.yml</code></pre></div>
 <p>接下來透過ansible幫我們產生OpneStack設定檔</p>
-
-<pre><code class="language-bash">$ansible-playbook -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla kolla-kubernetes/ansible/site.yml
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$ansible</span>-playbook -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e <span style="color:#00cdcd">CONFIG_DIR</span><span style="color:#39c">=</span>/etc/kolla kolla-kubernetes/ansible/site.yml</code></pre></div>
 <p>使用官方提供的腳本幫助我們快速的把OpenStack的password，加到Kubernetes secrets</p>
-
-<pre><code class="language-bash">$kolla-kubernetes/tools/secret-generator.py create
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kolla</span>-kubernetes/tools/secret-generator.py create</code></pre></div>
 <p>使用之前在pip安裝的檔案，快速的把OpenStack的設定檔，加入Kubernetes config maps裡</p>
-
-<pre><code class="language-bash">$kollakube res create configmap \
-    mariadb keystone horizon rabbitmq memcached nova-api nova-conductor \
-    nova-scheduler glance-api-haproxy glance-registry-haproxy glance-api \
-    glance-registry neutron-server neutron-dhcp-agent neutron-l3-agent \
-    neutron-metadata-agent neutron-openvswitch-agent openvswitch-db-server \
-    openvswitch-vswitchd nova-libvirt nova-compute nova-consoleauth \
-    nova-novncproxy nova-novncproxy-haproxy neutron-server-haproxy \
-    nova-api-haproxy cinder-api cinder-api-haproxy cinder-backup \
-    cinder-scheduler cinder-volume iscsid tgtd keepalived \
-    placement-api placement-api-haproxy
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kollakube</span> res create configmap <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    mariadb keystone horizon rabbitmq memcached nova-api nova-conductor <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    nova-scheduler glance-api-haproxy glance-registry-haproxy glance-api <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    glance-registry neutron-server neutron-dhcp-agent neutron-l3-agent <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    neutron-metadata-agent neutron-openvswitch-agent openvswitch-db-server <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    openvswitch-vswitchd nova-libvirt nova-compute nova-consoleauth <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    nova-novncproxy nova-novncproxy-haproxy neutron-server-haproxy <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    nova-api-haproxy cinder-api cinder-api-haproxy cinder-backup <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    cinder-scheduler cinder-volume iscsid tgtd keepalived <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    placement-api placement-api-haproxy</code></pre></div>
 <p>透過官方提供的腳本建立Kolla Helm Chart</p>
-
-<pre><code class="language-bash">$kolla-kubernetes/tools/helm_build_all.sh .
-</code></pre>
-
-<pre><code class="language-bash">$cat &lt;&lt;EOF &gt; cloud.yaml
-global:
-   kolla:
-     all:
-       docker_registry: docker.io
-       image_tag: &quot;4.0.0&quot;
-       kube_logger: false
-       external_vip: &quot;192.168.7.105&quot;
-       base_distro: &quot;centos&quot;
-       install_type: &quot;source&quot;
-       tunnel_interface: &quot;docker0&quot;
-     keystone:
-       all:
-         admin_port_external: &quot;true&quot;
-         dns_name: &quot;192.168.7.105&quot;
-       public:
-         all:
-           port_external: &quot;true&quot;
-     rabbitmq:
-       all:
-         cookie: 67
-     glance:
-       api:
-         all:
-           port_external: &quot;true&quot;
-     cinder:
-       api:
-         all:
-           port_external: &quot;true&quot;
-       volume_lvm:
-         all:
-           element_name: cinder-volume
-         daemonset:
-           lvm_backends:
-           - '192.168.7.105': 'cinder-volumes'
-     ironic:
-       conductor:
-         daemonset:
-           selector_key: &quot;kolla_conductor&quot;
-     nova:
-       placement_api:
-         all:
-           port_external: true
-       novncproxy:
-         all:
-           port: 6080
-           port_external: true
-     openvswitch:
-       all:
-         add_port: true
-         ext_bridge_name: br-ex
-         ext_interface_name: enp1s0f1
-         setup_bridge: true
-     horizon:
-       all:
-         port_external: true
-EOF
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kolla</span>-kubernetes/tools/helm_build_all.sh .</code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF &gt; cloud.yaml
+</span><span style="color:#cd0000">global:
+</span><span style="color:#cd0000">   kolla:
+</span><span style="color:#cd0000">     all:
+</span><span style="color:#cd0000">       docker_registry: docker.io
+</span><span style="color:#cd0000">       image_tag: &#34;4.0.0&#34;
+</span><span style="color:#cd0000">       kube_logger: false
+</span><span style="color:#cd0000">       external_vip: &#34;192.168.7.105&#34;
+</span><span style="color:#cd0000">       base_distro: &#34;centos&#34;
+</span><span style="color:#cd0000">       install_type: &#34;source&#34;
+</span><span style="color:#cd0000">       tunnel_interface: &#34;docker0&#34;
+</span><span style="color:#cd0000">     keystone:
+</span><span style="color:#cd0000">       all:
+</span><span style="color:#cd0000">         admin_port_external: &#34;true&#34;
+</span><span style="color:#cd0000">         dns_name: &#34;192.168.7.105&#34;
+</span><span style="color:#cd0000">       public:
+</span><span style="color:#cd0000">         all:
+</span><span style="color:#cd0000">           port_external: &#34;true&#34;
+</span><span style="color:#cd0000">     rabbitmq:
+</span><span style="color:#cd0000">       all:
+</span><span style="color:#cd0000">         cookie: 67
+</span><span style="color:#cd0000">     glance:
+</span><span style="color:#cd0000">       api:
+</span><span style="color:#cd0000">         all:
+</span><span style="color:#cd0000">           port_external: &#34;true&#34;
+</span><span style="color:#cd0000">     cinder:
+</span><span style="color:#cd0000">       api:
+</span><span style="color:#cd0000">         all:
+</span><span style="color:#cd0000">           port_external: &#34;true&#34;
+</span><span style="color:#cd0000">       volume_lvm:
+</span><span style="color:#cd0000">         all:
+</span><span style="color:#cd0000">           element_name: cinder-volume
+</span><span style="color:#cd0000">         daemonset:
+</span><span style="color:#cd0000">           lvm_backends:
+</span><span style="color:#cd0000">           - &#39;192.168.7.105&#39;: &#39;cinder-volumes&#39;
+</span><span style="color:#cd0000">     ironic:
+</span><span style="color:#cd0000">       conductor:
+</span><span style="color:#cd0000">         daemonset:
+</span><span style="color:#cd0000">           selector_key: &#34;kolla_conductor&#34;
+</span><span style="color:#cd0000">     nova:
+</span><span style="color:#cd0000">       placement_api:
+</span><span style="color:#cd0000">         all:
+</span><span style="color:#cd0000">           port_external: true
+</span><span style="color:#cd0000">       novncproxy:
+</span><span style="color:#cd0000">         all:
+</span><span style="color:#cd0000">           port: 6080
+</span><span style="color:#cd0000">           port_external: true
+</span><span style="color:#cd0000">     openvswitch:
+</span><span style="color:#cd0000">       all:
+</span><span style="color:#cd0000">         add_port: true
+</span><span style="color:#cd0000">         ext_bridge_name: br-ex
+</span><span style="color:#cd0000">         ext_interface_name: enp1s0f1
+</span><span style="color:#cd0000">         setup_bridge: true
+</span><span style="color:#cd0000">     horizon:
+</span><span style="color:#cd0000">       all:
+</span><span style="color:#cd0000">         port_external: true
+</span><span style="color:#cd0000">EOF</span></code></pre></div>
 <p>將該數值修改成環境上Management interface的IP。例如10.0.0.178</p>
-
-<pre><code class="language-bash">$sed -i &quot;s@192.168.7.105@10.0.0.178@g&quot; ./cloud.yaml
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sed</span> -i <span style="color:#cd0000">&#34;s@192.168.7.105@10.0.0.178@g&#34;</span> ./cloud.yaml</code></pre></div>
 <p>將該數值修改成環境上ext_interface_name的interface。例如：eth1</p>
-
-<pre><code class="language-bash">$sed -i &quot;s@enp1s0f1@eth1@g&quot; ./cloud.yaml
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sed</span> -i <span style="color:#cd0000">&#34;s@enp1s0f1@eth1@g&#34;</span> ./cloud.yaml</code></pre></div>
 <p>將該數值修改成環境上Management interface。例如：eth2</p>
-
-<pre><code class="language-bash">$sed -i &quot;s@docker0@eth2@g&quot; ./cloud.yaml
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sed</span> -i <span style="color:#cd0000">&#34;s@docker0@eth2@g&#34;</span> ./cloud.yaml</code></pre></div>
 <p>在這邊建立一個給Openstack rbac ，讓後來helm啟動的元件去取得Kubernetes資源不會有權限問題（OpenStack官方RBAC這一點還沒修正&hellip;）</p>
-
-<pre><code class="language-bash">$cat &lt;&lt;EOF | kubectl apply -f -
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: admin-user
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: kolla
-EOF
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#cd0000">apiVersion: rbac.authorization.k8s.io/v1beta1
+</span><span style="color:#cd0000">kind: ClusterRoleBinding
+</span><span style="color:#cd0000">metadata:
+</span><span style="color:#cd0000">  name: admin-user
+</span><span style="color:#cd0000">roleRef:
+</span><span style="color:#cd0000">  apiGroup: rbac.authorization.k8s.io
+</span><span style="color:#cd0000">  kind: ClusterRole
+</span><span style="color:#cd0000">  name: cluster-admin
+</span><span style="color:#cd0000">subjects:
+</span><span style="color:#cd0000">- kind: ServiceAccount
+</span><span style="color:#cd0000">  name: default
+</span><span style="color:#cd0000">  namespace: kolla
+</span><span style="color:#cd0000">EOF</span></code></pre></div>
 <p>一個一個把openstack的服務使用helm啟動起來。（例如mariadb,rabbitmq,memcached&hellip;等)</p>
-
-<pre><code class="language-bash">$helm install --debug kolla-kubernetes/helm/service/mariadb --namespace kolla --name mariadb --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/rabbitmq --namespace kolla --name rabbitmq --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/memcached --namespace kolla --name memcached --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/keystone --namespace kolla --name keystone --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/glance --namespace kolla --name glance --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/cinder-control --namespace kolla --name cinder-control --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/horizon --namespace kolla --name horizon --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/openvswitch --namespace kolla --name openvswitch --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/neutron --namespace kolla --name neutron --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/nova-control --namespace kolla --name nova-control --values ./cloud.yaml
-$helm install --debug kolla-kubernetes/helm/service/nova-compute --namespace kolla --name nova-compute --values ./cloud.yaml
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/mariadb --namespace kolla --name mariadb --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/rabbitmq --namespace kolla --name rabbitmq --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/memcached --namespace kolla --name memcached --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/keystone --namespace kolla --name keystone --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/glance --namespace kolla --name glance --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/cinder-control --namespace kolla --name cinder-control --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/horizon --namespace kolla --name horizon --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/openvswitch --namespace kolla --name openvswitch --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/neutron --namespace kolla --name neutron --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/nova-control --namespace kolla --name nova-control --values ./cloud.yaml
+<span style="color:#00cdcd">$helm</span> install --debug kolla-kubernetes/helm/service/nova-compute --namespace kolla --name nova-compute --values ./cloud.yaml</code></pre></div>
 <p>這邊有可能遇到第一個問題，也就是nova-compute init 會卡在這個畫面。</p>
-
-<pre><code class="language-bash">nova-api-create-cell-r288q  0/1    Init:2/3  0         5min
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nova-api-create-cell-r288q  <span style="color:#cd00cd">0</span>/1    Init:2/3  <span style="color:#cd00cd">0</span>         5min</code></pre></div>
 <p>這邊發生了一些問題，官方沒有去修正他。先把這個helm chart 刪除掉，我在這邊修正了helm的設定檔案，去修改keystone的url。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$helm</span> delete --purge nova-compute
+<span style="color:#00cdcd">$vim</span> kolla-bringup/kolla-kubernetes/helm/microservice/nova-api-create-simple-cell-job/templates/nova-api-create-cell.yaml
 
-<pre><code class="language-bash">$helm delete --purge nova-compute
-$vim kolla-bringup/kolla-kubernetes/helm/microservice/nova-api-create-simple-cell-job/templates/nova-api-create-cell.yaml
-
-{{- $keystonePort := include &quot;kolla_val_get_str&quot; (dict &quot;key&quot; &quot;port&quot; &quot;searchPath&quot; $keystoneSearchPath &quot;Values&quot; .Values )| default &quot;5000&quot; }}
-</code></pre>
-
+<span style="color:#39c">{{</span>- <span style="color:#00cdcd">$keystonePort</span> :<span style="color:#39c">=</span> include <span style="color:#cd0000">&#34;kolla_val_get_str&#34;</span> <span style="color:#39c">(</span>dict <span style="color:#cd0000">&#34;key&#34;</span> <span style="color:#cd0000">&#34;port&#34;</span> <span style="color:#cd0000">&#34;searchPath&#34;</span> <span style="color:#00cdcd">$keystoneSearchPath</span> <span style="color:#cd0000">&#34;Values&#34;</span> .Values <span style="color:#39c">)</span>| default <span style="color:#cd0000">&#34;5000&#34;</span> <span style="color:#39c">}}</span></code></pre></div>
 <p>再重新build一次helm chart</p>
-
-<pre><code class="language-bash">$kolla-kubernetes/tools/helm_build_all.sh .
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kolla</span>-kubernetes/tools/helm_build_all.sh .</code></pre></div>
 <p>再重新run一次修正過後的chart.</p>
-
-<pre><code class="language-bash">helm install --debug kolla-kubernetes/helm/service/nova-compute --namespace kolla --name nova-compute --values ./cloud.yaml
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm install --debug kolla-kubernetes/helm/service/nova-compute --namespace kolla --name nova-compute --values ./cloud.yaml</code></pre></div>
 <p>確認所有服務運作正常</p>
-
-<pre><code class="language-bash">$ kubectl get pod -n kolla
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod -n kolla
 NAME                                                    READY     STATUS      RESTARTS   AGE
-cinder-api-5d6fd874b5-tzwlr                             3/3       Running     0          11h
-cinder-create-db-x552q                                  0/2       Completed   0          11h
-cinder-create-keystone-endpoint-admin-7xhjp             0/1       Completed   0          11h
-cinder-create-keystone-endpoint-adminv2-252bg           0/1       Completed   0          11h
-cinder-create-keystone-endpoint-adminv3-4zcv7           0/1       Completed   0          11h
-cinder-create-keystone-endpoint-internal-s2n77          0/1       Completed   0          11h
-cinder-create-keystone-endpoint-internalv2-9wr7f        0/1       Completed   0          11h
-cinder-create-keystone-endpoint-internalv3-2srh2        0/1       Completed   0          11h
-cinder-create-keystone-endpoint-public-7mksf            0/1       Completed   0          11h
-cinder-create-keystone-endpoint-publicv2-pqhms          0/1       Completed   0          11h
-cinder-create-keystone-endpoint-publicv3-8z6xg          0/1       Completed   0          11h
-cinder-create-keystone-service-4sbp6                    0/1       Completed   0          11h
-cinder-create-keystone-servicev2-9h88v                  0/1       Completed   0          11h
-cinder-create-keystone-servicev3-p89wk                  0/1       Completed   0          11h
-cinder-create-keystone-user-4whfz                       0/1       Completed   0          11h
-cinder-manage-db-hgppr                                  0/1       Completed   0          11h
-cinder-scheduler-0                                      1/1       Running     0          11h
-glance-api-6f649fbf8d-9hwzn                             1/1       Running     0          11h
-glance-create-db-76lwc                                  0/2       Completed   0          11h
-glance-create-keystone-endpoint-admin-m4mxm             0/1       Completed   0          11h
-glance-create-keystone-endpoint-internal-q9whd          0/1       Completed   0          11h
-glance-create-keystone-endpoint-public-stszm            0/1       Completed   0          11h
-glance-create-keystone-service-hcznf                    0/1       Completed   0          11h
-glance-create-keystone-user-9f2g7                       0/1       Completed   0          11h
-glance-manage-db-ch6rp                                  0/1       Completed   0          11h
-glance-registry-684d9cc765-d5g5p                        3/3       Running     0          11h
-horizon-7bc45d8df6-8ndt6                                1/1       Running     0          11h
-keystone-b55d658-4bmpf                                  1/1       Running     0          12h
-keystone-create-db-rb9wq                                0/2       Completed   0          12h
-keystone-create-endpoints-65m86                         0/1       Completed   0          12h
-keystone-fernet-setup-job-knfm8                         0/1       Completed   0          12h
-keystone-manage-db-x4m2n                                0/1       Completed   0          12h
-mariadb-0                                               1/1       Running     0          12h
-mariadb-init-element-ndbxt                              0/1       Completed   0          12h
-memcached-7b95fd6b69-v8f4v                              2/2       Running     0          12h
-neutron-create-db-w2hqk                                 0/2       Completed   0          11h
-neutron-create-keystone-endpoint-admin-hkg8p            0/1       Completed   0          11h
-neutron-create-keystone-endpoint-internal-cwzrt         0/1       Completed   0          11h
-neutron-create-keystone-endpoint-public-bjzzk           0/1       Completed   0          11h
-neutron-create-keystone-service-q7ms9                   0/1       Completed   0          11h
-neutron-create-keystone-user-zvqnw                      0/1       Completed   0          11h
-neutron-dhcp-agent-l5qkg                                1/1       Running     0          11h
-neutron-l3-agent-network-64v9x                          1/1       Running     0          11h
-neutron-manage-db-5dqkn                                 0/1       Completed   0          11h
-neutron-metadata-agent-network-ttf5v                    1/1       Running     0          11h
-neutron-openvswitch-agent-network-j6llm                 1/1       Running     0          11h
-neutron-server-6d74c78c98-xzdd8                         3/3       Running     0          11h
-nova-api-7d5cf595bc-rxg4k                               3/3       Running     0          11h
-nova-api-create-cell-r288q                              0/1       Completed   0          11h
-nova-api-create-db-5w2lg                                0/2       Completed   0          11h
-nova-api-manage-db-wd4b8                                0/1       Completed   0          11h
-nova-cell0-create-db-5bz6v                              0/2       Completed   0          11h
-nova-compute-wn5lb                                      1/1       Running     0          11h
-nova-compute-xkv8r                                      1/1       Running     0          11h
-nova-conductor-0                                        1/1       Running     0          11h
-nova-consoleauth-0                                      1/1       Running     0          11h
-nova-create-db-476gl                                    0/2       Completed   0          11h
-nova-create-keystone-endpoint-admin-xbt8x               0/1       Completed   0          11h
-nova-create-keystone-endpoint-internal-58dvx            0/1       Completed   0          11h
-nova-create-keystone-endpoint-public-8c56c              0/1       Completed   0          11h
-nova-create-keystone-service-jngxg                      0/1       Completed   0          11h
-nova-create-keystone-user-4gc62                         0/1       Completed   0          11h
-nova-libvirt-kbcrl                                      1/1       Running     0          11h
-nova-libvirt-n2nnj                                      1/1       Running     0          11h
-nova-novncproxy-79bf74796f-9p7ct                        3/3       Running     0          11h
-nova-scheduler-0                                        1/1       Running     0          11h
-openvswitch-ovsdb-network-rwwrz                         1/1       Running     0          11h
-openvswitch-vswitchd-network-6q9w9                      1/1       Running     0          11h
-placement-api-create-keystone-endpoint-admin-bg9ct      0/1       Completed   0          11h
-placement-api-create-keystone-endpoint-internal-v998h   0/1       Completed   0          11h
-placement-api-create-keystone-endpoint-public-p6mvf     0/1       Completed   0          11h
-placement-api-fc8f68544-rvhwc                           1/1       Running     0          11h
-placement-create-keystone-service-blj57                 0/1       Completed   0          11h
-placement-create-keystone-user-tw5k4                    0/1       Completed   0          11h
-rabbitmq-0                                              1/1       Running     0          12h
-rabbitmq-init-element-gtvgw                             0/1       Completed   0          12h
-</code></pre>
-
+cinder-api-5d6fd874b5-tzwlr                             <span style="color:#cd00cd">3</span>/3       Running     <span style="color:#cd00cd">0</span>          11h
+cinder-create-db-x552q                                  <span style="color:#cd00cd">0</span>/2       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-admin-7xhjp             <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-adminv2-252bg           <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-adminv3-4zcv7           <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-internal-s2n77          <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-internalv2-9wr7f        <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-internalv3-2srh2        <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-public-7mksf            <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-publicv2-pqhms          <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-endpoint-publicv3-8z6xg          <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-service-4sbp6                    <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-servicev2-9h88v                  <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-servicev3-p89wk                  <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-create-keystone-user-4whfz                       <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-manage-db-hgppr                                  <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+cinder-scheduler-0                                      <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+glance-api-6f649fbf8d-9hwzn                             <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+glance-create-db-76lwc                                  <span style="color:#cd00cd">0</span>/2       Completed   <span style="color:#cd00cd">0</span>          11h
+glance-create-keystone-endpoint-admin-m4mxm             <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+glance-create-keystone-endpoint-internal-q9whd          <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+glance-create-keystone-endpoint-public-stszm            <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+glance-create-keystone-service-hcznf                    <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+glance-create-keystone-user-9f2g7                       <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+glance-manage-db-ch6rp                                  <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+glance-registry-684d9cc765-d5g5p                        <span style="color:#cd00cd">3</span>/3       Running     <span style="color:#cd00cd">0</span>          11h
+horizon-7bc45d8df6-8ndt6                                <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+keystone-b55d658-4bmpf                                  <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          12h
+keystone-create-db-rb9wq                                <span style="color:#cd00cd">0</span>/2       Completed   <span style="color:#cd00cd">0</span>          12h
+keystone-create-endpoints-65m86                         <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          12h
+keystone-fernet-setup-job-knfm8                         <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          12h
+keystone-manage-db-x4m2n                                <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          12h
+mariadb-0                                               <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          12h
+mariadb-init-element-ndbxt                              <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          12h
+memcached-7b95fd6b69-v8f4v                              <span style="color:#cd00cd">2</span>/2       Running     <span style="color:#cd00cd">0</span>          12h
+neutron-create-db-w2hqk                                 <span style="color:#cd00cd">0</span>/2       Completed   <span style="color:#cd00cd">0</span>          11h
+neutron-create-keystone-endpoint-admin-hkg8p            <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+neutron-create-keystone-endpoint-internal-cwzrt         <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+neutron-create-keystone-endpoint-public-bjzzk           <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+neutron-create-keystone-service-q7ms9                   <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+neutron-create-keystone-user-zvqnw                      <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+neutron-dhcp-agent-l5qkg                                <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+neutron-l3-agent-network-64v9x                          <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+neutron-manage-db-5dqkn                                 <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+neutron-metadata-agent-network-ttf5v                    <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+neutron-openvswitch-agent-network-j6llm                 <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+neutron-server-6d74c78c98-xzdd8                         <span style="color:#cd00cd">3</span>/3       Running     <span style="color:#cd00cd">0</span>          11h
+nova-api-7d5cf595bc-rxg4k                               <span style="color:#cd00cd">3</span>/3       Running     <span style="color:#cd00cd">0</span>          11h
+nova-api-create-cell-r288q                              <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-api-create-db-5w2lg                                <span style="color:#cd00cd">0</span>/2       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-api-manage-db-wd4b8                                <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-cell0-create-db-5bz6v                              <span style="color:#cd00cd">0</span>/2       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-compute-wn5lb                                      <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+nova-compute-xkv8r                                      <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+nova-conductor-0                                        <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+nova-consoleauth-0                                      <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+nova-create-db-476gl                                    <span style="color:#cd00cd">0</span>/2       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-create-keystone-endpoint-admin-xbt8x               <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-create-keystone-endpoint-internal-58dvx            <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-create-keystone-endpoint-public-8c56c              <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-create-keystone-service-jngxg                      <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-create-keystone-user-4gc62                         <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+nova-libvirt-kbcrl                                      <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+nova-libvirt-n2nnj                                      <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+nova-novncproxy-79bf74796f-9p7ct                        <span style="color:#cd00cd">3</span>/3       Running     <span style="color:#cd00cd">0</span>          11h
+nova-scheduler-0                                        <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+openvswitch-ovsdb-network-rwwrz                         <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+openvswitch-vswitchd-network-6q9w9                      <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+placement-api-create-keystone-endpoint-admin-bg9ct      <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+placement-api-create-keystone-endpoint-internal-v998h   <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+placement-api-create-keystone-endpoint-public-p6mvf     <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+placement-api-fc8f68544-rvhwc                           <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          11h
+placement-create-keystone-service-blj57                 <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+placement-create-keystone-user-tw5k4                    <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          11h
+rabbitmq-0                                              <span style="color:#cd00cd">1</span>/1       Running     <span style="color:#cd00cd">0</span>          12h
+rabbitmq-init-element-gtvgw                             <span style="color:#cd00cd">0</span>/1       Completed   <span style="color:#cd00cd">0</span>          12h</code></pre></div>
 <p>使用官方的tool建立admin的openrc file，建立完成的檔案會存在當前使用者的home目錄下。</p>
-
-<pre><code class="language-bash">$kolla-kubernetes/tools/build_local_admin_keystonerc.sh ext
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kolla</span>-kubernetes/tools/build_local_admin_keystonerc.sh ext</code></pre></div>
 <p>接者安裝OpenStack clients套件</p>
-
-<pre><code class="language-bash">$sudo pip install &quot;python-openstackclient&quot;
-$sudo pip install &quot;python-neutronclient&quot;
-$sudo pip install &quot;python-cinderclient&quot;
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> pip install <span style="color:#cd0000">&#34;python-openstackclient&#34;</span>
+<span style="color:#00cdcd">$sudo</span> pip install <span style="color:#cd0000">&#34;python-neutronclient&#34;</span>
+<span style="color:#00cdcd">$sudo</span> pip install <span style="color:#cd0000">&#34;python-cinderclient&#34;</span></code></pre></div>
 <p>使用openstack語法去產生image,network&hellip;等</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$source</span> ~/keystonerc_admin
+<span style="color:#00cdcd">$IMAGE_URL</span><span style="color:#39c">=</span>http://download.cirros-cloud.net/0.3.5/
+<span style="color:#00cdcd">$IMAGE</span><span style="color:#39c">=</span>cirros-0.3.5-x86_64-disk.img
+<span style="color:#00cdcd">$IMAGE_NAME</span><span style="color:#39c">=</span>cirros
+<span style="color:#00cdcd">$IMAGE_TYPE</span><span style="color:#39c">=</span>linux
+<span style="color:#00cdcd">EXT_NET_CIDR</span><span style="color:#39c">=</span><span style="color:#cd0000">&#39;172.24.10.1/24&#39;</span>
+<span style="color:#00cdcd">EXT_NET_RANGE</span><span style="color:#39c">=</span><span style="color:#cd0000">&#39;start=172.24.10.10,end=172.24.10.200&#39;</span>
+<span style="color:#00cdcd">EXT_NET_GATEWAY</span><span style="color:#39c">=</span><span style="color:#cd0000">&#39;172.24.10.1&#39;</span>
+<span style="color:#00cdcd">$curl</span> -L -o ./<span style="color:#cd0000">${</span><span style="color:#00cdcd">IMAGE</span><span style="color:#cd0000">}</span> <span style="color:#cd0000">${</span><span style="color:#00cdcd">IMAGE_URL</span><span style="color:#cd0000">}</span>/<span style="color:#cd0000">${</span><span style="color:#00cdcd">IMAGE</span><span style="color:#cd0000">}</span>
 
-<pre><code class="language-bash">$source ~/keystonerc_admin
-$IMAGE_URL=http://download.cirros-cloud.net/0.3.5/
-$IMAGE=cirros-0.3.5-x86_64-disk.img
-$IMAGE_NAME=cirros
-$IMAGE_TYPE=linux
-EXT_NET_CIDR='172.24.10.1/24'
-EXT_NET_RANGE='start=172.24.10.10,end=172.24.10.200'
-EXT_NET_GATEWAY='172.24.10.1'
-$curl -L -o ./${IMAGE} ${IMAGE_URL}/${IMAGE}
+<span style="color:#00cdcd">$openstack</span> image create --disk-format qcow2 --container-format bare --public <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    --property <span style="color:#00cdcd">os_type</span><span style="color:#39c">=</span><span style="color:#cd0000">${</span><span style="color:#00cdcd">IMAGE_TYPE</span><span style="color:#cd0000">}</span> --file ./<span style="color:#cd0000">${</span><span style="color:#00cdcd">IMAGE</span><span style="color:#cd0000">}</span> <span style="color:#cd0000">${</span><span style="color:#00cdcd">IMAGE_NAME</span><span style="color:#cd0000">}</span>
 
-$openstack image create --disk-format qcow2 --container-format bare --public \
-    --property os_type=${IMAGE_TYPE} --file ./${IMAGE} ${IMAGE_NAME}
+<span style="color:#00cdcd">$openstack</span> network create --external --provider-physical-network physnet1 <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    --provider-network-type flat public1
 
-$openstack network create --external --provider-physical-network physnet1 \
-    --provider-network-type flat public1
+<span style="color:#00cdcd">$openstack</span> subnet create --no-dhcp <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    --allocation-pool <span style="color:#cd0000">${</span><span style="color:#00cdcd">EXT_NET_RANGE</span><span style="color:#cd0000">}</span> --network public1 <span style="color:#cd0000">\
+</span><span style="color:#cd0000"></span>    --subnet-range <span style="color:#cd0000">${</span><span style="color:#00cdcd">EXT_NET_CIDR</span><span style="color:#cd0000">}</span> --gateway <span style="color:#cd0000">${</span><span style="color:#00cdcd">EXT_NET_GATEWAY</span><span style="color:#cd0000">}</span> public1-subnet
 
-$openstack subnet create --no-dhcp \
-    --allocation-pool ${EXT_NET_RANGE} --network public1 \
-    --subnet-range ${EXT_NET_CIDR} --gateway ${EXT_NET_GATEWAY} public1-subnet
-
-openstack flavor create --id 1 --ram 512 --disk 1 --vcpus 1 m1.tiny
-openstack flavor create --id 2 --ram 2048 --disk 20 --vcpus 1 m1.small
-openstack flavor create --id 3 --ram 4096 --disk 40 --vcpus 2 m1.medium
-openstack flavor create --id 4 --ram 8192 --disk 80 --vcpus 4 m1.large
-openstack flavor create --id 5 --ram 16384 --disk 160 --vcpus 8 m1.xlarge
-</code></pre>
-
+openstack flavor create --id <span style="color:#cd00cd">1</span> --ram <span style="color:#cd00cd">512</span> --disk <span style="color:#cd00cd">1</span> --vcpus <span style="color:#cd00cd">1</span> m1.tiny
+openstack flavor create --id <span style="color:#cd00cd">2</span> --ram <span style="color:#cd00cd">2048</span> --disk <span style="color:#cd00cd">20</span> --vcpus <span style="color:#cd00cd">1</span> m1.small
+openstack flavor create --id <span style="color:#cd00cd">3</span> --ram <span style="color:#cd00cd">4096</span> --disk <span style="color:#cd00cd">40</span> --vcpus <span style="color:#cd00cd">2</span> m1.medium
+openstack flavor create --id <span style="color:#cd00cd">4</span> --ram <span style="color:#cd00cd">8192</span> --disk <span style="color:#cd00cd">80</span> --vcpus <span style="color:#cd00cd">4</span> m1.large
+openstack flavor create --id <span style="color:#cd00cd">5</span> --ram <span style="color:#cd00cd">16384</span> --disk <span style="color:#cd00cd">160</span> --vcpus <span style="color:#cd00cd">8</span> m1.xlarge</code></pre></div>
 <p>可以使用openstack horizon操作openstack dashboard，使用admin user的帳號、密碼進行登入。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> get service -n kolla
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT<span style="color:#39c">(</span>S<span style="color:#39c">)</span>     AGE
+cinder-api           ClusterIP   <span style="color:#cd00cd">10</span>.3.3.125   <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">8776</span>/TCP    12h
+glance-api           ClusterIP   <span style="color:#cd00cd">10</span>.3.3.141   <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">9292</span>/TCP    12h
+glance-registry      ClusterIP   <span style="color:#cd00cd">10</span>.3.3.15    &lt;none&gt;        <span style="color:#cd00cd">9191</span>/TCP    12h
+horizon              ClusterIP   <span style="color:#cd00cd">10</span>.3.3.11    <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">80</span>/TCP      12h
+keystone-admin       ClusterIP   <span style="color:#cd00cd">10</span>.3.3.35    <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">35357</span>/TCP   12h
+keystone-internal    ClusterIP   <span style="color:#cd00cd">10</span>.3.3.228   &lt;none&gt;        <span style="color:#cd00cd">5000</span>/TCP    12h
+keystone-public      ClusterIP   <span style="color:#cd00cd">10</span>.3.3.124   <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">5000</span>/TCP    12h
+mariadb              ClusterIP   <span style="color:#cd00cd">10</span>.3.3.98    &lt;none&gt;        <span style="color:#cd00cd">3306</span>/TCP    12h
+memcached            ClusterIP   <span style="color:#cd00cd">10</span>.3.3.140   &lt;none&gt;        <span style="color:#cd00cd">11211</span>/TCP   12h
+neutron-server       ClusterIP   <span style="color:#cd00cd">10</span>.3.3.21    <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">9696</span>/TCP    12h
+nova-api             ClusterIP   <span style="color:#cd00cd">10</span>.3.3.150   <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">8774</span>/TCP    12h
+nova-metadata        ClusterIP   <span style="color:#cd00cd">10</span>.3.3.217   &lt;none&gt;        <span style="color:#cd00cd">8775</span>/TCP    12h
+nova-novncproxy      ClusterIP   <span style="color:#cd00cd">10</span>.3.3.4     <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">6080</span>/TCP    12h
+nova-placement-api   ClusterIP   <span style="color:#cd00cd">10</span>.3.3.159   <span style="color:#cd00cd">10</span>.0.0.182    <span style="color:#cd00cd">8780</span>/TCP    12h
+rabbitmq             ClusterIP   <span style="color:#cd00cd">10</span>.3.3.66    &lt;none&gt;        <span style="color:#cd00cd">5672</span>/TCP    12h
+rabbitmq-mgmt        ClusterIP   <span style="color:#cd00cd">10</span>.3.3.37    &lt;none&gt;        <span style="color:#cd00cd">15672</span>/TCP   12h
 
-<pre><code class="language-bash">$kubectl get service -n kolla
-NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)     AGE
-cinder-api           ClusterIP   10.3.3.125   10.0.0.182    8776/TCP    12h
-glance-api           ClusterIP   10.3.3.141   10.0.0.182    9292/TCP    12h
-glance-registry      ClusterIP   10.3.3.15    &lt;none&gt;        9191/TCP    12h
-horizon              ClusterIP   10.3.3.11    10.0.0.182    80/TCP      12h
-keystone-admin       ClusterIP   10.3.3.35    10.0.0.182    35357/TCP   12h
-keystone-internal    ClusterIP   10.3.3.228   &lt;none&gt;        5000/TCP    12h
-keystone-public      ClusterIP   10.3.3.124   10.0.0.182    5000/TCP    12h
-mariadb              ClusterIP   10.3.3.98    &lt;none&gt;        3306/TCP    12h
-memcached            ClusterIP   10.3.3.140   &lt;none&gt;        11211/TCP   12h
-neutron-server       ClusterIP   10.3.3.21    10.0.0.182    9696/TCP    12h
-nova-api             ClusterIP   10.3.3.150   10.0.0.182    8774/TCP    12h
-nova-metadata        ClusterIP   10.3.3.217   &lt;none&gt;        8775/TCP    12h
-nova-novncproxy      ClusterIP   10.3.3.4     10.0.0.182    6080/TCP    12h
-nova-placement-api   ClusterIP   10.3.3.159   10.0.0.182    8780/TCP    12h
-rabbitmq             ClusterIP   10.3.3.66    &lt;none&gt;        5672/TCP    12h
-rabbitmq-mgmt        ClusterIP   10.3.3.37    &lt;none&gt;        15672/TCP   12h
 
-
-$cat keystonerc_admin
-unset OS_SERVICE_TOKEN
-export OS_USERNAME=admin
-export OS_PASSWORD=kQHEss3THBmHCQWdqNd2b51U8xRB3hKPH6KD4kx3
-export OS_AUTH_URL=http://10.0.0.182:5000/v3
-export PS1='[\u@\h \W(keystone_admin)]$ '
-export OS_PROJECT_NAME=admin
-export OS_USER_DOMAIN_NAME=Default
-export OS_PROJECT_DOMAIN_NAME=Default
-export OS_IDENTITY_API_VERSION=3
-export OS_REGION_NAME=RegionOne
-export OS_VOLUME_API_VERSION=2
-</code></pre>
-
+<span style="color:#00cdcd">$cat</span> keystonerc_admin
+<span style="color:#cd00cd">unset</span> OS_SERVICE_TOKEN
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_USERNAME</span><span style="color:#39c">=</span>admin
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_PASSWORD</span><span style="color:#39c">=</span>kQHEss3THBmHCQWdqNd2b51U8xRB3hKPH6KD4kx3
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_AUTH_URL</span><span style="color:#39c">=</span>http://10.0.0.182:5000/v3
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">PS1</span><span style="color:#39c">=</span><span style="color:#cd0000">&#39;[\u@\h \W(keystone_admin)]$ &#39;</span>
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_PROJECT_NAME</span><span style="color:#39c">=</span>admin
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_USER_DOMAIN_NAME</span><span style="color:#39c">=</span>Default
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_PROJECT_DOMAIN_NAME</span><span style="color:#39c">=</span>Default
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_IDENTITY_API_VERSION</span><span style="color:#39c">=</span><span style="color:#cd00cd">3</span>
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_REGION_NAME</span><span style="color:#39c">=</span>RegionOne
+<span style="color:#cd00cd">export</span> <span style="color:#00cdcd">OS_VOLUME_API_VERSION</span><span style="color:#39c">=</span><span style="color:#cd00cd">2</span></code></pre></div>
 <p><img src="/images/post/openstack-kolla-dashboard.png" title="登入即可看到openstack的操作畫面。"></p>
 
 <!-- 
@@ -716,36 +581,28 @@ export OS_VOLUME_API_VERSION=2
 <h2 id="如果需要拆除你的openstack-kolla-kubernetes環境">如果需要拆除你的OpenStack Kolla Kubernetes環境</h2>
 
 <p>在你的master上，使用helm拆除OpenStack相關元件。</p>
-
-<pre><code class="language-bash">$helm install --debug ~/kolla-bringup/kolla-kubernetes/helm/service/nova-cleanup --namespace kolla --name nova-cleanup --values ~/kolla-bringup/cloud.yaml
-$helm delete mariadb --purge
-$helm delete mariadb --purge
-$helm delete rabbitmq --purge
-$helm delete memcached --purge
-$helm delete keystone --purge
-$helm delete glance --purge
-$helm delete cinder-control --purge
-$helm delete horizon --purge
-$helm delete openvswitch --purge
-$helm delete neutron --purge
-$helm delete nova-control --purge
-$helm delete nova-compute --purge
-$helm delete nova-cell0-create-db-job --purge
-$helm delete cinder-volume-lvm --purge
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$helm</span> install --debug ~/kolla-bringup/kolla-kubernetes/helm/service/nova-cleanup --namespace kolla --name nova-cleanup --values ~/kolla-bringup/cloud.yaml
+<span style="color:#00cdcd">$helm</span> delete mariadb --purge
+<span style="color:#00cdcd">$helm</span> delete mariadb --purge
+<span style="color:#00cdcd">$helm</span> delete rabbitmq --purge
+<span style="color:#00cdcd">$helm</span> delete memcached --purge
+<span style="color:#00cdcd">$helm</span> delete keystone --purge
+<span style="color:#00cdcd">$helm</span> delete glance --purge
+<span style="color:#00cdcd">$helm</span> delete cinder-control --purge
+<span style="color:#00cdcd">$helm</span> delete horizon --purge
+<span style="color:#00cdcd">$helm</span> delete openvswitch --purge
+<span style="color:#00cdcd">$helm</span> delete neutron --purge
+<span style="color:#00cdcd">$helm</span> delete nova-control --purge
+<span style="color:#00cdcd">$helm</span> delete nova-compute --purge
+<span style="color:#00cdcd">$helm</span> delete nova-cell0-create-db-job --purge
+<span style="color:#00cdcd">$helm</span> delete cinder-volume-lvm --purge</code></pre></div>
 <p>在每個節點上拆除相關的OpenStack volume</p>
-
-<pre><code class="language-bash">$sudo rm -rf /var/lib/kolla/volumes/*
-</code></pre>
-
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> rm -rf /var/lib/kolla/volumes/*</code></pre></div>
 <p>在每個節點上刪除Kubernetes</p>
-
-<pre><code class="language-bash">$sudo kubeadm reset
-$sudo rm -rf /etc/kolla
-$sudo rm -rf /etc/kubernetes
-$sudo rm -rf /etc/kolla-kubernetes
-</code></pre>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> kubeadm reset
+<span style="color:#00cdcd">$sudo</span> rm -rf /etc/kolla
+<span style="color:#00cdcd">$sudo</span> rm -rf /etc/kubernetes
+<span style="color:#00cdcd">$sudo</span> rm -rf /etc/kolla-kubernetes</code></pre></div>
 		</div>
 		
 <div class="post__tags tags clearfix">
@@ -774,7 +631,7 @@ $sudo rm -rf /etc/kolla-kubernetes
 		<a class="post-nav__link" href="/post/golang/pointer/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">簡單介紹一下golang的指標</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/post/kubernetes/minkube-mount/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">minikube 在掛載本機遇到的神奇問題</p></a>
+		<a class="post-nav__link" href="/post/network/netns-bridge/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">netns-bridge</p></a>
 	</div>
 </nav>
 	
@@ -811,8 +668,10 @@ $sudo rm -rf /etc/kolla-kubernetes
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/post/kubernetes/istio1.0-install/">Istio1.0 安裝及簡易操作</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/kubernetes/istio/istio1.0-install/">Istio1.0 安裝及簡易操作</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/kubernetes/kubeless/">初嚐kubeless的滋味</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/kubernetes/minkube-mount/">minikube 在掛載本機遇到的神奇問題</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/network/netns-bridge/">netns-bridge</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/openstack/kolla-kubernetes/">Kolla Kubernetes</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/golang/pointer/">簡單介紹一下golang的指標</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/grpc/proto/">初嚐Protocol Buffer</a></li>
@@ -831,6 +690,7 @@ $sudo rm -rf /etc/kolla-kubernetes
 			<li class="widget__item"><a class="widget__link" href="/categories/kubernetes">Kubernetes</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/networking">Networking</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/openstack">Openstack</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/serverless">Serverless</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/servicemesh">Servicemesh</a></li>
 		</ul>
 	</div>
@@ -879,12 +739,14 @@ $sudo rm -rf /etc/kolla-kubernetes
 		<a class="widget-taglist__link widget__link btn" href="/tags/golang" title="Golang">Golang</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/grpc" title="Grpc">Grpc</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/istio" title="Istio">Istio</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubeless" title="Kubeless">Kubeless</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes" title="Kubernetes">Kubernetes</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/minikube" title="Minikube">Minikube</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/openstack" title="Openstack">Openstack</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ovs" title="Ovs">Ovs</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/proto" title="Proto">Proto</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/sdn" title="Sdn">Sdn</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/serverless" title="Serverless">Serverless</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/servicemesh" title="Servicemesh">Servicemesh</a>
 	</div>
 </div>
