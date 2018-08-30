@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 11 May 2018 17:39:26 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 21 May 2018 23:25:20 +0800</lastBuildDate>
     
 	<atom:link href="http://mengzn.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ansible</title>
+      <link>http://mengzn.github.io/tags/ansible/</link>
+      <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
+      
+      <guid>http://mengzn.github.io/tags/ansible/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Golang</title>
@@ -35,6 +44,15 @@
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
       
       <guid>http://mengzn.github.io/tags/istio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kolla</title>
+      <link>http://mengzn.github.io/tags/kolla/</link>
+      <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
+      
+      <guid>http://mengzn.github.io/tags/kolla/</guid>
       <description></description>
     </item>
     
