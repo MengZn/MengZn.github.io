@@ -21,16 +21,5 @@
 &lt;/p&gt;</description>
     </item>
     
-    <item>
-      <title>透過kolla-ansible部署OpenStack</title>
-      <link>http://mengzn.github.io/post/openstack/kolla-ansible/</link>
-      <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
-      
-      <guid>http://mengzn.github.io/post/openstack/kolla-ansible/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;http://blog.inkubate.io/content/images/2018/03/kolla-1-1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
   </channel>
 </rss>
