@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
+<html class="no-js" lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>About Me</title>
+	<title>About Me - Meng Ze&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta name="generator" content="Hugo 0.49" />
 	<meta property="og:title" content="About Me" />
-<meta property="og:description" content=" Here are my personal notes and learning process.
+<meta property="og:description" content="Here are my personal notes and learning process.
 李孟澤/Jason Lee
 System Developer
 Skill Focus on Cloud Native Open Source
@@ -16,12 +16,13 @@ Skill Focus on Cloud Native Open Source
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://mengzn.github.io/about/" />
 
+
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
 	<link rel="stylesheet" href="/css/style.css">
-	<script type="text/javascript" src="/js/scripts.js"></script>
+	
 	<link rel="shortcut icon" href="/favicon.ico">
 		
 </head>
@@ -29,24 +30,39 @@ Skill Focus on Cloud Native Open Source
 	<div class="container container--outer">
 		<header class="header">
 	<div class="container">
-		<div class="logo" role="banner">
+		<div class="logo">
 			<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
 				<div class="logo__title">Meng Ze&#39;s Blog</div>
 				<div class="logo__tagline">Record my learning process</div>
 			</a>
 		</div>
-	</div>
-	
+		
 <nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
 	<ul class="menu__list">
-		<li class="menu__item"><a class="menu__link" href="/post/">HOME</a></li>
-		<li class="menu__item menu__item--active"><a class="menu__link" href="/about/">ABOUT ME</a></li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
 	</ul>
 </nav>
 
+	</div>
 </header>
 		<div class="wrapper flex">
-			<section class="primary">
+			<div class="primary">
 			
 <main class="main" role="main">
 	<article class="post">
@@ -57,26 +73,15 @@ Skill Focus on Cloud Native Open Source
 <div class="post__toc toc">
 	<div class="toc__title">Page content</div>
 	<div class="toc__menu">
-		<nav id="TableOfContents">
-<ul>
-<li><a href="#skill">Skill</a></li>
-</ul>
-</nav>
+		<nav id="TableOfContents"></nav>
 	</div>
 </div>
 <div class="content post__content clearfix">
-			
-
-<p>Here are my personal notes and learning process.</p>
-
+			<p>Here are my personal notes and learning process.</p>
 <p>李孟澤/Jason Lee</p>
-
 <p>System Developer</p>
-
 <h1 id="skill">Skill</h1>
-
 <p>Focus on Cloud Native Open Source</p>
-
 <ul>
 <li>Kubernetes</li>
 <li>OpenStack</li>
@@ -86,7 +91,6 @@ Skill Focus on Cloud Native Open Source
 </ul>
 
 		</div>
-		
 	</article>
 </main>
 
@@ -116,23 +120,19 @@ Skill Focus on Cloud Native Open Source
 </section>
 
 
-			</section>
+			</div>
 			
 		</div>
 		<footer class="footer">
 	<div class="container footer__container flex">
 		
 		<div class="footer__copyright">
-			&copy; 2018 Meng Ze&#39;s Blog.
+			&copy; 2020 Meng Ze&#39;s Blog.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>
 </footer>
 	</div>
-<script>
-	var navigation = responsiveNav(".menu", {
-		navClass: "menu--collapse",
-		label: "Menu",
-	});
-</script></body>
+<script async defer src="/js/menu.js"></script>
+</body>
 </html>

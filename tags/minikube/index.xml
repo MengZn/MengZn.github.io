@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Minikube on Meng Ze&#39;s Blog</title>
+    <title>minikube on Meng Ze&#39;s Blog</title>
     <link>http://mengzn.github.io/tags/minikube/</link>
-    <description>Recent content in Minikube on Meng Ze&#39;s Blog</description>
+    <description>Recent content in minikube on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Mon, 02 Jul 2018 02:12:05 +0800</lastBuildDate>
@@ -17,8 +17,7 @@
       <pubDate>Mon, 02 Jul 2018 02:12:05 +0800</pubDate>
       
       <guid>http://mengzn.github.io/post/kubernetes/minkube-mount/</guid>
-      <description>&lt;p&gt;開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。
-&lt;/p&gt;</description>
+      <description>&lt;p&gt;開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Golang on Meng Ze&#39;s Blog</title>
+    <title>golang on Meng Ze&#39;s Blog</title>
     <link>http://mengzn.github.io/categories/golang/</link>
-    <description>Recent content in Golang on Meng Ze&#39;s Blog</description>
+    <description>Recent content in golang on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Fri, 11 May 2018 17:39:26 +0800</lastBuildDate>
@@ -17,9 +17,7 @@
       <pubDate>Fri, 11 May 2018 17:39:26 +0800</pubDate>
       
       <guid>http://mengzn.github.io/post/golang/pointer/</guid>
-      <description>&lt;p&gt;學習golang也一段時間了，紀錄一下當時學習遇到的問題。&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;學習golang也一段時間了，紀錄一下當時學習遇到的問題。&lt;/p&gt;</description>
     </item>
     
   </channel>

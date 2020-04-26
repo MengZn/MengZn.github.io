@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Github Action 起步走第一式 - Meng Ze&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="Github Action 起步走第一式" />
+<meta property="og:description" content="
+     
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://mengzn.github.io/post/cicd/github-action-1/" />
+<meta property="article:published_time" content="2020-04-26T20:48:52+08:00" />
+<meta property="article:modified_time" content="2020-04-26T20:48:52+08:00" />
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
+				<div class="logo__title">Meng Ze&#39;s Blog</div>
+				<div class="logo__tagline">Record my learning process</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Github Action 起步走第一式</h1>
+			
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#為什麼要用">為什麼要用？</a></li>
+    <li><a href="#常見的用法說明">常見的用法說明</a></li>
+    <li><a href="#要怎麼上手使用">要怎麼上手使用</a>
+      <ul>
+        <li><a href="#起手式">起手式</a></li>
+      </ul>
+    </li>
+    <li><a href="#結束語">結束語</a></li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<figure>
+    <img src="https://buzzorange.com/techorange/wp-content/uploads/sites/2/2015/03/github-mark.webp?png"/> 
+</figure>
+
+<h1 id="github-action-起步走">Github Action 起步走</h1>
+<p>由於最近在使用 Github 時不論是 Create 一個新的 Repository 或是 Fork 別人現有的 Project 都會跳出以下提示，為了滿足好奇心就花了一點時間研究了 Github Action 這個新功能。</p>
+<p><img src="https://i.imgur.com/s6YCvV1.png" alt=""></p>
+<p>GitHub Actions 是 GitHub 在美國11/13號全面開放的 CI/CD workflow系統，我們先看看官方的描述。</p>
+<blockquote>
+<p>[color=#FF0000]官方的描述:
+GitHub Actions makes it easy to automate all your software workflows, now with world-class CI/CD. Build, test, and deploy your code right from GitHub.</p>
+</blockquote>
+<p>可以從官方的介紹看出來 GitHub Actions 是一個自動化 CI/CD 的功能，可以直接從GitHub deploy 以及 test 你的 source code。</p>
+<h2 id="為什麼要用">為什麼要用？</h2>
+<p>在沒有用 Github Action 之前維運人員可能會透過 WebHook 之類的方式去得知當前 Repository 的狀態，例如 Kubernetes 社群就開發了一個機器人<a href="https://github.com/kubernetes/test-infra">kubernetes/test-infra</a>專門去處理相關的狀態改變並且觸發後續的流程，如 unit test 、intregration test 或是 e2e test(end to end test) &hellip;.等等，或是透過其他 CI/CD 工具 如 Jenkins 、 Argo 等等其他工具去建構一個 pipline，Github 開發了Githbu Action 可以幫這我們在 Github Repository 上直接建立自動化部屬以及測試的流程，除此之外 Github 提供了一些吸引開發者去使用的特點。</p>
+<ul>
+<li>Discovering actions</li>
+<li>Notifications for workflow runs</li>
+<li>Disabling or limiting GitHub Actions for your repository or organization</li>
+</ul>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&#34;Managing a workflow run&#34;
+&#34;Events that trigger workflows&#34;
+&#34;Virtual environments for GitHub-hosted runners&#34;
+&#34;Managing billing for GitHub Actions&#34;
+</code></pre></div><h2 id="常見的用法說明">常見的用法說明</h2>
+<p>GitHub Actions有許多常見的用詞，這邊稍微做一些簡單的解說。(這邊我個人認為我解釋得不好，不過還是聽聽吧xD)</p>
+<ul>
+<li>Continuous integration (CI):</li>
+</ul>
+<p>我們可以透過 CI 去 build 以及 test Repository 上的 Source code。可以從 test 得過程快速地檢測錯誤的邏輯（這邊可以包含整個unit test 、intregration test 或是 e2e test(end to end test) &hellip;.等等）。</p>
+<p>想要了解更多可以上wiki之類的去了解它的定義</p>
+<ul>
+<li>
+<p>Continuous deployment (CD)
+CD通常是建築於CI的結果之上，當CI執行成功後會觸發CD，這個步驟基本上是將CI打包好的
+binary檔案部署到各種不同的環境如Test 環境 Staging 等等。客戶的使用者或是測試人員可以快速地得到部署完的環境，並且進行業務邏輯的測試。</p>
+</li>
+<li>
+<p>Workflow file:
+是定義這個 Repository CI/CD 的工作流程(workflow/pipline)的一個 YAML 檔，這個檔案會放在 RepoRepository 跟目錄底下的 .github/workflows 資料夾中。</p>
+</li>
+<li>
+<p>Action:
+Action 組合了多個 Step ，我可以將 Action 打包好並且分享到分享到 GitHub Action 社群。</p>
+</li>
+<li>
+<p>Step:
+是一個執行一個獨立的指令或是執行別人打包好的Action，一個 Job 裡面會包含一到多個Step，Job 裡面的Step 是共用同一個environment與filesystem。</p>
+</li>
+<li>
+<p>Job:
+由一個或是多個Step組成，當有多個Job的時候我們可以定義Job的相依關係與執行流程。Job 可以並行(parallel)執行或是按順序(sequentially)執行。例如Repository 有建立Build Job 以及Test Job ，Test Job 依賴Build Job 的執行結果，如果今天Build Job 執行失敗Test Job 則不會執行。</p>
+</li>
+</ul>
+<p>通常Job執行在不同的Runner(虛擬環境virtual environment).</p>
+<ul>
+<li>Runner:
+Runner是在執行Job的虛擬環境，我們可以自己建立Runner或是使用Github 代管的Runner ， Runner 會去去監聽 Github Job 的資料，當有 Job 資料產生的時候 Github 會將 Job 下放給某一個 Runner 去執行，一但 Runner 執行完 Job 會將執行結果回報給Github。</li>
+</ul>
+<p>Runner 一次只能執行一個 Job 。</p>
+<ul>
+<li>
+<p>Artifact:
+Artifacts 就是把某一個 Job 執行完的結果（可能是 binary 檔、 log 檔等等），可以把這一個 Job 執行完的結果送到下一個 Job 。</p>
+</li>
+<li>
+<p>Event:
+當某一個事件產生的時候如 create PR 、create issue 或是 create branch等等，Gitlab 會收到這個消息並且且進行處理。</p>
+</li>
+</ul>
+<h2 id="要怎麼上手使用">要怎麼上手使用</h2>
+<p>Github 有提供一些預設的 Workflow templates給開發者做使用，開發者可以針對不同語言套用不同的樣板。</p>
+<p>Github還會分析你Repository 的source code並且推薦你適合的Workflow templates，例如我的Repository 包含Golang的source code ，我們會收到Github  的建議Golang Workflow templates 我們可以以這個模型堆疊我們需要的Workflow。</p>
+<p>可以參考<a href="https://github.com/actions/starter-workflows/tree/master/ci">actions/starter-workflows</a>查詢Github 官方維護的 Workflow templates。</p>
+<h3 id="起手式">起手式</h3>
+<p>先創一個專案再說，我這邊先用 Golang 建立一個非常簡單的WebServer Repo。
+如圖所示，我們可以在 Github 上面可以看到這一個提示，問我們要不要建立一個 GitHub Actions 。</p>
+<p>這邊點選<code>Set Up Action</code>會跳轉到這個頁面，選擇想要建立的Workflow templates。</p>
+<p><img src="https://i.imgur.com/wQMHcOK.png" alt=""></p>
+<p>這邊可以直接點擊<code>Set up workerflow</code>，點進去後會跳轉到Workerflow 編輯頁面，頁面上可以看見預設的<code>job</code>、<code>steps</code>等資訊。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#cdcd00">name</span>: Go
+
+<span style="color:#cdcd00">on</span>:
+  <span style="color:#cdcd00">push</span>:
+    <span style="color:#cdcd00">branches</span>: [ master ]
+  <span style="color:#cdcd00">pull_request</span>:
+    <span style="color:#cdcd00">branches</span>: [ master ]
+
+<span style="color:#cdcd00">jobs</span>:
+
+  <span style="color:#cdcd00">build</span>:
+    <span style="color:#cdcd00">name</span>: Build
+    <span style="color:#cdcd00">runs-on</span>: ubuntu-latest
+    <span style="color:#cdcd00">steps</span>:
+
+    - <span style="color:#cdcd00">name</span>: Set up Go <span style="color:#cd00cd">1.13</span>
+      <span style="color:#cdcd00">uses</span>: actions/setup-go@v1
+      <span style="color:#cdcd00">with</span>:
+        <span style="color:#cdcd00">go-version</span>: <span style="color:#cd00cd">1.13</span>
+      <span style="color:#cdcd00">id</span>: go
+
+    - <span style="color:#cdcd00">name</span>: Check out code into the Go module directory
+      <span style="color:#cdcd00">uses</span>: actions/checkout@v2
+
+    - <span style="color:#cdcd00">name</span>: Get dependencies
+      <span style="color:#cdcd00">run</span>: <span style="color:#cd0000">|
+</span><span style="color:#cd0000">        go get -v -t -d ./...</span>
+        if [ -f Gopkg.toml ]; then
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            dep ensure
+        fi
+
+    - <span style="color:#cdcd00">name</span>: Build
+      <span style="color:#cdcd00">run</span>: go build -v .
+</code></pre></div><p>稍微幾解釋一下這個yaml所代表的意義</p>
+<ul>
+<li>name
+表示這個Workflow的名字</li>
+<li>on
+表示這個什麼時候會觸發這個Workerflow
+<ul>
+<li>push
+表示推到這個某一個branch的時候會觸發，這裡預設是<code>master</code></li>
+<li>pull_request
+表示像這個某一個branch發出PR的時候會觸發，這裡預設是<code>master</code></li>
+</ul>
+</li>
+<li>job
+裡面會有要執行的步驟與環境設定
+<ul>
+<li>build
+<ul>
+<li>name
+表示這個job用來建構程式碼</li>
+<li>runs-on
+表示這個這個job要執行在什麼虛擬環境上，這裡是<code>ubuntu</code>，可以改成更小的image</li>
+</ul>
+</li>
+<li>steps
+表示這個job有多少步驟要執行
+<ul>
+<li>name
+描述這個這一步要做什麼，這邊預設是Set up Go 1.13</li>
+<li>uses
+這邊的意思是使用別人寫的action，預設是<a href="https://github.com/actions/setup-go">actions/setup-go@v1</a></li>
+<li>with
+可以指定action的參數，這邊指定go用1.13版<code>go-version: 1.13</code></li>
+<li>id
+可以在setup上加上一些標記，這邊預設是<code>go</code></li>
+<li>run
+如果不要用別人的action想要執行自己的腳本可以用這個參數，如<code>go build -v .</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[color=#FF0000]這邊非常粗淺的帶過這些參數所代表的意義，如果想進行更複雜的設定可以參考<a href="https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow">GitHub Help</a></p>
+</blockquote>
+<p>這邊設定好自己想要的Workerflow流程後可以按Start commit 提交這一個commit。
+<img src="https://i.imgur.com/4z57J8C.png" alt=""></p>
+<p>Commit 之後可以看到Github Action 被觸發，我們可以點進去看一下CI/CD有沒有過。</p>
+<p>這邊就可以看到我在Workflow Build的階段就失敗了xD，可以點進去看為什麼失敗，判斷是不是code寫錯還是哪裡有問題。
+<img src="https://i.imgur.com/1EvDq0N.png" alt=""></p>
+<p>點進去後我們發現，原來是<code>go build -v .</code>出錯拉～那我們這邊做簡單的修改再重新提交一次。
+<img src="https://i.imgur.com/TFVztZv.png" alt=""></p>
+<p>將 <code>Build</code> 那一段 <code>run</code> 改成正確的語法，再重新commit。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">      - <span style="color:#cdcd00">name</span>: Build
+        <span style="color:#cdcd00">run</span>:  go build cmd/main.go
+</code></pre></div><p>再次檢查Github Action 的Workflow是不是都亮綠燈通過拉～
+<img src="https://i.imgur.com/UpQjlkT.png" alt=""></p>
+<h2 id="結束語">結束語</h2>
+<p>今天非常簡單的介紹了Github Action的功能，以及怎麼快速的上手使用這個新功能，下次有機會再來介紹他跟docker怎麼整合以及怎麼撰寫自己的action貢獻給Github Action Marketplace 讓大家來使用。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ci/cd/" rel="tag">ci/cd</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Meng Ze avatar" src="/img/apple.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Meng Ze</span>
+	</div>
+	<div class="authorbox__description">
+		Meng 專注於雲端世界的耕耘者，喜歡潛水健身等休閒運動。
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/kubernetes/kubeadmxcri-o/" rel="prev">
+			<span class="post-nav__caption">«&thinsp;Previous</span>
+			<p class="post-nav__post-title">Kubeadm run with cri-o</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "meng-ze" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Meng Ze&#39;s Blog.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

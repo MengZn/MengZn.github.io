@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
+<html class="no-js" lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>OVS Commonly Command</title>
+	<title>OVS Commonly Command - Meng Ze&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta name="generator" content="Hugo 0.49" />
 	<meta property="og:title" content="OVS Commonly Command" />
-<meta property="og:description" content="記錄一下，Open vSwitch (OVS)常用的指令。
-
-" />
+<meta property="og:description" content="記錄一下，Open vSwitch (OVS)常用的指令。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://mengzn.github.io/post/sdn/ovs-commonly-command/" /><meta property="article:published_time" content="2018-05-06T22:20:02&#43;08:00"/>
-<meta property="article:modified_time" content="2018-05-06T22:20:02&#43;08:00"/>
+<meta property="og:url" content="http://mengzn.github.io/post/sdn/ovs-commonly-command/" />
+<meta property="article:published_time" content="2018-05-06T22:20:02+08:00" />
+<meta property="article:modified_time" content="2018-05-06T22:20:02+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
 	<link rel="stylesheet" href="/css/style.css">
-	<script type="text/javascript" src="/js/scripts.js"></script>
+	
 	<link rel="shortcut icon" href="/favicon.ico">
 		
 </head>
@@ -28,90 +27,97 @@
 	<div class="container container--outer">
 		<header class="header">
 	<div class="container">
-		<div class="logo" role="banner">
+		<div class="logo">
 			<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
 				<div class="logo__title">Meng Ze&#39;s Blog</div>
 				<div class="logo__tagline">Record my learning process</div>
 			</a>
 		</div>
-	</div>
-	
+		
 <nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
 	<ul class="menu__list">
-		<li class="menu__item"><a class="menu__link" href="/post/">HOME</a></li>
-		<li class="menu__item"><a class="menu__link" href="/about/">ABOUT ME</a></li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
 	</ul>
 </nav>
 
+	</div>
 </header>
 		<div class="wrapper flex">
-			<section class="primary">
+			<div class="primary">
 			
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
 			<h1 class="post__title">OVS Commonly Command</h1>
-			<div class="post__meta meta">
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
-	<time class="meta__text" datetime="2018-05-06T22:20:02">May 06, 2018</time>
-</div>
-
-<div class="meta__item-categories meta__item">
-	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
-	<span class="meta__text"><a class="meta__link" href="/categories/networking" rel="category">Networking</a></span>
-</div>
-</div>
+			
 		</header>
 <div class="post__toc toc">
 	<div class="toc__title">Page content</div>
 	<div class="toc__menu">
 		<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#新增一個bridge">新增一個bridge</a></li>
-<li><a href="#顯示所有bridge">顯示所有bridge</a></li>
-<li><a href="#給某個bridge新增一個port">給某個bridge新增一個port</a></li>
-<li><a href="#顯示綁定到該port的bridge">顯示綁定到該port的bridge</a></li>
-<li><a href="#連接controller到ovs-br0上">連接controller到ovs br0上</a></li>
-<li><a href="#顯示所有的bridge-連接的port以及controller">顯示所有的bridge、連接的port以及controller</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#新增一個bridge">新增一個bridge</a></li>
+        <li><a href="#顯示所有bridge">顯示所有bridge</a></li>
+        <li><a href="#給某個bridge新增一個port">給某個bridge新增一個port</a></li>
+        <li><a href="#顯示綁定到該port的bridge">顯示綁定到該port的bridge</a></li>
+        <li><a href="#連接controller到ovs-br0上">連接controller到ovs br0上</a></li>
+        <li><a href="#顯示所有的bridge連接的port以及controller">顯示所有的bridge、連接的port以及controller</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
 	</div>
 </div>
 <div class="content post__content clearfix">
 			<p>記錄一下，Open vSwitch (OVS)常用的指令。</p>
-
-<p></p>
-
 <p>在ubuntu上安裝ovs</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell=bash" data-lang="shell=bash">sudo apt install openvswitch-switch -y</code></pre></div>
-<h3 id="新增一個bridge">新增一個bridge</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell=bash" data-lang="shell=bash">sudo ovs-vsctl add-br br0</code></pre></div>
-<h3 id="顯示所有bridge">顯示所有bridge</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell=bash" data-lang="shell=bash">sudo ovs-vsctl list-br</code></pre></div>
-<h3 id="給某個bridge新增一個port">給某個bridge新增一個port</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell=bash" data-lang="shell=bash">sudo ovs-vsctl add-port br0 veth1</code></pre></div>
-<h3 id="顯示綁定到該port的bridge">顯示綁定到該port的bridge</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell=bash" data-lang="shell=bash">sudo ovs-vsctl port-to-br veth1</code></pre></div>
-<h3 id="連接controller到ovs-br0上">連接controller到ovs br0上</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell=bash" data-lang="shell=bash">sudo ovs-vsctl set-controller br0 tcp:&lt;controller IP&gt;</code></pre></div>
-<h3 id="顯示所有的bridge-連接的port以及controller">顯示所有的bridge、連接的port以及controller</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell=bash" data-lang="shell=bash">sudo ovs-vsctl show</code></pre></div>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo apt install openvswitch-switch -y
+</code></pre></div><h3 id="新增一個bridge">新增一個bridge</h3>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl add-br br0
+</code></pre></div><h3 id="顯示所有bridge">顯示所有bridge</h3>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl list-br
+</code></pre></div><h3 id="給某個bridge新增一個port">給某個bridge新增一個port</h3>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl add-port br0 veth1
+</code></pre></div><h3 id="顯示綁定到該port的bridge">顯示綁定到該port的bridge</h3>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl port-to-br veth1
+</code></pre></div><h3 id="連接controller到ovs-br0上">連接controller到ovs br0上</h3>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl set-controller br0 tcp:&lt;controller IP&gt;
+</code></pre></div><h3 id="顯示所有的bridge連接的port以及controller">顯示所有的bridge、連接的port以及controller</h3>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl show
+</code></pre></div>
 		</div>
-		
+		<footer class="post__footer">
+			
 <div class="post__tags tags clearfix">
-	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16"><path d="M16 9.5c0 .373-.24.74-.5 1l-5 5c-.275.26-.634.5-1 .5-.373 0-.74-.24-1-.5L1 8a2.853 2.853 0 0 1-.7-1C.113 6.55 0 5.973 0 5.6V1.4C0 1.034.134.669.401.401.67.134 1.034 0 1.4 0h4.2c.373 0 .95.113 1.4.3.45.187.732.432 1 .7l7.5 7.502c.26.274.5.632.5.998zM3.5 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
-		<li class="tags__item"><a class="tags__link btn" href="/tags/sdn/" rel="tag">SDN</a></li>
-		<li class="tags__item"><a class="tags__link btn" href="/tags/ovs/" rel="tag">OVS</a></li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/sdn/" rel="tag">SDN</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ovs/" rel="tag">OVS</a>
+		</li>
 	</ul>
 </div>
+		</footer>
 	</article>
 </main>
 
@@ -129,7 +135,10 @@
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/post/grpc/proto/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">初嚐Protocol Buffer</p></a>
+		<a class="post-nav__link" href="/post/grpc/proto/" rel="next">
+			<span class="post-nav__caption">Next&thinsp;»</span>
+			<p class="post-nav__post-title">初嚐Protocol Buffer</p>
+		</a>
 	</div>
 </nav>
 
@@ -157,23 +166,19 @@
 </section>
 
 
-			</section>
+			</div>
 			
 		</div>
 		<footer class="footer">
 	<div class="container footer__container flex">
 		
 		<div class="footer__copyright">
-			&copy; 2018 Meng Ze&#39;s Blog.
+			&copy; 2020 Meng Ze&#39;s Blog.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>
 </footer>
 	</div>
-<script>
-	var navigation = responsiveNav(".menu", {
-		navClass: "menu--collapse",
-		label: "Menu",
-	});
-</script></body>
+<script async defer src="/js/menu.js"></script>
+</body>
 </html>
