@@ -34,17 +34,6 @@
     </item>
     
     <item>
-      <title>Kubeadm run with cri-o</title>
-      <link>http://mengzn.github.io/post/kubernetes/kubeadmxcri-o/</link>
-      <pubDate>Sat, 03 Nov 2018 17:39:26 +0800</pubDate>
-      
-      <guid>http://mengzn.github.io/post/kubernetes/kubeadmxcri-o/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;http://mengzn.github.io/images/post/cri-o.png&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
       <title>Istio1.0 安裝及簡易操作</title>
       <link>http://mengzn.github.io/post/kubernetes/istio/istio1.0-install/</link>
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>

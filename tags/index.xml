@@ -21,33 +21,6 @@
     </item>
     
     <item>
-      <title>container</title>
-      <link>http://mengzn.github.io/tags/container/</link>
-      <pubDate>Sat, 03 Nov 2018 17:39:26 +0800</pubDate>
-      
-      <guid>http://mengzn.github.io/tags/container/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cri</title>
-      <link>http://mengzn.github.io/tags/cri/</link>
-      <pubDate>Sat, 03 Nov 2018 17:39:26 +0800</pubDate>
-      
-      <guid>http://mengzn.github.io/tags/cri/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <link>http://mengzn.github.io/tags/kubernetes/</link>
-      <pubDate>Sat, 03 Nov 2018 17:39:26 +0800</pubDate>
-      
-      <guid>http://mengzn.github.io/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>istio</title>
       <link>http://mengzn.github.io/tags/istio/</link>
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
@@ -62,6 +35,15 @@
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
       
       <guid>http://mengzn.github.io/tags/kubeless/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>http://mengzn.github.io/tags/kubernetes/</link>
+      <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
+      
+      <guid>http://mengzn.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     
