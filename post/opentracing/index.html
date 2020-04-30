@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>前方高能之Opentracing - Meng Ze&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="前方高能之Opentracing" />
+<meta property="og:description" content="
+     
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://mengzn.github.io/post/opentracing/" />
+<meta property="article:published_time" content="2020-04-30T12:07:34+08:00" />
+<meta property="article:modified_time" content="2020-04-30T12:07:34+08:00" />
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
+				<div class="logo__title">Meng Ze&#39;s Blog</div>
+				<div class="logo__tagline">Record my learning process</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">前方高能之Opentracing</h1>
+			
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#為什麼要使用">為什麼要使用？</a></li>
+    <li><a href="#那什麼是opentracing">那什麼是Opentracing</a>
+      <ul>
+        <li><a href="#名词解释">名词解释</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<figure>
+    <img src="https://i.imgur.com/sJRUXhX.png"/> 
+</figure>
+
+<h2 id="為什麼要使用">為什麼要使用？</h2>
+<p>這邊我直接點出我個人的觀點，歡迎大家來探討到底需不需要導入 tracing 的概念在專案中。</p>
+<p>就我個人的理解導入 tracing 有幾個好處，能提供系統運作時有更全面的理解與追縱，包括延遲，錯誤以及效能等問題，我們可以透過 tracing 查看整個系統或是單個應用程式是如何處理某一項業務操作 並且追蹤此項操作的流程與相關訊息。</p>
+<p>這樣帶來了什麼好處？
+如果可以透過圖表等方式顯示我們跟蹤的結果，可以加速後續維運人員排除故障的速度並且可以幫助開發者找到效能問題的癥結點，此外我們還可以看到一條業務邏輯實際的流向是如何被處理的。</p>
+<ul>
+<li>
+<p>A trace tells the story of a transaction or workflow as it propagates through a (potentiallydistributed) system.</p>
+</li>
+<li>
+<p>It’s basically a directed acyclic graph (DAG), with a clear start and a clear end - no loops.</p>
+</li>
+<li>
+<p>Focused on business operations instead of services</p>
+</li>
+</ul>
+<p>Advantages:</p>
+<ul>
+<li>It provides useful insight into the behavior of the system including the sources of latency and
+errors (think troubleshooting or performance analysis)</li>
+<li>It enables us to see how an individual business operation is handled by other applications
+that we don&rsquo;t know (yet)</li>
+</ul>
+<h2 id="那什麼是opentracing">那什麼是Opentracing</h2>
+<p>再談談 Opentracing 之前我們可以將時間回推倒90年代，當時 Google 發表了一篇關於分散是追蹤的論文<a href="https://static.googleusercontent.com/media/research.google.com/zh-TW//pubs/archive/36356.pdf">&ldquo;Dapper, a Large-Scale Distributed Systems Tracing Infrastructure&rdquo;</a>，除了該篇論文外 Google 還發表了另外一篇分散式追蹤的的問題所在<a href="https://www.usenix.org/system/files/mad12-final9.pdf">&ldquo;Uncertainty in Aggregate Estimates from Sampled Distributed Traces&rdquo;</a>，兩篇論文都非常的精采說明了為什麼需要做分散式追蹤以及追蹤帶來的效益已提以及追蹤帶來的效益與其困難點。</p>
+<p>隨後各家廠商跟著這幾篇論文的引導開發出一系列相關的工具例如， Dapper 、 Zipkin 、 Appdash 等等，越來越多廠商到了戰場上爭奪這一塊 tracing 的大餅，不過就使用者而言就相當的頭痛了，對於各廠商提供的 API 與系統支援度都不相同的情況之下，使用者幾乎沒有辦法無痛得轉移所使用的 tracing System。</p>
+<p>下一個時代來臨必須要有人統一群雄打造一個輕量級且標準化的中介層統一上下層之間的隔閡， CNCF 底下的 OpenTracing 願景為提供一個標準的 tracing API 所有使用者只要在乎 OpenTracing tracing 所提供的 API ，不需要再了解各家廠商如 Zipkin 、 Appdash 的流程，這點我認為他跟 Kubernetes 的 CNI 、 CRI 、 CSI有異曲同工之妙。
+<img src="https://i.imgur.com/reFgbhQ.png" alt=""></p>
+<h3 id="名词解释">名词解释</h3>
+<p>在了解 Opentracing 的由來之後，現在來介紹他的架構與相關的名詞，這有助於我們後續開發上的 API 使用。</p>
+<h4 id="trace">Trace</h4>
+<p>一個 trace 在 Opentracing 代表一個事件在系統的執行過程，我們可以從圖中看到藍色的代表一個事件在 Opentracing 稱為一個 <code>trace</code> ，底下經過紅色綠色以及灰色的處理。</p>
+<p>比較學術的說法唯有向無環圖Directed Acyclic Graph （ DAG )，有興趣的可以去查查這是什麼。
+<img src="https://i.imgur.com/CBXkAaH.png" alt=""></p>
+<h4 id="span">Span</h4>
+<p>span 代表在 Opentracing 中各個工作單元。一個 <code>span</code> 可以包含其他 <code>span</code> 的 reference ，如此一來可以形成一個父子關係圖，進而形成一個完整的 <code>trace</code> 。
+其中 span 會攜帶一些資訊方便使用者閱讀例如：</p>
+<ol>
+<li>span 名稱</li>
+<li>span 開始與結束時間</li>
+<li>tag</li>
+<li>log</li>
+<li>span Context</li>
+<li>baggage Items</li>
+</ol>
+<p><img src="https://i.imgur.com/sbF17oE.png" alt=""></p>
+<h4 id="span-tag">Span-tag</h4>
+<p>在 OpenTracing 的規範之下，每一個 <code>span</code> 都可以有 <code>tag</code> 屬性以 key-value 的形式出現。 <code>tag</code> 我們可以理解成某一種屬性例如圖中的error tag ，我們可以利用這格屬性過濾掉error =false 的span，方便我們查詢我追蹤。
+<img src="https://i.imgur.com/Tqp8yq5.png" alt=""></p>
+<h4 id="span-log">Span-log</h4>
+<p>除了 <code>tag</code> 之外 Opentracing 還規範了 <code>log</code> ，開發者可以在 <code>span</code> 中加入 <code>log</code> ，他以以 key-value 的形式出現，方便開發者或是維運人員快速地檢視該 <code>span</code> 執行的相關訊息。如圖所示可以看到在 external service api 中的 log event 顯示time out 我們可以很快瞭解在執行這個操作的時候他的狀況為何。
+<img src="https://i.imgur.com/8pFULja.png" alt=""></p>
+<h4 id="span-context">Span Context</h4>
+<p>我認為這個比較難解釋，可以參考著官方的說明對照著看，簡單的說就是span會傳遞 context 資訊給下一個 span ，例如 spanID 、traceID等。</p>
+<blockquote>
+<p>The SpanContext carries data across process boundaries. Specifically, it has two major components:</p>
+<blockquote>
+<p>An implementation-dependent state to refer to the distinct span within a trace</p>
+<blockquote>
+<p>i.e., the implementing Tracer’s definition of spanID and traceID</p>
+</blockquote>
+<p>Any Baggage Items</p>
+<blockquote>
+<p>These are key:value pairs that cross process-boundaries.
+These may be useful to have some data available for access throughout the trace.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h4 id="baggage-items">Baggage Items</h4>
+<p>從字面上來看 baggage 就是行李的意思，一個 trace 開始到結束，可能會從某一個 <code>span</code> 攜帶行李到下一個 <code>span</code> 進行處理，不過這裡有一個非常重要的點就是行李在整個 trace 的過程都不會被丟棄，直到 <code>trace</code> 結束為止。</p>
+<p>從範例來看App A 是一個 span ，攜帶了一些資料到如ot-baggage-environment:production 到 APP B 如果後面還有 APP C 、APP D，這一個資料會傳到整個trace結束為止。
+<img src="https://i.imgur.com/YNWoDeR.png" alt=""></p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/devops/" rel="tag">devops</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Meng Ze avatar" src="/img/apple.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Meng Ze</span>
+	</div>
+	<div class="authorbox__description">
+		Meng 專注於雲端世界的耕耘者，喜歡潛水健身等休閒運動。
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/cicd/github-action-1/" rel="prev">
+			<span class="post-nav__caption">«&thinsp;Previous</span>
+			<p class="post-nav__post-title">Github Action 起步走第一式</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "meng-ze" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Meng Ze&#39;s Blog.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

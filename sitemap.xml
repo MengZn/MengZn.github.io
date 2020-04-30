@@ -3,23 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://mengzn.github.io/post/cicd/github-action-1/</loc>
-    <lastmod>2020-04-26T20:48:52+08:00</lastmod>
+    <loc>http://mengzn.github.io/categories/</loc>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://mengzn.github.io/tags/devops/</loc>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://mengzn.github.io/categories/devops/</loc>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
     <loc>http://mengzn.github.io/post/</loc>
-    <lastmod>2020-04-26T20:48:52+08:00</lastmod>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
     <loc>http://mengzn.github.io/</loc>
-    <lastmod>2020-04-26T20:48:52+08:00</lastmod>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mengzn.github.io/categories/</loc>
-    <lastmod>2018-11-03T17:39:26+08:00</lastmod>
+    <loc>http://mengzn.github.io/tags/</loc>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://mengzn.github.io/post/opentracing/</loc>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://mengzn.github.io/post/cicd/github-action-1/</loc>
+    <lastmod>2020-04-26T20:48:52+08:00</lastmod>
   </url>
   
   <url>
@@ -54,11 +74,6 @@
   
   <url>
     <loc>http://mengzn.github.io/categories/kubernetes/</loc>
-    <lastmod>2018-11-03T17:39:26+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://mengzn.github.io/tags/</loc>
     <lastmod>2018-11-03T17:39:26+08:00</lastmod>
   </url>
   
