@@ -78,6 +78,7 @@
     <li><a href="#那什麼是opentracing">那什麼是Opentracing</a>
       <ul>
         <li><a href="#名词解释">名词解释</a></li>
+        <li><a href="#小結">小結</a></li>
       </ul>
     </li>
   </ul>
@@ -94,24 +95,6 @@
 <p>就我個人的理解導入 tracing 有幾個好處，能提供系統運作時有更全面的理解與追縱，包括延遲，錯誤以及效能等問題，我們可以透過 tracing 查看整個系統或是單個應用程式是如何處理某一項業務操作 並且追蹤此項操作的流程與相關訊息。</p>
 <p>這樣帶來了什麼好處？
 如果可以透過圖表等方式顯示我們跟蹤的結果，可以加速後續維運人員排除故障的速度並且可以幫助開發者找到效能問題的癥結點，此外我們還可以看到一條業務邏輯實際的流向是如何被處理的。</p>
-<ul>
-<li>
-<p>A trace tells the story of a transaction or workflow as it propagates through a (potentiallydistributed) system.</p>
-</li>
-<li>
-<p>It’s basically a directed acyclic graph (DAG), with a clear start and a clear end - no loops.</p>
-</li>
-<li>
-<p>Focused on business operations instead of services</p>
-</li>
-</ul>
-<p>Advantages:</p>
-<ul>
-<li>It provides useful insight into the behavior of the system including the sources of latency and
-errors (think troubleshooting or performance analysis)</li>
-<li>It enables us to see how an individual business operation is handled by other applications
-that we don&rsquo;t know (yet)</li>
-</ul>
 <h2 id="那什麼是opentracing">那什麼是Opentracing</h2>
 <p>再談談 Opentracing 之前我們可以將時間回推倒90年代，當時 Google 發表了一篇關於分散是追蹤的論文<a href="https://static.googleusercontent.com/media/research.google.com/zh-TW//pubs/archive/36356.pdf">&ldquo;Dapper, a Large-Scale Distributed Systems Tracing Infrastructure&rdquo;</a>，除了該篇論文外 Google 還發表了另外一篇分散式追蹤的的問題所在<a href="https://www.usenix.org/system/files/mad12-final9.pdf">&ldquo;Uncertainty in Aggregate Estimates from Sampled Distributed Traces&rdquo;</a>，兩篇論文都非常的精采說明了為什麼需要做分散式追蹤以及追蹤帶來的效益已提以及追蹤帶來的效益與其困難點。</p>
 <p>隨後各家廠商跟著這幾篇論文的引導開發出一系列相關的工具例如， Dapper 、 Zipkin 、 Appdash 等等，越來越多廠商到了戰場上爭奪這一塊 tracing 的大餅，不過就使用者而言就相當的頭痛了，對於各廠商提供的 API 與系統支援度都不相同的情況之下，使用者幾乎沒有辦法無痛得轉移所使用的 tracing System。</p>
@@ -127,19 +110,29 @@ that we don&rsquo;t know (yet)</li>
 <p>span 代表在 Opentracing 中各個工作單元。一個 <code>span</code> 可以包含其他 <code>span</code> 的 reference ，如此一來可以形成一個父子關係圖，進而形成一個完整的 <code>trace</code> 。
 其中 span 會攜帶一些資訊方便使用者閱讀例如：</p>
 <ol>
+<li>reference</li>
 <li>span 名稱</li>
 <li>span 開始與結束時間</li>
 <li>tag</li>
 <li>log</li>
 <li>span Context</li>
-<li>baggage Items</li>
+<li>baggage Items
+<img src="https://i.imgur.com/sbF17oE.png" alt=""></li>
 </ol>
-<p><img src="https://i.imgur.com/sbF17oE.png" alt=""></p>
-<h4 id="span-tag">Span-tag</h4>
+<h5 id="childof">ChildOf</h5>
+<p>先來看看流程結構時序圖，<code>Childof</code> 我會歸類成父節點依賴子節點的結果。例如 Server Span 透過 RPC等方式 去叫了 register Span ， register Span 處理了一些資料又去呼叫 SQL Span 做 insert 的動作，SQL Span 對 SQL 存入資料後會返回給 register Span 回報 insert 動作成功，接著 register Span  又會返回給 Server Span 註冊成功的消息。</p>
+<p>這種父節點依賴子節點的行為稱為<code>ChildOf</code>。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    [-Parent Server Span--------------]
+         [-Child register Span A----]
+          [-Child Span B----]
+</code></pre></div><h5 id="followsfrom">FollowsFrom</h5>
+<p>先來看看流程結構時序圖，父節點不依賴任何子節點的結果我把他歸類為 <code>FollowsFrom</code> ，例如我發送一條訊息，訊息是否成功被處理與發訊息的事件沒有關聯，這時就稱為 <code>FollowsFrom</code> 。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[-Parent Span-]  [-Child Span-]
+</code></pre></div><h4 id="span-tag">Span-tag</h4>
 <p>在 OpenTracing 的規範之下，每一個 <code>span</code> 都可以有 <code>tag</code> 屬性以 key-value 的形式出現。 <code>tag</code> 我們可以理解成某一種屬性例如圖中的error tag ，我們可以利用這格屬性過濾掉error =false 的span，方便我們查詢我追蹤。
 <img src="https://i.imgur.com/Tqp8yq5.png" alt=""></p>
 <h4 id="span-log">Span-log</h4>
-<p>除了 <code>tag</code> 之外 Opentracing 還規範了 <code>log</code> ，開發者可以在 <code>span</code> 中加入 <code>log</code> ，他以以 key-value 的形式出現，方便開發者或是維運人員快速地檢視該 <code>span</code> 執行的相關訊息。如圖所示可以看到在 external service api 中的 log event 顯示time out 我們可以很快瞭解在執行這個操作的時候他的狀況為何。
+<p>除了 <code>tag</code> 之外 Opentracing 還規範了 <code>log</code> ，開發者可以在 <code>span</code> 中加入 <code>log</code> ，他以以 key-value 的形式出現，方便開發者或是維運人員快速地檢視該 <code>span</code> 執行的相關訊息。如圖所示可以看到在 external service api 中的 log event 顯示time out 我們可以很快瞭解在執行這個操作的時候他的撞快為何。
 <img src="https://i.imgur.com/8pFULja.png" alt=""></p>
 <h4 id="span-context">Span Context</h4>
 <p>我認為這個比較難解釋，可以參考著官方的說明對照著看，簡單的說就是span會傳遞 context 資訊給下一個 span ，例如 spanID 、traceID等。</p>
@@ -161,6 +154,8 @@ These may be useful to have some data available for access throughout the trace.
 <p>從字面上來看 baggage 就是行李的意思，一個 trace 開始到結束，可能會從某一個 <code>span</code> 攜帶行李到下一個 <code>span</code> 進行處理，不過這裡有一個非常重要的點就是行李在整個 trace 的過程都不會被丟棄，直到 <code>trace</code> 結束為止。</p>
 <p>從範例來看App A 是一個 span ，攜帶了一些資料到如ot-baggage-environment:production 到 APP B 如果後面還有 APP C 、APP D，這一個資料會傳到整個trace結束為止。
 <img src="https://i.imgur.com/YNWoDeR.png" alt=""></p>
+<h3 id="小結">小結</h3>
+<p>上面我們討論了 Opentracing 的前世今生，為什麼要有 tracing 以及相關的論文。同時針對 Opentracing 會出現的名詞做一個初步的解說，可以以幫助我們後續再使用 Opentracing 提供的 API 時更能了解他所代表的意義以及正確的使用姿勢。下一篇我會續繼分享Opentracing with jaeger 的用法。</p>
 		</div>
 		<footer class="post__footer">
 			
