@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>minikube on Meng Ze&#39;s Blog</title>
-    <link>http://mengzn.github.io/tags/minikube/</link>
+    <link>https://http://blog.jjmengze.website/tags/minikube/</link>
     <description>Recent content in minikube on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Mon, 02 Jul 2018 02:12:05 +0800</lastBuildDate>
     
-	<atom:link href="http://mengzn.github.io/tags/minikube/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://http://blog.jjmengze.website/tags/minikube/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>minikube 在掛載本機遇到的神奇問題</title>
-      <link>http://mengzn.github.io/post/kubernetes/minkube-mount/</link>
+      <link>https://http://blog.jjmengze.website/post/kubernetes/minkube-mount/</link>
       <pubDate>Mon, 02 Jul 2018 02:12:05 +0800</pubDate>
       
-      <guid>http://mengzn.github.io/post/kubernetes/minkube-mount/</guid>
+      <guid>https://http://blog.jjmengze.website/post/kubernetes/minkube-mount/</guid>
       <description>&lt;p&gt;開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。&lt;/p&gt;</description>
     </item>
     

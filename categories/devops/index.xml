@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>devops on Meng Ze&#39;s Blog</title>
-    <link>http://mengzn.github.io/categories/devops/</link>
+    <link>https://http://blog.jjmengze.website/categories/devops/</link>
     <description>Recent content in devops on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Thu, 30 Apr 2020 12:07:34 +0800</lastBuildDate>
     
-	<atom:link href="http://mengzn.github.io/categories/devops/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://http://blog.jjmengze.website/categories/devops/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>前方高能之Opentracing</title>
-      <link>http://mengzn.github.io/post/opentracing/</link>
+      <link>https://http://blog.jjmengze.website/post/opentracing/</link>
       <pubDate>Thu, 30 Apr 2020 12:07:34 +0800</pubDate>
       
-      <guid>http://mengzn.github.io/post/opentracing/</guid>
+      <guid>https://http://blog.jjmengze.website/post/opentracing/</guid>
       <description>&lt;figure&gt;
     &lt;img src=&#34;https://i.imgur.com/sJRUXhX.png&#34;/&gt; 
 &lt;/figure&gt;</description>
