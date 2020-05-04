@@ -2,49 +2,49 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>kubernetes on Meng Ze&#39;s Blog</title>
-    <link>https://http://blog.jjmengze.website/tags/kubernetes/</link>
+    <link>http://blog.jjmengze.website/tags/kubernetes/</link>
     <description>Recent content in kubernetes on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Sat, 04 Aug 2018 17:39:26 +0800</lastBuildDate>
     
-	<atom:link href="https://http://blog.jjmengze.website/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://blog.jjmengze.website/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Istio1.0 安裝及簡易操作</title>
-      <link>https://http://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</link>
+      <link>http://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</link>
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
       
-      <guid>https://http://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</guid>
+      <guid>http://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</guid>
       <description>&lt;h2 id=&#34;istio-簡介&#34;&gt;Istio 簡介&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://istio.io/&#34;&gt;Istio&lt;/a&gt;提供了一個完整的微服務應用解決方案，透過為整個服務網路提供行為監控和細粒度的控制來滿足微服務應用程序的多樣化需求。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>初嚐kubeless的滋味</title>
-      <link>https://http://blog.jjmengze.website/post/kubernetes/kubeless/</link>
+      <link>http://blog.jjmengze.website/post/kubernetes/kubeless/</link>
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
       
-      <guid>https://http://blog.jjmengze.website/post/kubernetes/kubeless/</guid>
+      <guid>http://blog.jjmengze.website/post/kubernetes/kubeless/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://s3-us-west-2.amazonaws.com/assets.site.serverless.com/blog/kubeless.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>minikube 在掛載本機遇到的神奇問題</title>
-      <link>https://http://blog.jjmengze.website/post/kubernetes/minkube-mount/</link>
+      <link>http://blog.jjmengze.website/post/kubernetes/minkube-mount/</link>
       <pubDate>Mon, 02 Jul 2018 02:12:05 +0800</pubDate>
       
-      <guid>https://http://blog.jjmengze.website/post/kubernetes/minkube-mount/</guid>
+      <guid>http://blog.jjmengze.website/post/kubernetes/minkube-mount/</guid>
       <description>&lt;p&gt;開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Kolla Kubernetes</title>
-      <link>https://http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</link>
+      <link>http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</link>
       <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
       
-      <guid>https://http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</guid>
+      <guid>http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</guid>
       <description>&lt;p&gt;kolla是為了提供production-ready的 OpenStack Cloud 之container和deployment tools。&lt;/p&gt;</description>
     </item>
     

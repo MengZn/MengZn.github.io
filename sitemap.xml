@@ -3,190 +3,190 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/</loc>
+    <loc>http://blog.jjmengze.website/categories/</loc>
     <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/devops/</loc>
+    <loc>http://blog.jjmengze.website/tags/devops/</loc>
     <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/devops/</loc>
+    <loc>http://blog.jjmengze.website/categories/devops/</loc>
     <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/</loc>
+    <loc>http://blog.jjmengze.website/post/</loc>
     <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/</loc>
+    <loc>http://blog.jjmengze.website/</loc>
     <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/</loc>
+    <loc>http://blog.jjmengze.website/tags/</loc>
     <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/opentracing/</loc>
+    <loc>http://blog.jjmengze.website/post/opentracing/</loc>
     <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/cicd/github-action-1/</loc>
+    <loc>http://blog.jjmengze.website/post/cicd/github-action-1/</loc>
     <lastmod>2020-04-26T20:48:52+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/istio/</loc>
+    <loc>http://blog.jjmengze.website/tags/istio/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/istio/</loc>
+    <loc>http://blog.jjmengze.website/categories/istio/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</loc>
+    <loc>http://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/kubeless/</loc>
+    <loc>http://blog.jjmengze.website/tags/kubeless/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/kubernetes/</loc>
+    <loc>http://blog.jjmengze.website/tags/kubernetes/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/kubernetes/</loc>
+    <loc>http://blog.jjmengze.website/categories/kubernetes/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/serverless/</loc>
+    <loc>http://blog.jjmengze.website/tags/serverless/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/serverless/</loc>
+    <loc>http://blog.jjmengze.website/categories/serverless/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/servicemesh/</loc>
+    <loc>http://blog.jjmengze.website/tags/servicemesh/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/servicemesh/</loc>
+    <loc>http://blog.jjmengze.website/categories/servicemesh/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/kubernetes/kubeless/</loc>
+    <loc>http://blog.jjmengze.website/post/kubernetes/kubeless/</loc>
     <lastmod>2018-08-04T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/minikube/</loc>
+    <loc>http://blog.jjmengze.website/tags/minikube/</loc>
     <lastmod>2018-07-02T02:12:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/kubernetes/minkube-mount/</loc>
+    <loc>http://blog.jjmengze.website/post/kubernetes/minkube-mount/</loc>
     <lastmod>2018-07-02T02:12:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</loc>
+    <loc>http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</loc>
     <lastmod>2018-05-21T23:25:20+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/openstack/</loc>
+    <loc>http://blog.jjmengze.website/tags/openstack/</loc>
     <lastmod>2018-05-21T23:25:20+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/openstack/</loc>
+    <loc>http://blog.jjmengze.website/categories/openstack/</loc>
     <lastmod>2018-05-21T23:25:20+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/golang/</loc>
+    <loc>http://blog.jjmengze.website/tags/golang/</loc>
     <lastmod>2018-05-11T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/golang/</loc>
+    <loc>http://blog.jjmengze.website/categories/golang/</loc>
     <lastmod>2018-05-11T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/golang/pointer/</loc>
+    <loc>http://blog.jjmengze.website/post/golang/pointer/</loc>
     <lastmod>2018-05-11T17:39:26+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/grpc/</loc>
+    <loc>http://blog.jjmengze.website/tags/grpc/</loc>
     <lastmod>2018-05-09T02:12:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/grpc/</loc>
+    <loc>http://blog.jjmengze.website/categories/grpc/</loc>
     <lastmod>2018-05-09T02:12:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/proto/</loc>
+    <loc>http://blog.jjmengze.website/tags/proto/</loc>
     <lastmod>2018-05-09T02:12:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/grpc/proto/</loc>
+    <loc>http://blog.jjmengze.website/post/grpc/proto/</loc>
     <lastmod>2018-05-09T02:12:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/networking/</loc>
+    <loc>http://blog.jjmengze.website/categories/networking/</loc>
     <lastmod>2018-05-06T22:20:02+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/ovs/</loc>
+    <loc>http://blog.jjmengze.website/tags/ovs/</loc>
     <lastmod>2018-05-06T22:20:02+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/post/sdn/ovs-commonly-command/</loc>
+    <loc>http://blog.jjmengze.website/post/sdn/ovs-commonly-command/</loc>
     <lastmod>2018-05-06T22:20:02+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/sdn/</loc>
+    <loc>http://blog.jjmengze.website/tags/sdn/</loc>
     <lastmod>2018-05-06T22:20:02+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/about/</loc>
+    <loc>http://blog.jjmengze.website/about/</loc>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/tags/ci/cd/</loc>
+    <loc>http://blog.jjmengze.website/tags/ci/cd/</loc>
   </url>
   
   <url>
-    <loc>https://http://blog.jjmengze.website/categories/ci/cd/</loc>
+    <loc>http://blog.jjmengze.website/categories/ci/cd/</loc>
   </url>
   
 </urlset>

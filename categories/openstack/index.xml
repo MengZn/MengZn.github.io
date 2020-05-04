@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>OpenStack on Meng Ze&#39;s Blog</title>
-    <link>https://http://blog.jjmengze.website/categories/openstack/</link>
+    <link>http://blog.jjmengze.website/categories/openstack/</link>
     <description>Recent content in OpenStack on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Mon, 21 May 2018 23:25:20 +0800</lastBuildDate>
     
-	<atom:link href="https://http://blog.jjmengze.website/categories/openstack/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://blog.jjmengze.website/categories/openstack/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Kolla Kubernetes</title>
-      <link>https://http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</link>
+      <link>http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</link>
       <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
       
-      <guid>https://http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</guid>
+      <guid>http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</guid>
       <description>&lt;p&gt;kolla是為了提供production-ready的 OpenStack Cloud 之container和deployment tools。&lt;/p&gt;</description>
     </item>
     
