@@ -96,27 +96,27 @@
 <h2 id="creating-the-application-oauth">Creating the Application OAuth</h2>
 <p>第一步，先去Gitlab上建置相關的application，並且設定該application所需要的權限。</p>
 <ol>
-<li>
-<p>如圖所示先選擇Gitlab網頁上右上角自己的頭像，並選擇Setting。
-<img src="https://i.imgur.com/fMD610O.png" alt=""></p>
-</li>
-<li>
-<p>選擇完Setting後，到左方選擇Applications，進入到設定Application的頁面。
-<img src="https://i.imgur.com/XtbqBmx.png" alt=""></p>
-</li>
-<li>
-<p>進到設定Application的頁面後，會看到以下畫面。這邊有幾個部分需要留意。</p>
-</li>
+<li>如圖所示先選擇Gitlab網頁上右上角自己的頭像，並選擇Setting。</li>
+</ol>
+<p><img src="https://i.imgur.com/fMD610O.png" alt=""></p>
+<ol start="2">
+<li>選擇完Setting後，到左方選擇Applications，進入到設定Application的頁面。</li>
+</ol>
+<p><img src="https://i.imgur.com/XtbqBmx.png" alt=""></p>
+<ol start="3">
+<li>進到設定Application的頁面後，會看到以下畫面。這邊有幾個部分需要留意。</li>
 </ol>
 <ul>
-<li>Redirect URI
-需要特定格式進行填寫，<code>https://oauth-openshift.apps.&lt;cluster-name&gt;.&lt;cluster-domain&gt;/oauth2callback/&lt;idp-provider-name&gt;</code></li>
-</ul>
+<li>
+<p>Redirect URI
+需要特定格式進行填寫，<code>https://oauth-openshift.apps.&lt;cluster-name&gt;.&lt;cluster-domain&gt;/oauth2callback/&lt;idp-provider-name&gt;</code></p>
 <p><code>cluster name</code> 與 <code>cluster-domain</code> 可以在 <code>openshift console</code> 的網址上看到，例如:<code>console-openshift-console.apps.ocp4demo.jjmengze.website</code></p>
 <p>其中 <code>ocp4demo</code> 就是我們的 <code>cluster name</code> ，而 jjmengze.website 就是 <code>cluster-domain</code>。</p>
-<ul>
-<li>openid
-因為 Openshift 需要透過 <a href="https://docs.gitlab.com/ce/integration/openid_connect_provider.html">OpenID Connect (OIDC)</a>驗證 Gitlab 使用者的登入資訊，所以我們要把 <code>openid</code> 給勾選起來。</li>
+</li>
+<li>
+<p>openid
+因為 Openshift 需要透過 <a href="https://docs.gitlab.com/ce/integration/openid_connect_provider.html">OpenID Connect (OIDC)</a>驗證 Gitlab 使用者的登入資訊，所以我們要把 <code>openid</code> 給勾選起來。</p>
+</li>
 </ul>
 <p><img src="https://i.imgur.com/6fYVGkx.png" alt=""></p>
 <ol start="4">
