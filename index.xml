@@ -6,10 +6,21 @@
     <description>Recent content on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 30 Apr 2020 12:07:34 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 06 May 2020 15:26:47 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.jjmengze.website/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
+      <link>http://blog.jjmengze.website/post/devops/gitlab-ocp/</link>
+      <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
+      
+      <guid>http://blog.jjmengze.website/post/devops/gitlab-ocp/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://www.programmersought.com/images/483/aa458c2dd725442f893d667726c3a983.JPEG&#34;/&gt; 
+&lt;/figure&gt;</description>
+    </item>
     
     <item>
       <title>前方高能之Opentracing</title>

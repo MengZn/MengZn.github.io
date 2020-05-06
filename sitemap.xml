@@ -4,7 +4,37 @@
   
   <url>
     <loc>http://blog.jjmengze.website/categories/</loc>
-    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.jjmengze.website/post/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.jjmengze.website/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.jjmengze.website/tags/openshift/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.jjmengze.website/categories/openshift/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.jjmengze.website/post/devops/gitlab-ocp/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.jjmengze.website/tags/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
   </url>
   
   <url>
@@ -14,21 +44,6 @@
   
   <url>
     <loc>http://blog.jjmengze.website/categories/devops/</loc>
-    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.jjmengze.website/post/</loc>
-    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.jjmengze.website/</loc>
-    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.jjmengze.website/tags/</loc>
     <lastmod>2020-04-30T12:07:34+08:00</lastmod>
   </url>
   
