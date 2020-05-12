@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Meng Ze&#39;s Blog</title>
-    <link>http://blog.jjmengze.website/</link>
+    <link>https://blog.jjmengze.website/</link>
     <description>Recent content on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Wed, 06 May 2020 15:26:47 +0800</lastBuildDate>
     
-	<atom:link href="http://blog.jjmengze.website/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.jjmengze.website/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
-      <link>http://blog.jjmengze.website/post/devops/gitlab-ocp/</link>
+      <link>https://blog.jjmengze.website/post/devops/gitlab-ocp/</link>
       <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/devops/gitlab-ocp/</guid>
+      <guid>https://blog.jjmengze.website/post/devops/gitlab-ocp/</guid>
       <description>&lt;figure&gt;
     &lt;img src=&#34;https://www.programmersought.com/images/483/aa458c2dd725442f893d667726c3a983.JPEG&#34;/&gt; 
 &lt;/figure&gt;</description>
@@ -24,10 +24,10 @@
     
     <item>
       <title>前方高能之Opentracing</title>
-      <link>http://blog.jjmengze.website/post/opentracing/</link>
+      <link>https://blog.jjmengze.website/post/opentracing/</link>
       <pubDate>Thu, 30 Apr 2020 12:07:34 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/opentracing/</guid>
+      <guid>https://blog.jjmengze.website/post/opentracing/</guid>
       <description>&lt;figure&gt;
     &lt;img src=&#34;https://i.imgur.com/sJRUXhX.png&#34;/&gt; 
 &lt;/figure&gt;</description>
@@ -35,10 +35,10 @@
     
     <item>
       <title>Github Action 起步走第一式</title>
-      <link>http://blog.jjmengze.website/post/cicd/github-action-1/</link>
+      <link>https://blog.jjmengze.website/post/cicd/github-action-1/</link>
       <pubDate>Sun, 26 Apr 2020 20:48:52 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/cicd/github-action-1/</guid>
+      <guid>https://blog.jjmengze.website/post/cicd/github-action-1/</guid>
       <description>&lt;figure&gt;
     &lt;img src=&#34;https://buzzorange.com/techorange/wp-content/uploads/sites/2/2015/03/github-mark.webp?png&#34;/&gt; 
 &lt;/figure&gt;</description>
@@ -46,74 +46,74 @@
     
     <item>
       <title>Istio1.0 安裝及簡易操作</title>
-      <link>http://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</link>
+      <link>https://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</link>
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</guid>
+      <guid>https://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</guid>
       <description>&lt;h2 id=&#34;istio-簡介&#34;&gt;Istio 簡介&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://istio.io/&#34;&gt;Istio&lt;/a&gt;提供了一個完整的微服務應用解決方案，透過為整個服務網路提供行為監控和細粒度的控制來滿足微服務應用程序的多樣化需求。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>初嚐kubeless的滋味</title>
-      <link>http://blog.jjmengze.website/post/kubernetes/kubeless/</link>
+      <link>https://blog.jjmengze.website/post/kubernetes/kubeless/</link>
       <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/kubernetes/kubeless/</guid>
+      <guid>https://blog.jjmengze.website/post/kubernetes/kubeless/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://s3-us-west-2.amazonaws.com/assets.site.serverless.com/blog/kubeless.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>minikube 在掛載本機遇到的神奇問題</title>
-      <link>http://blog.jjmengze.website/post/kubernetes/minkube-mount/</link>
+      <link>https://blog.jjmengze.website/post/kubernetes/minkube-mount/</link>
       <pubDate>Mon, 02 Jul 2018 02:12:05 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/kubernetes/minkube-mount/</guid>
+      <guid>https://blog.jjmengze.website/post/kubernetes/minkube-mount/</guid>
       <description>&lt;p&gt;開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Kolla Kubernetes</title>
-      <link>http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</link>
+      <link>https://blog.jjmengze.website/post/openstack/kolla-kubernetes/</link>
       <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/openstack/kolla-kubernetes/</guid>
+      <guid>https://blog.jjmengze.website/post/openstack/kolla-kubernetes/</guid>
       <description>&lt;p&gt;kolla是為了提供production-ready的 OpenStack Cloud 之container和deployment tools。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>簡單介紹一下golang的指標</title>
-      <link>http://blog.jjmengze.website/post/golang/pointer/</link>
+      <link>https://blog.jjmengze.website/post/golang/pointer/</link>
       <pubDate>Fri, 11 May 2018 17:39:26 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/golang/pointer/</guid>
+      <guid>https://blog.jjmengze.website/post/golang/pointer/</guid>
       <description>&lt;p&gt;學習golang也一段時間了，紀錄一下當時學習遇到的問題。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>初嚐Protocol Buffer</title>
-      <link>http://blog.jjmengze.website/post/grpc/proto/</link>
+      <link>https://blog.jjmengze.website/post/grpc/proto/</link>
       <pubDate>Wed, 09 May 2018 02:12:05 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/grpc/proto/</guid>
+      <guid>https://blog.jjmengze.website/post/grpc/proto/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://cdn-images-1.medium.com/max/900/1*3Eb-ajNJwwrIITFGMIwPTw.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>OVS Commonly Command</title>
-      <link>http://blog.jjmengze.website/post/sdn/ovs-commonly-command/</link>
+      <link>https://blog.jjmengze.website/post/sdn/ovs-commonly-command/</link>
       <pubDate>Sun, 06 May 2018 22:20:02 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/sdn/ovs-commonly-command/</guid>
+      <guid>https://blog.jjmengze.website/post/sdn/ovs-commonly-command/</guid>
       <description>&lt;p&gt;記錄一下，Open vSwitch (OVS)常用的指令。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>About Me</title>
-      <link>http://blog.jjmengze.website/about/</link>
+      <link>https://blog.jjmengze.website/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://blog.jjmengze.website/about/</guid>
+      <guid>https://blog.jjmengze.website/about/</guid>
       <description>Here are my personal notes and learning process.
 李孟澤/Jason Lee
 System Developer

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>openshift on Meng Ze&#39;s Blog</title>
-    <link>http://blog.jjmengze.website/categories/openshift/</link>
+    <link>https://blog.jjmengze.website/categories/openshift/</link>
     <description>Recent content in openshift on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Wed, 06 May 2020 15:26:47 +0800</lastBuildDate>
     
-	<atom:link href="http://blog.jjmengze.website/categories/openshift/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.jjmengze.website/categories/openshift/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
-      <link>http://blog.jjmengze.website/post/devops/gitlab-ocp/</link>
+      <link>https://blog.jjmengze.website/post/devops/gitlab-ocp/</link>
       <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/devops/gitlab-ocp/</guid>
+      <guid>https://blog.jjmengze.website/post/devops/gitlab-ocp/</guid>
       <description>&lt;figure&gt;
     &lt;img src=&#34;https://www.programmersought.com/images/483/aa458c2dd725442f893d667726c3a983.JPEG&#34;/&gt; 
 &lt;/figure&gt;</description>

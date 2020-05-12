@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>golang on Meng Ze&#39;s Blog</title>
-    <link>http://blog.jjmengze.website/categories/golang/</link>
+    <link>https://blog.jjmengze.website/categories/golang/</link>
     <description>Recent content in golang on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <lastBuildDate>Fri, 11 May 2018 17:39:26 +0800</lastBuildDate>
     
-	<atom:link href="http://blog.jjmengze.website/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.jjmengze.website/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>簡單介紹一下golang的指標</title>
-      <link>http://blog.jjmengze.website/post/golang/pointer/</link>
+      <link>https://blog.jjmengze.website/post/golang/pointer/</link>
       <pubDate>Fri, 11 May 2018 17:39:26 +0800</pubDate>
       
-      <guid>http://blog.jjmengze.website/post/golang/pointer/</guid>
+      <guid>https://blog.jjmengze.website/post/golang/pointer/</guid>
       <description>&lt;p&gt;學習golang也一段時間了，紀錄一下當時學習遇到的問題。&lt;/p&gt;</description>
     </item>
     
