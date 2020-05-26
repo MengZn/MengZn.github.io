@@ -6,10 +6,19 @@
     <description>Recent content on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Wed, 06 May 2020 15:26:47 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2020 15:07:18 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.jjmengze.website/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>公有雲kubernetes pull unssl container image registry</title>
+      <link>https://blog.jjmengze.website/post/kubernetes/private-image/</link>
+      <pubDate>Tue, 26 May 2020 15:07:18 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/kubernetes/private-image/</guid>
+      <description>&lt;p&gt;記錄一下之前在工作上遇到的 Gitlab domain 沒有簽憑證，但是外部服務(Azure Kubernetes Service)又需要存取 Gitlab Container Registry 會遇到的問題。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
