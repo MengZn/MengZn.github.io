@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Github Action 妳各位，注意 Heroku ！ - Meng Ze&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="Github Action 妳各位，注意 Heroku ！" />
+<meta property="og:description" content="
+     
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.jjmengze.website/post/cicd/github-action-2/" />
+<meta property="article:published_time" content="2020-06-02T14:17:22+08:00" />
+<meta property="article:modified_time" content="2020-06-02T14:17:22+08:00" />
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
+				<div class="logo__title">Meng Ze&#39;s Blog</div>
+				<div class="logo__tagline">Record my learning process</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Github Action 妳各位，注意 Heroku ！</h1>
+			
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#申請-heroku-帳號">申請 Heroku 帳號</a></li>
+    <li><a href="#安裝-heroku-cli">安裝 Heroku CLI</a></li>
+    <li><a href="#測試-heroku">測試 Heroku</a></li>
+    <li><a href="#改到-github-action">改到 Github Action</a></li>
+    <li><a href="#結束語">結束語</a></li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<figure>
+    <img src="/images/post/githubaction-heroku.png"/> 
+</figure>
+
+<p>前面有一篇文章，在描述 Github Action 做 CI/CD 的好處，對於 Github Action 還不太了解的朋友可以參考<a href="https://blog.jjmengze.website/post/cicd/github-action-1/"> Github Action 起步走第一式</a>了解一下最基礎的東西怎麼用吧～</p>
+<p>在 CI/CD 總有一個階段會需要啊我們應應用服務部署到 Server 上提供對應的服務，對於初期快速發展的公司來說 Heroku 是一個滿好用的平台，可以直接把 source code push 上去， Heroku 會提供免費帳戶每個月 450 個小時的，開通信用卡，還會額外增加 550 個小時的免費時數，此外 Heroku 會幫你設定相關的 Url 讓外部可以讀取你的服務，這讓開發人員不用擔心 infrastructure 的問題，可以更加專注在 application 的開發。</p>
+<p>這篇文章主要是一個小範例，我們可以在 Github Action 中嵌入一個 Job 讓服務部署到 Heroku上～</p>
+<h2 id="申請-heroku-帳號">申請 Heroku 帳號</h2>
+<p>首先我們要去申請 <a href="https://signup.heroku.com/">Heroku 帳號 </a>，這邊非常簡單把他打米字號的欄位填一填寫一寫就沒問題了～</p>
+<p><img src="https://i.imgur.com/ZpsF0cm.png" alt=""></p>
+<hr>
+<p>完成這個完成這個申請帳號的步驟之後，接著開一個 Heroku 的應用程式，透過介面上的 New 的 Create new app 建立一個應用程式，需要注意的是App name 只能用小寫的英文，而且是沒有被使用過的，基本上這樣就完成了跟在 Github 上建立一個 Repository 一樣簡單。
+<img src="https://i.imgur.com/MQnROjS.png" alt=""></p>
+<h2 id="安裝-heroku-cli">安裝 Heroku CLI</h2>
+<p>安裝 Heroku CLI 這個部分也相當的簡單安裝過程可以參考<a href="https://devcenter.heroku.com/articles/heroku-cli">官方的教學</a>，我這邊以 MACOS 作為示範有其他作業系統需求的請麻煩請參考官網囉～</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">brew tap heroku/brew &amp;&amp; brew install heroku
+
+Updating Homebrew...
+==&gt; Auto-updated Homebrew!
+Updated 3 taps (homebrew/core, homebrew/cask and homebrew/cask-fonts).
+...
+...
+==&gt; Installing dependencies for heroku/brew/heroku: heroku/brew/heroku-node
+==&gt; Installing heroku/brew/heroku dependency: heroku/brew/heroku-node
+🍺  /usr/local/Cellar/heroku-node/12.16.2: 3 files, 42.2MB, built in 3 seconds
+==&gt; Installing heroku/brew/heroku
+...
+</code></pre></div><p>測試一下 Heroku CLI 是不是已經裝好了</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">heroku
+
+CLI to interact with Heroku
+
+VERSION
+  heroku/7.41.1 darwin-x64 node-v12.16.2
+
+USAGE
+  $ heroku <span style="color:#39c">[</span>COMMAND<span style="color:#39c">]</span>
+
+COMMANDS
+  access          manage user access to apps
+  addons          tools and services <span style="color:#cdcd00">for</span> developing, extending, and operating
+                  your app
+  apps            manage apps on Heroku
+  auth            check 2fa status
+  authorizations  OAuth authorizations
+  autocomplete    display autocomplete installation instructions
+  buildpacks      scripts used to compile apps
+  certs           a topic <span style="color:#cdcd00">for</span> the ssl plugin
+  ci              run an application <span style="color:#cd00cd">test</span> suite on Heroku
+  clients         OAuth clients on the platform
+  config          environment variables of apps
+  container       Use containers to build and deploy Heroku apps
+  domains         custom domains <span style="color:#cdcd00">for</span> apps
+  drains          forward logs to syslog or HTTPS
+  features        add/remove app features
+  git             manage <span style="color:#cd00cd">local</span> git repository <span style="color:#cdcd00">for</span> app
+  <span style="color:#cd00cd">help</span>            display <span style="color:#cd00cd">help</span> <span style="color:#cdcd00">for</span> heroku
+  keys            add/remove account ssh keys
+  labs            add/remove experimental features
+  <span style="color:#cd00cd">local</span>           run Heroku app locally
+  logs            display recent log output
+  maintenance     enable/disable access to app
+  members         manage organization members
+  notifications   display notifications
+  orgs            manage organizations
+  pg              manage postgresql databases
+  pipelines       manage pipelines
+  plugins         list installed plugins
+  ps              Client tools <span style="color:#cdcd00">for</span> Heroku Exec
+  psql            open a psql shell to the database
+  redis           manage heroku redis instances
+  regions         list available regions <span style="color:#cdcd00">for</span> deployment
+  releases        display the releases <span style="color:#cdcd00">for</span> an app
+  reviewapps      manage reviewapps in pipelines
+  run             run a one-off process inside a Heroku dyno
+  sessions        OAuth sessions
+  spaces          manage heroku private spaces
+  status          status of the Heroku platform
+  teams           manage teams
+  update          update the Heroku CLI
+  webhooks        list webhooks on an app
+</code></pre></div><h2 id="測試-heroku">測試 Heroku</h2>
+<p>這邊以一個簡單的 go server 作為範例，程式碼如下所示。當我們對這個 server 發起請求他會回應你 現在 server 是使用哪一個 port 跟你做溝通。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#cd00cd">package</span> main
+
+<span style="color:#cd00cd">import</span> (
+	<span style="color:#cd0000">&#34;net/http&#34;</span>
+	<span style="color:#cd0000">&#34;os&#34;</span>
+)
+
+<span style="color:#00cd00">func</span> main() {
+	http.HandleFunc(<span style="color:#cd0000">&#34;/&#34;</span>, <span style="color:#00cd00">func</span>(w http.ResponseWriter, r <span style="color:#39c">*</span>http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set(<span style="color:#cd0000">&#34;Content-Type&#34;</span>, <span style="color:#cd0000">&#34;text/html; charset=utf-8&#34;</span>)
+                p<span style="color:#39c">:=</span>os.Getenv(<span style="color:#cd0000">&#34;PORT&#34;</span>)
+		w.Write([]<span style="color:#cd00cd">byte</span>(p))
+	})
+
+	http.ListenAndServe(<span style="color:#cd0000">&#34;0.0.0.0:&#34;</span><span style="color:#39c">+</span>os.Getenv(<span style="color:#cd0000">&#34;PORT&#34;</span>), <span style="color:#cdcd00">nil</span>)
+}
+</code></pre></div><p>透過 Heroku CLI 登入 Heroku ，驗證完身份後，就能夠透過 Git 把source code 推到 Heroku 上囉～</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">heroku login
+
+heroku: Press any key to open up the browser to login or q to exit:
+Opening browser to https://cli-auth.heroku.com/auth/cli/browser/5e83cd9d-51cc-4676-b0be-d240a1f5c480
+Logging in... <span style="color:#cdcd00">done</span>
+...
+</code></pre></div><p>接著設定 heroku git 把git remote url 設定好</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">heroku git:remote -a example-githubaction
+set git remote heroku to https://git.heroku.com/example-githubaction.git
+</code></pre></div><p>先看看 Heroku 有沒有加到 git remote url</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git remote -v
+heroku	https://git.heroku.com/example-githubaction.git <span style="color:#39c">(</span>fetch<span style="color:#39c">)</span>
+heroku	https://git.heroku.com/example-githubaction.git <span style="color:#39c">(</span>push<span style="color:#39c">)</span>
+origin	https://github.com/jjmengze/heroku-go.git <span style="color:#39c">(</span>fetch<span style="color:#39c">)</span>
+origin	https://github.com/jjmengze/heroku-go.git <span style="color:#39c">(</span>push<span style="color:#39c">)</span>
+</code></pre></div><p>最後透過git push 指令將source code上傳到 Heroku</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git push heroku master
+Enumerating objects: 10, <span style="color:#cdcd00">done</span>.
+Counting objects: 100% <span style="color:#39c">(</span>10/10<span style="color:#39c">)</span>, <span style="color:#cdcd00">done</span>.
+Delta compression using up to <span style="color:#cd00cd">8</span> threads
+Compressing objects: 100% <span style="color:#39c">(</span>6/6<span style="color:#39c">)</span>, <span style="color:#cdcd00">done</span>.
+Writing objects: 100% <span style="color:#39c">(</span>10/10<span style="color:#39c">)</span>, 1.25 KiB | 640.00 KiB/s, <span style="color:#cdcd00">done</span>.
+Total <span style="color:#cd00cd">10</span> <span style="color:#39c">(</span>delta 0<span style="color:#39c">)</span>, reused <span style="color:#cd00cd">0</span> <span style="color:#39c">(</span>delta 0<span style="color:#39c">)</span>
+remote: Compressing <span style="color:#cd00cd">source</span> files... <span style="color:#cdcd00">done</span>.
+remote: Building source:
+remote:
+remote: -----&gt; Go app detected
+...
+...
+remote: -----&gt; Launching...
+remote:        Released v3
+remote:        https://example-githubaction.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... <span style="color:#cdcd00">done</span>.
+To https://git.heroku.com/example-githubaction.git
+ * <span style="color:#39c">[</span>new branch<span style="color:#39c">]</span>      master -&gt; master
+</code></pre></div><p>完成後回到之前在 Heroku 上建立的應用程式，並且在上方的選項點選 Settings
+<img src="https://i.imgur.com/LVfsNar.png" alt="">
+最下方 Heroku 會告訴你這個應用程式的 Domain ，一般來說會是 <code>https://&lt;appname&gt;.herokuapp.com/</code>，所以以本篇的例子會是 <code>https://example-githubaction.herokuapp.com/</code> 。到頁面下方檢查一下 Domain是不是這個～</p>
+<p><img src="https://i.imgur.com/Lc3xIqi.png" alt=""></p>
+<p>可以請求一下這個 domain 看看得到的結果是什麼</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl https://example-githubaction.herokuapp.com/
+<span style="color:#cd00cd">59048</span>
+</code></pre></div><p>表示目前 server 是用 59048 的 port 跟你進行溝通，這邊我就想到壞壞的事情惹，那我能不能用 Heroku 提供的服務 在裡面啟用一個 sshd ，另類 VM 的概念xD (不過那又是另外一個故事了)</p>
+<h2 id="改到-github-action">改到 Github Action</h2>
+<p>既然純手動 ( manually setup ) 可以完成，那我相信透過 CI/CD 自動化機制也可以完成！</p>
+<p>這邊可以到 Github Marketplace 去找找有沒有人做相關的 Action ，好的工程師第一步要學會怎麼找資料 xD</p>
+<p>這邊可以看到有不少 Action 都有在做 HeroKu 相關的部署，可以參考人家怎麼實作在試試看能不能用更簡單的方法做一個出來。</p>
+<p><img src="https://i.imgur.com/ZZos9Q7.png" alt=""></p>
+<p>這邊我直接給出一個方案所有程式碼與內容可以參考我在 Github 的<a href="https://github.com/jjmengze/heroku-go">範例專案</a>，有興趣的可以試試看，基本上的思路是透過 Heroku 提供的 container 服務直接把 source code 包成 container 並且上傳到 heroku image registry 上，相關的部署以及詳細動作可以參考<a href="https://devcenter.heroku.com/articles/container-registry-and-runtime">官方的範例</a></p>
+<p>這邊我直接上github action 整合Heroku container image 後的 ci yaml給大家參考，大家也可以依照個做變化做成自己想要的樣子。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#cdcd00">push</span>:
+    <span style="color:#cdcd00">name</span>: Push
+    <span style="color:#cdcd00">runs-on</span>: ubuntu-latest
+    <span style="color:#cdcd00">steps</span>:
+    - <span style="color:#cdcd00">name</span>: Check out code into the Go module directory
+      <span style="color:#cdcd00">uses</span>: actions/checkout@v2
+    - <span style="color:#cdcd00">name</span>: Login to Heroku Container registry
+      <span style="color:#cdcd00">env</span>: 
+        <span style="color:#cdcd00">HEROKU_API_KEY</span>: ${{ secrets.HEROKU_API_KEY }}
+      <span style="color:#cdcd00">run</span>: heroku container:login 
+    - <span style="color:#cdcd00">name</span>: Build and push
+      <span style="color:#cdcd00">env</span>:
+        <span style="color:#cdcd00">HEROKU_API_KEY</span>: ${{ secrets.HEROKU_API_KEY }}
+      <span style="color:#cdcd00">run</span>: heroku container:push -a ${{ env.APP_NAME }}  web
+    - <span style="color:#cdcd00">name</span>: Release
+      <span style="color:#cdcd00">env</span>:
+        <span style="color:#cdcd00">HEROKU_API_KEY</span>: ${{ secrets.HEROKU_API_KEY }}
+      <span style="color:#cdcd00">run</span>: heroku container:release -a ${{ env.APP_NAME }}  web
+</code></pre></div><p>其中可以看到 push 這個 stage 執行了四個 steps ，比較要關注的是後面那三個。分別是執行</p>
+<ul>
+<li>heroku container:login</li>
+<li>heroku container:push -a ${{ env.APP_NAME }}  web</li>
+<li>heroku container:release -a ${{ env.APP_NAME }}  web</li>
+</ul>
+<p>這三部分別對應的是</p>
+<ul>
+<li>登入 heroku</li>
+<li>構建 Container image 並將其推送到 Heroku Container Registry</li>
+<li>將 Heroku Container Registry 上的 Container image 進行部署與發佈</li>
+</ul>
+<p>HEROKU_API_KEY 以及 APP_NAME 都可以在 Github 的 CI/CD 服務直接做環境變數的編輯，透過這一種方式我們可以很簡單的把服務部署到Heroku上面。開發人員可以快速的部署與測試自己的服務～ CI/CD 帶來的好處多多，希望大家可以多多嘗試。</p>
+<h2 id="結束語">結束語</h2>
+<p>今天非常簡單的介紹了 Heroku 與 Github Action 的整合的功能，以及怎麼快速得使用 Heroku 給外部做存取，下次有機會再來介紹他跟docker怎麼整合以及怎麼撰寫自己的 action 貢獻給 Github Action Marketplace 讓大家來使用。</p>
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Meng Ze avatar" src="/img/apple.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Meng Ze</span>
+	</div>
+	<div class="authorbox__description">
+		Meng 專注於雲端世界的耕耘者，喜歡潛水健身等休閒運動。
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/kubernetes/private-image/" rel="prev">
+			<span class="post-nav__caption">«&thinsp;Previous</span>
+			<p class="post-nav__post-title">公有雲kubernetes pull unssl container image registry</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "meng-ze" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Meng Ze&#39;s Blog.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
