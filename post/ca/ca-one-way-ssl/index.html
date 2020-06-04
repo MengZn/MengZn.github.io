@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>CA 動手玩 - Meng Ze&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="CA 動手玩" />
+<meta property="og:description" content="
+     
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.jjmengze.website/post/ca/ca-one-way-ssl/" />
+<meta property="article:published_time" content="2020-06-04T17:22:45+08:00" />
+<meta property="article:modified_time" content="2020-06-04T17:22:45+08:00" />
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
+				<div class="logo__title">Meng Ze&#39;s Blog</div>
+				<div class="logo__tagline">Record my learning process</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">CA 動手玩</h1>
+			
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#建立-ca-key">建立 CA key</a></li>
+    <li><a href="#建立-ca-crt">建立 CA CRT</a></li>
+    <li><a href="#建立-server-key">建立 Server Key</a></li>
+    <li><a href="#server-csr">Server CSR</a></li>
+    <li><a href="#server-crt">Server CRT</a>
+      <ul>
+        <li><a href="#nginx-config">nginx config</a></li>
+      </ul>
+    </li>
+    <li><a href="#sample-client">Sample Client</a></li>
+    <li><a href="#結束語">結束語</a></li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<figure>
+    <img src="https://svgsilh.com/svg/2114459.svg"/> 
+</figure>
+
+<p>前面說了一些基礎概念，本篇文章就實際來動手做做看用 OpenSSL 、 Nginx 加上 GO 開發一個簡單的 TLS 範例。</p>
+<h2 id="建立-ca-key">建立 CA key</h2>
+<p>由於我們要自己簽 SSL 所以需要透過 OpenSSL 先建立一個 CA 的私鑰。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl genrsa -out ca.key <span style="color:#cd00cd">2048</span>
+Generating RSA private key, <span style="color:#cd00cd">2048</span> bit long modulus <span style="color:#39c">(</span><span style="color:#cd00cd">2</span> primes<span style="color:#39c">)</span>
+........+++++
+......+++++
+e is <span style="color:#cd00cd">65537</span> <span style="color:#39c">(</span>0x010001<span style="color:#39c">)</span>
+
+root@internalTest:/home/ca# ls
+ca.key
+</code></pre></div><h2 id="建立-ca-crt">建立 CA CRT</h2>
+<p>建立完 CA 的私鑰後，我們還需要建立 CA 的身分證 CA CRT ，這個身分證就代表 CA 公開出去的所有人都看得到。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl req -x509 -new -nodes -key ca.key -days <span style="color:#cd00cd">10000</span> -out ca.crt -subj <span style="color:#cd0000">&#34;/CN=playwithca&#34;</span>
+
+root@internalTest:/home/ca# ls
+ca.key
+ca.crt
+</code></pre></div><hr>
+<h2 id="建立-server-key">建立 Server Key</h2>
+<p>建立 server 的私鑰 ， 用來給 nginx server 的 TLS  private key。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl genrsa -out server.key <span style="color:#cd00cd">2048</span>
+
+Generating RSA private key, <span style="color:#cd00cd">2048</span> bit long modulus <span style="color:#39c">(</span><span style="color:#cd00cd">2</span> primes<span style="color:#39c">)</span>
+...................+++++
+.............................................................................................+++++
+e is <span style="color:#cd00cd">65537</span> <span style="color:#39c">(</span>0x010001<span style="color:#39c">)</span>
+</code></pre></div><h2 id="server-csr">Server CSR</h2>
+<p>建立一個 CSR 用來向 CA 說請幫我簽名，簽的 Domain 是 <code>example.com</code> 。</p>
+<p>可以想像你去戶政事務所填寫申請身分證的表單</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl req -new -key server.key -out server.csr -subj &#34;/CN=example.com&#34;
+</code></pre></div><h2 id="server-crt">Server CRT</h2>
+<p>透過剛剛產出的 CSR 給 CA 簽名，這邊一般來說是用買的，你給 CA 商 CSR 他會幫你簽名出一個 CRT ， 這個 CRT 就是這個 server 的身分證。</p>
+<p>從你填寫表單的內容戶政事務所發給你對應的身分證</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365
+
+-out server.crt -days 365
+Signature ok
+subject=CN = example.com
+Getting CA Private Key
+
+root@internalTest:/home/ca# ls
+ca.crt  ca.key  ca.srl  server.crt  server.csr  server.key
+</code></pre></div><hr>
+<p>這邊簡單設定一下 nginx 的 SSL ，讓 nginx 可以使用指定的證書，並且開啟 443 port 提供其他人連線。</p>
+<h3 id="nginx-config">nginx config</h3>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">...
+         server {
+                listen 443 ssl default_server;
+                listen [::]:443 ssl default_server;
+                ssl_certificate /home/ca/server.crt;
+                ssl_certificate_key /home/ca/server.key;
+        }
+...
+</code></pre></div><p>設定好 nginx 別忘了重新載入 nginx 設定檔（題外話我覺得 nginx graceful reload做得滿好的，有興趣的朋友可以去研究一下）</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -s reload
+</code></pre></div><p>由於是測試環境沒有實際的 domain ，就先以修改 hostname 作為替代方案。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat /etc/hosts
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+52.163.243.191 example.com
+...
+</code></pre></div><p>修改完成後測試一下能不能透過 https 連線到 nginx 。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">curl -k https://example.com                                       
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+&lt;style&gt;
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;
+&lt;p&gt;If you see this page, the nginx web server is successfully i
+...
+</code></pre></div><p>可以順利連線到，那接著可以撰寫一個簡單的 Client 去打打看 Server 囉！</p>
+<h2 id="sample-client">Sample Client</h2>
+<p>這邊會以一個單向 TLS 認證作為示範，單向 TLS 認證大致上的動作是， Client 向 Server 發起請求。這時候 Client 會拿到 Server 的 證書( crt ) ，Client 會拿著這組 Server crt 跟 CA 的 crt 進行驗證 ，看 Server 是不是被 CA 授權的還是假冒的。
+如果是假冒的那麼 Client 會拒絕連線，反之 Server 若是被 CA 認證的那 Client 就會繼續往 Server 發請求。</p>
+<p>可以想得簡單一點，今天所有人來向你買東西，看到你身分證都馬上拿去問戶政事務所問這個身分證是不是合法的公民，如果不是合法的身分證就不進行交易。</p>
+<p>以下是一個用 go 開發的單向 TLS 請求的 Client 。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tree /go/src/dev/
+.
+├── 2.0
+│   ├── client.crt
+│   ├── client.key
+│   └── root-ca.crt
+└── main.go
+
+</code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#cd00cd">package</span> main
+
+<span style="color:#cd00cd">import</span> (
+	<span style="color:#cd0000">&#34;crypto/tls&#34;</span>
+	<span style="color:#cd0000">&#34;crypto/x509&#34;</span>
+	<span style="color:#cd0000">&#34;io&#34;</span>
+	<span style="color:#cd0000">&#34;io/ioutil&#34;</span>
+	<span style="color:#cd0000">&#34;log&#34;</span>
+	<span style="color:#cd0000">&#34;net/http&#34;</span>
+	<span style="color:#cd0000">&#34;os&#34;</span>
+)
+
+<span style="color:#00cd00">func</span> main() {
+	tr <span style="color:#39c">:=</span> <span style="color:#39c">&amp;</span>http.Transport{
+		TLSClientConfig: <span style="color:#39c">&amp;</span>tls.Config{
+			RootCAs:      loadCA(<span style="color:#cd0000">&#34;/Users/jason/go/src/dev/example-tls/2.0/root-ca.crt&#34;</span>),
+		},
+	}
+	c <span style="color:#39c">:=</span> <span style="color:#39c">&amp;</span>http.Client{Transport: tr}
+	<span style="color:#cdcd00">if</span> resp, e <span style="color:#39c">:=</span> c.Get(<span style="color:#cd0000">&#34;https://example.com&#34;</span>); e <span style="color:#39c">!=</span> <span style="color:#cdcd00">nil</span> {
+		log.Fatal(<span style="color:#cd0000">&#34;http.Client.Get: &#34;</span>, e)
+	} <span style="color:#cdcd00">else</span> {
+		<span style="color:#cdcd00">defer</span> resp.Body.Close()
+		io.Copy(os.Stdout, resp.Body)
+	}
+}
+
+<span style="color:#00cd00">func</span> loadCA(caFile <span style="color:#00cd00">string</span>) <span style="color:#39c">*</span>x509.CertPool {
+	pool <span style="color:#39c">:=</span> x509.NewCertPool()
+
+	<span style="color:#cdcd00">if</span> ca, e <span style="color:#39c">:=</span> ioutil.ReadFile(caFile); e <span style="color:#39c">!=</span> <span style="color:#cdcd00">nil</span> {
+		log.Fatal(<span style="color:#cd0000">&#34;ReadFile: &#34;</span>, e)
+	} <span style="color:#cdcd00">else</span> {
+		pool.AppendCertsFromPEM(ca)
+	}
+	<span style="color:#cdcd00">return</span> pool
+}
+
+</code></pre></div><p>以下是單向 TLS 請求的 Client 向 Server 請求的結果。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go run main.go
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+&lt;style&gt;
+    body <span style="color:#39c">{</span>
+        width: 35em;
+        margin: <span style="color:#cd00cd">0</span> auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    <span style="color:#39c">}</span>
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+...
+</code></pre></div><h2 id="結束語">結束語</h2>
+<p>這篇文章分享了如何用 nginx 、 OpenSSL 以及 Go 做一個自簽的 TLS 服務，雖然是一個簡單的範例但我們可以從中瞭解單向 TLS ， Client 只要向 CA 驗證 Server 的身份即可，那這樣安全嗎？這個討論我會保留到下一章再來跟大家分享。</p>
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Meng Ze avatar" src="/img/apple.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Meng Ze</span>
+	</div>
+	<div class="authorbox__description">
+		Meng 專注於雲端世界的耕耘者，喜歡潛水健身等休閒運動。
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/cicd/github-action-2/" rel="prev">
+			<span class="post-nav__caption">«&thinsp;Previous</span>
+			<p class="post-nav__post-title">Github Action 妳各位，注意 Heroku ！</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "meng-ze" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Meng Ze&#39;s Blog.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
