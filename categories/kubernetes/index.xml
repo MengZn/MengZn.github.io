@@ -48,5 +48,14 @@
       <description>&lt;p&gt;開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。&lt;/p&gt;</description>
     </item>
     
+    <item>
+      <title>來看看Container</title>
+      <link>https://blog.jjmengze.website/post/kubernetes/container/</link>
+      <pubDate>Sat, 03 Feb 2018 02:12:05 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/kubernetes/container/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/uA8lHbz.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
   </channel>
 </rss>
