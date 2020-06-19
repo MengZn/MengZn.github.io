@@ -140,6 +140,15 @@
     </item>
     
     <item>
+      <title>Kubernetes淺入淺出</title>
+      <link>https://blog.jjmengze.website/post/kubernetes/kubernetes/</link>
+      <pubDate>Mon, 05 Feb 2018 02:12:05 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/kubernetes/kubernetes/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://kubernetes.io/images/kubernetes-horizontal-color.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>來看看Container</title>
       <link>https://blog.jjmengze.website/post/kubernetes/container/</link>
       <pubDate>Sat, 03 Feb 2018 02:12:05 +0800</pubDate>
