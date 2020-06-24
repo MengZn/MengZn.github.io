@@ -140,6 +140,15 @@
     </item>
     
     <item>
+      <title>etcd 那回事</title>
+      <link>https://blog.jjmengze.website/post/kubernetes/etcd/</link>
+      <pubDate>Tue, 06 Feb 2018 11:24:52 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/kubernetes/etcd/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://miro.medium.com/max/5602/1*28aY7s7zpygdDVKxlTItXw.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Kubernetes淺入淺出</title>
       <link>https://blog.jjmengze.website/post/kubernetes/kubernetes/</link>
       <pubDate>Mon, 05 Feb 2018 02:12:05 +0800</pubDate>
