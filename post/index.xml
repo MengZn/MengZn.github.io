@@ -6,10 +6,19 @@
     <description>Recent content on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 04 Jun 2020 17:22:45 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 29 Jun 2020 16:07:21 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.jjmengze.website/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kubernetes Audit 查起來</title>
+      <link>https://blog.jjmengze.website/post/kubernetes/audit/</link>
+      <pubDate>Mon, 29 Jun 2020 16:07:21 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/kubernetes/audit/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/4KK2jYL.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>CA 動手玩</title>

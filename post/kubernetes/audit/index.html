@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>kubernetes Audit 查起來 - Meng Ze&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="kubernetes Audit 查起來" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.jjmengze.website/post/kubernetes/audit/" />
+<meta property="article:published_time" content="2020-06-29T16:07:21+08:00" />
+<meta property="article:modified_time" content="2020-06-29T16:07:21+08:00" />
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
+				<div class="logo__title">Meng Ze&#39;s Blog</div>
+				<div class="logo__tagline">Record my learning process</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">kubernetes Audit 查起來</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-06-29T16:07:21&#43;08:00">2020-06-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/kubernetes/" rel="category">kubernetes</a>
+	</span>
+</div></div>
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#就想看看你對我做什麼壞壞的事">就想看看你對我做什麼壞壞的事</a></li>
+    <li><a href="#kubeadm-安裝測試環境">Kubeadm 安裝測試環境</a></li>
+    <li><a href="#log-backend">Log Backend</a></li>
+    <li><a href="#dynamic-backend">Dynamic Backend</a></li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<p><img src="https://i.imgur.com/4KK2jYL.png" alt=""></p>
+<h2 id="就想看看你對我做什麼壞壞的事">就想看看你對我做什麼壞壞的事</h2>
+<p>在操作 Kubernetes Cluster 的時候系統管理員會發給各個開發者、使用者又或是 Robot 帳號，這時好多人在操作 Cluster 有沒有什麼方法可以看看誰對 Cluster 做了什麼，到時候炸鍋的時候比較好找兇手（Ｘ）。</p>
+<p>好拉除了找兇手之外還可以除錯計費做很多我目前還想不到的功能，如果有大大看到這篇文章有想到 audit 還可以做什麼可以跟我分享與討論呦！</p>
+<p>我們先看看 Kubernetes 支援哪些 audit 處理的方法。</p>
+<ul>
+<li>Log backend, which writes events to a disk</li>
+<li>Webhook backend, which sends events to an external API</li>
+<li>Dynamic backend, which configures webhook backends through an AuditSink API object.</li>
+</ul>
+<p>目前 Kubernetes 支援這三種方法處理 audit 資料，下文會三種方法都會使用一次作為範例，在看看實際的範例之前我們可以先來看看 audit 資料可以記錄哪些東西。</p>
+<ol>
+<li>發生了什麼事情（What</li>
+<li>什麼時候發生的（When</li>
+<li>誰讓事情發生了（Who</li>
+</ol>
+<p>雖然還有紀錄其他可以的東西，不過我認為這三個最為重要，有興趣的朋友可以看看<a href="https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy">官方的文件</a>。</p>
+<p>我們了解到 Kubernetes audit 會記錄什麼後，接著就是 audit 紀錄什麼時候會被觸發，這邊分為四個階段。</p>
+<ol>
+<li>
+<p>RequestReceived</p>
+<ul>
+<li>events generated as soon as the audit handler receives the request, and before it is delegated down the handler chain.（簡單來說就是 apiserver 收到請求的階段）</li>
+</ul>
+</li>
+<li>
+<p>ResponseStarted</p>
+<ul>
+<li>Once the response headers are sent, but before the response body is sent. This stage is only generated for long-running requests (e.g. watch).(這個階段我不是非常了解，看起來像是 watch 之類的才會觸發這個階段)</li>
+</ul>
+</li>
+<li>
+<p>ResponseComplete</p>
+<ul>
+<li>The response body has been completed and no more bytes will be sent.（這個階段代表 apiserver 的回應）</li>
+</ul>
+</li>
+<li>
+<p>Panic</p>
+<ul>
+<li>Events generated when a panic occurred.(發生 panic 才會觸發)</li>
+</ul>
+</li>
+</ol>
+<p>目前我們知道 Kubernetes audit 會記錄事情發生的內容，事情發生的階段。那有可不可以分門別類，例如我只想要紀錄 pods 的事件、 configmaps 的事件 或是某個 user 的行為呢？</p>
+<p>答案是可以的！每當我看完 Kubernetes 的設計真的覺得社群考慮的相當的彈性，繼續項開源專案學習，只有站在巨人的肩膀上才能看得更遠。好廢話不多說，剛剛談到的分門別類在 audit 裡稱為 policy ， policy 分為以下四個級別。</p>
+<ol>
+<li>None
+<ul>
+<li>(不要記錄與此規則匹配的事件)</li>
+</ul>
+</li>
+<li>Metadata
+<ul>
+<li>(記錄請求的 metadata 例如 user timestamp resource verb e.t.c. 但不記錄請求的內容，有點類似只把 header 紀錄一下來 body 隨它去的感覺。)</li>
+</ul>
+</li>
+<li>Request
+<ul>
+<li>(記錄整個事件請求的內容， body 跟 header 都要存的意思)</li>
+</ul>
+</li>
+<li>RequestResponse
+<ul>
+<li>(記錄整個事件回應的內容， body 跟 header 都要存的意思)</li>
+</ul>
+</li>
+</ol>
+<p>官方有給出一個範例讓我們可以依照自己的需求進行修改，範例如下所示。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#cdcd00">apiVersion</span>: audit.k8s.io/v1 <span style="color:#000080"># This is required.</span>
+<span style="color:#cdcd00">kind</span>: Policy
+<span style="color:#000080"># Don&#39;t generate audit events for all requests in RequestReceived stage.</span>
+<span style="color:#cdcd00">omitStages</span>:
+  - <span style="color:#cd0000">&#34;RequestReceived&#34;</span>
+<span style="color:#cdcd00">rules</span>:
+  <span style="color:#000080"># Log pod changes at RequestResponse level</span>
+  - <span style="color:#cdcd00">level</span>: RequestResponse
+    <span style="color:#cdcd00">resources</span>:
+    - <span style="color:#cdcd00">group</span>: <span style="color:#cd0000">&#34;&#34;</span>
+      <span style="color:#000080"># Resource &#34;pods&#34; doesn&#39;t match requests to any subresource of pods,</span>
+      <span style="color:#000080"># which is consistent with the RBAC policy.</span>
+      <span style="color:#cdcd00">resources</span>: [<span style="color:#cd0000">&#34;pods&#34;</span>]
+  <span style="color:#000080"># Log &#34;pods/log&#34;, &#34;pods/status&#34; at Metadata level</span>
+  - <span style="color:#cdcd00">level</span>: Metadata
+    <span style="color:#cdcd00">resources</span>:
+    - <span style="color:#cdcd00">group</span>: <span style="color:#cd0000">&#34;&#34;</span>
+      <span style="color:#cdcd00">resources</span>: [<span style="color:#cd0000">&#34;pods/log&#34;</span>, <span style="color:#cd0000">&#34;pods/status&#34;</span>]
+
+  <span style="color:#000080"># Don&#39;t log requests to a configmap called &#34;controller-leader&#34;</span>
+  - <span style="color:#cdcd00">level</span>: None
+    <span style="color:#cdcd00">resources</span>:
+    - <span style="color:#cdcd00">group</span>: <span style="color:#cd0000">&#34;&#34;</span>
+      <span style="color:#cdcd00">resources</span>: [<span style="color:#cd0000">&#34;configmaps&#34;</span>]
+      <span style="color:#cdcd00">resourceNames</span>: [<span style="color:#cd0000">&#34;controller-leader&#34;</span>]
+
+  <span style="color:#000080"># Don&#39;t log watch requests by the &#34;system:kube-proxy&#34; on endpoints or services</span>
+  - <span style="color:#cdcd00">level</span>: None
+    <span style="color:#cdcd00">users</span>: [<span style="color:#cd0000">&#34;system:kube-proxy&#34;</span>]
+    <span style="color:#cdcd00">verbs</span>: [<span style="color:#cd0000">&#34;watch&#34;</span>]
+    <span style="color:#cdcd00">resources</span>:
+    - <span style="color:#cdcd00">group</span>: <span style="color:#cd0000">&#34;&#34;</span> <span style="color:#000080"># core API group</span>
+      <span style="color:#cdcd00">resources</span>: [<span style="color:#cd0000">&#34;endpoints&#34;</span>, <span style="color:#cd0000">&#34;services&#34;</span>]
+
+  <span style="color:#000080"># Don&#39;t log authenticated requests to certain non-resource URL paths.</span>
+  - <span style="color:#cdcd00">level</span>: None
+    <span style="color:#cdcd00">userGroups</span>: [<span style="color:#cd0000">&#34;system:authenticated&#34;</span>]
+    <span style="color:#cdcd00">nonResourceURLs</span>:
+    - <span style="color:#cd0000">&#34;/api*&#34;</span> <span style="color:#000080"># Wildcard matching.</span>
+    - <span style="color:#cd0000">&#34;/version&#34;</span>
+
+  <span style="color:#000080"># Log the request body of configmap changes in kube-system.</span>
+  - <span style="color:#cdcd00">level</span>: Request
+    <span style="color:#cdcd00">resources</span>:
+    - <span style="color:#cdcd00">group</span>: <span style="color:#cd0000">&#34;&#34;</span> <span style="color:#000080"># core API group</span>
+      <span style="color:#cdcd00">resources</span>: [<span style="color:#cd0000">&#34;configmaps&#34;</span>]
+    <span style="color:#000080"># This rule only applies to resources in the &#34;kube-system&#34; namespace.</span>
+    <span style="color:#000080"># The empty string &#34;&#34; can be used to select non-namespaced resources.</span>
+    <span style="color:#cdcd00">namespaces</span>: [<span style="color:#cd0000">&#34;kube-system&#34;</span>]
+
+  <span style="color:#000080"># Log configmap and secret changes in all other namespaces at the Metadata level.</span>
+  - <span style="color:#cdcd00">level</span>: Metadata
+    <span style="color:#cdcd00">resources</span>:
+    - <span style="color:#cdcd00">group</span>: <span style="color:#cd0000">&#34;&#34;</span> <span style="color:#000080"># core API group</span>
+      <span style="color:#cdcd00">resources</span>: [<span style="color:#cd0000">&#34;secrets&#34;</span>, <span style="color:#cd0000">&#34;configmaps&#34;</span>]
+
+  <span style="color:#000080"># Log all other resources in core and extensions at the Request level.</span>
+  - <span style="color:#cdcd00">level</span>: Request
+    <span style="color:#cdcd00">resources</span>:
+    - <span style="color:#cdcd00">group</span>: <span style="color:#cd0000">&#34;&#34;</span> <span style="color:#000080"># core API group</span>
+    - <span style="color:#cdcd00">group</span>: <span style="color:#cd0000">&#34;extensions&#34;</span> <span style="color:#000080"># Version of group should NOT be included.</span>
+
+  <span style="color:#000080"># A catch-all rule to log all other requests at the Metadata level.</span>
+  - <span style="color:#cdcd00">level</span>: Metadata
+    <span style="color:#000080"># Long-running requests like watches that fall under this rule will not</span>
+    <span style="color:#000080"># generate an audit event in RequestReceived.</span>
+    <span style="color:#cdcd00">omitStages</span>:
+      - <span style="color:#cd0000">&#34;RequestReceived&#34;</span>
+</code></pre></div><p>上面大致上瞭解了 Kuberetes audit 的大方向如，當 event 發生的時候他會記錄什麼，有哪幾個 stage 會觸發 event 以及 event 可以看照 policy 分門別類。</p>
+<p>了解這幾項東西之後就可以來進行實驗，我會透過 kubeadm 建立一個 all in one 的 kubernetes 測試 audit 紀錄在 disk 上以及 透過 webhook 的方式把 event 傳出來進行額外的處理。</p>
+<h2 id="kubeadm-安裝測試環境">Kubeadm 安裝測試環境</h2>
+<p>kubeadm 安裝方法這邊不多談 Google 有很多安裝的方法，在本次實驗需要設定 audit 的相關參數，kubeadm 目前還沒有完全支援 audit 的 feature gate 除了設定 kubeadm config 之外還需要手動設定部分參數。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#cdcd00">apiVersion</span>: kubeadm.k8s.io/v1beta2
+<span style="color:#cdcd00">kind</span>: ClusterConfiguration
+<span style="color:#000080">#featureGates:</span>
+<span style="color:#000080">#  not support DynamicAuditing</span>
+<span style="color:#000080">#  DynamicAuditing: true</span>
+<span style="color:#cdcd00">apiServer</span>:
+  <span style="color:#cdcd00">extraArgs</span>:
+    <span style="color:#cdcd00">audit-log-path</span>: /home/ubuntu/audit.log
+    <span style="color:#cdcd00">audit-policy-file</span>: /etc/kubernetes/addon/audit-policy.yaml
+<span style="color:#000080">#    not support DynamicAuditing</span>
+<span style="color:#000080">#    runtime-config=auditregistration.k8s.io/v1alpha1: &#34;true&#34;</span>
+<span style="color:#000080">#    audit-dynamic-configuration:</span>
+  <span style="color:#cdcd00">extraVolumes</span>:
+  - <span style="color:#cdcd00">name</span>: audit
+    <span style="color:#cdcd00">hostPath</span>: /etc/kubernetes/addon/audit-policy.yaml
+    <span style="color:#cdcd00">mountPath</span>: /etc/kubernetes/addon/audit-policy.yaml
+    <span style="color:#cdcd00">readOnly</span>: <span style="color:#cdcd00">true</span>
+    <span style="color:#cdcd00">pathType</span>: File
+  - <span style="color:#cdcd00">name</span>: audit-log
+    <span style="color:#cdcd00">hostPath</span>: /home/ubuntu
+    <span style="color:#cdcd00">mountPath</span>: /home/ubuntu
+    <span style="color:#cdcd00">pathType</span>: DirectoryOrCreate
+</code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &lt;&lt;EOF | &gt;/etc/kubernetes/addon/audit-policy.yaml
+<span style="color:#000080"># Log all requests at the Metadata level.</span>
+apiVersion: audit.k8s.io/v1
+kind: Policy
+rules:
+- level: Metadata
+</code></pre></div><p>可以透過上述這個 kubeadm config 去設定部分的 audit 參數，再由 kubeadm init 啟動的時候將它自動地帶入 kube-apiserver中。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubeadm init --config admin-apiserver.yml
+W0629 07:46:16.046453   <span style="color:#cd00cd">86387</span> configset.go:202<span style="color:#39c">]</span> WARNING: kubeadm cannot validate component configs <span style="color:#cdcd00">for</span> API groups <span style="color:#39c">[</span>kubelet.config.k8s.io kubeproxy.config.k8s.io<span style="color:#39c">]</span>
+<span style="color:#39c">[</span>init<span style="color:#39c">]</span> Using Kubernetes version: v1.18.5
+<span style="color:#39c">[</span>preflight<span style="color:#39c">]</span> Running pre-flight checks
+<span style="color:#39c">[</span>preflight<span style="color:#39c">]</span> Pulling images required <span style="color:#cdcd00">for</span> setting up a Kubernetes cluster
+...
+</code></pre></div><p>由於本次測試環境只有一個節點所以需要進行<code>untaint</code>的動作，讓 pod 可以在 master node 上開啟。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl taint node jason-test node-role.kubernetes.io/master-
+</code></pre></div><p>當 kubeadm 執行完也設定完 CNI 後需要修改<code>/etc/kubernetes/manifests/kube-apiserver</code> 相關參數，讓 apiserver 支援 audit-dynamic-configuration 需要加入以下參數。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">    - --audit-dynamic-configuration
+    - --feature-gates=DynamicAuditing=<span style="color:#cdcd00">true</span>
+    - --runtime-config=auditregistration.k8s.io/v1alpha1=<span style="color:#cdcd00">true</span>
+</code></pre></div><p>修改完成後，可以透過 <code>kubectl</code> 指令檢查是否開啟 <code>auditregistration.k8s.io/v1alpha1</code> 的資源。</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl api-resources | grep AuditSink
+auditsinks                                     auditregistration.k8s.io       <span style="color:#cd00cd">false</span>        AuditSin
+</code></pre></div><p>完成以上步驟後就完成了 kubernetes audit 的測試環境搭建。</p>
+<h2 id="log-backend">Log Backend</h2>
+<p>事實上</p>
+<h2 id="dynamic-backend">Dynamic Backend</h2>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/kubernetes/" rel="tag">kubernetes</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Meng Ze avatar" src="/img/apple.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Meng Ze</span>
+	</div>
+	<div class="authorbox__description">
+		Meng 專注於雲端世界的耕耘者，喜歡潛水健身等休閒運動。
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/ca/ca-one-way-ssl/" rel="prev">
+			<span class="post-nav__caption">«&thinsp;Previous</span>
+			<p class="post-nav__post-title">CA 動手玩</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "meng-ze" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Meng Ze&#39;s Blog.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
