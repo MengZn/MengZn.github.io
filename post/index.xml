@@ -149,6 +149,17 @@
     </item>
     
     <item>
+      <title>Kubernetes Control Plane 這件小小事</title>
+      <link>https://blog.jjmengze.website/post/kubernetes/overview/</link>
+      <pubDate>Sat, 10 Feb 2018 13:51:44 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/kubernetes/overview/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-ooverview.jpeg&#34;/&gt; 
+&lt;/figure&gt;</description>
+    </item>
+    
+    <item>
       <title>etcd 那回事</title>
       <link>https://blog.jjmengze.website/post/kubernetes/etcd/</link>
       <pubDate>Tue, 06 Feb 2018 11:24:52 +0800</pubDate>
