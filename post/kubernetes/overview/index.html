@@ -93,6 +93,22 @@
 <figure>
     <img src="/images/post/kubernetes-arch.png"/> 
 </figure>
+
+<p>在 Master Node 主要由 API-Server 、 Controller Manager 以及 Scheduler 三大基礎元件所組合而成，其中 API-Server 元件可視為整體 Kubernetes Container 調度系統架構的管理中心，也是 Kubernetes Container 叢集調度系統中唯一能與後端儲存 etcd 元件溝通的元件，主要提供以下服務：</p>
+<ol>
+<li>API-Server 提供叢集安全且可靠的使用機制，所有的 Client 請求都需要經過 API-Server 的認證。 API-Server 支持多種認證機制如 WebSocket 、 Keystone 、 Token 等等，如果 API-Server 認證成功， Client 請求將會傳入 Kubernetes 叢集內進行處理；而對於認證失敗的請求則返回 HTTP 401 的錯誤。
+<ul>
+<li>HTTPS Certificate Authority ，基於 Certificate Authority (CA) 證書簽名的雙向數字證書認證方式。</li>
+<li>HTTP Token Authority ，透過發放 Token 的方式識別每個使用者的身份，以及透過該 Token 限制使用者能存取的範圍。</li>
+<li>HTTP Basic Authority ，當使用者向 API Server 發起 HTTP 請求時，會在資料中帶入 Username 、 UID 、 Groups 、 Extra fields 作為使用者的身份驗證的依據。</li>
+</ul>
+</li>
+<li>API-Server 同時提供 REST API 的呼叫介面如 Create 、 Read 、 Update 、 Delete 等一系列操作對 Kubernetes 的 Pod 、 Service 、 Deployment 等元件進行操作，例如使用者可以透過 REST API 向 API-Server 請求建立、刪除、更新以及讀取 Kubernetes 的資源。</li>
+<li>API-Server 元件提供專有的監控介面給 Controller Manger 元件與 Scheduler 元件，可以透過該專有介面讀取特定資料，例如 Controller Manger 透過 API-Server 提供的介面讀取 Pod 的狀態並且加以控制， Scheduler 透過介面讀取 Kubernetes Node 目前的壓力情況作為排程 Pod 的參考依據。</li>
+</ol>
+<p>大致上流程如下圖所示，當請求送進 kubernetes cluster 會通過Api server的認證，接著檢查該次請求的內容請求，最後再送進 etcd 做永久性儲存。（以後有機會再來談談Authoization跟Admission control 的細節）</p>
+<p><img src="https://www.giantswarm.io/hubfs/blog_images/images/auth-flow.png" alt=""></p>
+<p>引用<a href="https://www.giantswarm.io/blog/securing-the-configuration-of-kubernetes-cluster-components">giantswarm.io</a></p>
 		</div>
 		<footer class="post__footer">
 			
