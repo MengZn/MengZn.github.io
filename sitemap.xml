@@ -4,12 +4,47 @@
   
   <url>
     <loc>https://blog.jjmengze.website/categories/</loc>
-    <lastmod>2020-06-29T16:07:21+08:00</lastmod>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/post/ocp/cluster-monitoring-operator/</loc>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.jjmengze.website/post/</loc>
-    <lastmod>2020-06-29T16:07:21+08:00</lastmod>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/</loc>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/openshift/</loc>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/openshift/</loc>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/</loc>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/talk/</loc>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/talk/</loc>
+    <lastmod>2020-07-21T16:06:29+08:00</lastmod>
   </url>
   
   <url>
@@ -28,16 +63,6 @@
   </url>
   
   <url>
-    <loc>https://blog.jjmengze.website/</loc>
-    <lastmod>2020-06-29T16:07:21+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/tags/</loc>
-    <lastmod>2020-06-29T16:07:21+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.jjmengze.website/post/ca/ca-one-way-ssl/</loc>
     <lastmod>2020-06-04T17:22:45+08:00</lastmod>
   </url>
@@ -50,16 +75,6 @@
   <url>
     <loc>https://blog.jjmengze.website/post/kubernetes/private-image/</loc>
     <lastmod>2020-05-26T15:07:18+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/tags/openshift/</loc>
-    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/categories/openshift/</loc>
-    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
   </url>
   
   <url>
