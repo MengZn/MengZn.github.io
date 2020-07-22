@@ -6,15 +6,24 @@
     <description>Recent content in Tags on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Tue, 21 Jul 2020 16:06:29 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2020 12:06:29 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.jjmengze.website/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>go</title>
+      <link>https://blog.jjmengze.website/tags/go/</link>
+      <pubDate>Wed, 22 Jul 2020 12:06:29 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>openshift</title>
       <link>https://blog.jjmengze.website/tags/openshift/</link>
-      <pubDate>Tue, 21 Jul 2020 16:06:29 +0800</pubDate>
+      <pubDate>Wed, 22 Jul 2020 12:06:29 +0800</pubDate>
       
       <guid>https://blog.jjmengze.website/tags/openshift/</guid>
       <description></description>

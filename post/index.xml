@@ -6,10 +6,21 @@
     <description>Recent content on Meng Ze&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Tue, 21 Jul 2020 16:06:29 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2020 12:06:29 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.jjmengze.website/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>從source code看openshift怎麼做監控-(資源建立篇)</title>
+      <link>https://blog.jjmengze.website/post/ocp/cluster-monitoring-operator-trace-code/</link>
+      <pubDate>Wed, 22 Jul 2020 12:06:29 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/ocp/cluster-monitoring-operator-trace-code/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/ocp.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+    </item>
     
     <item>
       <title>Cluster Monitoring Operator</title>
