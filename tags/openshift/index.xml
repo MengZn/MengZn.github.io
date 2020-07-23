@@ -34,6 +34,17 @@
     </item>
     
     <item>
+      <title>簡單理解 Operator Lifecycle Manager - 1 (OLM)</title>
+      <link>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</link>
+      <pubDate>Tue, 07 Jul 2020 16:06:29 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/olm-1.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+    </item>
+    
+    <item>
       <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
       <link>https://blog.jjmengze.website/post/devops/gitlab-ocp/</link>
       <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
@@ -41,17 +52,6 @@
       <guid>https://blog.jjmengze.website/post/devops/gitlab-ocp/</guid>
       <description>&lt;figure&gt;
     &lt;img src=&#34;https://www.programmersought.com/images/483/aa458c2dd725442f893d667726c3a983.JPEG&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>簡單理解 Operator Lifecycle Manager - 1 (OLM)</title>
-      <link>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/olm-1.png&#34;/&gt; 
 &lt;/figure&gt;</description>
     </item>
     

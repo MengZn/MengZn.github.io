@@ -63,6 +63,11 @@
   </url>
   
   <url>
+    <loc>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</loc>
+    <lastmod>2020-07-07T16:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.jjmengze.website/tags/kubernetes/</loc>
     <lastmod>2020-06-29T16:07:21+08:00</lastmod>
   </url>
@@ -272,10 +277,6 @@
   
   <url>
     <loc>https://blog.jjmengze.website/categories/ci/cd/</loc>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</loc>
   </url>
   
 </urlset>
