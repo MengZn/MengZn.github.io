@@ -194,15 +194,15 @@
 <li>We can scrape, including a wide variety of system metrics further down in the output (prefixed with node_).</li>
 </ul>
 <hr>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#000080"># HELP node_network_transmit_queue_length transmit_queue_length value of /sys/class/net/&lt;iface&gt;.</span>
-<span style="color:#000080"># TYPE node_network_transmit_queue_length gauge</span>
-node_network_transmit_queue_length<span style="color:#39c">{</span><span style="color:#00cdcd">device</span><span style="color:#39c">=</span><span style="color:#cd0000">&#34;br0&#34;</span><span style="color:#39c">}</span> <span style="color:#cd00cd">1000</span>
-node_network_transmit_queue_length<span style="color:#39c">{</span><span style="color:#00cdcd">device</span><span style="color:#39c">=</span><span style="color:#cd0000">&#34;eth0&#34;</span><span style="color:#39c">}</span> <span style="color:#cd00cd">1000</span>
-node_network_transmit_queue_length<span style="color:#39c">{</span><span style="color:#00cdcd">device</span><span style="color:#39c">=</span><span style="color:#cd0000">&#34;lo&#34;</span><span style="color:#39c">}</span> <span style="color:#cd00cd">1000</span>
-node_network_transmit_queue_length<span style="color:#39c">{</span><span style="color:#00cdcd">device</span><span style="color:#39c">=</span><span style="color:#cd0000">&#34;ovs-system&#34;</span><span style="color:#39c">}</span> <span style="color:#cd00cd">1000</span>
-node_network_transmit_queue_length<span style="color:#39c">{</span><span style="color:#00cdcd">device</span><span style="color:#39c">=</span><span style="color:#cd0000">&#34;tun0&#34;</span><span style="color:#39c">}</span> <span style="color:#cd00cd">1000</span>
-node_network_transmit_queue_length<span style="color:#39c">{</span><span style="color:#00cdcd">device</span><span style="color:#39c">=</span><span style="color:#cd0000">&#34;veth24377b8e&#34;</span><span style="color:#39c">}</span> <span style="color:#cd00cd">0</span>
-node_network_transmit_queue_length<span style="color:#39c">{</span><span style="color:#00cdcd">device</span><span style="color:#39c">=</span><span style="color:#cd0000">&#34;veth58bd788d&#34;</span><span style="color:#39c">}</span> <span style="color:#cd00cd">0</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#080;background-color:#0f140f;font-style:italic"># HELP node_network_transmit_queue_length transmit_queue_length value of /sys/class/net/&lt;iface&gt;.</span>
+<span style="color:#080;background-color:#0f140f;font-style:italic"># TYPE node_network_transmit_queue_length gauge</span>
+node_network_transmit_queue_length{<span style="color:#fb660a">device</span>=<span style="color:#0086d2">&#34;br0&#34;</span>} <span style="color:#0086f7;font-weight:bold">1000</span>
+node_network_transmit_queue_length{<span style="color:#fb660a">device</span>=<span style="color:#0086d2">&#34;eth0&#34;</span>} <span style="color:#0086f7;font-weight:bold">1000</span>
+node_network_transmit_queue_length{<span style="color:#fb660a">device</span>=<span style="color:#0086d2">&#34;lo&#34;</span>} <span style="color:#0086f7;font-weight:bold">1000</span>
+node_network_transmit_queue_length{<span style="color:#fb660a">device</span>=<span style="color:#0086d2">&#34;ovs-system&#34;</span>} <span style="color:#0086f7;font-weight:bold">1000</span>
+node_network_transmit_queue_length{<span style="color:#fb660a">device</span>=<span style="color:#0086d2">&#34;tun0&#34;</span>} <span style="color:#0086f7;font-weight:bold">1000</span>
+node_network_transmit_queue_length{<span style="color:#fb660a">device</span>=<span style="color:#0086d2">&#34;veth24377b8e&#34;</span>} <span style="color:#0086f7;font-weight:bold">0</span>
+node_network_transmit_queue_length{<span style="color:#fb660a">device</span>=<span style="color:#0086d2">&#34;veth58bd788d&#34;</span>} <span style="color:#0086f7;font-weight:bold">0</span>
 ...
 </code></pre></div><hr>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9sZWVoYW8ub3NzLWNuLXNoZW56aGVuLmFsaXl1bmNzLmNvbS8yMDIwLTAyLTE2LTEzMjg0Ni5qcGc?x-oss-process=image/format,png" alt=""></p>
@@ -294,28 +294,28 @@ node_network_transmit_queue_length<span style="color:#39c">{</span><span style="
 <hr>
 <h2 id="method-contd-1">Method (cont’d)</h2>
 <p>move components to the node</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#cdcd00">data</span>:
-  <span style="color:#cdcd00">config.yaml</span>: <span style="color:#cd0000">|
-</span><span style="color:#cd0000">    prometheusOperator:</span>
-      <span style="color:#cdcd00">nodeSelector</span>:
-        <span style="color:#cdcd00">foo</span>: bar
-    <span style="color:#cdcd00">prometheusK8s</span>:
-      <span style="color:#cdcd00">nodeSelector</span>:
-        <span style="color:#cdcd00">foo</span>: bar
-</code></pre></div><hr>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#fb660a;font-weight:bold">data</span>:<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">config.yaml</span>:<span style="color:#888"> </span><span style="color:#0086d2">|
+</span><span style="color:#0086d2">    prometheusOperator:</span><span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">nodeSelector</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">foo</span>:<span style="color:#888"> </span>bar<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">prometheusK8s</span>:<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">nodeSelector</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">foo</span>:<span style="color:#888"> </span>bar<span style="color:#888">
+</span></code></pre></div><hr>
 <p>persistent volume claim</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#cdcd00">data</span>:
-  <span style="color:#cdcd00">config.yaml</span>: <span style="color:#cd0000">|
-</span><span style="color:#cd0000">    prometheusK8s:</span>
-      <span style="color:#cdcd00">volumeClaimTemplate</span>:
-        <span style="color:#cdcd00">metadata</span>:
-          <span style="color:#cdcd00">name</span>: localpvc
-        <span style="color:#cdcd00">spec</span>:
-          <span style="color:#cdcd00">storageClassName</span>: local-storage
-          <span style="color:#cdcd00">resources</span>:
-            <span style="color:#cdcd00">requests</span>:
-              <span style="color:#cdcd00">storage</span>: 40Gi
-</code></pre></div><hr>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#fb660a;font-weight:bold">data</span>:<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">config.yaml</span>:<span style="color:#888"> </span><span style="color:#0086d2">|
+</span><span style="color:#0086d2">    prometheusK8s:</span><span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">volumeClaimTemplate</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">metadata</span>:<span style="color:#888">
+</span><span style="color:#888">          </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>localpvc<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">spec</span>:<span style="color:#888">
+</span><span style="color:#888">          </span><span style="color:#fb660a;font-weight:bold">storageClassName</span>:<span style="color:#888"> </span>local-storage<span style="color:#888">
+</span><span style="color:#888">          </span><span style="color:#fb660a;font-weight:bold">resources</span>:<span style="color:#888">
+</span><span style="color:#888">            </span><span style="color:#fb660a;font-weight:bold">requests</span>:<span style="color:#888">
+</span><span style="color:#888">              </span><span style="color:#fb660a;font-weight:bold">storage</span>:<span style="color:#888"> </span>40Gi<span style="color:#888">
+</span></code></pre></div><hr>
 <h3 id="custom-alertmanager-configuration">custom Alertmanager configuration</h3>
 <ul>
 <li>At this stage, cluster monitoring does not provide Alertmanager settings</li>

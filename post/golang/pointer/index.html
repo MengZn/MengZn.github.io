@@ -88,49 +88,49 @@
 <div class="content post__content clearfix">
 			<p>學習golang也一段時間了，紀錄一下當時學習遇到的問題。</p>
 <h1 id="golang的指標">golang的指標</h1>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#cd00cd">package</span> main
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fb660a;font-weight:bold">package</span> main
 
-<span style="color:#cd00cd">import</span> <span style="color:#cd0000">&#34;fmt&#34;</span>
+<span style="color:#fb660a;font-weight:bold">import</span> <span style="color:#0086d2">&#34;fmt&#34;</span>
 
-<span style="color:#00cd00">func</span> main() {
-	a <span style="color:#39c">:=</span> <span style="color:#cd00cd">1</span>
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
-	b <span style="color:#39c">:=</span> a
-	fmt.Printf(<span style="color:#cd0000">&#34;b的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>b)
-	fmt.Printf(<span style="color:#cd0000">&#34;b的記憶位址代表的值%v \n&#34;</span>, b)
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">main</span>() {
+	a := <span style="color:#0086f7;font-weight:bold">1</span>
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶體位置%p \n&#34;</span>, &amp;a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
+	b := a
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;b的記憶體位置%p \n&#34;</span>, &amp;b)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;b的記憶位址代表的值%v \n&#34;</span>, b)
 }
 </code></pre></div><p>會print出</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a的記憶體位置 0xc420016070
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a的記憶體位置 0xc420016070
 a的記憶位址代表的值 1
 b的記憶體位置 0xc420016080
 b的記憶位址代表的值 1
 </code></pre></div><p>從value來看，a把值copy給b。</p>
 <p>從記憶體來看，系統會要一塊記憶體區塊（b）放置至從a拷貝過來的value。</p>
 <h2 id="讓我頭痛很久的struct的指摽">讓我頭痛很久的struct的指摽</h2>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#cd00cd">package</span> main
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fb660a;font-weight:bold">package</span> main
 
-<span style="color:#cd00cd">import</span> (
-	<span style="color:#cd0000">&#34;fmt&#34;</span>
-	<span style="color:#cd0000">&#34;strings&#34;</span>
+<span style="color:#fb660a;font-weight:bold">import</span> (
+	<span style="color:#0086d2">&#34;fmt&#34;</span>
+	<span style="color:#0086d2">&#34;strings&#34;</span>
 )
-<span style="color:#00cd00">type</span> sample <span style="color:#00cd00">struct</span> {
-	Name <span style="color:#00cd00">string</span>
+<span style="color:#fb660a;font-weight:bold">type</span> sample <span style="color:#fb660a;font-weight:bold">struct</span> {
+	Name <span style="color:#cdcaa9;font-weight:bold">string</span>
 }
-<span style="color:#00cd00">func</span> changeName(para sample){
-	fmt.Printf(<span style="color:#cd0000">&#34;傳入changeName function para的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>para)
-	para.Name=strings.ToUpper(para.Name)
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">changeName</span>(para sample){
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;傳入changeName function para的記憶體位置%p \n&#34;</span>, &amp;para)
+	para.Name=strings.<span style="color:#ff0086;font-weight:bold">ToUpper</span>(para.Name)
 }
-<span style="color:#00cd00">func</span> main() {
-	a <span style="color:#39c">:=</span> sample{Name: <span style="color:#cd0000">&#34;this is a&#34;</span>}
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
-	changeName(a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">main</span>() {
+	a := sample{Name: <span style="color:#0086d2">&#34;this is a&#34;</span>}
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶體位置%p \n&#34;</span>, &amp;a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
+	<span style="color:#ff0086;font-weight:bold">changeName</span>(a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶體位置%p \n&#34;</span>, &amp;a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
 }
 </code></pre></div><p>輸出的結果</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">a的記憶體位置0xc42000e1e0
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">a的記憶體位置0xc42000e1e0
 a的記憶位址代表的值 {this is a}
 傳入changeName function para的記憶體位置0xc42000e200
 a的記憶體位置0xc42000e1e0
@@ -148,30 +148,30 @@ a的記憶位址代表的值 {this is a}
 <blockquote>
 <p>如果我們改成這樣做就會成功修改value了</p>
 </blockquote>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#cd00cd">package</span> main
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fb660a;font-weight:bold">package</span> main
 
-<span style="color:#cd00cd">import</span> (
-	<span style="color:#cd0000">&#34;fmt&#34;</span>
-	<span style="color:#cd0000">&#34;strings&#34;</span>
+<span style="color:#fb660a;font-weight:bold">import</span> (
+	<span style="color:#0086d2">&#34;fmt&#34;</span>
+	<span style="color:#0086d2">&#34;strings&#34;</span>
 )
-<span style="color:#00cd00">type</span> sample <span style="color:#00cd00">struct</span> {
-	Name <span style="color:#00cd00">string</span>
+<span style="color:#fb660a;font-weight:bold">type</span> sample <span style="color:#fb660a;font-weight:bold">struct</span> {
+	Name <span style="color:#cdcaa9;font-weight:bold">string</span>
 }
-<span style="color:#00cd00">func</span> changeName(para sample)sample{
-	fmt.Printf(<span style="color:#cd0000">&#34;傳入changeName function para的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>para)
-	para.Name = strings.ToUpper(para.Name)
-	<span style="color:#cdcd00">return</span> para
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">changeName</span>(para sample)sample{
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;傳入changeName function para的記憶體位置%p \n&#34;</span>, &amp;para)
+	para.Name = strings.<span style="color:#ff0086;font-weight:bold">ToUpper</span>(para.Name)
+	<span style="color:#fb660a;font-weight:bold">return</span> para
 }
-<span style="color:#00cd00">func</span> main() {
-	a <span style="color:#39c">:=</span> sample{Name: <span style="color:#cd0000">&#34;this is a&#34;</span>}
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
-	a = changeName(a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">main</span>() {
+	a := sample{Name: <span style="color:#0086d2">&#34;this is a&#34;</span>}
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶體位置%p \n&#34;</span>, &amp;a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
+	a = <span style="color:#ff0086;font-weight:bold">changeName</span>(a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶體位置%p \n&#34;</span>, &amp;a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
 }
 </code></pre></div><p>這時候輸出得結果就會改變了</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">a的記憶體位置0x1040c128
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">a的記憶體位置0x1040c128
 a的記憶位址代表的值 {this is a}
 傳入changeName function para的記憶體位置0x1040c140
 a的記憶體位置0x1040c128
@@ -183,29 +183,29 @@ a的記憶位址代表的值 {THIS IS A}
 <p>changeName的方法回傳一個vale，讓a去接收該方法回傳的value。</p>
 <h3 id="另外一種方法">另外一種方法</h3>
 <p>使用pointer的方法當作傳輸的方式，就可以對同一塊記憶體區域進行操作。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#cd00cd">package</span> main
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fb660a;font-weight:bold">package</span> main
 
-<span style="color:#cd00cd">import</span> (
-	<span style="color:#cd0000">&#34;fmt&#34;</span>
-	<span style="color:#cd0000">&#34;strings&#34;</span>
+<span style="color:#fb660a;font-weight:bold">import</span> (
+	<span style="color:#0086d2">&#34;fmt&#34;</span>
+	<span style="color:#0086d2">&#34;strings&#34;</span>
 )
-<span style="color:#00cd00">type</span> sample <span style="color:#00cd00">struct</span> {
-	Name <span style="color:#00cd00">string</span>
+<span style="color:#fb660a;font-weight:bold">type</span> sample <span style="color:#fb660a;font-weight:bold">struct</span> {
+	Name <span style="color:#cdcaa9;font-weight:bold">string</span>
 }
-<span style="color:#00cd00">func</span> changeName(para <span style="color:#39c">*</span>sample){
-	fmt.Printf(<span style="color:#cd0000">&#34;傳入changeName function para的記憶體位置%p \n&#34;</span>, para)
-	para.Name = strings.ToUpper(para.Name)
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">changeName</span>(para *sample){
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;傳入changeName function para的記憶體位置%p \n&#34;</span>, para)
+	para.Name = strings.<span style="color:#ff0086;font-weight:bold">ToUpper</span>(para.Name)
 }
-<span style="color:#00cd00">func</span> main() {
-	a <span style="color:#39c">:=</span> sample{Name: <span style="color:#cd0000">&#34;this is a&#34;</span>}
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
-	changeName(<span style="color:#39c">&amp;</span>a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶體位置%p \n&#34;</span>, <span style="color:#39c">&amp;</span>a)
-	fmt.Printf(<span style="color:#cd0000">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">main</span>() {
+	a := sample{Name: <span style="color:#0086d2">&#34;this is a&#34;</span>}
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶體位置%p \n&#34;</span>, &amp;a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
+	<span style="color:#ff0086;font-weight:bold">changeName</span>(&amp;a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶體位置%p \n&#34;</span>, &amp;a)
+	fmt.<span style="color:#ff0086;font-weight:bold">Printf</span>(<span style="color:#0086d2">&#34;a的記憶位址代表的值 %v \n&#34;</span>, a)
 }
 </code></pre></div><p>這時候輸出的結果</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">a的記憶體位置0xc4200881c0
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">a的記憶體位置0xc4200881c0
 a的記憶位址代表的值 {this is a}
 傳入changeName function para的記憶體位置0xc4200881c0
 a的記憶體位置0xc4200881c0

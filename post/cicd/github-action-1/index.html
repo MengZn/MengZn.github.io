@@ -111,7 +111,7 @@ GitHub Actions makes it easy to automate all your software workflows, now with w
 <li>Notifications for workflow runs</li>
 <li>Disabling or limiting GitHub Actions for your repository or organization</li>
 </ul>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&#34;Managing a workflow run&#34;
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&#34;Managing a workflow run&#34;
 &#34;Events that trigger workflows&#34;
 &#34;Virtual environments for GitHub-hosted runners&#34;
 &#34;Managing billing for GitHub Actions&#34;
@@ -171,41 +171,41 @@ Artifacts 就是把某一個 Job 執行完的結果（可能是 binary 檔、 lo
 <p>這邊點選<code>Set Up Action</code>會跳轉到這個頁面，選擇想要建立的Workflow templates。</p>
 <p><img src="https://i.imgur.com/wQMHcOK.png" alt=""></p>
 <p>這邊可以直接點擊<code>Set up workerflow</code>，點進去後會跳轉到Workerflow 編輯頁面，頁面上可以看見預設的<code>job</code>、<code>steps</code>等資訊。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#cdcd00">name</span>: Go
-
-<span style="color:#cdcd00">on</span>:
-  <span style="color:#cdcd00">push</span>:
-    <span style="color:#cdcd00">branches</span>: [ master ]
-  <span style="color:#cdcd00">pull_request</span>:
-    <span style="color:#cdcd00">branches</span>: [ master ]
-
-<span style="color:#cdcd00">jobs</span>:
-
-  <span style="color:#cdcd00">build</span>:
-    <span style="color:#cdcd00">name</span>: Build
-    <span style="color:#cdcd00">runs-on</span>: ubuntu-latest
-    <span style="color:#cdcd00">steps</span>:
-
-    - <span style="color:#cdcd00">name</span>: Set up Go <span style="color:#cd00cd">1.13</span>
-      <span style="color:#cdcd00">uses</span>: actions/setup-go@v1
-      <span style="color:#cdcd00">with</span>:
-        <span style="color:#cdcd00">go-version</span>: <span style="color:#cd00cd">1.13</span>
-      <span style="color:#cdcd00">id</span>: go
-
-    - <span style="color:#cdcd00">name</span>: Check out code into the Go module directory
-      <span style="color:#cdcd00">uses</span>: actions/checkout@v2
-
-    - <span style="color:#cdcd00">name</span>: Get dependencies
-      <span style="color:#cdcd00">run</span>: <span style="color:#cd0000">|
-</span><span style="color:#cd0000">        go get -v -t -d ./...</span>
-        if [ -f Gopkg.toml ]; then
-            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            dep ensure
-        fi
-
-    - <span style="color:#cdcd00">name</span>: Build
-      <span style="color:#cdcd00">run</span>: go build -v .
-</code></pre></div><p>稍微幾解釋一下這個yaml所代表的意義</p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Go<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">on</span>:<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">push</span>:<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">branches</span>:<span style="color:#888"> </span>[<span style="color:#888"> </span>master<span style="color:#888"> </span>]<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">pull_request</span>:<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">branches</span>:<span style="color:#888"> </span>[<span style="color:#888"> </span>master<span style="color:#888"> </span>]<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">jobs</span>:<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">build</span>:<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Build<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">runs-on</span>:<span style="color:#888"> </span>ubuntu-latest<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">steps</span>:<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">    </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Set<span style="color:#888"> </span>up<span style="color:#888"> </span>Go<span style="color:#888"> </span><span style="color:#0086f7;font-weight:bold">1.13</span><span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">uses</span>:<span style="color:#888"> </span>actions/setup-go@v1<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">with</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">go-version</span>:<span style="color:#888"> </span><span style="color:#0086f7;font-weight:bold">1.13</span><span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">id</span>:<span style="color:#888"> </span>go<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">    </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Check<span style="color:#888"> </span>out<span style="color:#888"> </span>code<span style="color:#888"> </span>into<span style="color:#888"> </span>the<span style="color:#888"> </span>Go<span style="color:#888"> </span>module<span style="color:#888"> </span>directory<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">uses</span>:<span style="color:#888"> </span>actions/checkout@v2<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">    </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Get<span style="color:#888"> </span>dependencies<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">run</span>:<span style="color:#888"> </span><span style="color:#0086d2">|
+</span><span style="color:#0086d2">        go get -v -t -d ./...</span><span style="color:#888">
+</span><span style="color:#888">        </span>if<span style="color:#888"> </span>[<span style="color:#888"> </span>-f<span style="color:#888"> </span>Gopkg.toml<span style="color:#888"> </span>];<span style="color:#888"> </span>then<span style="color:#888">
+</span><span style="color:#888">            </span>curl<span style="color:#888"> </span>https://raw.githubusercontent.com/golang/dep/master/install.sh<span style="color:#888"> </span>|<span style="color:#888"> </span>sh<span style="color:#888">
+</span><span style="color:#888">            </span>dep<span style="color:#888"> </span>ensure<span style="color:#888">
+</span><span style="color:#888">        </span>fi<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">    </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Build<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">run</span>:<span style="color:#888"> </span>go<span style="color:#888"> </span>build<span style="color:#888"> </span>-v<span style="color:#888"> </span>.<span style="color:#888">
+</span></code></pre></div><p>稍微幾解釋一下這個yaml所代表的意義</p>
 <ul>
 <li>name
 表示這個Workflow的名字</li>
@@ -258,9 +258,9 @@ Artifacts 就是把某一個 Job 執行完的結果（可能是 binary 檔、 lo
 <p>點進去後我們發現，原來是<code>go build -v .</code>出錯拉～那我們這邊做簡單的修改再重新提交一次。
 <img src="https://i.imgur.com/TFVztZv.png" alt=""></p>
 <p>將 <code>Build</code> 那一段 <code>run</code> 改成正確的語法，再重新commit。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">      - <span style="color:#cdcd00">name</span>: Build
-        <span style="color:#cdcd00">run</span>:  go build cmd/main.go
-</code></pre></div><p>再次檢查Github Action 的Workflow是不是都亮綠燈通過拉～
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#888">      </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Build<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">run</span>:<span style="color:#888">  </span>go<span style="color:#888"> </span>build<span style="color:#888"> </span>cmd/main.go<span style="color:#888">
+</span></code></pre></div><p>再次檢查Github Action 的Workflow是不是都亮綠燈通過拉～
 <img src="https://i.imgur.com/UpQjlkT.png" alt=""></p>
 <h2 id="結束語">結束語</h2>
 <p>今天非常簡單的介紹了Github Action的功能，以及怎麼快速的上手使用這個新功能，下次有機會再來介紹他跟docker怎麼整合以及怎麼撰寫自己的action貢獻給Github Action Marketplace 讓大家來使用。</p>

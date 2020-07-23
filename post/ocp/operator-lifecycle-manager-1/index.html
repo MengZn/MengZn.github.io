@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>簡單理解 Operator Lifecycle Manager - 1 (OLM) - Meng Ze&#39;s Blog</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="簡單理解 Operator Lifecycle Manager - 1 (OLM)" />
+<meta property="og:description" content="
+     
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/" />
+
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Meng Ze&#39;s Blog" rel="home">
+				<div class="logo__title">Meng Ze&#39;s Blog</div>
+				<div class="logo__tagline">Record my learning process</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">簡單理解 Operator Lifecycle Manager - 1 (OLM)</h1>
+			<div class="post__meta meta"><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/openshift/" rel="category">openshift</a>
+	</span>
+</div></div>
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#olm-crd">OLM CRD</a></li>
+    <li><a href="#crd---catalogsources">CRD - CatalogSources</a></li>
+    <li><a href="#crd---packagemanifests">CRD - Packagemanifests</a>
+      <ul>
+        <li><a href="#community-operators">Community Operators</a></li>
+        <li><a href="#community-operators-1">Community Operators</a></li>
+        <li><a href="#red-hat-marketplace">Red Hat Marketplace</a></li>
+        <li><a href="#red-hat-operators">Red Hat Operators</a></li>
+      </ul>
+    </li>
+    <li><a href="#結語">結語</a></li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<figure>
+    <img src="/images/theme/olm-1.png"/> 
+</figure>
+
+<h1 id="簡單理解-operator-lifecycle-manager---1-olm">簡單理解 Operator Lifecycle Manager - 1 (OLM)</h1>
+<p>OpenShift Container Platform 4，使用了大量的 <code>Operator</code> 管理 Kubernetes Resource ，或許這跟 redhat 的推行Kubernetes政策有關吧 xD。</p>
+<p>但是這邊會延伸出蛋生雞雞生蛋的問題，那 <code>Operator</code> 要怎麼被管理呢？</p>
+<p>redhat 給出了一個解答那就是 <code>Operator Lifecycle Manager</code> 又稱 <code>OLM</code>，使用者透過 <code>Declarative</code> 的方式告訴 <code>OLM</code> ，要建立什麼樣子的 <code>Operator</code> 。</p>
+<p>:::info
+本篇文章的重點在於 OLM，是用來管理 Operator。
+朝著這方面去思考一且都會變得比較簡單！
+:::</p>
+<p>我們先來看看 <code>OLM</code> 定義了哪些物件給我們使用</p>
+<h2 id="olm-crd">OLM CRD</h2>
+<p><code>Operator Lifecycle Manager</code> 定義了六個自定義的資源(Custom Resource Definitions,CRD)分別是</p>
+<ul>
+<li>CatalogSource</li>
+<li>Subscription</li>
+<li>ClusterServiceVersion (CSV)</li>
+<li>PackageManifest</li>
+<li>InstallPlan</li>
+<li>OperatorGroup</li>
+</ul>
+<p>如果手邊有 OpenShift 或是 OKD 環境的朋友可以試試看以下這個指令，可以看到環境中有這六個 CRD 存在。</p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">oc get crd | grep -E <span style="color:#0086d2">&#39;catalogsource|subscription|clusterserviceversion|packagemanifest|installplan|operatorgroup&#39;</span>
+catalogsourceconfigs.operators.coreos.com                   2020-06-20T06:57:36Z
+catalogsources.operators.coreos.com                         2020-06-20T06:58:04Z
+clusterserviceversions.operators.coreos.com                 2020-06-20T06:57:48Z
+installplans.operators.coreos.com                           2020-06-20T06:57:53Z
+operatorgroups.operators.coreos.com                         2020-06-20T06:58:12Z
+subscriptions.operators.coreos.com                          2020-06-20T06:57:57Z
+</code></pre></div><p>建立了 CRD 需要有相對應的 Controller 來觀察資源的變化，這六個 <code>OLM</code> CRD 被三個 Controller 所管理分別是 <code>catalog-operator</code> , <code>olm-operator</code> 以及<code>packageserver</code>，可以透過下面這個指令觀察到是否存在你的環境中。</p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">oc -n openshift-operator-lifecycle-manager get deploy
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+catalog-operator   1/1     <span style="color:#0086f7;font-weight:bold">1</span>            <span style="color:#0086f7;font-weight:bold">1</span>           32d
+olm-operator       1/1     <span style="color:#0086f7;font-weight:bold">1</span>            <span style="color:#0086f7;font-weight:bold">1</span>           32d
+packageserver      2/2     <span style="color:#0086f7;font-weight:bold">2</span>            <span style="color:#0086f7;font-weight:bold">2</span>           32d
+</code></pre></div><h2 id="crd---catalogsources">CRD - CatalogSources</h2>
+<p>簡單的來說 <code>CatalogSources</code> 就是 Operator 的 Repo Source，收集了四種類型的 <code>Operator</code>。</p>
+<p>分別是</p>
+<ul>
+<li>Certified Operators
+在這個 repo 內的 Operator 都有經過 Redhat 的認證，相關的說明可以從<a href="https://connect.redhat.com/partner-with-us/red-hat-openshift-operator-certification">Red Hat OpenShift Operator Certification</a>搜尋到。</li>
+<li>Community Operators
+在這個 repo 內的都是社群提供的，各式各樣的 Operator 可以從 <a href="https://github.com/operator-framework/community-operators">Github</a>找到。</li>
+<li>Redhat-marketplace
+由 Refhat 與 IBM 共同合作組織給 Enterprise 用的 Repo，相關資料可以查詢 <a href="https://marketplace.redhat.com/">marketplace</a>。</li>
+<li>Redhat-operators
+這些 Operator 由 Red Hat 發行</li>
+</ul>
+<p>我們可以透過指令去看環境上有沒有這幾項 <code>catalogsources</code> 。</p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">NAME                  DISPLAY               TYPE   PUBLISHER   AGE
+certified-operators   Certified Operators   grpc   Red Hat     32d
+community-operators   Community Operators   grpc   Red Hat     32d
+redhat-marketplace    Red Hat Marketplace   grpc   Red Hat     32d
+redhat-operators      Red Hat Operators     grpc   Red Hat     32d
+</code></pre></div><p>有了這些 Repo 後那怎麼查看 Repo 上的 Operator 那就要用到另外一個 CRD <code>packagemanifests</code> 。</p>
+<h2 id="crd---packagemanifests">CRD - Packagemanifests</h2>
+<p>簡單的來說 <code>packagemanifests</code> 就記載了 Operator 部署的相關訊息</p>
+<p>我們可以透過指令觀察上面提到的 <code>catalogsources</code> 裡面有多少個 <code>operator</code> 。</p>
+<h3 id="community-operators">Community Operators</h3>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">oc get packagemanifests -l <span style="color:#fb660a">catalog</span>=certified-operators
+NAME                                         CATALOG               AGE
+cyberarmor-operator-certified                Certified Operators   32d
+kong-offline-operator                        Certified Operators   32d
+ibm-spectrum-symphony-operator               Certified Operators   32d
+portshift-operator                           Certified Operators   32d
+storageos-1tb                                Certified Operators   32d
+joget-openshift-operator                     Certified Operators   32d
+aqua-operator-certified                      Certified Operators   32d
+node-red-operator-certified                  Certified Operators   32d
+...
+</code></pre></div><h3 id="community-operators-1">Community Operators</h3>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">oc get packagemanifests -l catalog=community-operators
+NAME                                    CATALOG               AGE
+kiali                                   Community Operators   32d
+strimzi-kafka-operator                  Community Operators   32d
+planetscale                             Community Operators   32d
+nsm-operator-registry                   Community Operators   32d
+apicurito                               Community Operators   32d
+hazelcast-jet-operator                  Community Operators   32d
+...
+</code></pre></div><h3 id="red-hat-marketplace">Red Hat Marketplace</h3>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">oc get packagemanifests -l <span style="color:#fb660a">catalog</span>=redhat-marketplace
+NAME                                      CATALOG               AGE
+nxrm-operator-certified-rhmp              Red Hat Marketplace   32d
+enterprise-operator-rhmp                  Red Hat Marketplace   32d
+storageos-rhmp                            Red Hat Marketplace   32d
+cortex-fabric-operator-rhmp               Red Hat Marketplace   32d
+portshift-operator-rhmp                   Red Hat Marketplace   32d
+here-service-operator-certified-rhmp      Red Hat Marketplace   32d
+</code></pre></div><h3 id="red-hat-operators">Red Hat Operators</h3>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">oc get packagemanifests -l <span style="color:#fb660a">catalog</span>=redhat-operators
+NAME                                CATALOG             AGE
+rhsso-operator                      Red Hat Operators   32d
+amq-broker-rhel8                    Red Hat Operators   32d
+advanced-cluster-management         Red Hat Operators   32d
+jaeger-product                      Red Hat Operators   32d
+fuse-online                         Red Hat Operators   32d
+eap                                 Red Hat Operators   32d
+kubevirt-hyperconverged             Red Hat Operators   32d
+</code></pre></div><p>這邊拿一個 <code>community-operators</code> 的 <code>prometheus-exporter-operator</code> yaml 簡單的看一下裡面的內容。</p>
+<p>大致上描述了以下幾點</p>
+<ul>
+<li>catalog</li>
+<li>channels
+主要描述了要管理的Operator的相關訊息，詳細內容會在下一篇做介紹</li>
+</ul>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">oc<span style="color:#888"> </span>get<span style="color:#888"> </span>packagemanifests<span style="color:#888">  </span>prometheus-exporter-operator<span style="color:#888"> </span>-o<span style="color:#888"> </span>yaml<span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">apiVersion</span>:<span style="color:#888"> </span>packages.operators.coreos.com/v1<span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">kind</span>:<span style="color:#888"> </span>PackageManifest<span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">metadata</span>:<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">creationTimestamp</span>:<span style="color:#888"> </span><span style="color:#0086d2">&#34;2020-06-20T07:23:23Z&#34;</span><span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">labels</span>:<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">catalog</span>:<span style="color:#888"> </span>community-operators<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">catalog-namespace</span>:<span style="color:#888"> </span>openshift-marketplace<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">olm-visibility</span>:<span style="color:#888"> </span>hidden<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">openshift-marketplace</span>:<span style="color:#888"> </span><span style="color:#0086d2">&#34;true&#34;</span><span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">operatorframework.io/arch.amd64</span>:<span style="color:#888"> </span>supported<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">operatorframework.io/os.linux</span>:<span style="color:#888"> </span>supported<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">opsrc-datastore</span>:<span style="color:#888"> </span><span style="color:#0086d2">&#34;true&#34;</span><span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">opsrc-owner-name</span>:<span style="color:#888"> </span>community-operators<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">opsrc-owner-namespace</span>:<span style="color:#888"> </span>openshift-marketplace<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">opsrc-provider</span>:<span style="color:#888"> </span>community<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">provider</span>:<span style="color:#888"> </span>Red<span style="color:#888"> </span>Hat<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">provider-url</span>:<span style="color:#888"> </span><span style="color:#0086d2">&#34;&#34;</span><span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>prometheus-exporter-operator<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">namespace</span>:<span style="color:#888"> </span>default<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">selfLink</span>:<span style="color:#888"> </span>/apis/packages.operators.coreos.com/v1/namespaces/default/packagemanifests/prometheus-exporter-operator<span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">spec</span>:<span style="color:#888"> </span>{}<span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">status</span>:<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">catalogSource</span>:<span style="color:#888"> </span>community-operators<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">catalogSourceDisplayName</span>:<span style="color:#888"> </span>Community<span style="color:#888"> </span>Operators<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">catalogSourceNamespace</span>:<span style="color:#888"> </span>openshift-marketplace<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">catalogSourcePublisher</span>:<span style="color:#888"> </span>Red<span style="color:#888"> </span>Hat<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">channels</span>:<span style="color:#888">
+</span><span style="color:#888">  </span>- <span style="color:#fb660a;font-weight:bold">currentCSV</span>:<span style="color:#888"> </span>prometheus-exporter-operator.v0<span style="color:#0086f7;font-weight:bold">.2.0</span><span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">currentCSVDesc</span>:<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">annotations</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">alm-examples</span>:<span style="color:#888"> </span>|<span style="color:#0086d2">-
+</span><span style="color:#0086d2">          [</span><span style="color:#888">
+</span><span style="color:#888">            </span>{<span style="color:#888">
+</span><span style="color:#888">              </span><span style="color:#fb660a;font-weight:bold">&#34;apiVersion&#34;: </span><span style="color:#0086d2">&#34;monitoring.3scale.net/v1alpha1&#34;</span>,<span style="color:#888">
+</span><span style="color:#888">              </span><span style="color:#fb660a;font-weight:bold">&#34;kind&#34;: </span><span style="color:#0086d2">&#34;PrometheusExporter&#34;</span>,<span style="color:#888">
+</span><span style="color:#888">              </span><span style="color:#fb660a;font-weight:bold">&#34;metadata&#34;: </span>{<span style="color:#888">
+</span><span style="color:#888">                </span><span style="color:#fb660a;font-weight:bold">&#34;name&#34;: </span><span style="color:#0086d2">&#34;example-memcached&#34;</span><span style="color:#888">
+</span><span style="color:#888">              </span>},<span style="color:#888">
+</span><span style="color:#888">              </span><span style="color:#fb660a;font-weight:bold">&#34;spec&#34;: </span>{<span style="color:#888">
+</span><span style="color:#888">                </span><span style="color:#fb660a;font-weight:bold">&#34;dbHost&#34;: </span><span style="color:#0086d2">&#34;your-memcached-host&#34;</span>,<span style="color:#888">
+</span><span style="color:#888">                </span><span style="color:#fb660a;font-weight:bold">&#34;dbPort&#34;: </span><span style="color:#0086f7;font-weight:bold">11211</span>,<span style="color:#888">
+</span><span style="color:#888">                </span><span style="color:#fb660a;font-weight:bold">&#34;grafanaDashboard&#34;: </span>{<span style="color:#888">
+</span><span style="color:#888">                  </span><span style="color:#fb660a;font-weight:bold">&#34;label&#34;: </span>{<span style="color:#888">
+</span><span style="color:#888">                    </span><span style="color:#fb660a;font-weight:bold">&#34;key&#34;: </span><span style="color:#0086d2">&#34;autodiscovery&#34;</span>,<span style="color:#888">
+</span><span style="color:#888">                    </span><span style="color:#fb660a;font-weight:bold">&#34;value&#34;: </span><span style="color:#0086d2">&#34;enabled&#34;</span><span style="color:#888">
+</span><span style="color:#888">                  </span>}<span style="color:#888">
+</span><span style="color:#888">                </span>},<span style="color:#888">
+</span><span style="color:#888">                </span><span style="color:#fb660a;font-weight:bold">&#34;type&#34;: </span><span style="color:#0086d2">&#34;memcached&#34;</span><span style="color:#888">
+</span><span style="color:#888">              </span>}<span style="color:#888">
+</span><span style="color:#888">            </span>}<span style="color:#888">
+</span><span style="color:#888">          </span>]<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">capabilities</span>:<span style="color:#888"> </span>Deep<span style="color:#888"> </span>Insights<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">categories</span>:<span style="color:#888"> </span>Monitoring<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">certified</span>:<span style="color:#888"> </span><span style="color:#0086d2">&#34;false&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">containerImage</span>:<span style="color:#888"> </span>quay.io/3scale/prometheus-exporter-operator:v0<span style="color:#0086f7;font-weight:bold">.2.0</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">createdAt</span>:<span style="color:#888"> </span><span style="color:#0086d2">&#34;2020-06-08 00:00:00&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">description</span>:<span style="color:#888"> </span>Operator<span style="color:#888"> </span>to<span style="color:#888"> </span>setup<span style="color:#888"> </span>3rd<span style="color:#888"> </span>party<span style="color:#888"> </span>prometheus<span style="color:#888"> </span>exporters,<span style="color:#888"> </span>with<span style="color:#888"> </span>a<span style="color:#888"> </span>collection<span style="color:#888">
+</span><span style="color:#888">          </span>of<span style="color:#888"> </span>grafana<span style="color:#888"> </span>dashboards<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">repository</span>:<span style="color:#888"> </span>https://github.com/3scale/prometheus-exporter-operator<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">support</span>:<span style="color:#888"> </span>Red<span style="color:#888"> </span>Hat,<span style="color:#888"> </span>Inc.<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">apiservicedefinitions</span>:<span style="color:#888"> </span>{}<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">customresourcedefinitions</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">owned</span>:<span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#fb660a;font-weight:bold">description</span>:<span style="color:#888"> </span>Configures<span style="color:#888"> </span>a<span style="color:#888"> </span>prometheus<span style="color:#888"> </span>exporter<span style="color:#888"> </span>to<span style="color:#888"> </span>monitor<span style="color:#888"> </span>a<span style="color:#888"> </span>memcached<span style="color:#888"> </span>instance<span style="color:#888">
+</span><span style="color:#888">          </span><span style="color:#fb660a;font-weight:bold">displayName</span>:<span style="color:#888"> </span>PrometheusExporter<span style="color:#888">
+</span><span style="color:#888">          </span><span style="color:#fb660a;font-weight:bold">kind</span>:<span style="color:#888"> </span>PrometheusExporter<span style="color:#888">
+</span><span style="color:#888">          </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>prometheusexporters.monitoring.3scale.net<span style="color:#888">
+</span><span style="color:#888">          </span><span style="color:#fb660a;font-weight:bold">version</span>:<span style="color:#888"> </span>v1alpha1<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">description</span>:<span style="color:#888"> </span><span style="color:#0086d2">|
+</span><span style="color:#0086d2">        A Kubernetes Operator based on the Operator SDK to centralize the setup of 3rd party prometheus exporters on **Kubernetes/OpenShift**, with a collection of grafana dashboards.</span><span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">        </span>You<span style="color:#888"> </span>can<span style="color:#888"> </span>setup<span style="color:#888"> </span>different<span style="color:#888"> </span>prometheus<span style="color:#888"> </span>exporters<span style="color:#888"> </span>to<span style="color:#888"> </span>monitor<span style="color:#888"> </span>the<span style="color:#888"> </span>internals<span style="color:#888"> </span>from<span style="color:#888"> </span>different<span style="color:#888"> </span>databases,<span style="color:#888"> </span>or<span style="color:#888"> </span>even<span style="color:#888"> </span>any<span style="color:#888"> </span>available<span style="color:#888"> </span>cloudwatch<span style="color:#888"> </span>metric<span style="color:#888"> </span>from<span style="color:#888"> </span>any<span style="color:#888"> </span>AWS<span style="color:#888"> </span>Service,<span style="color:#888"> </span>by<span style="color:#888"> </span>just<span style="color:#888"> </span>providing<span style="color:#888"> </span>a<span style="color:#888"> </span>few<span style="color:#888"> </span>parameters<span style="color:#888"> </span>like<span style="color:#888"> </span><span style="color:#ff0007;background-color:#0f140f;font-weight:bold;font-style:italic">**dbHost**</span><span style="color:#888"> </span>or<span style="color:#888"> </span><span style="color:#ff0007;background-color:#0f140f;font-weight:bold;font-style:italic">**dbPort**</span><span style="color:#888"> </span>(operator<span style="color:#888"> </span>manages<span style="color:#888"> </span>the<span style="color:#888"> </span>container<span style="color:#888"> </span>image,<span style="color:#888"> </span>port,<span style="color:#888"> </span>argument,<span style="color:#888"> </span>command,<span style="color:#888"> </span>volumes...<span style="color:#888"> </span>and<span style="color:#888"> </span>also<span style="color:#888"> </span>prometheus<span style="color:#888"> </span><span style="color:#ff0007;background-color:#0f140f;font-weight:bold;font-style:italic">**ServiceMonitor**</span><span style="color:#888"> </span>and<span style="color:#888"> </span><span style="color:#ff0007;background-color:#0f140f;font-weight:bold;font-style:italic">**GrafanaDashboard**</span><span style="color:#888"> </span>k8s<span style="color:#888"> </span>objects).<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">Current prometheus exporters types supported, managed by same prometheus-exporter-operator</span>:<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>memcached<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>redis<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>mysql<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>postgresql<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>sphinx<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>es<span style="color:#888"> </span>(elasticsearch)<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>cloudwatch<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">The operator manages the lifecycle of the following objects</span>:<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>Deployment<span style="color:#888"> </span>(one<span style="color:#888"> </span>per<span style="color:#888"> </span>CR)<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>Service<span style="color:#888"> </span>(one<span style="color:#888"> </span>per<span style="color:#888"> </span>CR)<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>ServiceMonitor<span style="color:#888"> </span>(optional,<span style="color:#888"> </span>one<span style="color:#888"> </span>per<span style="color:#888"> </span>CR)<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>GrafanaDashboard<span style="color:#888"> </span>(optional,<span style="color:#888"> </span>one<span style="color:#888"> </span>per<span style="color:#888"> </span>Namespace)<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#080;background-color:#0f140f;font-style:italic">### Documentation</span><span style="color:#888">
+</span><span style="color:#888">        </span>Documentation<span style="color:#888"> </span>can<span style="color:#888"> </span>be<span style="color:#888"> </span>found<span style="color:#888"> </span>on<span style="color:#888"> </span>our<span style="color:#888"> </span>[website](https://github.com/3scale/prometheus-exporter-operator<span style="color:#080;background-color:#0f140f;font-style:italic">#documentation).</span><span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#080;background-color:#0f140f;font-style:italic">### Getting help</span><span style="color:#888">
+</span><span style="color:#888">        </span>If<span style="color:#888"> </span>you<span style="color:#888"> </span>encounter<span style="color:#888"> </span>any<span style="color:#888"> </span>issues<span style="color:#888"> </span>while<span style="color:#888"> </span>using<span style="color:#888"> </span>operator,<span style="color:#888"> </span>you<span style="color:#888"> </span>can<span style="color:#888"> </span>create<span style="color:#888"> </span>an<span style="color:#888"> </span>issue<span style="color:#888"> </span>on<span style="color:#888"> </span>our<span style="color:#888"> </span>[website](https://github.com/3scale/prometheus-exporter-operator)<span style="color:#888"> </span>for<span style="color:#888"> </span>bugs,<span style="color:#888"> </span>enhancements,<span style="color:#888"> </span>or<span style="color:#888"> </span>other<span style="color:#888"> </span>requests.<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#080;background-color:#0f140f;font-style:italic">### Contributing</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">You can contribute by</span>:<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>Raising<span style="color:#888"> </span>any<span style="color:#888"> </span>issues<span style="color:#888"> </span>you<span style="color:#888"> </span>find<span style="color:#888"> </span>using<span style="color:#888"> </span>Prometheus<span style="color:#888"> </span>Exporter<span style="color:#888"> </span>Operator<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>Fixing<span style="color:#888"> </span>issues<span style="color:#888"> </span>by<span style="color:#888"> </span>opening<span style="color:#888"> </span>[Pull<span style="color:#888"> </span>Requests](https://github.com/3scale/prometheus-exporter-operator/pulls)<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>Submitting<span style="color:#888"> </span>a<span style="color:#888"> </span>patch<span style="color:#888"> </span>or<span style="color:#888"> </span>opening<span style="color:#888"> </span>a<span style="color:#888"> </span>PR<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>Improving<span style="color:#888"> </span>[documentation](https://github.com/3scale/prometheus-exporter-operator)<span style="color:#888">
+</span><span style="color:#888">        </span>*<span style="color:#888"> </span>Talking<span style="color:#888"> </span>about<span style="color:#888"> </span>Prometheus<span style="color:#888"> </span>Exporter<span style="color:#888"> </span>Operator<span style="color:#888">
+</span><span style="color:#888">        </span>All<span style="color:#888"> </span>bugs,<span style="color:#888"> </span>tasks<span style="color:#888"> </span>or<span style="color:#888"> </span>enhancements<span style="color:#888"> </span>are<span style="color:#888"> </span>tracked<span style="color:#888"> </span>as<span style="color:#888"> </span>[GitHub<span style="color:#888"> </span>issues](https://github.com/3scale/prometheus-exporter-operator/issues).<span style="color:#888">
+</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#080;background-color:#0f140f;font-style:italic">### License</span><span style="color:#888">
+</span><span style="color:#888">        </span>Prometheus<span style="color:#888"> </span>Exporter<span style="color:#888"> </span>Operator<span style="color:#888"> </span>is<span style="color:#888"> </span>licensed<span style="color:#888"> </span>under<span style="color:#888"> </span>the<span style="color:#888"> </span>[Apache<span style="color:#888"> </span><span style="color:#0086f7;font-weight:bold">2.0</span><span style="color:#888"> </span>license](https://github.com/3scale/prometheus-exporter-operator/blob/master/LICENSE)<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">displayName</span>:<span style="color:#888"> </span>Prometheus<span style="color:#888"> </span>Exporter<span style="color:#888"> </span>Operator<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">installModes</span>:<span style="color:#888">
+</span><span style="color:#888">      </span>- <span style="color:#fb660a;font-weight:bold">supported</span>:<span style="color:#888"> </span><span style="color:#fb660a;font-weight:bold">true</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">type</span>:<span style="color:#888"> </span>OwnNamespace<span style="color:#888">
+</span><span style="color:#888">      </span>- <span style="color:#fb660a;font-weight:bold">supported</span>:<span style="color:#888"> </span><span style="color:#fb660a;font-weight:bold">true</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">type</span>:<span style="color:#888"> </span>SingleNamespace<span style="color:#888">
+</span><span style="color:#888">      </span>- <span style="color:#fb660a;font-weight:bold">supported</span>:<span style="color:#888"> </span><span style="color:#fb660a;font-weight:bold">false</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">type</span>:<span style="color:#888"> </span>MultiNamespace<span style="color:#888">
+</span><span style="color:#888">      </span>- <span style="color:#fb660a;font-weight:bold">supported</span>:<span style="color:#888"> </span><span style="color:#fb660a;font-weight:bold">true</span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">type</span>:<span style="color:#888"> </span>AllNamespaces<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">provider</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Red<span style="color:#888"> </span>Hat<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">version</span>:<span style="color:#888"> </span><span style="color:#0086f7;font-weight:bold">0.2.0</span><span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>alpha<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">defaultChannel</span>:<span style="color:#888"> </span>alpha<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">packageName</span>:<span style="color:#888"> </span>prometheus-exporter-operator<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">provider</span>:<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Red<span style="color:#888"> </span>Hat<span style="color:#888">
+</span></code></pre></div><h2 id="結語">結語</h2>
+<p>大致上能夠了解 <code>OLM</code> 是用來管理 Operator 的生命週期，加上透過六個自定義的資源( Custom Resource Definitions , CRD )以及三個 <code>Controller</code>去管理整個 <code>Operator</code> 的生態。</p>
+<p>使用者可以透過 <code>CatalogSources</code> 所提供的 Repo 下載各式各樣的  <code>PackageManifest</code> (Operator)。</p>
+<p>下一篇會針對 <code>OLM</code> 剩下的 <code>CRD</code> 進行間單的介紹，以及從 <code>CatalogSources</code> 下載一個 <code>PackageManifest</code> (Operator) 並且部署到環境中。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/openshift/" rel="tag">openshift</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Meng Ze avatar" src="/img/apple.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Meng Ze</span>
+	</div>
+	<div class="authorbox__description">
+		Meng 專注於雲端世界的耕耘者，喜歡潛水健身等休閒運動。
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/post/kubernetes/container/" rel="next">
+			<span class="post-nav__caption">Next&thinsp;»</span>
+			<p class="post-nav__post-title">來看看Container</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "meng-ze" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Meng Ze&#39;s Blog.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

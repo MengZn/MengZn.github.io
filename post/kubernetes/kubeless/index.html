@@ -158,63 +158,63 @@
 <p>這邊利用的是kubeadm進行kubernetes的安裝『版本是Kubernetes1.10』，可以參考<a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/">官方網站</a>的部屬方式。</p>
 <h3 id="安裝套件">安裝套件</h3>
 <p>安裝 Kubernetes latest version  and other dependencies:
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$curl</span> -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-<span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list
-</span><span style="color:#cd0000">deb http://apt.kubernetes.io/ kubernetes-xenial main
-</span><span style="color:#cd0000">EOF</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$curl</span> -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+<span style="color:#fb660a">$cat</span> <span style="color:#0086d2">&lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list
+</span><span style="color:#0086d2">deb http://apt.kubernetes.io/ kubernetes-xenial main
+</span><span style="color:#0086d2">EOF</span>
 
-<span style="color:#00cdcd">$sudo</span> apt-get update
-<span style="color:#00cdcd">$sudo</span> apt-get install -y docker.io kubelet kubeadm kubectl</code></pre></div></p>
+<span style="color:#fb660a">$sudo</span> apt-get update
+<span style="color:#fb660a">$sudo</span> apt-get install -y docker.io kubelet kubeadm kubectl</code></pre></div></p>
 <h3 id="關閉swap">關閉Swap</h3>
 <p>Kubernetes v1.8+ 要求關閉系統 Swap，如果不想關閉系統的Swap需要修改 kubelet 設定參數，我們利用以下指令關閉系統Swap：
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$swapoff</span> -a <span style="color:#39c">&amp;&amp;</span> sysctl -w vm.swappiness<span style="color:#39c">=</span><span style="color:#cd00cd">0</span></code></pre></div></p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$swapoff</span> -a &amp;&amp; sysctl -w vm.swappiness=<span style="color:#0086f7;font-weight:bold">0</span></code></pre></div></p>
 <h3 id="重啟docker">重啟Docker</h3>
 <p>透過以下指令啟動Docker Daemon。
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$systemctl</span> <span style="color:#cd00cd">enable</span> docker <span style="color:#39c">&amp;&amp;</span> systemctl start docker</code></pre></div></p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$systemctl</span> enable docker &amp;&amp; systemctl start docker</code></pre></div></p>
 <h3 id="ipv4-forward設定">IPv4 forward設定</h3>
 <p>將橋接的IPv4流量傳遞給iptables
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf
-</span><span style="color:#cd0000">net.ipv4.ip_forward = 1
-</span><span style="color:#cd0000">net.bridge.bridge-nf-call-ip6tables = 1
-</span><span style="color:#cd0000">net.bridge.bridge-nf-call-iptables = 1
-</span><span style="color:#cd0000">EOF</span>
-<span style="color:#00cdcd">$sysctl</span> -p /etc/sysctl.d/k8s.conf</code></pre></div></p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$cat</span> <span style="color:#0086d2">&lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf
+</span><span style="color:#0086d2">net.ipv4.ip_forward = 1
+</span><span style="color:#0086d2">net.bridge.bridge-nf-call-ip6tables = 1
+</span><span style="color:#0086d2">net.bridge.bridge-nf-call-iptables = 1
+</span><span style="color:#0086d2">EOF</span>
+<span style="color:#fb660a">$sysctl</span> -p /etc/sysctl.d/k8s.conf</code></pre></div></p>
 <h3 id="cluster-初始化">Cluster 初始化</h3>
 <p>在master節點上使用kubeadm進行kubernetes叢集的初始化</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#00cdcd">$sudo</span> kubeadm init --pod-network-cidr<span style="color:#39c">=</span>192.168.0.0/16
-</code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$sudo</span> kubeadm init --pod-network-cidr<span style="color:#39c">=</span>192.168.0.0/16</code></pre></div>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#fb660a">$sudo</span> kubeadm init --pod-network-cidr=192.168.0.0/16
+</code></pre></div><div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$sudo</span> kubeadm init --pod-network-cidr=192.168.0.0/16</code></pre></div>
 <p>會得到下列輸出，我們利用下列輸出的資訊將其他節點加入叢集。
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">...
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">...
 You can now join any number of machines by running the following on each node
 as root:
 
 kubeadm join 172.24.0.2:6443 --token i67sjb.0nvjxbldwuh342of --discovery-token-ca-cert-hash sha256:aa23e1e7a4d55d06fbdf34fa2a1c703dd7e7cfff735b0b0fe800b4335aff68b5</code></pre></div></p>
 <p>在其他節點上我們可以利用以下指令加入叢集。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubeadm</span> join 172.24.0.2:6443 --token i67sjb.0nvjxbldwuh342of --discovery-token-ca-cert-hash sha256:aa23e1e7a4d55d06fbdf34fa2a1c703dd7e7cfff735b0b0fe800b4335aff68b5</code></pre></div>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubeadm</span> join 172.24.0.2:6443 --token i67sjb.0nvjxbldwuh342of --discovery-token-ca-cert-hash sha256:aa23e1e7a4d55d06fbdf34fa2a1c703dd7e7cfff735b0b0fe800b4335aff68b5</code></pre></div>
 <p>在master節點設定kube config。
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$mkdir</span> -p <span style="color:#00cdcd">$HOME</span>/.kube
-<span style="color:#00cdcd">$sudo</span> -H cp /etc/kubernetes/admin.conf <span style="color:#00cdcd">$HOME</span>/.kube/config
-<span style="color:#00cdcd">$sudo</span> -H chown <span style="color:#cdcd00">$(</span>id -u<span style="color:#cdcd00">)</span>:<span style="color:#cdcd00">$(</span>id -g<span style="color:#cdcd00">)</span> <span style="color:#00cdcd">$HOME</span>/.kube/config</code></pre></div></p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$mkdir</span> -p <span style="color:#fb660a">$HOME</span>/.kube
+<span style="color:#fb660a">$sudo</span> -H cp /etc/kubernetes/admin.conf <span style="color:#fb660a">$HOME</span>/.kube/config
+<span style="color:#fb660a">$sudo</span> -H chown <span style="color:#fb660a;font-weight:bold">$(</span>id -u<span style="color:#fb660a;font-weight:bold">)</span>:<span style="color:#fb660a;font-weight:bold">$(</span>id -g<span style="color:#fb660a;font-weight:bold">)</span> <span style="color:#fb660a">$HOME</span>/.kube/config</code></pre></div></p>
 <h3 id="安裝calico-cni">安裝Calico CNI</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
-<span style="color:#00cdcd">$kubectl</span> apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml</code></pre></div>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubectl</span> apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
+<span style="color:#fb660a">$kubectl</span> apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml</code></pre></div>
 <h3 id="檢查環境">檢查環境</h3>
 <p>在master上操作kubectl指令即可看到所有node呈現ready的狀態
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> get pod -n kube-system
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubectl</span> get pod -n kube-system
 NAME                             READY     STATUS    RESTARTS   AGE
-calico-node-cgtxh                2/2       Running   <span style="color:#cd00cd">0</span>          1m
-calico-node-qjrbm                2/2       Running   <span style="color:#cd00cd">0</span>          1m
-calico-node-v59b2                2/2       Running   <span style="color:#cd00cd">0</span>          2m
-coredns-78fcdf6894-dz9fs         1/1       Running   <span style="color:#cd00cd">0</span>          4m
-coredns-78fcdf6894-mn6k8         1/1       Running   <span style="color:#cd00cd">0</span>          4m
-etcd-master                      1/1       Running   <span style="color:#cd00cd">0</span>          3m
-kube-apiserver-master            1/1       Running   <span style="color:#cd00cd">0</span>          3m
-kube-controller-manager-master   1/1       Running   <span style="color:#cd00cd">0</span>          3m
-kube-proxy-5xj2l                 1/1       Running   <span style="color:#cd00cd">0</span>          4m
-kube-proxy-bh7wb                 1/1       Running   <span style="color:#cd00cd">0</span>          1m
-kube-proxy-jqpqg                 1/1       Running   <span style="color:#cd00cd">0</span>          1m
-kube-scheduler-master            1/1       Running   <span style="color:#cd00cd">0</span>          3m
-<span style="color:#00cdcd">$kubectl</span> get node
+calico-node-cgtxh                2/2       Running   <span style="color:#0086f7;font-weight:bold">0</span>          1m
+calico-node-qjrbm                2/2       Running   <span style="color:#0086f7;font-weight:bold">0</span>          1m
+calico-node-v59b2                2/2       Running   <span style="color:#0086f7;font-weight:bold">0</span>          2m
+coredns-78fcdf6894-dz9fs         1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          4m
+coredns-78fcdf6894-mn6k8         1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          4m
+etcd-master                      1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          3m
+kube-apiserver-master            1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          3m
+kube-controller-manager-master   1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          3m
+kube-proxy-5xj2l                 1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          4m
+kube-proxy-bh7wb                 1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          1m
+kube-proxy-jqpqg                 1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          1m
+kube-scheduler-master            1/1       Running   <span style="color:#0086f7;font-weight:bold">0</span>          3m
+<span style="color:#fb660a">$kubectl</span> get node
 NAME      STATUS    ROLES     AGE       VERSION
 master    Ready     master    4m        v1.10.0
 node-1    Ready     &lt;none&gt;    2m        v1.10.0
@@ -222,36 +222,36 @@ node-2    Ready     &lt;none&gt;    2m        v1.10.0</code></pre></div></p>
 <h2 id="安裝kubeless">安裝Kubeless</h2>
 <h3 id="安裝cli">安裝CLI</h3>
 <p>安裝操作 Kubeless 的 CLI
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$wget</span> https://github.com/kubeless/kubeless/releases/download/v1.0.0-alpha.7/kubeless_linux-amd64.zip
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$wget</span> https://github.com/kubeless/kubeless/releases/download/v1.0.0-alpha.7/kubeless_linux-amd64.zip
 apt install -y unzip
 unzip kubeless_linux-amd64.zip
-<span style="color:#00cdcd">$sudo</span> mv ~/bundles/kubeless_linux-amd64 /usr/local/bin/</code></pre></div></p>
+<span style="color:#fb660a">$sudo</span> mv ~/bundles/kubeless_linux-amd64 /usr/local/bin/</code></pre></div></p>
 <p>檢查CLI是否安裝完成
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Serverless framework <span style="color:#cdcd00">for</span> Kubernetes
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Serverless framework <span style="color:#fb660a;font-weight:bold">for</span> Kubernetes
 
 Usage:
-  kubeless <span style="color:#39c">[</span>command<span style="color:#39c">]</span>
+  kubeless [command]
 
 Available Commands:
-  autoscale         manage autoscale to <span style="color:#cdcd00">function</span> on Kubeless
-  completion        Output shell completion code <span style="color:#cdcd00">for</span> the specified shell.
-  <span style="color:#cdcd00">function</span>          <span style="color:#cdcd00">function</span> specific operations
+  autoscale         manage autoscale to <span style="color:#fb660a;font-weight:bold">function</span> on Kubeless
+  completion        Output shell completion code <span style="color:#fb660a;font-weight:bold">for</span> the specified shell.
+  <span style="color:#fb660a;font-weight:bold">function</span>          <span style="color:#fb660a;font-weight:bold">function</span> specific operations
   get-server-config Print the current configuration of the controller
-  <span style="color:#cd00cd">help</span>              Help about any <span style="color:#cd00cd">command</span>
+  help              Help about any command
   topic             manage message topics in Kubeless
   trigger           trigger specific operations
   version           Print the version of Kubeless
 
 Flags:
-  -h, --help   <span style="color:#cd00cd">help</span> <span style="color:#cdcd00">for</span> kubeless
+  -h, --help   help <span style="color:#fb660a;font-weight:bold">for</span> kubeless
 
-Use <span style="color:#cd0000">&#34;kubeless [command] --help&#34;</span> <span style="color:#cdcd00">for</span> more information about a command.</code></pre></div></p>
+Use <span style="color:#0086d2">&#34;kubeless [command] --help&#34;</span> <span style="color:#fb660a;font-weight:bold">for</span> more information about a command.</code></pre></div></p>
 <h3 id="安裝kubeless-1">安裝Kubeless</h3>
 <p><a href="https://github.com/kubeless/kubeless/releases">Kubeless官方</a>針對不同Kubernetes環境提供了多種腳本（非RBAC，RBAC和openshift），這邊我採用的是有<code>RBAC</code>的部署。
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> create ns kubeless
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubectl</span> create ns kubeless
 namespace/kubeless created
 
-<span style="color:#00cdcd">$kubectl</span> create -f https://github.com/kubeless/kubeless/releases/download/v1.0.0-alpha.8/kubeless-v1.0.0-alpha.8.yaml
+<span style="color:#fb660a">$kubectl</span> create -f https://github.com/kubeless/kubeless/releases/download/v1.0.0-alpha.8/kubeless-v1.0.0-alpha.8.yaml
 
 configmap/kubeless-config created
 deployment.apps/kubeless-controller-manager created
@@ -262,30 +262,30 @@ customresourcedefinition.apiextensions.k8s.io/functions.kubeless.io created
 customresourcedefinition.apiextensions.k8s.io/httptriggers.kubeless.io created
 customresourcedefinition.apiextensions.k8s.io/cronjobtriggers.kubeless.io created</code></pre></div></p>
 <p>可以透過<code>kubetl</code>指令觀察kubeless是否有被部署起來</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pods -n kubeless
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pods -n kubeless
 NAME                                           READY     STATUS    RESTARTS   AGE
-kubeless-controller-manager-66868fb689-77fkp   3/3       Running   <span style="color:#cd00cd">0</span>          1m
-<span style="color:#00cdcd">$kubectl</span> get deployment -n kubeless
+kubeless-controller-manager-66868fb689-77fkp   3/3       Running   <span style="color:#0086f7;font-weight:bold">0</span>          1m
+<span style="color:#fb660a">$kubectl</span> get deployment -n kubeless
 NAME                          DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-kubeless-controller-manager   <span style="color:#cd00cd">1</span>         <span style="color:#cd00cd">1</span>         <span style="color:#cd00cd">1</span>            <span style="color:#cd00cd">1</span>           2m
+kubeless-controller-manager   <span style="color:#0086f7;font-weight:bold">1</span>         <span style="color:#0086f7;font-weight:bold">1</span>         <span style="color:#0086f7;font-weight:bold">1</span>            <span style="color:#0086f7;font-weight:bold">1</span>           2m
 
-<span style="color:#00cdcd">$kubectl</span> get crd
+<span style="color:#fb660a">$kubectl</span> get crd
 NAME                                          CREATED AT
 cronjobtriggers.kubeless.io                   2018-08-24T12:44:57Z
 functions.kubeless.io                         2018-08-24T12:44:57Z
 httptriggers.kubeless.io                      2018-08-24T12:44:57Z</code></pre></div>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">### 安裝Kubeless UI
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">### 安裝Kubeless UI
 
 官方提供了操作Kubeless的Dashboard，可以透過該介面操作。
 ```bash
 $kubectl create -f https://raw.githubusercontent.com/kubeless/kubeless-ui/master/k8s.yaml
 </code></pre></div><p>可以透過<code>kubetl</code>指令觀察Kubeless的Dashboard是否有被部署起來</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n kubeless get pod,svc
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n kubeless get pod,svc
 NAME                                               READY     STATUS    RESTARTS   AGE
-pod/kubeless-controller-manager-66868fb689-77fkp   3/3       Running   <span style="color:#cd00cd">0</span>          39m
-pod/ui-6d868664c5-kr99m                            2/2       Running   <span style="color:#cd00cd">0</span>          1m
+pod/kubeless-controller-manager-66868fb689-77fkp   3/3       Running   <span style="color:#0086f7;font-weight:bold">0</span>          39m
+pod/ui-6d868664c5-kr99m                            2/2       Running   <span style="color:#0086f7;font-weight:bold">0</span>          1m
 
-NAME         TYPE       CLUSTER-IP     EXTERNAL-IP   PORT<span style="color:#39c">(</span>S<span style="color:#39c">)</span>          AGE
+NAME         TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
 service/ui   NodePort   10.100.15.46   &lt;none&gt;        3000:30722/TCP   1m
 </code></pre></div><p>可以透Browser瀏覽 Kubeless UI(172.24.0.2:30722)
 <figure>
@@ -329,7 +329,7 @@ service/ui   NodePort   10.100.15.46   &lt;none&gt;        3000:30722/TCP   1m
 <p>填完數值後按下<strong>Run fuction</strong>，發現底下會沒有輸出！！！</p>
 <blockquote>
 <p>因為<strong>kubeless UI</strong>有<strong>RBAC</strong>的問題，這邊偷懶直接給<strong>cluster-admin</strong>。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"></code></pre></div></blockquote>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"></code></pre></div></blockquote>
 <p>$cat &laquo;EOF | kubectl create -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
@@ -346,7 +346,7 @@ name: system:serviceaccount:kubeless:ui-acct
 apiGroup: rbac.authorization.k8s.io
 EOF</li>
 </ul>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">
 
 ---
 
@@ -372,71 +372,71 @@ $kubeless function call checkprime  --data 7
 </code></pre></div><p>結束實驗後我們可以透過Kubeless UI刪除掉剛剛建立的<strong>checkprime function</strong></p>
 <h3 id="cli操作kubeless">CLI操作Kubeless</h3>
 <p>建立一個<code>checkprime.go</code>，並且撰寫質數判斷的function。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
-<span style="color:#cd00cd">package</span> kubeless
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#fb660a;font-weight:bold">package</span> kubeless
 
-<span style="color:#cd00cd">import</span> (
-    <span style="color:#cd0000">&#34;strconv&#34;</span>
-    <span style="color:#cd0000">&#34;fmt&#34;</span>
-	<span style="color:#cd0000">&#34;github.com/kubeless/kubeless/pkg/functions&#34;</span>
+<span style="color:#fb660a;font-weight:bold">import</span> (
+    <span style="color:#0086d2">&#34;strconv&#34;</span>
+    <span style="color:#0086d2">&#34;fmt&#34;</span>
+	<span style="color:#0086d2">&#34;github.com/kubeless/kubeless/pkg/functions&#34;</span>
 )
 
-<span style="color:#00cd00">func</span> IsPrime(event functions.Event, context functions.Context) (<span style="color:#00cd00">string</span>, <span style="color:#00cd00">error</span>) {
-	num, err <span style="color:#39c">:=</span> strconv.Atoi(event.Data)
-    <span style="color:#cdcd00">if</span> err <span style="color:#39c">!=</span> <span style="color:#cdcd00">nil</span> {
-        fmt.Println(err)
-		<span style="color:#cdcd00">return</span> <span style="color:#cd0000">&#34;must be a positive integer&#34;</span>, <span style="color:#cdcd00">nil</span>
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">IsPrime</span>(event functions.Event, context functions.Context) (<span style="color:#cdcaa9;font-weight:bold">string</span>, <span style="color:#cdcaa9;font-weight:bold">error</span>) {
+	num, err := strconv.<span style="color:#ff0086;font-weight:bold">Atoi</span>(event.Data)
+    <span style="color:#fb660a;font-weight:bold">if</span> err != <span style="color:#fb660a;font-weight:bold">nil</span> {
+        fmt.<span style="color:#ff0086;font-weight:bold">Println</span>(err)
+		<span style="color:#fb660a;font-weight:bold">return</span> <span style="color:#0086d2">&#34;must be a positive integer&#34;</span>, <span style="color:#fb660a;font-weight:bold">nil</span>
 	}
-    <span style="color:#cdcd00">if</span> num <span style="color:#39c">&lt;=</span> <span style="color:#cd00cd">1</span> {
-	    <span style="color:#cdcd00">return</span> <span style="color:#cd0000">&#34;must be a positive integer&#34;</span>,  <span style="color:#cdcd00">nil</span>
+    <span style="color:#fb660a;font-weight:bold">if</span> num &lt;= <span style="color:#0086f7;font-weight:bold">1</span> {
+	    <span style="color:#fb660a;font-weight:bold">return</span> <span style="color:#0086d2">&#34;must be a positive integer&#34;</span>,  <span style="color:#fb660a;font-weight:bold">nil</span>
 	}
-    <span style="color:#cdcd00">for</span> i <span style="color:#39c">:=</span> <span style="color:#cd00cd">2</span>; i &lt; num; i<span style="color:#39c">++</span> {
-		<span style="color:#cdcd00">if</span> num<span style="color:#39c">%</span>i <span style="color:#39c">==</span> <span style="color:#cd00cd">0</span> {
-			<span style="color:#cdcd00">return</span> <span style="color:#cd0000">&#34;非質數&#34;</span>, <span style="color:#cdcd00">nil</span>
-			<span style="color:#cdcd00">break</span>
+    <span style="color:#fb660a;font-weight:bold">for</span> i := <span style="color:#0086f7;font-weight:bold">2</span>; i &lt; num; i++ {
+		<span style="color:#fb660a;font-weight:bold">if</span> num%i == <span style="color:#0086f7;font-weight:bold">0</span> {
+			<span style="color:#fb660a;font-weight:bold">return</span> <span style="color:#0086d2">&#34;非質數&#34;</span>, <span style="color:#fb660a;font-weight:bold">nil</span>
+			<span style="color:#fb660a;font-weight:bold">break</span>
 		}
 	}
-    <span style="color:#cdcd00">return</span> <span style="color:#cd0000">&#34;質數&#34;</span>, <span style="color:#cdcd00">nil</span>
+    <span style="color:#fb660a;font-weight:bold">return</span> <span style="color:#0086d2">&#34;質數&#34;</span>, <span style="color:#fb660a;font-weight:bold">nil</span>
 }
 </code></pre></div><p>透過<strong>kubeless CLI</strong>幫我們建立Function到環境上</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubeless</span> <span style="color:#cdcd00">function</span> deploy checkprime --runtime go1.10 --from-file checkprime.go --handler checkprime.IsPrime
-INFO<span style="color:#39c">[</span>0000<span style="color:#39c">]</span> Deploying <span style="color:#cdcd00">function</span>...
-INFO<span style="color:#39c">[</span>0000<span style="color:#39c">]</span> Function checkprime submitted <span style="color:#cdcd00">for</span> deployment
-INFO<span style="color:#39c">[</span>0000<span style="color:#39c">]</span> Check the deployment status executing <span style="color:#cd0000">&#39;kubeless function ls checkprime&#39;</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubeless</span> <span style="color:#fb660a;font-weight:bold">function</span> deploy checkprime --runtime go1.10 --from-file checkprime.go --handler checkprime.IsPrime
+INFO[0000] Deploying <span style="color:#fb660a;font-weight:bold">function</span>...
+INFO[0000] Function checkprime submitted <span style="color:#fb660a;font-weight:bold">for</span> deployment
+INFO[0000] Check the deployment status executing <span style="color:#0086d2">&#39;kubeless function ls checkprime&#39;</span>
 </code></pre></div><p>透過<strong>Kubeless CLI</strong> 、 <strong>Kubectl</strong> 去確認Function 有沒有成功的被建立到環境上：</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> get functions
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubectl</span> get functions
 NAME         AGE
 checkprime   1m
 
-<span style="color:#00cdcd">$kubeless</span> <span style="color:#cdcd00">function</span> ls
+<span style="color:#fb660a">$kubeless</span> <span style="color:#fb660a;font-weight:bold">function</span> ls
 NAME      	NAMESPACE	HANDLER           	RUNTIME	DEPENDENCIES	STATUS
 checkprime	default  	checkprime.IsPrime	go1.10 	            	1/1 READY
 
-<span style="color:#00cdcd">$kubectl</span> get po
+<span style="color:#fb660a">$kubectl</span> get po
 NAME                                   READY     STATUS      RESTARTS   AGE
-checkprime-7d4f<span style="color:#00cdcd">$b7b64c</span>-k47w9            1/1       Running     <span style="color:#cd00cd">0</span>          37s
+checkprime-7d4f<span style="color:#fb660a">$b7b64c</span>-k47w9            1/1       Running     <span style="color:#0086f7;font-weight:bold">0</span>          37s
 </code></pre></div><h4 id="測試function-1">測試Function</h4>
 <p>透過<strong>Kubeless CLI</strong>去測試剛剛撰寫的質數判斷是否正確</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubeless</span> <span style="color:#cdcd00">function</span> call checkprime  --data <span style="color:#cd00cd">9487</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubeless</span> <span style="color:#fb660a;font-weight:bold">function</span> call checkprime  --data <span style="color:#0086f7;font-weight:bold">9487</span>
 非質數
-<span style="color:#00cdcd">$kubeless</span> <span style="color:#cdcd00">function</span> call checkprime  --data <span style="color:#cd00cd">177</span>
+<span style="color:#fb660a">$kubeless</span> <span style="color:#fb660a;font-weight:bold">function</span> call checkprime  --data <span style="color:#0086f7;font-weight:bold">177</span>
 非質數
-<span style="color:#00cdcd">$kubeless</span> <span style="color:#cdcd00">function</span> call checkprime  --data <span style="color:#cd00cd">7</span>
+<span style="color:#fb660a">$kubeless</span> <span style="color:#fb660a;font-weight:bold">function</span> call checkprime  --data <span style="color:#0086f7;font-weight:bold">7</span>
 質數
 </code></pre></div><p>另外也能透過kubernetes把該function proxy 出來進行測試</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> proxy -p <span style="color:#cd00cd">34567</span> &amp;
-<span style="color:#39c">[</span>1<span style="color:#39c">]</span> <span style="color:#cd00cd">3533</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubectl</span> proxy -p <span style="color:#0086f7;font-weight:bold">34567</span> &amp;
+[1] <span style="color:#0086f7;font-weight:bold">3533</span>
 Starting to serve on 127.0.0.1:34567
 
 
-<span style="color:#00cdcd">$curl</span> --data 9487<span style="color:#cd0000">\
-</span><span style="color:#cd0000"></span>    --header <span style="color:#cd0000">&#34;Content-Type:application/json&#34;</span> <span style="color:#cd0000">\
-</span><span style="color:#cd0000"></span>    localhost:34567/api/v1/namespaces/default/services/checkprime:8080/proxy/
+<span style="color:#fb660a">$curl</span> --data 9487<span style="color:#0086d2">\
+</span><span style="color:#0086d2"></span>    --header <span style="color:#0086d2">&#34;Content-Type:application/json&#34;</span> <span style="color:#0086d2">\
+</span><span style="color:#0086d2"></span>    localhost:34567/api/v1/namespaces/default/services/checkprime:8080/proxy/
 非質數
 </code></pre></div><p>結束實驗後我們可以透過Kubeless CLI刪除掉剛剛建立的<strong>checkprime function</strong></p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubeless</span> <span style="color:#cdcd00">function</span> delete checkprime
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubeless</span> <span style="color:#fb660a;font-weight:bold">function</span> delete checkprime
 
-<span style="color:#00cdcd">$kubeless</span> <span style="color:#cdcd00">function</span> ls
+<span style="color:#fb660a">$kubeless</span> <span style="color:#fb660a;font-weight:bold">function</span> ls
 NAME	NAMESPACE	HANDLER	RUNTIME	DEPENDENCIES	STATUS
 
 </code></pre></div>

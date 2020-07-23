@@ -94,7 +94,7 @@
 <p>所有 source code 都可以從 github 上找到<a href="https://github.com/openshift/cluster-monitoring-operator">cluster-monitoring-operator</a>，本次 trace code 的版本為 <code>release-4.5</code> ， 內容如有錯誤或是不正確的地方希望您可提出與我一起討論與學習。</p>
 <h2 id="元件狀態監控">元件狀態監控</h2>
 <p>可以到 <code>/go/src/cluster-monitoring-operator/manifests</code> 觀察 <code>cluster-monitoring-operator</code> 有哪些設定檔。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tree /go/src/cluster-monitoring-operator/manifests
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tree /go/src/cluster-monitoring-operator/manifests
 ├── 0000_50_cluster_monitoring_operator_01-namespace.yaml
 ├── 0000_50_cluster_monitoring_operator_02-role.yaml
 ├── 0000_50_cluster_monitoring_operator_03-role-binding.yaml
@@ -124,13 +124,13 @@
 <p>看到這裡大致上能夠猜測出 <code>cluster-monitoring-operator</code> 就只有單一個服務。了解了部署之後我們可以往 spurce code 的地方探討。</p>
 <h2 id="從建立一個operator物件開始">從建立一個Operator物件開始</h2>
 <p>先從這個位置上開始說起 <code>/go/src/cluster-monitoring-operator/pkg/operator</code> 。可以從 New function 看到建立了一個 Operator struct ，一些 code 不影響接下來要追蹤的邏輯我就不放上來佔版面了，有需要的朋友在麻煩自行上 Github 去搜尋。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#00cd00">func</span> New(config <span style="color:#39c">*</span>rest.Config, version, namespace, namespaceUserWorkload, namespaceSelector, configMapName <span style="color:#00cd00">string</span>, remoteWrite <span style="color:#00cd00">bool</span>, images <span style="color:#00cd00">map</span>[<span style="color:#00cd00">string</span>]<span style="color:#00cd00">string</span>, telemetryMatches []<span style="color:#00cd00">string</span>) (<span style="color:#39c">*</span>Operator, <span style="color:#00cd00">error</span>) {
-	c, err <span style="color:#39c">:=</span> client.New(config, version, namespace, namespaceSelector)
-	<span style="color:#cdcd00">if</span> err <span style="color:#39c">!=</span> <span style="color:#cdcd00">nil</span> {
-		<span style="color:#cdcd00">return</span> <span style="color:#cdcd00">nil</span>, err
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">New</span>(config *rest.Config, version, namespace, namespaceUserWorkload, namespaceSelector, configMapName <span style="color:#cdcaa9;font-weight:bold">string</span>, remoteWrite <span style="color:#cdcaa9;font-weight:bold">bool</span>, images <span style="color:#fb660a;font-weight:bold">map</span>[<span style="color:#cdcaa9;font-weight:bold">string</span>]<span style="color:#cdcaa9;font-weight:bold">string</span>, telemetryMatches []<span style="color:#cdcaa9;font-weight:bold">string</span>) (*Operator, <span style="color:#cdcaa9;font-weight:bold">error</span>) {
+	c, err := client.<span style="color:#ff0086;font-weight:bold">New</span>(config, version, namespace, namespaceSelector)
+	<span style="color:#fb660a;font-weight:bold">if</span> err != <span style="color:#fb660a;font-weight:bold">nil</span> {
+		<span style="color:#fb660a;font-weight:bold">return</span> <span style="color:#fb660a;font-weight:bold">nil</span>, err
 	}
 
-	o <span style="color:#39c">:=</span> <span style="color:#39c">&amp;</span>Operator{
+	o := &amp;Operator{
 		images:                images,
 		telemetryMatches:      telemetryMatches,
 		configMapName:         configMapName,
@@ -138,52 +138,52 @@
 		namespace:             namespace,
 		namespaceUserWorkload: namespaceUserWorkload,
 		client:                c,
-		queue:                 workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), <span style="color:#cd0000">&#34;cluster-monitoring&#34;</span>),
+		queue:                 workqueue.<span style="color:#ff0086;font-weight:bold">NewNamedRateLimitingQueue</span>(workqueue.<span style="color:#ff0086;font-weight:bold">DefaultControllerRateLimiter</span>(), <span style="color:#0086d2">&#34;cluster-monitoring&#34;</span>),
 	}
 
-	o.secretInf = cache.NewSharedIndexInformer(
-		o.client.SecretListWatchForNamespace(namespace), <span style="color:#39c">&amp;</span>v1.Secret{}, resyncPeriod, cache.Indexers{},
+	o.secretInf = cache.<span style="color:#ff0086;font-weight:bold">NewSharedIndexInformer</span>(
+		o.client.<span style="color:#ff0086;font-weight:bold">SecretListWatchForNamespace</span>(namespace), &amp;v1.Secret{}, resyncPeriod, cache.Indexers{},
 	)
-	o.secretInf.AddEventHandler(cache.ResourceEventHandlerFuncs{
+	o.secretInf.<span style="color:#ff0086;font-weight:bold">AddEventHandler</span>(cache.ResourceEventHandlerFuncs{
 		AddFunc:    o.handleEvent,
-		UpdateFunc: <span style="color:#00cd00">func</span>(_, newObj <span style="color:#00cd00">interface</span>{}) { o.handleEvent(newObj) },
+		UpdateFunc: <span style="color:#fb660a;font-weight:bold">func</span>(_, newObj <span style="color:#fb660a;font-weight:bold">interface</span>{}) { o.<span style="color:#ff0086;font-weight:bold">handleEvent</span>(newObj) },
 		DeleteFunc: o.handleEvent,
 	})
 
-	o.cmapInf = cache.NewSharedIndexInformer(
-		o.client.ConfigMapListWatch(), <span style="color:#39c">&amp;</span>v1.ConfigMap{}, resyncPeriod, cache.Indexers{},
+	o.cmapInf = cache.<span style="color:#ff0086;font-weight:bold">NewSharedIndexInformer</span>(
+		o.client.<span style="color:#ff0086;font-weight:bold">ConfigMapListWatch</span>(), &amp;v1.ConfigMap{}, resyncPeriod, cache.Indexers{},
 	)
-	o.cmapInf.AddEventHandler(cache.ResourceEventHandlerFuncs{
+	o.cmapInf.<span style="color:#ff0086;font-weight:bold">AddEventHandler</span>(cache.ResourceEventHandlerFuncs{
 		AddFunc:    o.handleEvent,
-		UpdateFunc: <span style="color:#00cd00">func</span>(_, newObj <span style="color:#00cd00">interface</span>{}) { o.handleEvent(newObj) },
+		UpdateFunc: <span style="color:#fb660a;font-weight:bold">func</span>(_, newObj <span style="color:#fb660a;font-weight:bold">interface</span>{}) { o.<span style="color:#ff0086;font-weight:bold">handleEvent</span>(newObj) },
 		DeleteFunc: o.handleEvent,
 	})
 
-	o.kubeSystemCmapInf = cache.NewSharedIndexInformer(
-		o.client.ConfigMapListWatchForNamespace(<span style="color:#cd0000">&#34;kube-system&#34;</span>),
-		<span style="color:#39c">&amp;</span>v1.ConfigMap{}, resyncPeriod, cache.Indexers{},
+	o.kubeSystemCmapInf = cache.<span style="color:#ff0086;font-weight:bold">NewSharedIndexInformer</span>(
+		o.client.<span style="color:#ff0086;font-weight:bold">ConfigMapListWatchForNamespace</span>(<span style="color:#0086d2">&#34;kube-system&#34;</span>),
+		&amp;v1.ConfigMap{}, resyncPeriod, cache.Indexers{},
 	)
-	o.kubeSystemCmapInf.AddEventHandler(cache.ResourceEventHandlerFuncs{
-		UpdateFunc: <span style="color:#00cd00">func</span>(_, newObj <span style="color:#00cd00">interface</span>{}) { o.handleEvent(newObj) },
+	o.kubeSystemCmapInf.<span style="color:#ff0086;font-weight:bold">AddEventHandler</span>(cache.ResourceEventHandlerFuncs{
+		UpdateFunc: <span style="color:#fb660a;font-weight:bold">func</span>(_, newObj <span style="color:#fb660a;font-weight:bold">interface</span>{}) { o.<span style="color:#ff0086;font-weight:bold">handleEvent</span>(newObj) },
 	})
 
-	o.openshiftConfigManagedCmapInf = cache.NewSharedIndexInformer(
-		o.client.ConfigMapListWatchForNamespace(<span style="color:#cd0000">&#34;openshift-config-managed&#34;</span>),
-		<span style="color:#39c">&amp;</span>v1.ConfigMap{}, resyncPeriod, cache.Indexers{},
+	o.openshiftConfigManagedCmapInf = cache.<span style="color:#ff0086;font-weight:bold">NewSharedIndexInformer</span>(
+		o.client.<span style="color:#ff0086;font-weight:bold">ConfigMapListWatchForNamespace</span>(<span style="color:#0086d2">&#34;openshift-config-managed&#34;</span>),
+		&amp;v1.ConfigMap{}, resyncPeriod, cache.Indexers{},
 	)
-	o.openshiftConfigManagedCmapInf.AddEventHandler(cache.ResourceEventHandlerFuncs{
-		UpdateFunc: <span style="color:#00cd00">func</span>(_, newObj <span style="color:#00cd00">interface</span>{}) { o.handleEvent(newObj) },
+	o.openshiftConfigManagedCmapInf.<span style="color:#ff0086;font-weight:bold">AddEventHandler</span>(cache.ResourceEventHandlerFuncs{
+		UpdateFunc: <span style="color:#fb660a;font-weight:bold">func</span>(_, newObj <span style="color:#fb660a;font-weight:bold">interface</span>{}) { o.<span style="color:#ff0086;font-weight:bold">handleEvent</span>(newObj) },
 	})
 
-	o.openshiftConfigCmapInf = cache.NewSharedIndexInformer(
-		o.client.ConfigMapListWatchForNamespace(<span style="color:#cd0000">&#34;openshift-config&#34;</span>),
-		<span style="color:#39c">&amp;</span>v1.ConfigMap{}, resyncPeriod, cache.Indexers{},
+	o.openshiftConfigCmapInf = cache.<span style="color:#ff0086;font-weight:bold">NewSharedIndexInformer</span>(
+		o.client.<span style="color:#ff0086;font-weight:bold">ConfigMapListWatchForNamespace</span>(<span style="color:#0086d2">&#34;openshift-config&#34;</span>),
+		&amp;v1.ConfigMap{}, resyncPeriod, cache.Indexers{},
 	)
-	o.openshiftConfigCmapInf.AddEventHandler(cache.ResourceEventHandlerFuncs{
-		UpdateFunc: <span style="color:#00cd00">func</span>(_, newObj <span style="color:#00cd00">interface</span>{}) { o.handleEvent(newObj) },
+	o.openshiftConfigCmapInf.<span style="color:#ff0086;font-weight:bold">AddEventHandler</span>(cache.ResourceEventHandlerFuncs{
+		UpdateFunc: <span style="color:#fb660a;font-weight:bold">func</span>(_, newObj <span style="color:#fb660a;font-weight:bold">interface</span>{}) { o.<span style="color:#ff0086;font-weight:bold">handleEvent</span>(newObj) },
 	})
 
-	<span style="color:#cdcd00">return</span> o, <span style="color:#cdcd00">nil</span>
+	<span style="color:#fb660a;font-weight:bold">return</span> o, <span style="color:#fb660a;font-weight:bold">nil</span>
 }
 </code></pre></div><p>從上述的 <code>source code</code> 可以觀察到 <code>cluster-monitoring-oper</code> 建立了五個<code>SharedIndexInformer</code>，後續會使用到這些資源做進一步元件的觀察與監控。</p>
 <ul>
@@ -212,69 +212,69 @@
 :::</p>
 <p>除了建立這些資元的 <code>SharedIndexInformer</code> 外，當這些資源的變化還會傳入 <code>handleEvent</code> 丟入 <code>RateLimitingQueue</code> 進行後續的處理。</p>
 <p><code>Operator struct</code>基本上設定了一些參數，除了上面提到的五個這些 <code>SharedIndexInformer</code> 外，其他的參數大多數都是從 deployment yaml裡面指定過來的。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">        - <span style="color:#cd0000">&#34;-namespace=openshift-monitoring&#34;</span>
-        - <span style="color:#cd0000">&#34;-namespace-user-workload=openshift-user-workload-monitoring&#34;</span>
-        - <span style="color:#cd0000">&#34;-configmap=cluster-monitoring-config&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=prometheus-operator=quay.io/openshift/origin-prometheus-operator:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=prometheus-config-reloader=quay.io/openshift/origin-prometheus-config-reloader:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=configmap-reloader=quay.io/openshift/origin-configmap-reloader:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=prometheus=quay.io/openshift/origin-prometheus:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=alertmanager=quay.io/openshift/origin-prometheus-alertmanager:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=grafana=quay.io/openshift/origin-grafana:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=oauth-proxy=quay.io/openshift/origin-oauth-proxy:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=node-exporter=quay.io/openshift/origin-prometheus-node-exporter:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=kube-state-metrics=quay.io/openshift/origin-kube-state-metrics:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=openshift-state-metrics=quay.io/openshift/origin-openshift-state-metrics:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=kube-rbac-proxy=quay.io/openshift/origin-kube-rbac-proxy:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=telemeter-client=quay.io/openshift/origin-telemeter:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=prom-label-proxy=quay.io/openshift/origin-prom-label-proxy:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=k8s-prometheus-adapter=quay.io/openshift/origin-k8s-prometheus-adapter:latest&#34;</span>
-        - <span style="color:#cd0000">&#34;-images=thanos=quay.io/openshift/origin-thanos:latest&#34;</span>
-</code></pre></div><h2 id="不停的循環吧">不停的循環吧！</h2>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-namespace=openshift-monitoring&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-namespace-user-workload=openshift-user-workload-monitoring&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-configmap=cluster-monitoring-config&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=prometheus-operator=quay.io/openshift/origin-prometheus-operator:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=prometheus-config-reloader=quay.io/openshift/origin-prometheus-config-reloader:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=configmap-reloader=quay.io/openshift/origin-configmap-reloader:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=prometheus=quay.io/openshift/origin-prometheus:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=alertmanager=quay.io/openshift/origin-prometheus-alertmanager:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=grafana=quay.io/openshift/origin-grafana:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=oauth-proxy=quay.io/openshift/origin-oauth-proxy:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=node-exporter=quay.io/openshift/origin-prometheus-node-exporter:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=kube-state-metrics=quay.io/openshift/origin-kube-state-metrics:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=openshift-state-metrics=quay.io/openshift/origin-openshift-state-metrics:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=kube-rbac-proxy=quay.io/openshift/origin-kube-rbac-proxy:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=telemeter-client=quay.io/openshift/origin-telemeter:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=prom-label-proxy=quay.io/openshift/origin-prom-label-proxy:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=k8s-prometheus-adapter=quay.io/openshift/origin-k8s-prometheus-adapter:latest&#34;</span><span style="color:#888">
+</span><span style="color:#888">        </span>- <span style="color:#0086d2">&#34;-images=thanos=quay.io/openshift/origin-thanos:latest&#34;</span><span style="color:#888">
+</span></code></pre></div><h2 id="不停的循環吧">不停的循環吧！</h2>
 <p>在進到 main function 的 <code>wg.Go(func() error { return o.Run(ctx.Done()) })</code> 之前的 code 對邏輯來說都沒有太大的影響，所以直接跳到 Run 來看看 <code>cluster-monitoring-oper</code> 在這裡做了哪些好事！</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000080">// Run the controller.
-</span><span style="color:#000080"></span><span style="color:#00cd00">func</span> (o <span style="color:#39c">*</span>Operator) Run(stopc <span style="color:#39c">&lt;-</span><span style="color:#00cd00">chan</span> <span style="color:#00cd00">struct</span>{}) <span style="color:#00cd00">error</span> {
-	<span style="color:#39c">...</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#080;background-color:#0f140f;font-style:italic">// Run the controller.
+</span><span style="color:#080;background-color:#0f140f;font-style:italic"></span><span style="color:#fb660a;font-weight:bold">func</span> (o *Operator) <span style="color:#ff0086;font-weight:bold">Run</span>(stopc &lt;-<span style="color:#fb660a;font-weight:bold">chan</span> <span style="color:#fb660a;font-weight:bold">struct</span>{}) <span style="color:#cdcaa9;font-weight:bold">error</span> {
+	...
 
-	<span style="color:#cdcd00">go</span> o.cmapInf.Run(stopc)
-	<span style="color:#cdcd00">go</span> o.secretInf.Run(stopc)
-	<span style="color:#cdcd00">go</span> o.kubeSystemCmapInf.Run(stopc)
+	<span style="color:#fb660a;font-weight:bold">go</span> o.cmapInf.<span style="color:#ff0086;font-weight:bold">Run</span>(stopc)
+	<span style="color:#fb660a;font-weight:bold">go</span> o.secretInf.<span style="color:#ff0086;font-weight:bold">Run</span>(stopc)
+	<span style="color:#fb660a;font-weight:bold">go</span> o.kubeSystemCmapInf.<span style="color:#ff0086;font-weight:bold">Run</span>(stopc)
 
-	klog.V(<span style="color:#cd00cd">4</span>).Info(<span style="color:#cd0000">&#34;Waiting for initial cache sync.&#34;</span>)
-	ok <span style="color:#39c">:=</span> cache.WaitForCacheSync(stopc, o.cmapInf.HasSynced, o.kubeSystemCmapInf.HasSynced)
-	<span style="color:#cdcd00">if</span> !ok {
-		<span style="color:#cdcd00">return</span> errors.New(<span style="color:#cd0000">&#34;failed to sync informers&#34;</span>)
+	klog.<span style="color:#ff0086;font-weight:bold">V</span>(<span style="color:#0086f7;font-weight:bold">4</span>).<span style="color:#ff0086;font-weight:bold">Info</span>(<span style="color:#0086d2">&#34;Waiting for initial cache sync.&#34;</span>)
+	ok := cache.<span style="color:#ff0086;font-weight:bold">WaitForCacheSync</span>(stopc, o.cmapInf.HasSynced, o.kubeSystemCmapInf.HasSynced)
+	<span style="color:#fb660a;font-weight:bold">if</span> !ok {
+		<span style="color:#fb660a;font-weight:bold">return</span> errors.<span style="color:#ff0086;font-weight:bold">New</span>(<span style="color:#0086d2">&#34;failed to sync informers&#34;</span>)
 	}
-	klog.V(<span style="color:#cd00cd">4</span>).Info(<span style="color:#cd0000">&#34;Initial cache sync done.&#34;</span>)
+	klog.<span style="color:#ff0086;font-weight:bold">V</span>(<span style="color:#0086f7;font-weight:bold">4</span>).<span style="color:#ff0086;font-weight:bold">Info</span>(<span style="color:#0086d2">&#34;Initial cache sync done.&#34;</span>)
 
-	<span style="color:#cdcd00">go</span> o.worker()
+	<span style="color:#fb660a;font-weight:bold">go</span> o.<span style="color:#ff0086;font-weight:bold">worker</span>()
 
-	ticker <span style="color:#39c">:=</span> time.NewTicker(<span style="color:#cd00cd">5</span> <span style="color:#39c">*</span> time.Minute)
-	<span style="color:#cdcd00">defer</span> ticker.Stop()
+	ticker := time.<span style="color:#ff0086;font-weight:bold">NewTicker</span>(<span style="color:#0086f7;font-weight:bold">5</span> * time.Minute)
+	<span style="color:#fb660a;font-weight:bold">defer</span> ticker.<span style="color:#ff0086;font-weight:bold">Stop</span>()
 
-	key <span style="color:#39c">:=</span> o.namespace <span style="color:#39c">+</span> <span style="color:#cd0000">&#34;/&#34;</span> <span style="color:#39c">+</span> o.configMapName
-	_, exists, _ <span style="color:#39c">:=</span> o.cmapInf.GetStore().GetByKey(key)
-	<span style="color:#cdcd00">if</span> !exists {
-		klog.Info(<span style="color:#cd0000">&#34;ConfigMap to configure stack does not exist. Reconciling with default config every 5 minutes.&#34;</span>)
-		o.enqueue(key)
+	key := o.namespace + <span style="color:#0086d2">&#34;/&#34;</span> + o.configMapName
+	_, exists, _ := o.cmapInf.<span style="color:#ff0086;font-weight:bold">GetStore</span>().<span style="color:#ff0086;font-weight:bold">GetByKey</span>(key)
+	<span style="color:#fb660a;font-weight:bold">if</span> !exists {
+		klog.<span style="color:#ff0086;font-weight:bold">Info</span>(<span style="color:#0086d2">&#34;ConfigMap to configure stack does not exist. Reconciling with default config every 5 minutes.&#34;</span>)
+		o.<span style="color:#ff0086;font-weight:bold">enqueue</span>(key)
 	}
 
-	<span style="color:#cdcd00">for</span> {
-		<span style="color:#cdcd00">select</span> {
-		<span style="color:#cdcd00">case</span> <span style="color:#39c">&lt;-</span>stopc:
-			<span style="color:#cdcd00">return</span> <span style="color:#cdcd00">nil</span>
-		<span style="color:#cdcd00">case</span> <span style="color:#39c">&lt;-</span>ticker.C:
-			_, exists, _ <span style="color:#39c">:=</span> o.cmapInf.GetStore().GetByKey(key)
-			<span style="color:#cdcd00">if</span> !exists {
-				klog.Info(<span style="color:#cd0000">&#34;ConfigMap to configure stack does not exist. Reconciling with default config every 5 minutes.&#34;</span>)
-				o.enqueue(key)
+	<span style="color:#fb660a;font-weight:bold">for</span> {
+		<span style="color:#fb660a;font-weight:bold">select</span> {
+		<span style="color:#fb660a;font-weight:bold">case</span> &lt;-stopc:
+			<span style="color:#fb660a;font-weight:bold">return</span> <span style="color:#fb660a;font-weight:bold">nil</span>
+		<span style="color:#fb660a;font-weight:bold">case</span> &lt;-ticker.C:
+			_, exists, _ := o.cmapInf.<span style="color:#ff0086;font-weight:bold">GetStore</span>().<span style="color:#ff0086;font-weight:bold">GetByKey</span>(key)
+			<span style="color:#fb660a;font-weight:bold">if</span> !exists {
+				klog.<span style="color:#ff0086;font-weight:bold">Info</span>(<span style="color:#0086d2">&#34;ConfigMap to configure stack does not exist. Reconciling with default config every 5 minutes.&#34;</span>)
+				o.<span style="color:#ff0086;font-weight:bold">enqueue</span>(key)
 			}
 		}
 	}
 }
 </code></pre></div><p>從上面的 code 看下來在 Run 這個階段啟動了 三個 informer ，分別是<code>ConfigMapInformer</code>、<code>kubeSystemConfigmapInformer</code>、<code>secretInformer</code>。這邊就對應到上面提到的在建立 <code>Operator</code> 的時候新增了五個informer但在 Run 這個階段只有啟動三個，目前我還不知道為什麼要這樣設計，如果有朋友知道為什麼的話歡迎告訴我，感謝！</p>
 <p>其中我認為最重要的一段，關於這一段會在下一個篇章做一個流程的分析。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#cdcd00">go</span> o.worker()
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fb660a;font-weight:bold">go</span> o.<span style="color:#ff0086;font-weight:bold">worker</span>()
 </code></pre></div><p>剩下的部分相對來說比較簡單一點，會透過<code>key := o.namespace + &quot;/&quot; + o.configMapName</code>的結果，去ConfigMapInformer搜尋有沒有符合這個名字的configmap物件。</p>
 <p>如果沒有這個物件的話就把事件丟到<code>RateLimitingQueue</code> 進行後續的追蹤處理。</p>
 <p>最後是一個無窮迴圈等待收到結束的訊號，以及一個五分鐘定時查看<code>ConfigMapInformer</code>搜尋有沒有符合這個<code>key := o.namespace + &quot;/&quot; + o.configMapName</code>名字的configmap物件。</p>

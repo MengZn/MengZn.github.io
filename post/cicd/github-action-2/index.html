@@ -101,7 +101,7 @@
 <img src="https://i.imgur.com/MQnROjS.png" alt=""></p>
 <h2 id="安裝-heroku-cli">安裝 Heroku CLI</h2>
 <p>安裝 Heroku CLI 這個部分也相當的簡單安裝過程可以參考<a href="https://devcenter.heroku.com/articles/heroku-cli">官方的教學</a>，我這邊以 MACOS 作為示範有其他作業系統需求的請麻煩請參考官網囉～</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">brew tap heroku/brew &amp;&amp; brew install heroku
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">brew tap heroku/brew &amp;&amp; brew install heroku
 
 Updating Homebrew...
 ==&gt; Auto-updated Homebrew!
@@ -114,7 +114,7 @@ Updated 3 taps (homebrew/core, homebrew/cask and homebrew/cask-fonts).
 ==&gt; Installing heroku/brew/heroku
 ...
 </code></pre></div><p>測試一下 Heroku CLI 是不是已經裝好了</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">heroku
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">heroku
 
 CLI to interact with Heroku
 
@@ -122,30 +122,30 @@ VERSION
   heroku/7.41.1 darwin-x64 node-v12.16.2
 
 USAGE
-  $ heroku <span style="color:#39c">[</span>COMMAND<span style="color:#39c">]</span>
+  $ heroku [COMMAND]
 
 COMMANDS
   access          manage user access to apps
-  addons          tools and services <span style="color:#cdcd00">for</span> developing, extending, and operating
+  addons          tools and services <span style="color:#fb660a;font-weight:bold">for</span> developing, extending, and operating
                   your app
   apps            manage apps on Heroku
   auth            check 2fa status
   authorizations  OAuth authorizations
   autocomplete    display autocomplete installation instructions
   buildpacks      scripts used to compile apps
-  certs           a topic <span style="color:#cdcd00">for</span> the ssl plugin
-  ci              run an application <span style="color:#cd00cd">test</span> suite on Heroku
+  certs           a topic <span style="color:#fb660a;font-weight:bold">for</span> the ssl plugin
+  ci              run an application test suite on Heroku
   clients         OAuth clients on the platform
   config          environment variables of apps
   container       Use containers to build and deploy Heroku apps
-  domains         custom domains <span style="color:#cdcd00">for</span> apps
+  domains         custom domains <span style="color:#fb660a;font-weight:bold">for</span> apps
   drains          forward logs to syslog or HTTPS
   features        add/remove app features
-  git             manage <span style="color:#cd00cd">local</span> git repository <span style="color:#cdcd00">for</span> app
-  <span style="color:#cd00cd">help</span>            display <span style="color:#cd00cd">help</span> <span style="color:#cdcd00">for</span> heroku
+  git             manage local git repository <span style="color:#fb660a;font-weight:bold">for</span> app
+  help            display help <span style="color:#fb660a;font-weight:bold">for</span> heroku
   keys            add/remove account ssh keys
   labs            add/remove experimental features
-  <span style="color:#cd00cd">local</span>           run Heroku app locally
+  local           run Heroku app locally
   logs            display recent log output
   maintenance     enable/disable access to app
   members         manage organization members
@@ -154,11 +154,11 @@ COMMANDS
   pg              manage postgresql databases
   pipelines       manage pipelines
   plugins         list installed plugins
-  ps              Client tools <span style="color:#cdcd00">for</span> Heroku Exec
+  ps              Client tools <span style="color:#fb660a;font-weight:bold">for</span> Heroku Exec
   psql            open a psql shell to the database
   redis           manage heroku redis instances
-  regions         list available regions <span style="color:#cdcd00">for</span> deployment
-  releases        display the releases <span style="color:#cdcd00">for</span> an app
+  regions         list available regions <span style="color:#fb660a;font-weight:bold">for</span> deployment
+  releases        display the releases <span style="color:#fb660a;font-weight:bold">for</span> an app
   reviewapps      manage reviewapps in pipelines
   run             run a one-off process inside a Heroku dyno
   sessions        OAuth sessions
@@ -169,48 +169,48 @@ COMMANDS
   webhooks        list webhooks on an app
 </code></pre></div><h2 id="測試-heroku">測試 Heroku</h2>
 <p>這邊以一個簡單的 go server 作為範例，程式碼如下所示。當我們對這個 server 發起請求他會回應你 現在 server 是使用哪一個 port 跟你做溝通。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#cd00cd">package</span> main
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fb660a;font-weight:bold">package</span> main
 
-<span style="color:#cd00cd">import</span> (
-	<span style="color:#cd0000">&#34;net/http&#34;</span>
-	<span style="color:#cd0000">&#34;os&#34;</span>
+<span style="color:#fb660a;font-weight:bold">import</span> (
+	<span style="color:#0086d2">&#34;net/http&#34;</span>
+	<span style="color:#0086d2">&#34;os&#34;</span>
 )
 
-<span style="color:#00cd00">func</span> main() {
-	http.HandleFunc(<span style="color:#cd0000">&#34;/&#34;</span>, <span style="color:#00cd00">func</span>(w http.ResponseWriter, r <span style="color:#39c">*</span>http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Header().Set(<span style="color:#cd0000">&#34;Content-Type&#34;</span>, <span style="color:#cd0000">&#34;text/html; charset=utf-8&#34;</span>)
-                p<span style="color:#39c">:=</span>os.Getenv(<span style="color:#cd0000">&#34;PORT&#34;</span>)
-		w.Write([]<span style="color:#cd00cd">byte</span>(p))
+<span style="color:#fb660a;font-weight:bold">func</span> <span style="color:#ff0086;font-weight:bold">main</span>() {
+	http.<span style="color:#ff0086;font-weight:bold">HandleFunc</span>(<span style="color:#0086d2">&#34;/&#34;</span>, <span style="color:#fb660a;font-weight:bold">func</span>(w http.ResponseWriter, r *http.Request) {
+		w.<span style="color:#ff0086;font-weight:bold">WriteHeader</span>(http.StatusOK)
+		w.<span style="color:#ff0086;font-weight:bold">Header</span>().<span style="color:#ff0086;font-weight:bold">Set</span>(<span style="color:#0086d2">&#34;Content-Type&#34;</span>, <span style="color:#0086d2">&#34;text/html; charset=utf-8&#34;</span>)
+                p:=os.<span style="color:#ff0086;font-weight:bold">Getenv</span>(<span style="color:#0086d2">&#34;PORT&#34;</span>)
+		w.<span style="color:#ff0086;font-weight:bold">Write</span>([]byte(p))
 	})
 
-	http.ListenAndServe(<span style="color:#cd0000">&#34;0.0.0.0:&#34;</span><span style="color:#39c">+</span>os.Getenv(<span style="color:#cd0000">&#34;PORT&#34;</span>), <span style="color:#cdcd00">nil</span>)
+	http.<span style="color:#ff0086;font-weight:bold">ListenAndServe</span>(<span style="color:#0086d2">&#34;0.0.0.0:&#34;</span>+os.<span style="color:#ff0086;font-weight:bold">Getenv</span>(<span style="color:#0086d2">&#34;PORT&#34;</span>), <span style="color:#fb660a;font-weight:bold">nil</span>)
 }
 </code></pre></div><p>透過 Heroku CLI 登入 Heroku ，驗證完身份後，就能夠透過 Git 把source code 推到 Heroku 上囉～</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">heroku login
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">heroku login
 
 heroku: Press any key to open up the browser to login or q to exit:
 Opening browser to https://cli-auth.heroku.com/auth/cli/browser/5e83cd9d-51cc-4676-b0be-d240a1f5c480
-Logging in... <span style="color:#cdcd00">done</span>
+Logging in... <span style="color:#fb660a;font-weight:bold">done</span>
 ...
 </code></pre></div><p>接著設定 heroku git 把git remote url 設定好</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">heroku git:remote -a example-githubaction
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">heroku git:remote -a example-githubaction
 set git remote heroku to https://git.heroku.com/example-githubaction.git
 </code></pre></div><p>先看看 Heroku 有沒有加到 git remote url</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git remote -v
-heroku	https://git.heroku.com/example-githubaction.git <span style="color:#39c">(</span>fetch<span style="color:#39c">)</span>
-heroku	https://git.heroku.com/example-githubaction.git <span style="color:#39c">(</span>push<span style="color:#39c">)</span>
-origin	https://github.com/jjmengze/heroku-go.git <span style="color:#39c">(</span>fetch<span style="color:#39c">)</span>
-origin	https://github.com/jjmengze/heroku-go.git <span style="color:#39c">(</span>push<span style="color:#39c">)</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git remote -v
+heroku	https://git.heroku.com/example-githubaction.git (fetch)
+heroku	https://git.heroku.com/example-githubaction.git (push)
+origin	https://github.com/jjmengze/heroku-go.git (fetch)
+origin	https://github.com/jjmengze/heroku-go.git (push)
 </code></pre></div><p>最後透過git push 指令將source code上傳到 Heroku</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git push heroku master
-Enumerating objects: 10, <span style="color:#cdcd00">done</span>.
-Counting objects: 100% <span style="color:#39c">(</span>10/10<span style="color:#39c">)</span>, <span style="color:#cdcd00">done</span>.
-Delta compression using up to <span style="color:#cd00cd">8</span> threads
-Compressing objects: 100% <span style="color:#39c">(</span>6/6<span style="color:#39c">)</span>, <span style="color:#cdcd00">done</span>.
-Writing objects: 100% <span style="color:#39c">(</span>10/10<span style="color:#39c">)</span>, 1.25 KiB | 640.00 KiB/s, <span style="color:#cdcd00">done</span>.
-Total <span style="color:#cd00cd">10</span> <span style="color:#39c">(</span>delta 0<span style="color:#39c">)</span>, reused <span style="color:#cd00cd">0</span> <span style="color:#39c">(</span>delta 0<span style="color:#39c">)</span>
-remote: Compressing <span style="color:#cd00cd">source</span> files... <span style="color:#cdcd00">done</span>.
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git push heroku master
+Enumerating objects: 10, <span style="color:#fb660a;font-weight:bold">done</span>.
+Counting objects: 100% (10/10), <span style="color:#fb660a;font-weight:bold">done</span>.
+Delta compression using up to <span style="color:#0086f7;font-weight:bold">8</span> threads
+Compressing objects: 100% (6/6), <span style="color:#fb660a;font-weight:bold">done</span>.
+Writing objects: 100% (10/10), 1.25 KiB | 640.00 KiB/s, <span style="color:#fb660a;font-weight:bold">done</span>.
+Total <span style="color:#0086f7;font-weight:bold">10</span> (delta 0), reused <span style="color:#0086f7;font-weight:bold">0</span> (delta 0)
+remote: Compressing source files... <span style="color:#fb660a;font-weight:bold">done</span>.
 remote: Building source:
 remote:
 remote: -----&gt; Go app detected
@@ -220,16 +220,16 @@ remote: -----&gt; Launching...
 remote:        Released v3
 remote:        https://example-githubaction.herokuapp.com/ deployed to Heroku
 remote:
-remote: Verifying deploy... <span style="color:#cdcd00">done</span>.
+remote: Verifying deploy... <span style="color:#fb660a;font-weight:bold">done</span>.
 To https://git.heroku.com/example-githubaction.git
- * <span style="color:#39c">[</span>new branch<span style="color:#39c">]</span>      master -&gt; master
+ * [new branch]      master -&gt; master
 </code></pre></div><p>完成後回到之前在 Heroku 上建立的應用程式，並且在上方的選項點選 Settings
 <img src="https://i.imgur.com/LVfsNar.png" alt="">
 最下方 Heroku 會告訴你這個應用程式的 Domain ，一般來說會是 <code>https://&lt;appname&gt;.herokuapp.com/</code>，所以以本篇的例子會是 <code>https://example-githubaction.herokuapp.com/</code> 。到頁面下方檢查一下 Domain是不是這個～</p>
 <p><img src="https://i.imgur.com/Lc3xIqi.png" alt=""></p>
 <p>可以請求一下這個 domain 看看得到的結果是什麼</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl https://example-githubaction.herokuapp.com/
-<span style="color:#cd00cd">59048</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl https://example-githubaction.herokuapp.com/
+<span style="color:#0086f7;font-weight:bold">59048</span>
 </code></pre></div><p>表示目前 server 是用 59048 的 port 跟你進行溝通，這邊我就想到壞壞的事情惹，那我能不能用 Heroku 提供的服務 在裡面啟用一個 sshd ，另類 VM 的概念xD (不過那又是另外一個故事了)</p>
 <h2 id="改到-github-action">改到 Github Action</h2>
 <p>既然純手動 ( manually setup ) 可以完成，那我相信透過 CI/CD 自動化機制也可以完成！</p>
@@ -238,25 +238,25 @@ To https://git.heroku.com/example-githubaction.git
 <p><img src="https://i.imgur.com/ZZos9Q7.png" alt=""></p>
 <p>這邊我直接給出一個方案所有程式碼與內容可以參考我在 Github 的<a href="https://github.com/jjmengze/heroku-go">範例專案</a>，有興趣的可以試試看，基本上的思路是透過 Heroku 提供的 container 服務直接把 source code 包成 container 並且上傳到 heroku image registry 上，相關的部署以及詳細動作可以參考<a href="https://devcenter.heroku.com/articles/container-registry-and-runtime">官方的範例</a></p>
 <p>這邊我直接上github action 整合Heroku container image 後的 ci yaml給大家參考，大家也可以依照個做變化做成自己想要的樣子。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#cdcd00">push</span>:
-    <span style="color:#cdcd00">name</span>: Push
-    <span style="color:#cdcd00">runs-on</span>: ubuntu-latest
-    <span style="color:#cdcd00">steps</span>:
-    - <span style="color:#cdcd00">name</span>: Check out code into the Go module directory
-      <span style="color:#cdcd00">uses</span>: actions/checkout@v2
-    - <span style="color:#cdcd00">name</span>: Login to Heroku Container registry
-      <span style="color:#cdcd00">env</span>: 
-        <span style="color:#cdcd00">HEROKU_API_KEY</span>: ${{ secrets.HEROKU_API_KEY }}
-      <span style="color:#cdcd00">run</span>: heroku container:login 
-    - <span style="color:#cdcd00">name</span>: Build and push
-      <span style="color:#cdcd00">env</span>:
-        <span style="color:#cdcd00">HEROKU_API_KEY</span>: ${{ secrets.HEROKU_API_KEY }}
-      <span style="color:#cdcd00">run</span>: heroku container:push -a ${{ env.APP_NAME }}  web
-    - <span style="color:#cdcd00">name</span>: Release
-      <span style="color:#cdcd00">env</span>:
-        <span style="color:#cdcd00">HEROKU_API_KEY</span>: ${{ secrets.HEROKU_API_KEY }}
-      <span style="color:#cdcd00">run</span>: heroku container:release -a ${{ env.APP_NAME }}  web
-</code></pre></div><p>其中可以看到 push 這個 stage 執行了四個 steps ，比較要關注的是後面那三個。分別是執行</p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">push</span>:<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Push<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">runs-on</span>:<span style="color:#888"> </span>ubuntu-latest<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">steps</span>:<span style="color:#888">
+</span><span style="color:#888">    </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Check<span style="color:#888"> </span>out<span style="color:#888"> </span>code<span style="color:#888"> </span>into<span style="color:#888"> </span>the<span style="color:#888"> </span>Go<span style="color:#888"> </span>module<span style="color:#888"> </span>directory<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">uses</span>:<span style="color:#888"> </span>actions/checkout@v2<span style="color:#888">
+</span><span style="color:#888">    </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Login<span style="color:#888"> </span>to<span style="color:#888"> </span>Heroku<span style="color:#888"> </span>Container<span style="color:#888"> </span>registry<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">env</span>:<span style="color:#888"> 
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">HEROKU_API_KEY</span>:<span style="color:#888"> </span>${{<span style="color:#888"> </span>secrets.HEROKU_API_KEY<span style="color:#888"> </span>}}<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">run</span>:<span style="color:#888"> </span>heroku<span style="color:#888"> </span>container:login<span style="color:#888"> 
+</span><span style="color:#888">    </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Build<span style="color:#888"> </span>and<span style="color:#888"> </span>push<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">env</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">HEROKU_API_KEY</span>:<span style="color:#888"> </span>${{<span style="color:#888"> </span>secrets.HEROKU_API_KEY<span style="color:#888"> </span>}}<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">run</span>:<span style="color:#888"> </span>heroku<span style="color:#888"> </span>container:push<span style="color:#888"> </span>-a<span style="color:#888"> </span>${{<span style="color:#888"> </span>env.APP_NAME<span style="color:#888"> </span>}}<span style="color:#888">  </span>web<span style="color:#888">
+</span><span style="color:#888">    </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>Release<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">env</span>:<span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">HEROKU_API_KEY</span>:<span style="color:#888"> </span>${{<span style="color:#888"> </span>secrets.HEROKU_API_KEY<span style="color:#888"> </span>}}<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">run</span>:<span style="color:#888"> </span>heroku<span style="color:#888"> </span>container:release<span style="color:#888"> </span>-a<span style="color:#888"> </span>${{<span style="color:#888"> </span>env.APP_NAME<span style="color:#888"> </span>}}<span style="color:#888">  </span>web<span style="color:#888">
+</span></code></pre></div><p>其中可以看到 push 這個 stage 執行了四個 steps ，比較要關注的是後面那三個。分別是執行</p>
 <ul>
 <li>heroku container:login</li>
 <li>heroku container:push -a ${{ env.APP_NAME }}  web</li>

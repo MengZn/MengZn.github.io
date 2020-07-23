@@ -126,12 +126,12 @@
 <h5 id="childof">ChildOf</h5>
 <p>先來看看流程結構時序圖，<code>Childof</code> 我會歸類成父節點依賴子節點的結果。例如 Server Span 透過 RPC等方式 去叫了 register Span ， register Span 處理了一些資料又去呼叫 SQL Span 做 insert 的動作，SQL Span 對 SQL 存入資料後會返回給 register Span 回報 insert 動作成功，接著 register Span  又會返回給 Server Span 註冊成功的消息。</p>
 <p>這種父節點依賴子節點的行為稱為<code>ChildOf</code>。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    [-Parent Server Span--------------]
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    [-Parent Server Span--------------]
          [-Child register Span A----]
           [-Child Span B----]
 </code></pre></div><h5 id="followsfrom">FollowsFrom</h5>
 <p>先來看看流程結構時序圖，父節點不依賴任何子節點的結果我把他歸類為 <code>FollowsFrom</code> ，例如我發送一條訊息，訊息是否成功被處理與發訊息的事件沒有關聯，這時就稱為 <code>FollowsFrom</code> 。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[-Parent Span-]  [-Child Span-]
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[-Parent Span-]  [-Child Span-]
 </code></pre></div><h4 id="span-tag">Span-tag</h4>
 <p>在 OpenTracing 的規範之下，每一個 <code>span</code> 都可以有 <code>tag</code> 屬性以 key-value 的形式出現。 <code>tag</code> 我們可以理解成某一種屬性例如圖中的error tag ，我們可以利用這格屬性過濾掉error =false 的span，方便我們查詢我追蹤。
 <img src="https://i.imgur.com/Tqp8yq5.png" alt=""></p>

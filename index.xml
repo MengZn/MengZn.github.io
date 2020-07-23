@@ -221,5 +221,16 @@ Skill Focus on Cloud Native Open Source
  Kubernetes OpenStack Networking Ansible Android  </description>
     </item>
     
+    <item>
+      <title>簡單理解 Operator Lifecycle Manager - 1 (OLM)</title>
+      <link>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/olm-1.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+    </item>
+    
   </channel>
 </rss>

@@ -93,19 +93,19 @@
 <div class="content post__content clearfix">
 			<p>記錄一下，Open vSwitch (OVS)常用的指令。</p>
 <p>在ubuntu上安裝ovs</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo apt install openvswitch-switch -y
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo apt install openvswitch-switch -y
 </code></pre></div><h3 id="新增一個bridge">新增一個bridge</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl add-br br0
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl add-br br0
 </code></pre></div><h3 id="顯示所有bridge">顯示所有bridge</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl list-br
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl list-br
 </code></pre></div><h3 id="給某個bridge新增一個port">給某個bridge新增一個port</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl add-port br0 veth1
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl add-port br0 veth1
 </code></pre></div><h3 id="顯示綁定到該port的bridge">顯示綁定到該port的bridge</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl port-to-br veth1
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl port-to-br veth1
 </code></pre></div><h3 id="連接controller到ovs-br0上">連接controller到ovs br0上</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl set-controller br0 tcp:&lt;controller IP&gt;
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl set-controller br0 tcp:&lt;controller IP&gt;
 </code></pre></div><h3 id="顯示所有的bridge連接的port以及controller">顯示所有的bridge、連接的port以及controller</h3>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl show
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo ovs-vsctl show
 </code></pre></div>
 		</div>
 		<footer class="post__footer">

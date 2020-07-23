@@ -130,30 +130,30 @@
 <h2 id="create-secret">Create secret</h2>
 <p>要在 OCP 上面建立一個 <code>secret</code> 後續讓驗證的時候可以攜帶這個 secret 資訊。
 這裡的 clientSecret 的數值就是剛剛在 Gitlab 上建立 Application 的 Secret 的數值呦！</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$kubectl create secret generic gitlab-app-oath --from-literal=clientSecret=&#34;1368992d4100943938f4896d47419b4bba3c5598dce0fa15f8c4ca50fc16758f&#34; -n openshift-config
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$kubectl create secret generic gitlab-app-oath --from-literal=clientSecret=&#34;1368992d4100943938f4896d47419b4bba3c5598dce0fa15f8c4ca50fc16758f&#34; -n openshift-config
 </code></pre></div><h2 id="create-comfigmap">Create Comfigmap</h2>
 <p>接著建立 configmap ，這裡的 configmap 是 Gitlab 的憑證，只要修改一下憑證的路徑在按照下面的命令執行就可以把憑證放到 OCP 上了。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$kubectl create configmap gitlab-ca --from-file=ca.crt=/mnt/gitlab-ca.crt -n openshift-config
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$kubectl create configmap gitlab-ca --from-file=ca.crt=/mnt/gitlab-ca.crt -n openshift-config
 </code></pre></div><h2 id="create-oauth">Create OAuth</h2>
 <p>上面的步驟做完之後，我們還需要建立一個 yaml 案來告訴 OCP 說現在要多提供一種登入及認證方式。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#cdcd00">apiVersion</span>: config.openshift.io/v1
-<span style="color:#cdcd00">kind</span>: OAuth
-<span style="color:#cdcd00">metadata</span>:
-  <span style="color:#cdcd00">name</span>: cluster
-<span style="color:#cdcd00">spec</span>:
-  <span style="color:#cdcd00">identityProviders</span>:
-  - <span style="color:#cdcd00">name</span>: &lt;登入選項會出現的名稱<span style="color:#cd0000">&gt; 
-</span><span style="color:#cd0000">    mappingMethod: claim </span>
-    <span style="color:#cdcd00">type</span>: GitLab
-    <span style="color:#cdcd00">gitlab</span>:
-      <span style="color:#cdcd00">clientID</span>: &lt;Gitlab上取得的application ID<span style="color:#cd0000">&gt;
-</span><span style="color:#cd0000">      clientSecret: </span>
-        <span style="color:#cdcd00">name</span>: gitlab-app-oath
-      <span style="color:#cdcd00">url</span>: &lt;Gitlab的位置<span style="color:#cd0000">&gt;
-</span><span style="color:#cd0000">      ca: </span>
-        <span style="color:#cdcd00">name</span>: gitlab-ca
-</code></pre></div><p>de re mi so ，我們可以 apply 這個設定檔案到 OCP 上囉！</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$kubectl apply -f oath-gitlab.yml
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#fb660a;font-weight:bold">apiVersion</span>:<span style="color:#888"> </span>config.openshift.io/v1<span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">kind</span>:<span style="color:#888"> </span>OAuth<span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">metadata</span>:<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>cluster<span style="color:#888">
+</span><span style="color:#888"></span><span style="color:#fb660a;font-weight:bold">spec</span>:<span style="color:#888">
+</span><span style="color:#888">  </span><span style="color:#fb660a;font-weight:bold">identityProviders</span>:<span style="color:#888">
+</span><span style="color:#888">  </span>- <span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>&lt;登入選項會出現的名稱<span style="color:#0086d2">&gt; 
+</span><span style="color:#0086d2">    mappingMethod: claim </span><span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">type</span>:<span style="color:#888"> </span>GitLab<span style="color:#888">
+</span><span style="color:#888">    </span><span style="color:#fb660a;font-weight:bold">gitlab</span>:<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">clientID</span>:<span style="color:#888"> </span>&lt;Gitlab上取得的application<span style="color:#888"> </span>ID<span style="color:#0086d2">&gt;
+</span><span style="color:#0086d2">      clientSecret: </span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>gitlab-app-oath<span style="color:#888">
+</span><span style="color:#888">      </span><span style="color:#fb660a;font-weight:bold">url</span>:<span style="color:#888"> </span>&lt;Gitlab的位置<span style="color:#0086d2">&gt;
+</span><span style="color:#0086d2">      ca: </span><span style="color:#888">
+</span><span style="color:#888">        </span><span style="color:#fb660a;font-weight:bold">name</span>:<span style="color:#888"> </span>gitlab-ca<span style="color:#888">
+</span></code></pre></div><p>de re mi so ，我們可以 apply 這個設定檔案到 OCP 上囉！</p>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$kubectl apply -f oath-gitlab.yml
 </code></pre></div><p>就著我們就可以到openshift console 看剛剛的設定是不是大成功了！</p>
 <p><img src="https://i.imgur.com/rLfkBoH.png" alt=""></p>
 <p>快樂地點進去之後，可以看看。可以看到 OCP 向你的 Gitlab 要權限登入囉。

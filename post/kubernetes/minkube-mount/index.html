@@ -114,53 +114,53 @@
 </table>
 <p>我們要掛載資料夾或檔案至minkube的Virtual Machine 上的時候，會執行mount的動作。
 可參考<a href="https://github.com/kubernetes/minikube/blob/master/docs/host_folder_mount.md">官方網站</a>的掛載方式。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$minikube</span> mount ~/app:/app
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$minikube</span> mount ~/app:/app
 Mounting /home/jason/app into /app on the minikubeVM
-This daemon process needs to stay alive <span style="color:#cdcd00">for</span> the mount to still be accessible...
+This daemon process needs to stay alive <span style="color:#fb660a;font-weight:bold">for</span> the mount to still be accessible...
 ufs starting
 </code></pre></div><p>透過minikube的指令連進虛擬機內</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$minkube</span> ssh
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$minkube</span> ssh
 _             _
-_         _ <span style="color:#39c">(</span> <span style="color:#39c">)</span>           <span style="color:#39c">(</span> <span style="color:#39c">)</span>
-___ ___  <span style="color:#39c">(</span>_<span style="color:#39c">)</span>  ___  <span style="color:#39c">(</span>_<span style="color:#39c">)</span>| |/<span style="color:#cd0000">&#39;)  _   _ | |_      __
-</span><span style="color:#cd0000">/&#39;</span> _ <span style="color:#cd0000">`</span> _ <span style="color:#cd0000">`</span><span style="color:#cd0000">\|</span> |/<span style="color:#cd0000">&#39; _ `\| || , &lt;  ( ) ( )| &#39;</span>_<span style="color:#cd0000">`</span><span style="color:#cd0000">\ </span> /<span style="color:#cd0000">&#39;__`\
-</span><span style="color:#cd0000">| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
-</span><span style="color:#cd0000">(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/&#39;</span><span style="color:#39c">(</span>_,__/<span style="">&#39;</span><span style="color:#cd0000">`</span><span style="color:#cd0000">\_</span>___<span style="color:#39c">)</span>
+_         _ ( )           ( )
+___ ___  (_)  ___  (_)| |/<span style="color:#0086d2">&#39;)  _   _ | |_      __
+</span><span style="color:#0086d2">/&#39;</span> _ <span style="color:#0086d2">`</span> _ <span style="color:#0086d2">`</span><span style="color:#0086d2">\|</span> |/<span style="color:#0086d2">&#39; _ `\| || , &lt;  ( ) ( )| &#39;</span>_<span style="color:#0086d2">`</span><span style="color:#0086d2">\ </span> /<span style="color:#0086d2">&#39;__`\
+</span><span style="color:#0086d2">| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+</span><span style="color:#0086d2">(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/&#39;</span>(_,__/&#39;<span style="color:#0086d2">`</span><span style="color:#0086d2">\_</span>___)
 
 
 </code></pre></div><p>開發人員會將自己開發的程式透過Persistent Volumes的方式讓pod存取。
 例如:
 網頁程式設計人員撰寫PHP的程式碼，只要更新本地的程式碼minikube的pod就可以線上迭代，大幅地增加開發人員的速度。</p>
 <p>我們要將app這個資料夾透過hostpath的方式掛載到minikube上</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$cat</span> <span style="color:#cd0000">&lt;&lt;EOF | kubectl apply -f -
-</span><span style="color:#cd0000">apiVersion: v1
-</span><span style="color:#cd0000">kind: Pod
-</span><span style="color:#cd0000">metadata:
-</span><span style="color:#cd0000">  name: test-volume
-</span><span style="color:#cd0000">spec:
-</span><span style="color:#cd0000">  containers:
-</span><span style="color:#cd0000">  - image: nginx
-</span><span style="color:#cd0000">    name: test-volume
-</span><span style="color:#cd0000">    volumeMounts:
-</span><span style="color:#cd0000">    - mountPath: /app
-</span><span style="color:#cd0000">      name: test-volume
-</span><span style="color:#cd0000">  volumes:
-</span><span style="color:#cd0000">  - name: test-volume
-</span><span style="color:#cd0000">    hostPath:
-</span><span style="color:#cd0000">      path: /app
-</span><span style="color:#cd0000">EOF</span>
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$cat</span> <span style="color:#0086d2">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#0086d2">apiVersion: v1
+</span><span style="color:#0086d2">kind: Pod
+</span><span style="color:#0086d2">metadata:
+</span><span style="color:#0086d2">  name: test-volume
+</span><span style="color:#0086d2">spec:
+</span><span style="color:#0086d2">  containers:
+</span><span style="color:#0086d2">  - image: nginx
+</span><span style="color:#0086d2">    name: test-volume
+</span><span style="color:#0086d2">    volumeMounts:
+</span><span style="color:#0086d2">    - mountPath: /app
+</span><span style="color:#0086d2">      name: test-volume
+</span><span style="color:#0086d2">  volumes:
+</span><span style="color:#0086d2">  - name: test-volume
+</span><span style="color:#0086d2">    hostPath:
+</span><span style="color:#0086d2">      path: /app
+</span><span style="color:#0086d2">EOF</span>
 </code></pre></div><p>透過kubectl 指令確認pod正常運作</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> get pod
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubectl</span> get pod
 NAME                            READY     STATUS        RESTARTS   AGE
-test-volume                     1/1       Running       <span style="color:#cd00cd">0</span>          1m
+test-volume                     1/1       Running       <span style="color:#0086f7;font-weight:bold">0</span>          1m
 </code></pre></div><p>這實在pod內出現神奇的問題，透過kubectl連進pod去看一下。</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#00cdcd">$kubectl</span> <span style="color:#cd00cd">exec</span> -ti test-volume sh
+<div class="highlight"><pre style="color:#fff;background-color:#111;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#fb660a">$kubectl</span> exec -ti test-volume sh
 
-<span style="color:#00cdcd">$ls</span> -al
-drwxr-xr-x   <span style="color:#cd00cd">1</span> root root    <span style="color:#cd00cd">4096</span> Jul  <span style="color:#cd00cd">2</span> 19:13 .
-drwxr-xr-x   <span style="color:#cd00cd">1</span> root root    <span style="color:#cd00cd">4096</span> Jul  <span style="color:#cd00cd">2</span> 19:13 ..
--rwxr-xr-x   <span style="color:#cd00cd">1</span> root root       <span style="color:#cd00cd">0</span> Jul  <span style="color:#cd00cd">2</span> 19:13 .dockerenv
-drwxrwxr-x   <span style="color:#cd00cd">1</span>  <span style="color:#cd00cd">501</span> <span style="color:#cd00cd">20</span>        <span style="color:#cd00cd">64</span> Jul  <span style="color:#cd00cd">2</span> 18:50 app
+<span style="color:#fb660a">$ls</span> -al
+drwxr-xr-x   <span style="color:#0086f7;font-weight:bold">1</span> root root    <span style="color:#0086f7;font-weight:bold">4096</span> Jul  <span style="color:#0086f7;font-weight:bold">2</span> 19:13 .
+drwxr-xr-x   <span style="color:#0086f7;font-weight:bold">1</span> root root    <span style="color:#0086f7;font-weight:bold">4096</span> Jul  <span style="color:#0086f7;font-weight:bold">2</span> 19:13 ..
+-rwxr-xr-x   <span style="color:#0086f7;font-weight:bold">1</span> root root       <span style="color:#0086f7;font-weight:bold">0</span> Jul  <span style="color:#0086f7;font-weight:bold">2</span> 19:13 .dockerenv
+drwxrwxr-x   <span style="color:#0086f7;font-weight:bold">1</span>  <span style="color:#0086f7;font-weight:bold">501</span> <span style="color:#0086f7;font-weight:bold">20</span>        <span style="color:#0086f7;font-weight:bold">64</span> Jul  <span style="color:#0086f7;font-weight:bold">2</span> 18:50 app
 ...
 </code></pre></div><p>因為uid、gid的這個問題會導致無法存取app內的文件</p>
 		</div>
