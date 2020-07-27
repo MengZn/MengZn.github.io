@@ -284,4 +284,8 @@
     <loc>https://blog.jjmengze.website/categories/ci/cd/</loc>
   </url>
   
+  <url>
+    <loc>https://blog.jjmengze.website/post/kubernetes/kubernetes-controller-manger/</loc>
+  </url>
+  
 </urlset>
