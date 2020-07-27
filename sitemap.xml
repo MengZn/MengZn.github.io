@@ -253,6 +253,11 @@
   </url>
   
   <url>
+    <loc>https://blog.jjmengze.website/post/kubernetes/kubernetes-controller-manger/</loc>
+    <lastmod>2018-02-12T15:56:36+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.jjmengze.website/post/kubernetes/overview/</loc>
     <lastmod>2018-02-10T13:51:44+08:00</lastmod>
   </url>
@@ -282,10 +287,6 @@
   
   <url>
     <loc>https://blog.jjmengze.website/categories/ci/cd/</loc>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/post/kubernetes/kubernetes-controller-manger/</loc>
   </url>
   
 </urlset>
