@@ -4,7 +4,37 @@
   
   <url>
     <loc>https://blog.jjmengze.website/categories/</loc>
-    <lastmod>2020-07-22T12:06:29+08:00</lastmod>
+    <lastmod>2020-08-01T17:29:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/post/</loc>
+    <lastmod>2020-08-01T17:29:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/kubernetes/</loc>
+    <lastmod>2020-08-01T17:29:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/kubernetes/</loc>
+    <lastmod>2020-08-01T17:29:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler/</loc>
+    <lastmod>2020-08-01T17:29:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/</loc>
+    <lastmod>2020-08-01T17:29:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/</loc>
+    <lastmod>2020-08-01T17:29:32+08:00</lastmod>
   </url>
   
   <url>
@@ -18,27 +48,12 @@
   </url>
   
   <url>
-    <loc>https://blog.jjmengze.website/post/</loc>
-    <lastmod>2020-07-22T12:06:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/</loc>
-    <lastmod>2020-07-22T12:06:29+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.jjmengze.website/tags/openshift/</loc>
     <lastmod>2020-07-22T12:06:29+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.jjmengze.website/categories/openshift/</loc>
-    <lastmod>2020-07-22T12:06:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/tags/</loc>
     <lastmod>2020-07-22T12:06:29+08:00</lastmod>
   </url>
   
@@ -70,16 +85,6 @@
   <url>
     <loc>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</loc>
     <lastmod>2020-07-07T16:06:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/tags/kubernetes/</loc>
-    <lastmod>2020-06-29T16:07:21+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/categories/kubernetes/</loc>
-    <lastmod>2020-06-29T16:07:21+08:00</lastmod>
   </url>
   
   <url>
