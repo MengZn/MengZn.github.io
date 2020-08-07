@@ -23,6 +23,17 @@
     </item>
     
     <item>
+      <title>Kubernetes Scheduler Context</title>
+      <link>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler-context/</link>
+      <pubDate>Sat, 25 Jul 2020 13:31:09 +0800</pubDate>
+      
+      <guid>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler-context/</guid>
+      <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-scheduler-context.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+    </item>
+    
+    <item>
       <title>Kubernetes Scheduler 探討 source code 前的準備</title>
       <link>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler/</link>
       <pubDate>Sat, 25 Jul 2020 10:29:32 +0800</pubDate>
