@@ -136,6 +136,27 @@
 </article><article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
+			<a href="/post/kubernetes/kubernetes-garbage-collection/" rel="bookmark">
+			學習Kubernetes Garbage Collection機制
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-03-02T18:08:12&#43;08:00">2020-03-02</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		在 Kubernetes 資源是怎麼被回收的？
+是由 kubernetes master node 上的 kube-controller-manger 中的 garbage-collection controller 進行回收管理的。
+先不管底層是怎麼回收這些物件的，先把焦點放在我們要怎麼設定yaml檔，畢竟我們是yaml工程師嘛(笑)，以下會進行幾個實驗來觀察各種回收策略是如何進行的。
+當我們刪除物件時，可以指定該物件底下的子物件是否也跟著自動刪除。
+ 自動刪除附屬的行為也稱為 級聯刪除（Cascading Deletion）  Kubernetes 中有兩種Cascading Deletion刪除分別是：
+ 後台（Background） 模式 前台（Foreground） 模式。  Foreground 目前還沒想到怎麼實驗這個情境，不過從文件之中可以看到幾個重要的元素。
+條件  物件的metadata.finalizers被設定為foregroundDeletion 物件處於deletion in progress狀態（deletionTimestamp被建立）  行為  需要等到物件所有的子物件被删除完之後，才可以删除該物件 如何確定子物件的父親是誰？  透過子物件的ownerReferences來確定    Background kubernetes立刻``馬上删除物件，garbage-collection controller會在後台(背景)删除該物件的子物件。
+除了在背景刪除子物件的行為外還有一種是不刪除子物件，讓子物件變成孤兒(Orphan)。
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
 			<a href="/post/kubernetes/istio/istio1.0-install/" rel="bookmark">
 			Istio1.0 安裝及簡易操作
 			</a>
@@ -213,22 +234,6 @@
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		<p>學習golang也一段時間了，紀錄一下當時學習遇到的問題。</p>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/post/grpc/proto/" rel="bookmark">
-			初嚐Protocol Buffer
-			</a>
-		</h3>
-		<div class="list__meta meta">
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-05-09T02:12:05&#43;08:00">2018-05-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/grpc/" rel="category">grpc</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p><img src="https://cdn-images-1.medium.com/max/900/1*3Eb-ajNJwwrIITFGMIwPTw.png" alt=""></p>
 	</div>
 </article>
 </main>
