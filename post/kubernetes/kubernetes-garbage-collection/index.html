@@ -8,14 +8,9 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 	<meta property="og:title" content="學習Kubernetes Garbage Collection機制" />
-<meta property="og:description" content="在 Kubernetes 資源是怎麼被回收的？
-是由 kubernetes master node 上的 kube-controller-manger 中的 garbage-collection controller 進行回收管理的。
-先不管底層是怎麼回收這些物件的，先把焦點放在我們要怎麼設定yaml檔，畢竟我們是yaml工程師嘛(笑)，以下會進行幾個實驗來觀察各種回收策略是如何進行的。
-當我們刪除物件時，可以指定該物件底下的子物件是否也跟著自動刪除。
- 自動刪除附屬的行為也稱為 級聯刪除（Cascading Deletion）  Kubernetes 中有兩種Cascading Deletion刪除分別是：
- 後台（Background） 模式 前台（Foreground） 模式。  Foreground 目前還沒想到怎麼實驗這個情境，不過從文件之中可以看到幾個重要的元素。
-條件  物件的metadata.finalizers被設定為foregroundDeletion 物件處於deletion in progress狀態（deletionTimestamp被建立）  行為  需要等到物件所有的子物件被删除完之後，才可以删除該物件 如何確定子物件的父親是誰？  透過子物件的ownerReferences來確定    Background kubernetes立刻``馬上删除物件，garbage-collection controller會在後台(背景)删除該物件的子物件。
-除了在背景刪除子物件的行為外還有一種是不刪除子物件，讓子物件變成孤兒(Orphan)。" />
+<meta property="og:description" content="
+     
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.jjmengze.website/post/kubernetes/kubernetes-garbage-collection/" />
 <meta property="article:published_time" content="2020-03-02T18:08:12+08:00" />
@@ -93,7 +88,11 @@
 	</div>
 </div>
 <div class="content post__content clearfix">
-			<p>在 Kubernetes 資源是怎麼被回收的？</p>
+			<figure>
+    <img src="/images/theme/kubernetes-garbage-collection.jpg"/> 
+</figure>
+
+<p>在 Kubernetes 資源是怎麼被回收的？</p>
 <p>是由 kubernetes master node 上的 kube-controller-manger 中的 garbage-collection controller 進行回收管理的。</p>
 <p>先不管底層是怎麼回收這些物件的，先把焦點放在我們要怎麼設定yaml檔，畢竟我們是yaml工程師嘛(笑)，以下會進行幾個實驗來觀察各種回收策略是如何進行的。</p>
 <p>當我們刪除物件時，可以指定該物件底下的子物件是否也跟著自動刪除。</p>
@@ -124,7 +123,6 @@
 <h2 id="background">Background</h2>
 <p>kubernetes<code>立刻``馬上</code>删除物件，<code>garbage-collection controller</code>會在後台(背景)删除該物件的子物件。</p>
 <p>除了在背景刪除子物件的行為外還有一種是不刪除子物件，讓子物件變成孤兒(Orphan)。</p>
-
 		</div>
 	</article>
 </main>
