@@ -1,132 +1,136 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" 
+  xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/" 
+  xmlns:atom="http://www.w3.org/2005/Atom" 
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" 
+  xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>Categories on Meng Ze&#39;s Blog</title>
+    <title>Categories on Hugo Zzo Theme</title>
     <link>https://blog.jjmengze.website/categories/</link>
-    <description>Recent content in Categories on Meng Ze&#39;s Blog</description>
+    <description>Recent content in Categories on Hugo Zzo Theme</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 30 Jul 2020 14:27:38 +0800</lastBuildDate>
+    <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
+    <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
+    <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
+    <lastBuildDate>Mon, 02 Mar 2020 18:08:12 +0800</lastBuildDate>
     
-	<atom:link href="https://blog.jjmengze.website/categories/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://blog.jjmengze.website/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
-    <item>
-      <title>kubernetes</title>
-      <link>https://blog.jjmengze.website/categories/kubernetes/</link>
-      <pubDate>Thu, 30 Jul 2020 14:27:38 +0800</pubDate>
+    
+
       
-      <guid>https://blog.jjmengze.website/categories/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>go</title>
-      <link>https://blog.jjmengze.website/categories/go/</link>
-      <pubDate>Wed, 22 Jul 2020 12:06:29 +0800</pubDate>
+      <item>
+        <title>kubernetes</title>
+        <link>https://blog.jjmengze.website/categories/kubernetes/</link>
+        <pubDate>Mon, 02 Mar 2020 18:08:12 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/kubernetes/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/categories/go/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>openshift</title>
-      <link>https://blog.jjmengze.website/categories/openshift/</link>
-      <pubDate>Wed, 22 Jul 2020 12:06:29 +0800</pubDate>
+      <item>
+        <title>servicemesh</title>
+        <link>https://blog.jjmengze.website/categories/servicemesh/</link>
+        <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/servicemesh/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/categories/openshift/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>talk</title>
-      <link>https://blog.jjmengze.website/categories/talk/</link>
-      <pubDate>Tue, 21 Jul 2020 16:06:29 +0800</pubDate>
+      <item>
+        <title>serverless</title>
+        <link>https://blog.jjmengze.website/categories/serverless/</link>
+        <pubDate>Fri, 04 May 2018 17:39:26 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/serverless/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/categories/talk/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>devops</title>
-      <link>https://blog.jjmengze.website/categories/devops/</link>
-      <pubDate>Thu, 30 Apr 2020 12:07:34 +0800</pubDate>
+      <item>
+        <title>openStack</title>
+        <link>https://blog.jjmengze.website/categories/openstack/</link>
+        <pubDate>Sat, 21 Apr 2018 23:25:20 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/openstack/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/categories/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>istio</title>
-      <link>https://blog.jjmengze.website/categories/istio/</link>
-      <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
+      <item>
+        <title>GRPC</title>
+        <link>https://blog.jjmengze.website/categories/grpc/</link>
+        <pubDate>Thu, 15 Mar 2018 02:12:05 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/grpc/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/categories/istio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>serverless</title>
-      <link>https://blog.jjmengze.website/categories/serverless/</link>
-      <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
+      <item>
+        <title>Networking</title>
+        <link>https://blog.jjmengze.website/categories/networking/</link>
+        <pubDate>Tue, 06 Mar 2018 22:20:02 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/networking/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/categories/serverless/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>servicemesh</title>
-      <link>https://blog.jjmengze.website/categories/servicemesh/</link>
-      <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/categories/servicemesh/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>OpenStack</title>
-      <link>https://blog.jjmengze.website/categories/openstack/</link>
-      <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/categories/openstack/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>https://blog.jjmengze.website/categories/golang/</link>
-      <pubDate>Fri, 11 May 2018 17:39:26 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/categories/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>grpc</title>
-      <link>https://blog.jjmengze.website/categories/grpc/</link>
-      <pubDate>Wed, 09 May 2018 02:12:05 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/categories/grpc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Networking</title>
-      <link>https://blog.jjmengze.website/categories/networking/</link>
-      <pubDate>Sun, 06 May 2018 22:20:02 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/categories/networking/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ci/cd</title>
-      <link>https://blog.jjmengze.website/categories/ci/cd/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://blog.jjmengze.website/categories/ci/cd/</guid>
-      <description></description>
-    </item>
+
     
   </channel>
 </rss>

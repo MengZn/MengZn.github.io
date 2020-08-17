@@ -1,302 +1,463 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" 
+  xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/" 
+  xmlns:atom="http://www.w3.org/2005/Atom" 
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" 
+  xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>Meng Ze&#39;s Blog</title>
+    <title>Hugo Zzo Theme</title>
     <link>https://blog.jjmengze.website/</link>
-    <description>Recent content on Meng Ze&#39;s Blog</description>
+    <description>Recent content on Hugo Zzo Theme</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 30 Jul 2020 14:27:38 +0800</lastBuildDate>
+    <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
+    <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
+    <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
+    <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://blog.jjmengze.website/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://blog.jjmengze.website/index.xml" rel="self" type="application/rss+xml" />
     
     
-    <item>
-      <title>Kubernetes Scheduler Sort</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler-sort/</link>
-      <pubDate>Thu, 30 Jul 2020 14:27:38 +0800</pubDate>
+    
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler-sort/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-scheduler-sort.jpg&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes Scheduler Context</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler-context/</link>
-      <pubDate>Tue, 28 Jul 2020 13:31:09 +0800</pubDate>
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler-context/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-scheduler-context.jpg&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes Scheduler 探討 source code 前的準備</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler/</link>
-      <pubDate>Sat, 25 Jul 2020 10:29:32 +0800</pubDate>
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/kubernetes-scheduler/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-scheduler.jpeg&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>從source code看openshift怎麼做監控-(資源建立篇)</title>
-      <link>https://blog.jjmengze.website/post/ocp/cluster-monitoring-operator-trace-code/</link>
-      <pubDate>Wed, 22 Jul 2020 12:06:29 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/ocp/cluster-monitoring-operator-trace-code/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/ocp.png&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>Cluster Monitoring Operator</title>
-      <link>https://blog.jjmengze.website/post/ocp/cluster-monitoring-operator/</link>
-      <pubDate>Tue, 21 Jul 2020 16:06:29 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/ocp/cluster-monitoring-operator/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/ocp.png&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>簡單理解 Operator Lifecycle Manager - 2 (OLM)</title>
-      <link>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-2/</link>
-      <pubDate>Mon, 13 Jul 2020 16:06:29 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-2/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/olm-2.png&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>簡單理解 Operator Lifecycle Manager - 1 (OLM)</title>
-      <link>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</link>
-      <pubDate>Tue, 07 Jul 2020 16:06:29 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/ocp/operator-lifecycle-manager-1/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/olm-1.png&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>kubernetes Audit 查起來</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/audit/</link>
-      <pubDate>Mon, 29 Jun 2020 16:07:21 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/audit/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/4KK2jYL.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>CA 動手玩</title>
-      <link>https://blog.jjmengze.website/post/ca/ca-one-way-ssl/</link>
-      <pubDate>Thu, 04 Jun 2020 17:22:45 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/ca/ca-one-way-ssl/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://svgsilh.com/svg/2114459.svg&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>Github Action 妳各位，注意 Heroku ！</title>
-      <link>https://blog.jjmengze.website/post/cicd/github-action-2/</link>
-      <pubDate>Tue, 02 Jun 2020 14:17:22 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/cicd/github-action-2/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/post/githubaction-heroku.png&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>公有雲kubernetes pull unssl container image registry</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/private-image/</link>
-      <pubDate>Tue, 26 May 2020 15:07:18 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/private-image/</guid>
-      <description>&lt;p&gt;記錄一下之前在工作上遇到的 Gitlab domain 沒有簽憑證，但是外部服務(Azure Kubernetes Service)又需要存取 Gitlab Container Registry 會遇到的問題。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
-      <link>https://blog.jjmengze.website/post/devops/gitlab-ocp/</link>
-      <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
+        
       
-      <guid>https://blog.jjmengze.website/post/devops/gitlab-ocp/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://www.programmersought.com/images/483/aa458c2dd725442f893d667726c3a983.JPEG&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>前方高能之Opentracing</title>
-      <link>https://blog.jjmengze.website/post/opentracing/</link>
-      <pubDate>Thu, 30 Apr 2020 12:07:34 +0800</pubDate>
+
       
-      <guid>https://blog.jjmengze.website/post/opentracing/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://i.imgur.com/sJRUXhX.png&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>Github Action 起步走第一式</title>
-      <link>https://blog.jjmengze.website/post/cicd/github-action-1/</link>
-      <pubDate>Sun, 26 Apr 2020 20:48:52 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/cicd/github-action-1/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://buzzorange.com/techorange/wp-content/uploads/sites/2/2015/03/github-mark.webp?png&#34;/&gt; 
-&lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>學習Kubernetes Garbage Collection機制</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/kubernetes-garbage-collection/</link>
-      <pubDate>Mon, 02 Mar 2020 18:08:12 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/kubernetes/kubernetes-garbage-collection/</guid>
-      <description>&lt;figure&gt;
+      <item>
+        <title>學習Kubernetes Garbage Collection機制</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/kubernetes-garbage-collection/</link>
+        <pubDate>Mon, 02 Mar 2020 18:08:12 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Mon, 02 Mar 2020 18:08:12 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/kubernetes-garbage-collection/</guid>
+        <description>&lt;figure&gt;
     &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-garbage-collection.jpg&#34;/&gt; 
 &lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>Istio1.0 安裝及簡易操作</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</link>
-      <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/istio/istio1.0-install/</guid>
-      <description>&lt;h2 id=&#34;istio-簡介&#34;&gt;Istio 簡介&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://istio.io/&#34;&gt;Istio&lt;/a&gt;提供了一個完整的微服務應用解決方案，透過為整個服務網路提供行為監控和細粒度的控制來滿足微服務應用程序的多樣化需求。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>初嚐kubeless的滋味</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/kubeless/</link>
-      <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/kubernetes/kubeless/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://s3-us-west-2.amazonaws.com/assets.site.serverless.com/blog/kubeless.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>minikube 在掛載本機遇到的神奇問題</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/minkube-mount/</link>
-      <pubDate>Mon, 02 Jul 2018 02:12:05 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/kubernetes/minkube-mount/</guid>
-      <description>&lt;p&gt;開發人員通常會使用minkube開發環境，紀錄當時遇到的掛載問題。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Kolla Kubernetes</title>
-      <link>https://blog.jjmengze.website/post/openstack/kolla-kubernetes/</link>
-      <pubDate>Mon, 21 May 2018 23:25:20 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/openstack/kolla-kubernetes/</guid>
-      <description>&lt;p&gt;kolla是為了提供production-ready的 OpenStack Cloud 之container和deployment tools。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>簡單介紹一下golang的指標</title>
-      <link>https://blog.jjmengze.website/post/golang/pointer/</link>
-      <pubDate>Fri, 11 May 2018 17:39:26 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/golang/pointer/</guid>
-      <description>&lt;p&gt;學習golang也一段時間了，紀錄一下當時學習遇到的問題。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>初嚐Protocol Buffer</title>
-      <link>https://blog.jjmengze.website/post/grpc/proto/</link>
-      <pubDate>Wed, 09 May 2018 02:12:05 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/grpc/proto/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://cdn-images-1.medium.com/max/900/1*3Eb-ajNJwwrIITFGMIwPTw.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>OVS Commonly Command</title>
-      <link>https://blog.jjmengze.website/post/sdn/ovs-commonly-command/</link>
-      <pubDate>Sun, 06 May 2018 22:20:02 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/sdn/ovs-commonly-command/</guid>
-      <description>&lt;p&gt;記錄一下，Open vSwitch (OVS)常用的指令。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes Control Plane 這件小小事(controller-manger)</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/kubernetes-controller-manger/</link>
-      <pubDate>Mon, 12 Feb 2018 15:56:36 +0800</pubDate>
-      
-      <guid>https://blog.jjmengze.website/post/kubernetes/kubernetes-controller-manger/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-controller-manger.jpg&#34;/&gt; 
+      <item>
+        <title>service mesh 之 Istio 1.0 安裝及極度簡易操作</title>
+        <link>https://blog.jjmengze.website/posts/istio/istio1.0-install/</link>
+        <pubDate>Sat, 04 Aug 2018 17:39:26 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Sat, 04 Aug 2018 17:39:26 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/istio/istio1.0-install/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/istio.png&#34;/&gt; 
 &lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes Control Plane 這件小小事(api-server)</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/overview/</link>
-      <pubDate>Sat, 10 Feb 2018 13:51:44 +0800</pubDate>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>servicemesh</category>
+            
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>servicemesh</category>
+            
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/overview/</guid>
-      <description>&lt;figure&gt;
-    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-ooverview.jpeg&#34;/&gt; 
+      <item>
+        <title>FAAS之kubeless的新滋味</title>
+        <link>https://blog.jjmengze.website/posts/kubeless/kubeless/</link>
+        <pubDate>Fri, 04 May 2018 17:39:26 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Fri, 04 May 2018 17:39:26 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubeless/kubeless/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubeless.png&#34;/&gt; 
 &lt;/figure&gt;</description>
-    </item>
-    
-    <item>
-      <title>etcd 那回事</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/etcd/</link>
-      <pubDate>Tue, 06 Feb 2018 11:24:52 +0800</pubDate>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>serverless</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>serverless</category>
+            
+          
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/etcd/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://miro.medium.com/max/5602/1*28aY7s7zpygdDVKxlTItXw.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes淺入淺出</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/kubernetes/</link>
-      <pubDate>Mon, 05 Feb 2018 02:12:05 +0800</pubDate>
+      <item>
+        <title>Kolla Kubernetes</title>
+        <link>https://blog.jjmengze.website/posts/openstack/kolla-kubernetes/</link>
+        <pubDate>Sat, 21 Apr 2018 23:25:20 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Sat, 21 Apr 2018 23:25:20 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/openstack/kolla-kubernetes/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kolla-openstack.jpg&#34;/&gt; 
+&lt;/figure&gt;
+
+&lt;p&gt;kolla是為了提供production-ready的 OpenStack Cloud 之container和deployment tools。&lt;/p&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>openStack</category>
+            
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>openStack</category>
+            
+          
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/kubernetes/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://kubernetes.io/images/kubernetes-horizontal-color.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>來看看Container</title>
-      <link>https://blog.jjmengze.website/post/kubernetes/container/</link>
-      <pubDate>Sat, 03 Feb 2018 02:12:05 +0800</pubDate>
+      <item>
+        <title>GRPC 與 Proto buffer 附身合體</title>
+        <link>https://blog.jjmengze.website/posts/protocol/grpc-server-client/</link>
+        <pubDate>Thu, 15 Mar 2018 02:12:05 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Thu, 15 Mar 2018 02:12:05 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/protocol/grpc-server-client/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/grpc-protobuffer.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>GRPC</category>
+            
+          
+            
+              <category>proto</category>
+            
+          
+        
+        
+          
+            
+              <category>GRPC</category>
+            
+          
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/post/kubernetes/container/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/uA8lHbz.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>About Me</title>
-      <link>https://blog.jjmengze.website/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <item>
+        <title>初嚐Protocol Buffer好滋味</title>
+        <link>https://blog.jjmengze.website/posts/protocol/grpc/</link>
+        <pubDate>Fri, 09 Mar 2018 02:12:05 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Fri, 09 Mar 2018 02:12:05 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/protocol/grpc/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/protobuf-logo.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>GRPC</category>
+            
+          
+            
+              <category>proto</category>
+            
+          
+        
+        
+          
+            
+              <category>GRPC</category>
+            
+          
+        
+        
+      </item>
       
-      <guid>https://blog.jjmengze.website/about/</guid>
-      <description>Here are my personal notes and learning process.
-李孟澤/Jason Lee
-System Developer
-Skill Focus on Cloud Native Open Source
- Kubernetes OpenStack Networking Ansible Android  </description>
-    </item>
+      <item>
+        <title>OVS 常用的指令</title>
+        <link>https://blog.jjmengze.website/posts/sdn/ovs-commonly-command/</link>
+        <pubDate>Tue, 06 Mar 2018 22:20:02 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Tue, 06 Mar 2018 22:20:02 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/sdn/ovs-commonly-command/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/ovs-cli.png&#34;/&gt; 
+&lt;/figure&gt;
+
+&lt;p&gt;記錄一下，Open vSwitch (OVS)常用的指令。&lt;/p&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>SDN</category>
+            
+          
+        
+        
+          
+            
+              <category>Networking</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
+        <title>Kubernetes Control Plane 這件小小事(controller-manger)</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/kubernetes-controller-manger-overview/</link>
+        <pubDate>Mon, 12 Feb 2018 15:56:36 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Mon, 12 Feb 2018 15:56:36 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/kubernetes-controller-manger-overview/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-controller-manger-overview.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
+        <title>Kubernetes Control Plane 這件小小事(api-server)</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/kubernetes-apiserver-overview/</link>
+        <pubDate>Sat, 10 Feb 2018 13:51:44 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Sat, 10 Feb 2018 13:51:44 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/kubernetes-apiserver-overview/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-apiserver-overview.jpeg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
+        <title>etcd 那回事</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/etcd/</link>
+        <pubDate>Thu, 18 Jan 2018 11:24:52 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Thu, 18 Jan 2018 11:24:52 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/etcd/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/etcd.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
+        <title>Kubernetes 淺入淺出</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/kubernetes/</link>
+        <pubDate>Fri, 05 Jan 2018 02:12:05 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Fri, 05 Jan 2018 02:12:05 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/kubernetes/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
+        <title>來看看Container</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/container/</link>
+        <pubDate>Mon, 01 Jan 2018 02:12:05 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Mon, 01 Jan 2018 02:12:05 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/container/</guid>
+        <description>&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/uA8lHbz.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+
     
   </channel>
 </rss>
