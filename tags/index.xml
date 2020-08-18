@@ -149,12 +149,30 @@
       </item>
       
       <item>
-        <title>index</title>
-        <link>https://blog.jjmengze.website/tags/index/</link>
+        <title>ci/cd</title>
+        <link>https://blog.jjmengze.website/tags/ci/cd/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         
-        <guid>https://blog.jjmengze.website/tags/index/</guid>
+        <guid>https://blog.jjmengze.website/tags/ci/cd/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
+      
+      <item>
+        <title>posts</title>
+        <link>https://blog.jjmengze.website/tags/posts/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/tags/posts/</guid>
         <description></description>
         
         <dc:creator>Meng Ze Li</dc:creator>

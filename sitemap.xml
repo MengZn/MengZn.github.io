@@ -13,6 +13,21 @@
   </url>
   
   <url>
+    <loc>https://blog.jjmengze.website/posts/cicd/github/github-action-2/</loc>
+    <lastmod>2020-06-02T14:17:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/</loc>
+    <lastmod>2020-06-02T14:17:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/cicd/github/github-action-1/</loc>
+    <lastmod>2020-04-26T20:48:52+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.jjmengze.website/categories/</loc>
     <lastmod>2020-03-02T18:08:12+08:00</lastmod>
   </url>
@@ -24,11 +39,6 @@
   
   <url>
     <loc>https://blog.jjmengze.website/categories/kubernetes/</loc>
-    <lastmod>2020-03-02T18:08:12+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/posts/</loc>
     <lastmod>2020-03-02T18:08:12+08:00</lastmod>
   </url>
   
@@ -203,7 +213,15 @@
   </url>
   
   <url>
-    <loc>https://blog.jjmengze.website/tags/index/</loc>
+    <loc>https://blog.jjmengze.website/tags/ci/cd/</loc>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/ci/cd/</loc>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/posts/</loc>
   </url>
   
   <url>
