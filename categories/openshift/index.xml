@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" 
+  xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/" 
+  xmlns:atom="http://www.w3.org/2005/Atom" 
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" 
+  xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>openshift on Hugo Zzo Theme</title>
+    <link>https://blog.jjmengze.website/categories/openshift/</link>
+    <description>Recent content in openshift on Hugo Zzo Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
+    <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
+    <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
+    <lastBuildDate>Wed, 06 May 2020 15:26:47 +0800</lastBuildDate>
+    
+        <atom:link href="https://blog.jjmengze.website/categories/openshift/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+
+      
+      <item>
+        <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
+        <link>https://blog.jjmengze.website/posts/ocp/gitlab-ocp/</link>
+        <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Wed, 06 May 2020 15:26:47 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/ocp/gitlab-ocp/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/ocp-gitlab-identity.jpeg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>openshift</category>
+            
+          
+        
+        
+          
+            
+              <category>openshift</category>
+            
+          
+        
+        
+      </item>
+      
+
+    
+  </channel>
+</rss>

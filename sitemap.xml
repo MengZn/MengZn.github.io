@@ -23,28 +23,48 @@
   </url>
   
   <url>
-    <loc>https://blog.jjmengze.website/posts/cicd/github/github-action-1/</loc>
-    <lastmod>2020-04-26T20:48:52+08:00</lastmod>
+    <loc>https://blog.jjmengze.website/posts/azure/private-image/</loc>
+    <lastmod>2020-05-26T15:07:18+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.jjmengze.website/categories/</loc>
-    <lastmod>2020-03-02T18:08:12+08:00</lastmod>
+    <lastmod>2020-05-26T15:07:18+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.jjmengze.website/tags/kubernetes/</loc>
-    <lastmod>2020-03-02T18:08:12+08:00</lastmod>
+    <lastmod>2020-05-26T15:07:18+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.jjmengze.website/categories/kubernetes/</loc>
-    <lastmod>2020-03-02T18:08:12+08:00</lastmod>
+    <lastmod>2020-05-26T15:07:18+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.jjmengze.website/tags/</loc>
-    <lastmod>2020-03-02T18:08:12+08:00</lastmod>
+    <lastmod>2020-05-26T15:07:18+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/openshift/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/openshift/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/ocp/gitlab-ocp/</loc>
+    <lastmod>2020-05-06T15:26:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/cicd/github/github-action-1/</loc>
+    <lastmod>2020-04-26T20:48:52+08:00</lastmod>
   </url>
   
   <url>

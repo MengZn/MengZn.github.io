@@ -43,6 +43,72 @@
       </item>
       
       <item>
+        <title>Azure Kubernetes Service pull unssl  image registry</title>
+        <link>https://blog.jjmengze.website/posts/azure/private-image/</link>
+        <pubDate>Tue, 26 May 2020 15:07:18 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Tue, 26 May 2020 15:07:18 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/azure/private-image/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/azure-private-image.jpg&#34;/&gt; 
+&lt;/figure&gt;
+
+&lt;p&gt;記錄一下之前在工作上遇到的 Gitlab domain 沒有簽憑證，但是外部服務(Azure Kubernetes Service)又需要存取 Gitlab Container Registry 會遇到的問題。&lt;/p&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
+        <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
+        <link>https://blog.jjmengze.website/posts/ocp/gitlab-ocp/</link>
+        <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Wed, 06 May 2020 15:26:47 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/ocp/gitlab-ocp/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/ocp-gitlab-identity.jpeg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>openshift</category>
+            
+          
+        
+        
+          
+            
+              <category>openshift</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>Github Action 起步走第一式</title>
         <link>https://blog.jjmengze.website/posts/cicd/github/github-action-1/</link>
         <pubDate>Sun, 26 Apr 2020 20:48:52 +0800</pubDate>

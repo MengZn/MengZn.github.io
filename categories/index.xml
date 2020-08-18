@@ -14,7 +14,7 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Mon, 02 Mar 2020 18:08:12 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2020 15:07:18 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -25,10 +25,28 @@
       <item>
         <title>kubernetes</title>
         <link>https://blog.jjmengze.website/categories/kubernetes/</link>
-        <pubDate>Mon, 02 Mar 2020 18:08:12 +0800</pubDate>
+        <pubDate>Tue, 26 May 2020 15:07:18 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         
         <guid>https://blog.jjmengze.website/categories/kubernetes/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
+      
+      <item>
+        <title>openshift</title>
+        <link>https://blog.jjmengze.website/categories/openshift/</link>
+        <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/openshift/</guid>
         <description></description>
         
         <dc:creator>Meng Ze Li</dc:creator>
