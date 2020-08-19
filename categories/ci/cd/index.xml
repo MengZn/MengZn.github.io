@@ -22,6 +22,38 @@
 
       
       <item>
+        <title>CA 動手玩</title>
+        <link>https://blog.jjmengze.website/posts/ca/ca-one-way-ssl/</link>
+        <pubDate>Thu, 04 Jun 2020 17:22:45 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Thu, 04 Jun 2020 17:22:45 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/ca/ca-one-way-ssl/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/ca-playground.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>ci/cd</category>
+            
+          
+        
+        
+          
+            
+              <category>ci/cd</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>Github Action 起步走第一式</title>
         <link>https://blog.jjmengze.website/posts/cicd/github/github-action-1/</link>
         <pubDate>Sun, 26 Apr 2020 20:48:52 +0800</pubDate>
