@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>CA 動手玩 – Hugo Zzo Theme</title>
+    <title>kubernetes Audit 查起來 – Hugo Zzo Theme</title>
     
 
 
@@ -556,7 +556,7 @@
     
     var baseurl = JSON.parse("\"https://blog.jjmengze.website/\"");
     
-    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/ca/ca-one-way-ssl/\"");
+    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/audit/\"");
     
     var langprefix = JSON.parse("\"\"");
     var searchResults = null;
@@ -1224,18 +1224,18 @@
 <meta name="description" content="Meng Learning Note" />
 
 
-<meta name="keywords" content="ci/cd">
+<meta name="keywords" content="kubernetes">
 
-<meta name="created" content="2020-06-04T17:22:45&#43;0800">
-<meta name="modified" content="2020-06-04T17:22:45&#43;0800">
-<meta property="article:published_time" content="2020-06-04T17:22:45&#43;0800">
+<meta name="created" content="2020-06-29T16:07:21&#43;0800">
+<meta name="modified" content="2020-06-29T16:07:21&#43;0800">
+<meta property="article:published_time" content="2020-06-29T16:07:21&#43;0800">
 
 <meta name="author" content="Meng Ze Li">
 
 
 <meta property="og:site_name" content="Hugo Zzo Theme">
-<meta property="og:title" content="CA 動手玩">
-<meta property="og:url" content="https://blog.jjmengze.website/posts/ca/ca-one-way-ssl/">
+<meta property="og:title" content="kubernetes Audit 查起來">
+<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/audit/">
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
@@ -1248,7 +1248,7 @@
 
 <meta name="apple-mobile-web-app-status-bar-style" content="#fff">
 
-<link rel="canonical" href="https://blog.jjmengze.website/posts/ca/ca-one-way-ssl/">
+<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/audit/">
 
 <link rel="manifest" href="/manifest.json">
 
@@ -1274,12 +1274,12 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "headline": "CA 動手玩",
-    "datePublished": "2020-06-04T17:22:45+08:00",
-    "dateModified": "2020-06-04T17:22:45+08:00",
-    "url" : "https://blog.jjmengze.website/posts/ca/ca-one-way-ssl/",
-    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/ca-playground.jpg\"/\u003e  \u003c/figure\u003e",
-    "keywords": ["ci/cd"],
+    "headline": "kubernetes Audit 查起來",
+    "datePublished": "2020-06-29T16:07:21+08:00",
+    "dateModified": "2020-06-29T16:07:21+08:00",
+    "url" : "https://blog.jjmengze.website/posts/kubernetes/audit/",
+    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/audit.png\"/\u003e  \u003c/figure\u003e",
+    "keywords": ["kubernetes"],
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://blog.jjmengze.website/"
@@ -1523,7 +1523,7 @@
   
   <li  class="is-active" >
     
-      <span>CA 動手玩</span>
+      <span>kubernetes Audit 查起來</span>
     
   </li>
   
@@ -1535,13 +1535,13 @@
   <div class="single ">
     <div class="single__nojs"></div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
-    <h2 class="single__title" data-ani="true">CA 動手玩</h2>
+    <h2 class="single__title" data-ani="true">kubernetes Audit 查起來</h2>
     <div class="single__meta">
       
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;3&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;6&nbsp; </span>
   
   <span class="single__info">
     
@@ -1553,235 +1553,85 @@
   🏷️
   
 
-  <li><a href="https://blog.jjmengze.website/tags/ci/cd/" class="single__tag" title="ci/cd">#ci/cd</a></li>
+  <li><a href="https://blog.jjmengze.website/tags/kubernetes/" class="single__tag" title="kubernetes">#kubernetes</a></li>
 
 </ul>
     </div>
     <article class="single__contents" data-dir="ltr" data-ani="true">
       
       <figure>
-    <img src="/images/theme/ca-playground.jpg"/> 
+    <img src="/images/theme/audit.png"/> 
 </figure>
 
-<p>前面說了一些基礎概念，本篇文章就實際來動手做做看用 OpenSSL 、 Nginx 加上 GO 開發一個簡單的 TLS 範例。</p>
-<h2 id="建立-ca-key">建立 CA key</h2>
-<p>由於我們要自己簽 SSL 所以需要透過 OpenSSL 先建立一個 CA 的私鑰。</p>
+<h2 id="就想看看你對我做什麼壞壞的事">就想看看你對我做什麼壞壞的事</h2>
+<p>在操作 Kubernetes Cluster 的時候系統管理員會發給各個開發者、使用者又或是 Robot 帳號，這時好多人在操作 Cluster 有沒有什麼方法可以看看誰對 Cluster 做了什麼，到時候炸鍋的時候比較好找兇手（Ｘ）。</p>
+<p>好拉除了找兇手之外還可以除錯計費做很多我目前還想不到的功能，如果有大大看到這篇文章有想到 audit 還可以做什麼可以跟我分享與討論呦！</p>
+<p>我們先看看 Kubernetes 支援哪些 audit 處理的方法。</p>
+<ul>
+<li>Log backend, which writes events to a disk</li>
+<li>Webhook backend, which sends events to an external API</li>
+<li>Dynamic backend, which configures webhook backends through an AuditSink API object.</li>
+</ul>
+<p>目前 Kubernetes 支援這三種方法處理 audit 資料，下文會三種方法都會使用一次作為範例，在看看實際的範例之前我們可以先來看看 audit 資料可以記錄哪些東西。</p>
+<ol>
+<li>發生了什麼事情（What</li>
+<li>什麼時候發生的（When</li>
+<li>誰讓事情發生了（Who</li>
+</ol>
+<p>雖然還有紀錄其他可以的東西，不過我認為這三個最為重要，有興趣的朋友可以看看<a href="https://kubernetes.io/docs/tasks/debug-application-cluster/audit/#audit-policy">官方的文件</a>。</p>
+<p>我們了解到 Kubernetes audit 會記錄什麼後，接著就是 audit 紀錄什麼時候會被觸發，這邊分為四個階段。</p>
+<ol>
+<li>
+<p>RequestReceived</p>
+<ul>
+<li>events generated as soon as the audit handler receives the request, and before it is delegated down the handler chain.（簡單來說就是 apiserver 收到請求的階段）</li>
+</ul>
+</li>
+<li>
+<p>ResponseStarted</p>
+<ul>
+<li>Once the response headers are sent, but before the response body is sent. This stage is only generated for long-running requests (e.g. watch).(這個階段我不是非常了解，看起來像是 watch 之類的才會觸發這個階段)</li>
+</ul>
+</li>
+<li>
+<p>ResponseComplete</p>
+<ul>
+<li>The response body has been completed and no more bytes will be sent.（這個階段代表 apiserver 的回應）</li>
+</ul>
+</li>
+<li>
+<p>Panic</p>
+<ul>
+<li>Events generated when a panic occurred.(發生 panic 才會觸發)</li>
+</ul>
+</li>
+</ol>
+<p>目前我們知道 Kubernetes audit 會記錄事情發生的內容，事情發生的階段。那有可不可以分門別類，例如我只想要紀錄 pods 的事件、 configmaps 的事件 或是某個 user 的行為呢？</p>
+<p>答案是可以的！每當我看完 Kubernetes 的設計真的覺得社群考慮的相當的彈性，繼續項開源專案學習，只有站在巨人的肩膀上才能看得更遠。好廢話不多說，剛剛談到的分門別類在 audit 裡稱為 policy ， policy 分為以下四個級別。</p>
+<ol>
+<li>None
+<ul>
+<li>(不要記錄與此規則匹配的事件)</li>
+</ul>
+</li>
+<li>Metadata
+<ul>
+<li>(記錄請求的 metadata 例如 user timestamp resource verb e.t.c. 但不記錄請求的內容，有點類似只把 header 紀錄一下來 body 隨它去的感覺。)</li>
+</ul>
+</li>
+<li>Request
+<ul>
+<li>(記錄整個事件請求的內容， body 跟 header 都要存的意思)</li>
+</ul>
+</li>
+<li>RequestResponse
+<ul>
+<li>(記錄整個事件回應的內容， body 跟 header 都要存的意思)</li>
+</ul>
+</li>
+</ol>
+<p>官方有給出一個範例讓我們可以依照自己的需求進行修改，範例如下所示。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">openssl genrsa -out ca.key <span class="m">2048</span>
-Generating RSA private key, <span class="m">2048</span> bit long modulus <span class="o">(</span><span class="m">2</span> primes<span class="o">)</span>
-........+++++
-......+++++
-e is <span class="m">65537</span> <span class="o">(</span>0x010001<span class="o">)</span>
-
-root@internalTest:/home/ca# ls
-ca.key
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="建立-ca-crt">建立 CA CRT</h2>
-<p>建立完 CA 的私鑰後，我們還需要建立 CA 的身分證 CA CRT ，這個身分證就代表 CA 公開出去的所有人都看得到。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">openssl req -x509 -new -nodes -key ca.key -days <span class="m">10000</span> -out ca.crt -subj <span class="s2">&#34;/CN=playwithca&#34;</span>
-
-root@internalTest:/home/ca# ls
-ca.key
-ca.crt
-</code></pre></td></tr></table>
-</div>
-</div><hr />
-<h2 id="建立-server-key">建立 Server Key</h2>
-<p>建立 server 的私鑰 ， 用來給 nginx server 的 TLS  private key。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">openssl genrsa -out server.key <span class="m">2048</span>
-
-Generating RSA private key, <span class="m">2048</span> bit long modulus <span class="o">(</span><span class="m">2</span> primes<span class="o">)</span>
-...................+++++
-.............................................................................................+++++
-e is <span class="m">65537</span> <span class="o">(</span>0x010001<span class="o">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="server-csr">Server CSR</h2>
-<p>建立一個 CSR 用來向 CA 說請幫我簽名，簽的 Domain 是 <code>example.com</code> 。</p>
-<p>可以想像你去戶政事務所填寫申請身分證的表單</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">openssl req -new -key server.key -out server.csr -subj <span class="s2">&#34;/CN=example.com&#34;</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="server-crt">Server CRT</h2>
-<p>透過剛剛產出的 CSR 給 CA 簽名，這邊一般來說是用買的，你給 CA 商 CSR 他會幫你簽名出一個 CRT ， 這個 CRT 就是這個 server 的身分證。</p>
-<p>從你填寫表單的內容戶政事務所發給你對應的身分證</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days <span class="m">365</span>
-
--out server.crt -days <span class="m">365</span>
-Signature ok
-<span class="nv">subject</span><span class="o">=</span><span class="nv">CN</span> <span class="o">=</span> example.com
-Getting CA Private Key
-
-root@internalTest:/home/ca# ls
-ca.crt  ca.key  ca.srl  server.crt  server.csr  server.key
-</code></pre></td></tr></table>
-</div>
-</div><hr />
-<p>這邊簡單設定一下 nginx 的 SSL ，讓 nginx 可以使用指定的證書，並且開啟 443 port 提供其他人連線。</p>
-<h3 id="nginx-config">nginx config</h3>
-<pre><code class="language-nginx=" data-lang="nginx=">...
-         server {
-                listen 443 ssl default_server;
-                listen [::]:443 ssl default_server;
-                ssl_certificate /home/ca/server.crt;
-                ssl_certificate_key /home/ca/server.key;
-        }
-...
-</code></pre><p>設定好 nginx 別忘了重新載入 nginx 設定檔（題外話我覺得 nginx graceful reload做得滿好的，有興趣的朋友可以去研究一下）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">nginx -s reload
-</code></pre></td></tr></table>
-</div>
-</div><p>由於是測試環境沒有實際的 domain ，就先以修改 hostname 作為替代方案。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">cat /etc/hosts
-<span class="c1">##</span>
-<span class="c1"># Host Database</span>
-#
-<span class="c1"># localhost is used to configure the loopback interface</span>
-<span class="c1"># when the system is booting.  Do not change this entry.</span>
-<span class="c1">##</span>
-52.163.243.191 example.com
-...
-</code></pre></td></tr></table>
-</div>
-</div><p>修改完成後測試一下能不能透過 https 連線到 nginx 。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">curl -k https://example.com                                       
-
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-&lt;title&gt;Welcome to nginx!&lt;/title&gt;
-&lt;style&gt;
-    body <span class="o">{</span>
-        width: 35em<span class="p">;</span>
-        margin: <span class="m">0</span> auto<span class="p">;</span>
-        font-family: Tahoma, Verdana, Arial, sans-serif<span class="p">;</span>
-    <span class="o">}</span>
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;
-&lt;p&gt;If you see this page, the nginx web server is successfully i
-...
-</code></pre></td></tr></table>
-</div>
-</div><p>可以順利連線到，那接著可以撰寫一個簡單的 Client 去打打看 Server 囉！</p>
-<h2 id="sample-client">Sample Client</h2>
-<p>這邊會以一個單向 TLS 認證作為示範，單向 TLS 認證大致上的動作是， Client 向 Server 發起請求。這時候 Client 會拿到 Server 的 證書( crt ) ，Client 會拿著這組 Server crt 跟 CA 的 crt 進行驗證 ，看 Server 是不是被 CA 授權的還是假冒的。<br />
-如果是假冒的那麼 Client 會拒絕連線，反之 Server 若是被 CA 認證的那 Client 就會繼續往 Server 發請求。</p>
-<p>可以想得簡單一點，今天所有人來向你買東西，看到你身分證都馬上拿去問戶政事務所問這個身分證是不是合法的公民，如果不是合法的身分證就不進行交易。</p>
-<p>以下是一個用 go 開發的單向 TLS 請求的 Client 。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">tree /go/src/dev/
-.
-├── 2.0
-│   ├── client.crt
-│   ├── client.key
-│   └── root-ca.crt
-└── main.go
-
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1821,49 +1671,112 @@ ca.crt  ca.key  ca.srl  server.crt  server.csr  server.key
 </span><span class="lnt">36
 </span><span class="lnt">37
 </span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;crypto/tls&#34;</span>
-	<span class="s">&#34;crypto/x509&#34;</span>
-	<span class="s">&#34;io&#34;</span>
-	<span class="s">&#34;io/ioutil&#34;</span>
-	<span class="s">&#34;log&#34;</span>
-	<span class="s">&#34;net/http&#34;</span>
-	<span class="s">&#34;os&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">tr</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Transport</span><span class="p">{</span>
-		<span class="nx">TLSClientConfig</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">tls</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
-			<span class="nx">RootCAs</span><span class="p">:</span>      <span class="nf">loadCA</span><span class="p">(</span><span class="s">&#34;/Users/jason/go/src/dev/example-tls/2.0/root-ca.crt&#34;</span><span class="p">),</span>
-		<span class="p">},</span>
-	<span class="p">}</span>
-	<span class="nx">c</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span><span class="p">{</span><span class="nx">Transport</span><span class="p">:</span> <span class="nx">tr</span><span class="p">}</span>
-	<span class="k">if</span> <span class="nx">resp</span><span class="p">,</span> <span class="nx">e</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;https://example.com&#34;</span><span class="p">);</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="s">&#34;http.Client.Get: &#34;</span><span class="p">,</span> <span class="nx">e</span><span class="p">)</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
-		<span class="nx">io</span><span class="p">.</span><span class="nf">Copy</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">loadCA</span><span class="p">(</span><span class="nx">caFile</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">x509</span><span class="p">.</span><span class="nx">CertPool</span> <span class="p">{</span>
-	<span class="nx">pool</span> <span class="o">:=</span> <span class="nx">x509</span><span class="p">.</span><span class="nf">NewCertPool</span><span class="p">()</span>
-
-	<span class="k">if</span> <span class="nx">ca</span><span class="p">,</span> <span class="nx">e</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadFile</span><span class="p">(</span><span class="nx">caFile</span><span class="p">);</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="s">&#34;ReadFile: &#34;</span><span class="p">,</span> <span class="nx">e</span><span class="p">)</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="nx">pool</span><span class="p">.</span><span class="nf">AppendCertsFromPEM</span><span class="p">(</span><span class="nx">ca</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="nx">pool</span>
-<span class="p">}</span>
-
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>audit.k8s.io/v1<span class="w"> </span><span class="c"># This is required.</span><span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Policy<span class="w">
+</span><span class="w"></span><span class="c"># Don&#39;t generate audit events for all requests in RequestReceived stage.</span><span class="w">
+</span><span class="w"></span><span class="k">omitStages</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="s2">&#34;RequestReceived&#34;</span><span class="w">
+</span><span class="w"></span><span class="k">rules</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="c"># Log pod changes at RequestResponse level</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>RequestResponse<span class="w">
+</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">      </span><span class="c"># Resource &#34;pods&#34; doesn&#39;t match requests to any subresource of pods,</span><span class="w">
+</span><span class="w">      </span><span class="c"># which is consistent with the RBAC policy.</span><span class="w">
+</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">  </span><span class="c"># Log &#34;pods/log&#34;, &#34;pods/status&#34; at Metadata level</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Metadata<span class="w">
+</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods/log&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;pods/status&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span><span class="c"># Don&#39;t log requests to a configmap called &#34;controller-leader&#34;</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>None<span class="w">
+</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">      </span><span class="k">resourceNames</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;controller-leader&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span><span class="c"># Don&#39;t log watch requests by the &#34;system:kube-proxy&#34; on endpoints or services</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>None<span class="w">
+</span><span class="w">    </span><span class="k">users</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;system:kube-proxy&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="k">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;watch&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
+</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;endpoints&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;services&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span><span class="c"># Don&#39;t log authenticated requests to certain non-resource URL paths.</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>None<span class="w">
+</span><span class="w">    </span><span class="k">userGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;system:authenticated&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="k">nonResourceURLs</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="s2">&#34;/api*&#34;</span><span class="w"> </span><span class="c"># Wildcard matching.</span><span class="w">
+</span><span class="w">    </span>- <span class="s2">&#34;/version&#34;</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span><span class="c"># Log the request body of configmap changes in kube-system.</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Request<span class="w">
+</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
+</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="c"># This rule only applies to resources in the &#34;kube-system&#34; namespace.</span><span class="w">
+</span><span class="w">    </span><span class="c"># The empty string &#34;&#34; can be used to select non-namespaced resources.</span><span class="w">
+</span><span class="w">    </span><span class="k">namespaces</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;kube-system&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span><span class="c"># Log configmap and secret changes in all other namespaces at the Metadata level.</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Metadata<span class="w">
+</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
+</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;secrets&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span><span class="c"># Log all other resources in core and extensions at the Request level.</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Request<span class="w">
+</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
+</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;extensions&#34;</span><span class="w"> </span><span class="c"># Version of group should NOT be included.</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span><span class="c"># A catch-all rule to log all other requests at the Metadata level.</span><span class="w">
+</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Metadata<span class="w">
+</span><span class="w">    </span><span class="c"># Long-running requests like watches that fall under this rule will not</span><span class="w">
+</span><span class="w">    </span><span class="c"># generate an audit event in RequestReceived.</span><span class="w">
+</span><span class="w">    </span><span class="k">omitStages</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;RequestReceived&#34;</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div><p>以下是單向 TLS 請求的 Client 向 Server 請求的結果。</p>
+</div><p>上面大致上瞭解了 Kuberetes audit 的大方向如，當 event 發生的時候他會記錄什麼，有哪幾個 stage 會觸發 event 以及 event 可以看照 policy 分門別類。</p>
+<p>了解這幾項東西之後就可以來進行實驗，我會透過 kubeadm 建立一個 all in one 的 kubernetes 測試 audit 紀錄在 disk 上以及 透過 webhook 的方式把 event 傳出來進行額外的處理。</p>
+<h2 id="kubeadm-安裝測試環境">Kubeadm 安裝測試環境</h2>
+<p>kubeadm 安裝方法這邊不多談 Google 有很多安裝的方法，在本次實驗需要設定 audit 的相關參數，kubeadm 目前還沒有完全支援 audit 的 feature gate 除了設定 kubeadm config 之外還需要手動設定部分參數。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1882,28 +1795,264 @@ ca.crt  ca.key  ca.srl  server.crt  server.csr  server.key
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">go run main.go
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-&lt;title&gt;Welcome to nginx!&lt;/title&gt;
-&lt;style&gt;
-    body <span class="o">{</span>
-        width: 35em<span class="p">;</span>
-        margin: <span class="m">0</span> auto<span class="p">;</span>
-        font-family: Tahoma, Verdana, Arial, sans-serif<span class="p">;</span>
-    <span class="o">}</span>
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>kubeadm.k8s.io/v1beta2<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterConfiguration<span class="w">
+</span><span class="w"></span><span class="c">#featureGates:</span><span class="w">
+</span><span class="w"></span><span class="c">#  not support DynamicAuditing</span><span class="w">
+</span><span class="w"></span><span class="c">#  DynamicAuditing: true</span><span class="w">
+</span><span class="w"></span><span class="k">apiServer</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">extraArgs</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">audit-log-path</span><span class="p">:</span><span class="w"> </span>/home/ubuntu/audit.log<span class="w">
+</span><span class="w">    </span><span class="k">audit-policy-file</span><span class="p">:</span><span class="w"> </span>/etc/kubernetes/addon/audit-policy.yaml<span class="w">
+</span><span class="w"></span><span class="c">#    not support DynamicAuditing</span><span class="w">
+</span><span class="w"></span><span class="c">#    runtime-config=auditregistration.k8s.io/v1alpha1: &#34;true&#34;</span><span class="w">
+</span><span class="w"></span><span class="c">#    audit-dynamic-configuration:</span><span class="w">
+</span><span class="w">  </span><span class="k">extraVolumes</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>audit<span class="w">
+</span><span class="w">    </span><span class="k">hostPath</span><span class="p">:</span><span class="w"> </span>/etc/kubernetes/addon/audit-policy.yaml<span class="w">
+</span><span class="w">    </span><span class="k">mountPath</span><span class="p">:</span><span class="w"> </span>/etc/kubernetes/addon/audit-policy.yaml<span class="w">
+</span><span class="w">    </span><span class="k">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">    </span><span class="k">pathType</span><span class="p">:</span><span class="w"> </span>File<span class="w">
+</span><span class="w">  </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>audit-log<span class="w">
+</span><span class="w">    </span><span class="k">hostPath</span><span class="p">:</span><span class="w"> </span>/home/ubuntu<span class="w">
+</span><span class="w">    </span><span class="k">mountPath</span><span class="p">:</span><span class="w"> </span>/home/ubuntu<span class="w">
+</span><span class="w">    </span><span class="k">pathType</span><span class="p">:</span><span class="w"> </span>DirectoryOrCreate<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">cat &lt;&lt;EOF <span class="p">|</span> &gt;/etc/kubernetes/addon/audit-policy.yaml
+<span class="c1"># Log all requests at the Metadata level.</span>
+apiVersion: audit.k8s.io/v1
+kind: Policy
+rules:
+- level: Metadata
+</code></pre></td></tr></table>
+</div>
+</div><p>可以透過上述這個 kubeadm config 去設定部分的 audit 參數，再由 kubeadm init 啟動的時候將它自動地帶入 kube-apiserver中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">kubeadm init --config admin-apiserver.yml
+W0629 07:46:16.046453   <span class="m">86387</span> configset.go:202<span class="o">]</span> WARNING: kubeadm cannot validate component configs <span class="k">for</span> API groups <span class="o">[</span>kubelet.config.k8s.io kubeproxy.config.k8s.io<span class="o">]</span>
+<span class="o">[</span>init<span class="o">]</span> Using Kubernetes version: v1.18.5
+<span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+<span class="o">[</span>preflight<span class="o">]</span> Pulling images required <span class="k">for</span> setting up a Kubernetes cluster
 ...
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="結束語">結束語</h2>
-<p>這篇文章分享了如何用 nginx 、 OpenSSL 以及 Go 做一個自簽的 TLS 服務，雖然是一個簡單的範例但我們可以從中瞭解單向 TLS ， Client 只要向 CA 驗證 Server 的身份即可，那這樣安全嗎？這個討論我會保留到下一章再來跟大家分享。</p>
+</div><p>由於本次測試環境只有一個節點所以需要進行<code>untaint</code>的動作，讓 pod 可以在 master node 上開啟。</p>
+<pre><code>kubectl taint node jason-test node-role.kubernetes.io/master-
+</code></pre><p>當 kubeadm 執行完也設定完 CNI 後需要修改<code>/etc/kubernetes/manifests/kube-apiserver</code> 相關參數，讓 apiserver 支援 audit-dynamic-configuration 需要加入以下參數。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">    </span>- --audit-dynamic-configuration<span class="w">
+</span><span class="w">    </span>- --feature-gates=DynamicAuditing=<span class="kc">true</span><span class="w">
+</span><span class="w">    </span>- --runtime-config=auditregistration.k8s.io/v1alpha1=<span class="kc">true</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>修改完成後，可以透過 <code>kubectl</code> 指令檢查是否開啟 <code>auditregistration.k8s.io/v1alpha1</code> 的資源。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">kubectl api-resources <span class="p">|</span> grep AuditSink
+auditsinks                                     auditregistration.k8s.io       <span class="nb">false</span>        AuditSin
+</code></pre></td></tr></table>
+</div>
+</div><p>完成以上步驟後就完成了 kubernetes audit 的測試環境搭建。</p>
+<h2 id="log-backend">Log Backend</h2>
+<p>事實上剛剛的流程已經把 Backend 設定好了，位置就在 <code>audit-log-path: /home/ubuntu/audit.log</code> ，只要觸發 audit 就會把紀錄儲存在這個位置上。那我們來看看設定完 Kubernetes 之後會儲存哪寫資料。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="err">tail</span> <span class="err">-f</span> <span class="err">audit.log</span>
+<span class="p">{</span><span class="nt">&#34;kind&#34;</span><span class="p">:</span><span class="s2">&#34;Event&#34;</span><span class="p">,</span><span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span><span class="s2">&#34;audit.k8s.io/v1&#34;</span><span class="p">,</span><span class="nt">&#34;level&#34;</span><span class="p">:</span><span class="s2">&#34;Metadata&#34;</span><span class="p">,</span><span class="nt">&#34;auditID&#34;</span><span class="p">:</span><span class="s2">&#34;caa00b7a-e564-486c-837f-219eade633dd&#34;</span><span class="p">,</span><span class="nt">&#34;stage&#34;</span><span class="p">:</span><span class="s2">&#34;RequestReceived&#34;</span><span class="p">,</span><span class="nt">&#34;requestURI&#34;</span><span class="p">:</span><span class="s2">&#34;/apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-controller-manager?timeout=10s&#34;</span><span class="p">,</span><span class="nt">&#34;verb&#34;</span><span class="p">:</span><span class="s2">&#34;get&#34;</span><span class="p">,</span><span class="nt">&#34;user&#34;</span><span class="p">:{</span><span class="nt">&#34;username&#34;</span><span class="p">:</span><span class="s2">&#34;system:kube-controller-manager&#34;</span><span class="p">,</span><span class="nt">&#34;groups&#34;</span><span class="p">:[</span><span class="s2">&#34;system:authenticated&#34;</span><span class="p">]},</span><span class="nt">&#34;sourceIPs&#34;</span><span class="p">:[</span><span class="s2">&#34;10.0.2.4&#34;</span><span class="p">],</span><span class="nt">&#34;userAgent&#34;</span><span class="p">:</span><span class="s2">&#34;kube-controller-manager/v1.18.5 (linux/amd64) kubernetes/e6503f8/leader-election&#34;</span><span class="p">,</span><span class="nt">&#34;objectRef&#34;</span><span class="p">:{</span><span class="nt">&#34;resource&#34;</span><span class="p">:</span><span class="s2">&#34;leases&#34;</span><span class="p">,</span><span class="nt">&#34;namespace&#34;</span><span class="p">:</span><span class="s2">&#34;kube-system&#34;</span><span class="p">,</span><span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;kube-controller-manager&#34;</span><span class="p">,</span><span class="nt">&#34;apiGroup&#34;</span><span class="p">:</span><span class="s2">&#34;coordination.k8s.io&#34;</span><span class="p">,</span><span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span><span class="s2">&#34;v1&#34;</span><span class="p">},</span><span class="nt">&#34;requestReceivedTimestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2020-07-04T15:19:21.083898Z&#34;</span><span class="p">,</span><span class="nt">&#34;stageTimestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2020-07-04T15:19:21.083898Z&#34;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&#34;kind&#34;</span><span class="p">:</span><span class="s2">&#34;Event&#34;</span><span class="p">,</span><span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span><span class="s2">&#34;audit.k8s.io/v1&#34;</span><span class="p">,</span><span class="nt">&#34;level&#34;</span><span class="p">:</span><span class="s2">&#34;Metadata&#34;</span><span class="p">,</span><span class="nt">&#34;auditID&#34;</span><span class="p">:</span><span class="s2">&#34;caa00b7a-e564-486c-837f-219eade633dd&#34;</span><span class="p">,</span><span class="nt">&#34;stage&#34;</span><span class="p">:</span><span class="s2">&#34;ResponseComplete&#34;</span><span class="p">,</span><span class="nt">&#34;requestURI&#34;</span><span class="p">:</span><span class="s2">&#34;/apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-controller-manager?timeout=10s&#34;</span><span class="p">,</span><span class="nt">&#34;verb&#34;</span><span class="p">:</span><span class="s2">&#34;get&#34;</span><span class="p">,</span><span class="nt">&#34;user&#34;</span><span class="p">:{</span><span class="nt">&#34;username&#34;</span><span class="p">:</span><span class="s2">&#34;system:kube-controller-manager&#34;</span><span class="p">,</span><span class="nt">&#34;groups&#34;</span><span class="p">:[</span><span class="s2">&#34;system:authenticated&#34;</span><span class="p">]},</span><span class="nt">&#34;sourceIPs&#34;</span><span class="p">:[</span><span class="s2">&#34;10.0.2.4&#34;</span><span class="p">],</span><span class="nt">&#34;userAgent&#34;</span><span class="p">:</span><span class="s2">&#34;kube-controller-manager/v1.18.5 (linux/amd64) kubernetes/e6503f8/leader-election&#34;</span><span class="p">,</span><span class="nt">&#34;objectRef&#34;</span><span class="p">:{</span><span class="nt">&#34;resource&#34;</span><span class="p">:</span><span class="s2">&#34;leases&#34;</span><span class="p">,</span><span class="nt">&#34;namespace&#34;</span><span class="p">:</span><span class="s2">&#34;kube-system&#34;</span><span class="p">,</span><span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;kube-controller-manager&#34;</span><span class="p">,</span><span class="nt">&#34;apiGroup&#34;</span><span class="p">:</span><span class="s2">&#34;coordination.k8s.io&#34;</span><span class="p">,</span><span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span><span class="s2">&#34;v1&#34;</span><span class="p">},</span><span class="nt">&#34;responseStatus&#34;</span><span class="p">:{</span><span class="nt">&#34;metadata&#34;</span><span class="p">:{},</span><span class="nt">&#34;code&#34;</span><span class="p">:</span><span class="mi">200</span><span class="p">},</span><span class="nt">&#34;requestReceivedTimestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2020-07-04T15:19:21.083898Z&#34;</span><span class="p">,</span><span class="nt">&#34;stageTimestamp&#34;</span><span class="p">:</span><span class="s2">&#34;2020-07-04T15:19:21.085030Z&#34;</span><span class="p">,</span><span class="nt">&#34;annotations&#34;</span><span class="p">:{</span><span class="nt">&#34;authorization.k8s.io/decision&#34;</span><span class="p">:</span><span class="s2">&#34;allow&#34;</span><span class="p">,</span><span class="nt">&#34;authorization.k8s.io/reason&#34;</span><span class="p">:</span><span class="s2">&#34;RBAC: allowed by ClusterRoleBinding \&#34;system:kube-controller-manager\&#34; of ClusterRole \&#34;system:kube-controller-manager\&#34; to User \&#34;system:kube-controller-manager\&#34;&#34;</span><span class="p">}}</span>
+<span class="err">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>這邊會看到許多觸發 audit 後記錄的訊息，這邊需要注意的地方有 <code>requestURI</code> 、 <code>verb</code> 、 <code>user</code> 、 <code>sourceIPs</code> 、 <code>userAgent</code>。</p>
+<p>我先執行一個簡單的 <code>kubectl</code> 指令來觀察 audit 有沒有攔截到這個請求。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">kubectl get pod 
+</code></pre></td></tr></table>
+</div>
+</div><p>再去看 audit 所記錄的 log 有沒有儲存這個操作</p>
+<pre><code class="language-jsonld=" data-lang="jsonld=">cat /home/ubuntu/audit/log | grep 
+
+{&quot;kind&quot;:&quot;Event&quot;,&quot;apiVersion&quot;:&quot;audit.k8s.io/v1&quot;,&quot;level&quot;:&quot;Metadata&quot;,&quot;auditID&quot;:&quot;0595bb26-d8a2-4b59-b3d1-7d538c2e131f&quot;,&quot;stage&quot;:&quot;RequestReceived&quot;,&quot;requestURI&quot;:&quot;/api/v1/namespaces/default/pods?limit=500&quot;,&quot;verb&quot;:&quot;list&quot;,&quot;user&quot;:{&quot;username&quot;:&quot;kubernetes-admin&quot;,&quot;groups&quot;:[&quot;system:masters&quot;,&quot;system:authenticated&quot;]},&quot;sourceIPs&quot;:[&quot;10.0.2.4&quot;],&quot;userAgent&quot;:&quot;kubectl/v1.18.5 (linux/amd64) kubernetes/e6503f8&quot;,&quot;objectRef&quot;:{&quot;resource&quot;:&quot;pods&quot;,&quot;namespace&quot;:&quot;default&quot;,&quot;apiVersion&quot;:&quot;v1&quot;},&quot;requestReceivedTimestamp&quot;:&quot;2020-07-04T15:26:20.895927Z&quot;,&quot;stageTimestamp&quot;:&quot;2020-07-04T15:26:20.895927Z&quot;}
+{&quot;kind&quot;:&quot;Event&quot;,&quot;apiVersion&quot;:&quot;audit.k8s.io/v1&quot;,&quot;level&quot;:&quot;Metadata&quot;,&quot;auditID&quot;:&quot;0595bb26-d8a2-4b59-b3d1-7d538c2e131f&quot;,&quot;stage&quot;:&quot;ResponseComplete&quot;,&quot;requestURI&quot;:&quot;/api/v1/namespaces/default/pods?limit=500&quot;,&quot;verb&quot;:&quot;list&quot;,&quot;user&quot;:{&quot;username&quot;:&quot;kubernetes-admin&quot;,&quot;groups&quot;:[&quot;system:masters&quot;,&quot;system:authenticated&quot;]},&quot;sourceIPs&quot;:[&quot;10.0.2.4&quot;],&quot;userAgent&quot;:&quot;kubectl/v1.18.5 (linux/amd64) kubernetes/e6503f8&quot;,&quot;objectRef&quot;:{&quot;resource&quot;:&quot;pods&quot;,&quot;namespace&quot;:&quot;default&quot;,&quot;apiVersion&quot;:&quot;v1&quot;},&quot;responseStatus&quot;:{&quot;metadata&quot;:{},&quot;code&quot;:200},&quot;requestReceivedTimestamp&quot;:&quot;2020-07-04T15:26:20.895927Z&quot;,&quot;stageTimestamp&quot;:&quot;2020-07-04T15:26:20.897187Z&quot;,&quot;annotations&quot;:{&quot;authorization.k8s.io/decision&quot;:&quot;allow&quot;,&quot;authorization.k8s.io/reason&quot;:&quot;&quot;}}
+</code></pre><p>整理 audit log 的資訊得到以下重點</p>
+<ol>
+<li>&ldquo;requestURI&rdquo;:&quot;/api/v1/namespaces/default/pods?limit=500&rdquo;</li>
+<li>&ldquo;verb&rdquo;:&ldquo;list&rdquo;</li>
+<li>&ldquo;user&rdquo;:{&ldquo;username&rdquo;:&ldquo;kubernetes-admin&rdquo;,&ldquo;groups&rdquo;:[&ldquo;system:masters&rdquo;,&ldquo;system:authenticated&rdquo;]}</li>
+<li>&ldquo;sourceIPs&rdquo;:[&ldquo;10.0.2.4&rdquo;]</li>
+<li>&ldquo;userAgent&rdquo;:&ldquo;kubectl/v1.18.5 (linux/amd64) kubernetes/e6503f8&rdquo;</li>
+</ol>
+<p>可以清楚看到 <code>kubernetes-admin</code> 這個 user 執行了這個操作 ，操作是 <code>/api/v1/namespaces/default/pods?limit=500</code> 執行的動作是 <code>list</code> ，這個操作是來自 <code>10.0.2.4</code> 的 <code>kubectl</code>。</p>
+<p>看到以上這些重點之後，大致上可以推測初使用者在 <code>10.0.2.4</code> 透過 <code>kubectl</code>執行<code>get pod --namespace default</code>的動作。</p>
+<h2 id="dynamic-backend">Dynamic Backend</h2>
+<p>接著讓我們來看看 <code>Dynamic Backend</code> 是怎麼一回事，可以通過 <code>AuditSink API</code> 設定相對應的 <code>Webhook</code> 對資料進行預處理再送往其他地方。</p>
+<p>預設的 kubernetes 不會幫你設定 <code>AuditSink API</code> ，需要手動去開啟。在前面的章節已經有先開啟了，這邊我們可以回頭去看一下設定了哪些東西。</p>
+<ol>
+<li>&ndash;audit-dynamic-configuration</li>
+<li>&ndash;feature-gates=DynamicAuditing=true</li>
+<li>&ndash;runtime-config=auditregistration.k8s.io/v1alpha1=true</li>
+</ol>
+<p>這三個設定在 <code>/etc/kubernetes/manifests/kube-apiserver.yaml</code> 裡可以看到，還沒有修改的小夥伴可以現在加上去。</p>
+<p>確定完設定檔後我們可以透過 <code>kubectl</code> 去檢查這個資源是不是被開啟。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">kubectl api-resources <span class="p">|</span> grep AuditSink
+auditsinks                                     auditregistration.k8s.io       <span class="nb">false</span>        AuditSin
+</code></pre></td></tr></table>
+</div>
+</div><p>接著我們要去部署一個 <code>webhook server</code> 讓 kubernetes audit 可以把資料送上來，由於要建立 webhook 需要撰寫 code 以及需要設定 CA 這邊我提供實驗的 <a href="https://github.com/jjmengze/kubeaudit-example">repo</a> 給大家試試看。</p>
+<p>使用上非常簡單，只要透過 <code>kubectl apply -f pod.yml -f service.yml</code>這樣就把 <code>webhook</code> 建立好了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"> k apply  -f pod.yml -f service.yml
+pod/webhook created
+service/admissionwebhook created
+...
+
+k get pod,svc
+NAME          READY   STATUS    RESTARTS   AGE
+pod/webhook   1/1     Running   <span class="m">0</span>          7s
+
+NAME                       TYPE        CLUSTER-IP     EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>   AGE
+service/admissionwebhook   ClusterIP   10.97.173.35   &lt;none&gt;        443/TCP   7s
+service/kubernetes         ClusterIP   10.96.0.1      &lt;none&gt;        443/TCP   2d14h
+</code></pre></td></tr></table>
+</div>
+</div><p>建立好 webhook pod 後我們需要建立 AuditSink 物件讓 audit 事件把資料往這個 webhook 送，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">kubectl apply -f auditSink.yml
+auditsink.auditregistration.k8s.io/mysink created
+</code></pre></td></tr></table>
+</div>
+</div><p>這一個 auditSink.yml 描述了，限定 audit 觸發的事件以及要往哪個地方送資料。</p>
+<pre><code>apiVersion: auditregistration.k8s.io/v1alpha1
+kind: AuditSink
+metadata:
+  name: mysink
+spec:
+  policy:
+    level: Metadata
+    stages:
+    - RequestReceived
+  webhook:
+    clientConfig:
+      service:
+        namespace: default
+        name: admissionwebhook
+        path: /sink
+        port: 443
+      caBundle: &quot;LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN2RENDQWFRQ0NRRHVXMXNYUVhqUjdEQU5CZ2txaGtpRzl3MEJBUXNGQURBZk1SMHdHd1lEVlFRRERCUkIKWkcxcGMzTnBiMjRnVjJWaWFHOXZheUJEUVRBZ0Z3MHlNREEzTURjd05UQTNOVEJhR0E4ek1ERTVNVEV3T0RBMQpNRGMxTUZvd0h6RWRNQnNHQTFVRUF3d1VRV1J0YVhOemFXOXVJRmRsWW1odmIyc2dRMEV3Z2dFaU1BMEdDU3FHClNJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUMvWjZ1U1UrNlgrR3htN0NuYXR0RXBvUTN0VjJIb01TNGcKeCtGdEV4Q1Nqb0FjTk5wdHI1cjdTVjVIck1zS09wNDhrZFQ5NVI0YytWZUFnOGlqbVdpSEdQSXFyb1dIRys5cQpibzhoM0FZWk9MeWxQVjBUVWVSb0hQSkRmRmZsV054WlFnRHRXa2p0c2VRUVdsVisyVE5KVXF1cGtBMUMvZTJWCnVEckVkRzZTRFZaWDZMYTdTd3ViOXA4UnVaY21TMURrWlB3bFBmMEt2UVp5UHlMUXl4TVRjeVdJM3ZnNzlENWsKcTJPNFB0N080bm9MM0YzRGRyMHU3aGZwQjlJUUFUelZnTWRvQjNPRmV1NjRTZVRydmdmeG1XK1FZNFA0Z05aRQova21TTnNmaklnT202VnF1eEZHTEpsdUE3WlJoQkdadG1ON1N6dktTb21OZjlhTHJkWERSQWdNQkFBRXdEUVlKCktvWklodmNOQVFFTEJRQURnZ0VCQUtpMDBFRUZBdTFKL1M0ejBpVTVUYlJvOXI1WjRTZk5Ub3ZhS1U4bHA3YTAKaUUwWXRSVUdSMjhkRjRrRE12OXp4dTRCYy82N0ptb3g0SGtZMTFIU0RtOXVUUUs0T1dHMGo5MnIvOGY2RlRZMQpNSk1VNUJ0dy90Ym5hV2ZNWE5Xa0R5TnVhQXA1U3hMV1luODE4OWNqM0Zyd2NIL1VoODl4WFhDQnpzQUNOZGNiClRiN3ZKdnBGdWgyOXpNWUJGNTBPNHNnTi9UMWhNbTk3Y2xBbU9OZ1JoSTQ3cVdDamtlNlJKb2I0MnF6Ri8yK0gKK3k3eWlqQktkU2pQOVJOS3VreXM5VlY4eEN5TlpTSUFGYzM1dldMUDFLUEY1aFVTMWo1c0o2V3JncjdGVDU2ZQpZMC9rdGZkcWpSNXJVbWhzUW9GeHhJMzFHY1hjYktWTFNoRldtS2pMMERvPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==&quot;
+</code></pre><p>這時候有觸發 audit 的事件就會往 webhook service送，可以透過 kubectl 指令去確認相關 log 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">k log -f webhook
+...
+
+I0707 05:47:44.205612       <span class="m">1</span> main.go:34<span class="o">]</span> this event is <span class="o">{</span>TypeMeta:<span class="o">{</span>Kind: APIVersion:<span class="o">}</span> Level:Metadata AuditID:4b6cb6dd-456b-4b77-9e63-90634a6d93eb Stage:RequestReceived RequestURI:/apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-controller-manager?timeout<span class="o">=</span>10s Verb:update User:<span class="o">{</span>Username:system:kube-controller-manager UID: Groups:<span class="o">[</span>system:authenticated<span class="o">]</span> Extra:map<span class="o">[]}</span> ImpersonatedUser:nil SourceIPs:<span class="o">[</span>10.0.2.4<span class="o">]</span> UserAgent:kube-controller-manager/v1.18.5 <span class="o">(</span>linux/amd64<span class="o">)</span> kubernetes/e6503f8/leader-election ObjectRef:0xc000335980 ResponseStatus:nil RequestObject:nil ResponseObject:nil RequestReceivedTimestamp:2020-07-07 05:47:42.212444 +0000 UTC StageTimestamp:2020-07-07 05:47:42.212444 +0000 UTC Annotations:map<span class="o">[]}</span>
+I0707 05:47:44.206093       <span class="m">1</span> main.go:34<span class="o">]</span> this event is <span class="o">{</span>TypeMeta:<span class="o">{</span>Kind: APIVersion:<span class="o">}</span> Level:Metadata AuditID:3d52b965-d65f-4060-b839-8e5ffe874b7f Stage:RequestReceived RequestURI:/api/v1/persistentvolumeclaims?allowWatchBookmarks<span class="o">=</span>true<span class="p">&amp;</span><span class="nv">resourceVersion</span><span class="o">=</span>492314<span class="p">&amp;</span><span class="nv">timeout</span><span class="o">=</span>8m47s<span class="p">&amp;</span><span class="nv">timeoutSeconds</span><span class="o">=</span>527<span class="p">&amp;</span><span class="nv">watch</span><span class="o">=</span><span class="nb">true</span> Verb:watch User:<span class="o">{</span>Username:system:kube-scheduler UID: Groups:<span class="o">[</span>system:authenticated<span class="o">]</span> Extra:map<span class="o">[]}</span> ImpersonatedUser:nil SourceIPs:<span class="o">[</span>10.0.2.4<span class="o">]</span> UserAgent:kube-scheduler/v1.18.5 <span class="o">(</span>linux/amd64<span class="o">)</span> kubernetes/e6503f8/scheduler ObjectRef:0xc000335a80 ResponseStatus:nil RequestObject:nil ResponseObject:nil RequestReceivedTimestamp:2020-07-07 05:47:43.363791 +0000 UTC StageTimestamp:2020-07-07 05:47:43.363791 +0000 UTC Annotations:map<span class="o">[]}</span>
+I0707 05:47:44.206530       <span class="m">1</span> main.go:34<span class="o">]</span> this event is <span class="o">{</span>TypeMeta:<span class="o">{</span>Kind: APIVersion:<span class="o">}</span> Level:Metadata AuditID:d1a20f9d-0204-43ae-8ab1-82b2c09858ed Stage:RequestReceived RequestURI:/apis/apps/v1/replicasets?allowWatchBookmarks<span class="o">=</span>true<span class="p">&amp;</span><span class="nv">resourceVersion</span><span class="o">=</span>492314<span class="p">&amp;</span><span class="nv">timeout</span><span class="o">=</span>5m20s<span class="p">&amp;</span><span class="nv">timeoutSeconds</span><span class="o">=</span>320<span class="p">&amp;</span><span class="nv">watch</span><span class="o">=</span><span class="nb">true</span> Verb:watch User:<span class="o">{</span>Username:system:kube-controller-manager UID: Groups:<span class="o">[</span>system:authenticated<span class="o">]</span> Extra:map<span class="o">[]}</span> ImpersonatedUser:nil SourceIPs:<span class="o">[</span>10.0.2.4<span class="o">]</span> UserAgent:kube-controller-manager/v1.18.5 <span class="o">(</span>linux/amd64<span class="o">)</span> kubernetes/e6503f8/shared-informers ObjectRef:0xc000335b80 ResponseStatus:nil RequestObject:nil ResponseObject:nil RequestReceivedTimestamp:2020-07-07 05:47:43.610833 +0000 UTC StageTimestamp:2020-07-07 05:47:43.610833 +0000 UTC Annotations:map<span class="o">[]}</span>
+I0707 05:47:44.206956       <span class="m">1</span> main.go:34<span class="o">]</span> this event is <span class="o">{</span>TypeMeta:<span class="o">{</span>Kind: APIVersion:<span class="o">}</span> Level:Metadata AuditID:5d48dc35-f089-4e76-a2f4-098e5628b055 Stage:RequestReceived RequestURI:/api/v1/namespaces/kube-system/endpoints/kube-scheduler?timeout<span class="o">=</span>10s Verb:get User:<span class="o">{</span>Username:system:kube-scheduler UID: Groups:<span class="o">[</span>system:authenticated<span class="o">]</span> Extra:map<span class="o">[]}</span> ImpersonatedUser:nil SourceIPs:<span class="o">[</span>10.0.2.4<span class="o">]</span> UserAgent:kube-scheduler/v1.18.5 <span class="o">(</span>linux/amd64<span class="o">)</span> kubernetes/e6503f8/leader-election ObjectRef:0xc000335c80 ResponseStatus:nil RequestObject:nil ResponseObject:nil RequestReceivedTimestamp:2020-07-07 05:47:44.024424 +0000 UTC StageTimestamp:2020-07-07 05:47:44.024424 +0000 UTC Annotations:map<span class="o">[]}</span>
+I0707 05:47:44.207483       <span class="m">1</span> main.go:34<span class="o">]</span> this event is <span class="o">{</span>TypeMeta:<span class="o">{</span>Kind: APIVersion:<span class="o">}</span> Level:Metadata AuditID:e2b5f015-d0e0-48ab-85a8-c9a42121cdfd Stage:RequestReceived RequestURI:/apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-scheduler?timeout<span class="o">=</span>10s Verb:get User:<span class="o">{</span>Username:system:kube-scheduler UID: Groups:<span class="o">[</span>system:authenticated<span class="o">]</span> Extra:map<span class="o">[]}</span> ImpersonatedUser:nil SourceIPs:<span class="o">[</span>10.0.2.4<span class="o">]</span> UserAgent:kube-scheduler/v1.18.5 <span class="o">(</span>linux/amd64<span class="o">)</span> kubernetes/e6503f8/leader-election ObjectRef:0xc000335d80 ResponseStatus:nil RequestObject:nil ResponseObject:nil RequestReceivedTimestamp:2020-07-07 05:47:44.026864 +0000 UTC StageTimestamp:2020-07-07 05:47:44.026864 +0000 UTC Annotations:map<span class="o">[]}</span>
+I0707 05:47:44.207995       <span class="m">1</span> main.go:34<span class="o">]</span> this event is <span class="o">{</span>TypeMeta:<span class="o">{</span>Kind: APIVersion:<span class="o">}</span> Level:Metadata AuditID:0070ecce-3119-4e44-850d-5914e45dcde6 Stage:RequestReceived RequestURI:/api/v1/namespaces/kube-system/endpoints/kube-scheduler?timeout<span class="o">=</span>10s Verb:update User:<span class="o">{</span>Username:system:kube-scheduler UID: Groups:<span class="o">[</span>system:authenticated<span class="o">]</span> Extra:map<span class="o">[]}</span> ImpersonatedUser:nil SourceIPs:<span class="o">[</span>10.0.2.4<span class="o">]</span> UserAgent:kube-scheduler/v1.18.5 <span class="o">(</span>linux/amd64<span class="o">)</span> kubernetes/e6503f8/leader-election ObjectRef:0xc000335e80 ResponseStatus:nil RequestObject:nil ResponseObject:nil RequestReceivedTimestamp:2020-07-07 05:47:44.028928 +0000 UTC StageTimestamp:2020-07-07 05:47:44.028928 +0000 UTC Annotations:map<span class="o">[]}</span>
+I0707 05:47:44.208582       <span class="m">1</span> main.go:34<span class="o">]</span> this event is <span class="o">{</span>TypeMeta:<span class="o">{</span>Kind: APIVersion:<span class="o">}</span> Level:Metadata AuditID:ed450b92-27cc-449d-95cf-c2822fd0e380 Stage:RequestReceived RequestURI:/apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-scheduler?timeout<span class="o">=</span>10s Verb:get User:<span class="o">{</span>Username:system:kube-scheduler UID: Groups:<span class="o">[</span>system:authenticated<span class="o">]</span> Extra:map<span class="o">[]}</span> ImpersonatedUser:nil SourceIPs:<span class="o">[</span>10.0.2.4<span class="o">]</span> UserAgent:kube-scheduler/v1.18.5 <span class="o">(</span>linux/amd64<span class="o">)</span> kubernetes/e6503f8/leader-election ObjectRef:0xc000335f80 ResponseStatus:nil RequestObject:nil ResponseObject:nil RequestReceivedTimestamp:2020-07-07 05:47:44.032618 +0000 UTC StageTimestamp:2020-07-07 05:47:44.032618 +0000 UTC Annotations:map<span class="o">[]}</span>
+I0707 05:47:44.209296       <span class="m">1</span> main.go:34<span class="o">]</span> this event is <span class="o">{</span>TypeMeta:<span class="o">{</span>Kind: APIVersion:<span class="o">}</span> Level:Metadata AuditID:9deb9b72-4a27-4a36-b6f8-74e976aee3cf Stage:RequestReceived RequestURI:/apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-scheduler?timeout<span class="o">=</span>10s Verb:update User:<span class="o">{</span>Username:system:kube-scheduler UID: Groups:<span class="o">[</span>system:authenticated<span class="o">]</span> Extra:map<span class="o">[]}</span> ImpersonatedUser:nil SourceIPs:<span class="o">[</span>10.0.2.4<span class="o">]</span> UserAgent:kube-scheduler/v1.18.5 <span class="o">(</span>linux/amd64<span class="o">)</span> kubernetes/e6503f8/leader-election ObjectRef:0xc000126080 ResponseStatus:nil RequestObject:nil ResponseObject:nil RequestReceivedTimestamp:2020-07-07 05:47:44.034645 +0000 UTC StageTimestamp:2020-07-07 05:47:44.034645 +0000 UTC Annotations:map<span class="o">[]}</span>
+<span class="o">[</span>GIN<span class="o">]</span> 2020/07/07 - 05:47:44 <span class="p">|</span> <span class="m">200</span> <span class="p">|</span>     105.108µs <span class="p">|</span>       10.32.0.1 <span class="p">|</span> POST     <span class="s2">&#34;/sink?timeout=30s&#34;</span>
+<span class="o">[</span>GIN<span class="o">]</span> 2020/07/07 - 05:47:44 <span class="p">|</span> <span class="m">200</span> <span class="p">|</span>      97.207µs <span class="p">|</span>       10.32.0.1 <span class="p">|</span> POST     <span class="s2">&#34;/sink?timeout=30s&#34;</span>
+<span class="o">[</span>GIN<span class="o">]</span> 2020/07/07 - 05:47:44 <span class="p">|</span> <span class="m">200</span> <span class="p">|</span>     150.111µs <span class="p">|</span>       10.32.0.1 <span class="p">|</span> POST     <span class="s2">&#34;/sink?timeout=30s&#34;</span>
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到 webhook 的 log 已經收到許多 audit 事件的資料，我們可以去修改 webhook 的程式碼讓 webhook 收到資料後進行預處理後再往其他地方發送例如：做Alert 。</p>
+<h2 id="後記">後記</h2>
+<p>目前大多數看到的解決方案是直接採用 Log Backend ，把資料直接記載在 master node 上再透過 logstash or fluentd 直接把資料過濾並且丟到 Elasticsearch ，可以利用 audit 紀錄使用者行為看到 cluster 內發生什麼事情。</p>
     </article>
     
     <script>
@@ -2094,7 +2243,23 @@ ca.crt  ca.key  ca.srl  server.crt  server.csr  server.key
     <ul class="related-ul">
         
         <li>
-          <a href="/posts/cicd/github/github-action-1/" class="related__link">Github Action 起步走第一式</a>
+          <a href="/posts/azure/private-image/" class="related__link">Azure Kubernetes Service pull unssl  image registry</a>
+        </li>
+        
+        <li>
+          <a href="/posts/kubernetes/kubernetes-garbage-collection/" class="related__link">學習Kubernetes Garbage Collection機制</a>
+        </li>
+        
+        <li>
+          <a href="/posts/istio/istio1.0-install/" class="related__link">service mesh 之 Istio 1.0 安裝及極度簡易操作</a>
+        </li>
+        
+        <li>
+          <a href="/posts/kubeless/kubeless/" class="related__link">FAAS之kubeless的新滋味</a>
+        </li>
+        
+        <li>
+          <a href="/posts/openstack/kolla-kubernetes/" class="related__link">Kolla Kubernetes</a>
         </li>
         
     </ul>
@@ -2104,21 +2269,14 @@ ca.crt  ca.key  ca.srl  server.crt  server.csr  server.key
 <nav class="pagination-single">
   
     
-      <a href="https://blog.jjmengze.website/posts/cicd/github/github-action-2/" class="pagination-single__left">
+      <a href="https://blog.jjmengze.website/posts/ca/ca-one-way-ssl/" class="pagination-single__left">
         <div class="pagination-single__icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
         </div>
-        <div class="pagination-single__left-title">Github Action 妳各位，注意 Heroku ！</div>      
+        <div class="pagination-single__left-title">CA 動手玩</div>      
       </a>
     
     <div class="grow"></div>
-    
-      <a href="https://blog.jjmengze.website/posts/kubernetes/audit/" class="pagination-single__right">      
-        <div class="pagination-single__right-title">kubernetes Audit 查起來</div>
-        <div class="pagination-single__icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
-        </div>
-      </a>
     
   
 </nav>
@@ -3272,17 +3430,11 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="toc toc__outer " data-dir="ltr" data-folding="true" data-ani="true">
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#建立-ca-key">建立 CA key</a></li>
-    <li><a href="#建立-ca-crt">建立 CA CRT</a></li>
-    <li><a href="#建立-server-key">建立 Server Key</a></li>
-    <li><a href="#server-csr">Server CSR</a></li>
-    <li><a href="#server-crt">Server CRT</a>
-      <ul>
-        <li><a href="#nginx-config">nginx config</a></li>
-      </ul>
-    </li>
-    <li><a href="#sample-client">Sample Client</a></li>
-    <li><a href="#結束語">結束語</a></li>
+    <li><a href="#就想看看你對我做什麼壞壞的事">就想看看你對我做什麼壞壞的事</a></li>
+    <li><a href="#kubeadm-安裝測試環境">Kubeadm 安裝測試環境</a></li>
+    <li><a href="#log-backend">Log Backend</a></li>
+    <li><a href="#dynamic-backend">Dynamic Backend</a></li>
+    <li><a href="#後記">後記</a></li>
   </ul>
 </nav>
         </div>
