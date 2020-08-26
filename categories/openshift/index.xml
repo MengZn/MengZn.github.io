@@ -63,6 +63,38 @@
       </item>
       
       <item>
+        <title>簡單理解 Operator Lifecycle Manager - 1 (OLM)</title>
+        <link>https://blog.jjmengze.website/posts/ocp/operator-lifecycle-manager-1/</link>
+        <pubDate>Tue, 07 Jul 2020 16:06:29 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Tue, 07 Jul 2020 16:06:29 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/ocp/operator-lifecycle-manager-1/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/olm-1.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>openshift</category>
+            
+          
+        
+        
+          
+            
+              <category>openshift</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>OpenShift 燈紅酒綠與 Gitlab identity</title>
         <link>https://blog.jjmengze.website/posts/ocp/gitlab-ocp/</link>
         <pubDate>Wed, 06 May 2020 15:26:47 +0800</pubDate>
