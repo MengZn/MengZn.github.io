@@ -55,6 +55,40 @@
       </item>
       
       <item>
+        <title>使用reset api 存取 Kubernetes </title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/reset-api-server/</link>
+        <pubDate>Mon, 20 Jul 2020 16:07:21 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Mon, 20 Jul 2020 16:07:21 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/reset-api-server/</guid>
+        <description>&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/reset-api-server.png&#34;/&gt; 
+&lt;/figure&gt;
+&lt;br /&gt;
+&lt;a href=&#34;https://phoenixnap.com/kb/understanding-kubernetes-architecture-diagrams&#34;&gt;圖片來源&lt;/a&gt;&lt;/p&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>kubernetes Audit 查起來</title>
         <link>https://blog.jjmengze.website/posts/kubernetes/audit/</link>
         <pubDate>Mon, 29 Jun 2020 16:07:21 +0800</pubDate>
