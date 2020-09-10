@@ -14,7 +14,7 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Mon, 07 Sep 2020 12:00:02 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2020 12:00:02 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/categories/http2/index.xml" rel="self" type="application/rss+xml" />
     
@@ -25,12 +25,44 @@
       <item>
         <title>Http2_stream</title>
         <link>https://blog.jjmengze.website/posts/protocol/http2/http2_stream/</link>
-        <pubDate>Mon, 07 Sep 2020 12:00:02 +0800</pubDate>
+        <pubDate>Sat, 19 Sep 2020 12:00:02 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
-        <atom:modified>Mon, 07 Sep 2020 12:00:02 +0800</atom:modified>
+        <atom:modified>Sat, 19 Sep 2020 12:00:02 +0800</atom:modified>
         <guid>https://blog.jjmengze.website/posts/protocol/http2/http2_stream/</guid>
         <description>&lt;figure&gt;
     &lt;img src=&#34;https://blog.jjmengze.website/images/theme/http2-stream.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>http2</category>
+            
+          
+        
+        
+          
+            
+              <category>http2</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
+        <title>怎麼透過 wireshark 抓取瀏覽器存取 Http2 的封包？</title>
+        <link>https://blog.jjmengze.website/posts/protocol/http2/http2_wireshark/</link>
+        <pubDate>Mon, 07 Sep 2020 12:00:02 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Mon, 07 Sep 2020 12:00:02 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/protocol/http2/http2_wireshark/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/http2_wireshark.png&#34;/&gt; 
 &lt;/figure&gt;</description>
         
         <dc:creator>Meng Ze Li</dc:creator>
