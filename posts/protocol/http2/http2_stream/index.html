@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;2&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;4&nbsp; </span>
   
   <span class="single__info">
     
@@ -1563,46 +1563,53 @@
     <img src="/images/theme/http2-stream.png"/> 
 </figure>
 
-<h2 id="stram-特性">Stram 特性</h2>
+<h2 id="connection-特性">connection 特性</h2>
+<p><img src="https://i.imgur.com/0AVmDnw.png" alt="" /></p>
 <ol>
-<li>一條 TCP 連線上可以有多個處於 Open 狀態的 stram</li>
-<li>Client 可以建立 stream (ID基數 1,3,5,7,9&hellip;)</li>
-<li>Server 可以建立 stream (ID偶數 2,4,6,8,10&hellip;)</li>
+<li>當發送一個 http2 請求的時候會建立一個 connection (TCP connection)</li>
+<li>發送第二個請求的時候會延續使用第一個請求所建立的Connection</li>
+<li>若是有多個 stream 的情況，每個 stream 是可以在同一個 tcp connection 併發傳輸，稱做為多路復用(multiplexing)</li>
+</ol>
+<h2 id="stream-特性">stream 特性</h2>
+<ol>
+<li>一條 TCP 連線上可以有多個處於 Open 狀態的 stream（併發傳輸）</li>
+<li>Client 可以主動建立 stream (ID基數 1,3,5,7,9&hellip;)</li>
+<li>Server 可以主動建立 stream (ID偶數 2,4,6,8,10&hellip;)</li>
 <li>任何一端都可以自主關閉 stream</li>
 <li>同一條 stream 裡面的 frame 都是有序地排列</li>
 </ol>
-<h2 id="frame">frame</h2>
-<figure>
-    <img src="/images/post/http2-stream-frame.png"/> 
-</figure>
-
+<p><strong>Client 向 Server 請求時 Stream ID 會為基數（1,3,5,7,9&hellip;)</strong><br />
+<img src="https://i.imgur.com/J2C3FgU.png" alt="" /></p>
+<p><strong>Server 向 Client 主動推送 Stream ID 會為偶數（2,4,6,8,10&hellip;)</strong><br />
+<img src="https://i.imgur.com/QBjIMyK.png" alt="" /></p>
+<h2 id="frame-特性">frame 特性</h2>
 <ol>
-<li>可以包含一到多個 Header (Header很小只要一個message ，到Header很大會被切成多個Message)</li>
+<li>可以包含一到多個 Header (Header很小只要一個message ，到Header很大會被切成多個frame)</li>
 <li>可以包含零到多個 Data!</li>
 </ol>
-<p><strong>Client 向 Server 請求時 Stream ID 會為基數（1,3,5,7,9&hellip;)</strong><br />
-<figure>
-    <img src="/images/post/http2-stream-frame-2.png"/> 
-</figure>
-</p>
-<p><strong>Server 向 Client 主動推送 Stream ID 會為偶數（2,4,6,8,10&hellip;)</strong><br />
-<figure>
-    <img src="/images/post/http2-stream-frame-3.png"/> 
-</figure>
-</p>
+<blockquote>
+<p>想像一下 http1.1 時的 body 跟 header 都變成了 frame<br />
+簡單的來說 body 也叫 frame , header 也叫 frame 只是裡面資料不同而已。</p>
+</blockquote>
+<h2 id="到這裡你能比較-http11-與-http2-的不同嗎-">到這裡你能比較 http1.1 與 http2 的不同嗎 ？</h2>
+<ul>
+<li>在 http1.1 中 每一次請求都要重新建立一個 tcp connection</li>
+<li>在 http1.1 中 每一次傳輸都要帶上重複的 header</li>
+<li>在 http1.1 中 資料都是以純文本的方式傳輸</li>
+<li>在 http1.1 中 server 無法主動推送資料給 client</li>
+<li>在 http1.1 中 header 沒有進行壓縮</li>
+</ul>
+<p>本篇文章還會再深入一點點解析 http2 stream 的相關知識</p>
 <h2 id="stream-status">stream status</h2>
 <p>可以觀察下圖 stream status 的狀態變化，所有的 stream 一開始會處於 idle 狀態，最終會結束於 closed 狀態。</p>
-<p>了解各個狀態監視如何切換的，需要知道 Stream 接收/發送什麼 flag，下方我列出了幾種會發送或是接收的 flag。</p>
+<p>了解各個狀態監視如何切換的，需要知道 接收/發送 了什麼 flag，下方我列出了幾種會發送或是接收的 flag。</p>
 <ul>
 <li>HEADERS (H)</li>
 <li>PUSH_PROMISE (PP)</li>
 <li>END_STREAM (ES)</li>
 <li>RST_STREAM (RST)</li>
 </ul>
-<figure>
-    <img src="/images/post/http2-stream-frame-status.jpg"/> 
-</figure>
-
+<p><img src="https://i.imgur.com/tA3ESnd.png" alt="" /></p>
 <p>這邊會簡單的說明一下幾種可能的狀況</p>
 <ul>
 <li>
@@ -1632,6 +1639,69 @@
 </li>
 </ul>
 <p>Data source:<a href="https://livebook.manning.com/book/http2-in-action/chapter-7/v-5">http2-in-action/</a></p>
+<h2 id="stream-的priorty順序">stream 的priorty順序</h2>
+<p>由於 http2 大量的運用在前後與端溝通上，就算工程師只關心後端服務之間的溝通也需要知道，關於 http2 stream 的 priorty 的相關知識可以幫助我們在設計服務的時候善用已經存在的欄位。</p>
+<pre><code class="language-tiddlywiki" data-lang="tiddlywiki"> +---------------+
+ |Pad Length? (8)|
+ +-+-------------+-----------------------------------------------+
+ |E|                 Stream Dependency? (31)                     |
+ +-+-------------+-----------------------------------------------+
+ |  Weight? (8)  |
+ +-+-------------+-----------------------------------------------+
+ |                   Header Block Fragment (*)                 ...
+ +---------------------------------------------------------------+
+ |                           Padding (*)                       ...
+ +---------------------------------------------------------------+
+</code></pre><p>從上圖我們可以看到 E 、 Stream Dependency? 、 Weight? 三個欄位，這三個欄位就表示了 http2 stream 的 priorty 的狀態。</p>
+<blockquote>
+<p>？表示是可以選的欄位</p>
+</blockquote>
+<ul>
+<li>Stream Dependency : 表示依賴其他 Stream 當其他 Stream 完成才能換該 Stream</li>
+<li>Weight : 表示該 Stream 的權重，預設值為 16 ，那可以設定的範圍在 1~256。</li>
+</ul>
+<h2 id="wireshark-動手做看看">wireshark 動手做看看</h2>
+<p>直接從 wireshark 抓取 http2 的封包來觀察 priorty，看看 http2 priorty ， Stream ID ， Frame 到底是怎麼一回事。</p>
+<p>下圖為 wireshark 抓取瀏覽器存取 <a href="https://www.nba.com/?37">https://www.nba.com/?37</a> 的封包<br />
+<img src="https://i.imgur.com/3GPMgs7.png" alt="" /></p>
+<h3 id="magic-settings-window_update">Magic SETTINGS WINDOW_UPDATE</h3>
+<p>可以看到第一個封包是 client (192.168.51.150) 送往 server (23.11.187.239) 封包的簡易描述是 Magic 類型的封包，同時包含了SETTINGS frame 與 WINDOW_UPDATE。</p>
+<p><img src="https://i.imgur.com/uiFCogK.png" alt="" /></p>
+<h4 id="magic">Magic</h4>
+<ul>
+<li>點開magic stream 的話可以看到 client 發送了一個 PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n</li>
+</ul>
+<h4 id="settings">SETTINGS</h4>
+<ul>
+<li>點開SETTINGS stream 的話可以看到 client 發送了好幾個設定值，告訴了Server 我要設定成這樣。
+<ul>
+<li>Header table size</li>
+<li>Max concurrent streams</li>
+<li>Max hader list size</li>
+<li>Unknown</li>
+</ul>
+</li>
+</ul>
+<h4 id="window_update">WINDOW_UPDATE</h4>
+<ul>
+<li>點開WINDOW_UPDATE stream 的話可以看到 client 發送了一個設定，告訴Server最大我的資料只能傳輸多少。</li>
+</ul>
+<p><img src="https://i.imgur.com/Ocwa483.png" alt="" /></p>
+<h3 id="headers">Headers</h3>
+<p>可以看到 client 發送了好幾個 HEADS 給SERVER並且Stream ID 都是奇數，這表示Client 發送給Server 的請求Stream ID都會是奇數。接下來 Cleint 又分別要了 Head[3] , Head[5] , Head[7] 那這些 Header有什麼關聯？</p>
+<p><img src="https://i.imgur.com/LurdblE.png" alt="" /></p>
+<h4 id="stream-id-priority">stream ID priority</h4>
+<p>點開 Head[3] 可以看到這個請求的權重，那跟 Head[5] 有什麼差別</p>
+<p><img src="https://i.imgur.com/Oqvfphr.png" alt="" /></p>
+<p>點開 Head[5] 可以看到 ，觀察後可以看到 Head[3] 的priority 大於 Head[5]，權重計算後 Head[3] 要比 Head[5] 的資料更快被接收。</p>
+<h4 id="stream-id-dependency">stream ID dependency</h4>
+<p>除了 priority 之外還有 stream ID dependency 可以從上圖觀察到這兩個請求都要依賴 stream ID 0，表示都要先接收完成stream ID 0才可以接收各自的資料。</p>
+<p><img src="https://i.imgur.com/yv1PLk8.png" alt="" /></p>
+<h3 id="data">Data</h3>
+<p>可以看到 Server 回傳了資料給 Client 端，如圖所示 Client 要了 Head[1]的資料， Server 就回傳了六筆資料給 Client 。</p>
+<h2 id="小結">小結</h2>
+<p>重新複習了 http2 的特性，以前常提到得多路復用（multiplexing），Stream 以及 Frame 到底是什麼又有什麼特性，以及當 Client/Server 發送或是接收請求後 connection 會處於什麼狀態 做一個簡單的分析與介紹。<br />
+最後從 wireshark 觀察 http2 請求的內容，觀察 Stream ID 與 Stream ID priority ，共用同一個 Connection 有些請求需要先被執行才能在執行其他請求的依賴關係，除此之外 沒有依賴關係的請求需要按照 priority 的大小 優先處理。</p>
     </article>
     
     <script>
@@ -2993,9 +3063,31 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="toc toc__outer " data-dir="ltr" data-folding="true" data-ani="true">
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#stram-特性">Stram 特性</a></li>
-    <li><a href="#frame">frame</a></li>
+    <li><a href="#connection-特性">connection 特性</a></li>
+    <li><a href="#stream-特性">stream 特性</a></li>
+    <li><a href="#frame-特性">frame 特性</a></li>
+    <li><a href="#到這裡你能比較-http11-與-http2-的不同嗎-">到這裡你能比較 http1.1 與 http2 的不同嗎 ？</a></li>
     <li><a href="#stream-status">stream status</a></li>
+    <li><a href="#stream-的priorty順序">stream 的priorty順序</a></li>
+    <li><a href="#wireshark-動手做看看">wireshark 動手做看看</a>
+      <ul>
+        <li><a href="#magic-settings-window_update">Magic SETTINGS WINDOW_UPDATE</a>
+          <ul>
+            <li><a href="#magic">Magic</a></li>
+            <li><a href="#settings">SETTINGS</a></li>
+            <li><a href="#window_update">WINDOW_UPDATE</a></li>
+          </ul>
+        </li>
+        <li><a href="#headers">Headers</a>
+          <ul>
+            <li><a href="#stream-id-priority">stream ID priority</a></li>
+            <li><a href="#stream-id-dependency">stream ID dependency</a></li>
+          </ul>
+        </li>
+        <li><a href="#data">Data</a></li>
+      </ul>
+    </li>
+    <li><a href="#小結">小結</a></li>
   </ul>
 </nav>
         </div>
