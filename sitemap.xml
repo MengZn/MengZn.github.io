@@ -43,6 +43,31 @@
   </url>
   
   <url>
+    <loc>https://blog.jjmengze.website/tags/go/</loc>
+    <lastmod>2020-09-15T14:25:58+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/go/</loc>
+    <lastmod>2020-09-15T14:25:58+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/tdd/</loc>
+    <lastmod>2020-09-15T14:25:58+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/tdd/</loc>
+    <lastmod>2020-09-15T14:25:58+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/go/tdd-test/</loc>
+    <lastmod>2020-09-15T14:25:58+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.jjmengze.website/posts/protocol/http2/http2_wireshark/</loc>
     <lastmod>2020-09-07T12:00:02+08:00</lastmod>
   </url>

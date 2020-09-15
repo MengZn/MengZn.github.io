@@ -55,6 +55,46 @@
       </item>
       
       <item>
+        <title>強迫使用 TDD 開發模式以Go為例</title>
+        <link>https://blog.jjmengze.website/posts/go/tdd-test/</link>
+        <pubDate>Tue, 15 Sep 2020 14:25:58 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Tue, 15 Sep 2020 14:25:58 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/go/tdd-test/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/tdd-test.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>Go</category>
+            
+          
+            
+              <category>TDD</category>
+            
+          
+        
+        
+          
+            
+              <category>Go</category>
+            
+          
+            
+              <category>TDD</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>怎麼透過 wireshark 抓取瀏覽器存取 Http2 的封包？</title>
         <link>https://blog.jjmengze.website/posts/protocol/http2/http2_wireshark/</link>
         <pubDate>Mon, 07 Sep 2020 12:00:02 +0800</pubDate>
