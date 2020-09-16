@@ -153,6 +153,21 @@
   </url>
   
   <url>
+    <loc>https://blog.jjmengze.website/tags/devops/</loc>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/devops/</loc>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/go/opentracing/</loc>
+    <lastmod>2020-04-30T12:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.jjmengze.website/posts/cicd/github/github-action-1/</loc>
     <lastmod>2020-04-26T20:48:52+08:00</lastmod>
   </url>
