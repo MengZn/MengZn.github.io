@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>強迫使用 TDD 開發模式以Go為例-2 – Hugo Zzo Theme</title>
+    <title>Helm template 有講沒講差不多 – Hugo Zzo Theme</title>
     
 
 
@@ -556,7 +556,7 @@
     
     var baseurl = JSON.parse("\"https://blog.jjmengze.website/\"");
     
-    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/go/tdd-test2/\"");
+    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/\"");
     
     var langprefix = JSON.parse("\"\"");
     var searchResults = null;
@@ -1224,18 +1224,18 @@
 <meta name="description" content="Meng Learning Note" />
 
 
-<meta name="keywords" content="Go,TDD">
+<meta name="keywords" content="ci/cd">
 
-<meta name="created" content="2020-09-21T14:25:58&#43;0800">
-<meta name="modified" content="2020-09-21T14:25:58&#43;0800">
-<meta property="article:published_time" content="2020-09-21T14:25:58&#43;0800">
+<meta name="created" content="2020-10-01T20:48:52&#43;0800">
+<meta name="modified" content="2020-10-01T20:48:52&#43;0800">
+<meta property="article:published_time" content="2020-10-01T20:48:52&#43;0800">
 
 <meta name="author" content="Meng Ze Li">
 
 
 <meta property="og:site_name" content="Hugo Zzo Theme">
-<meta property="og:title" content="強迫使用 TDD 開發模式以Go為例-2">
-<meta property="og:url" content="https://blog.jjmengze.website/posts/go/tdd-test2/">
+<meta property="og:title" content="Helm template 有講沒講差不多">
+<meta property="og:url" content="https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/">
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
@@ -1248,7 +1248,7 @@
 
 <meta name="apple-mobile-web-app-status-bar-style" content="#fff">
 
-<link rel="canonical" href="https://blog.jjmengze.website/posts/go/tdd-test2/">
+<link rel="canonical" href="https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/">
 
 <link rel="manifest" href="/manifest.json">
 
@@ -1274,12 +1274,12 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "headline": "強迫使用 TDD 開發模式以Go為例-2",
-    "datePublished": "2020-09-21T14:25:58+08:00",
-    "dateModified": "2020-09-21T14:25:58+08:00",
-    "url" : "https://blog.jjmengze.website/posts/go/tdd-test2/",
-    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/tdd-test2.png\"/\u003e  \u003c/figure\u003e",
-    "keywords": ["Go","TDD"],
+    "headline": "Helm template 有講沒講差不多",
+    "datePublished": "2020-10-01T20:48:52+08:00",
+    "dateModified": "2020-10-01T20:48:52+08:00",
+    "url" : "https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/",
+    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/helmv3-gogo.jpg\"/\u003e  \u003c/figure\u003e",
+    "keywords": ["ci/cd"],
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://blog.jjmengze.website/"
@@ -1523,7 +1523,7 @@
   
   <li  class="is-active" >
     
-      <span>強迫使用 TDD 開發模式以Go為例-2</span>
+      <span>Helm template 有講沒講差不多</span>
     
   </li>
   
@@ -1535,7 +1535,7 @@
   <div class="single ">
     <div class="single__nojs"></div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
-    <h2 class="single__title" data-ani="true">強迫使用 TDD 開發模式以Go為例-2</h2>
+    <h2 class="single__title" data-ani="true">Helm template 有講沒講差不多</h2>
     <div class="single__meta">
       
 <div class="single__infos">
@@ -1553,195 +1553,36 @@
   🏷️
   
 
-  <li><a href="https://blog.jjmengze.website/tags/go/" class="single__tag" title="Go">#Go</a></li>
-
-  <li><a href="https://blog.jjmengze.website/tags/tdd/" class="single__tag" title="TDD">#TDD</a></li>
+  <li><a href="https://blog.jjmengze.website/tags/ci/cd/" class="single__tag" title="ci/cd">#ci/cd</a></li>
 
 </ul>
     </div>
     <article class="single__contents" data-dir="ltr" data-ani="true">
       
       <figure>
-    <img src="/images/theme/tdd-test2.png"/> 
+    <img src="/images/theme/helmv3-gogo.jpg"/> 
 </figure>
 
-<p>記錄一下，在強迫使用TDD模式開發的情境與心得。</p>
-<p>比如我們需要一個下載器，這一個下載器會幫助我們從網路下載一些資料並且抽取出特定的資料。</p>
-<p>因應這個情境我使用TDD開發模式強迫自己使用測試驅動的思維思考。</p>
-<p>首先我們要需要一個下載器 Downloader ，所以我們會在 package 寫下 NewDownloader 的方法，接著讓 IDE 幫我補齊測試。</p>
-<h2 id="以最小步驟開發">以最小步驟開發</h2>
-<p>比如我在<code>download</code> package 先定義一個 NewDownloader 的方法，透過 IDE 指引幫我們建立他的測試。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">NewDownloader</span><span class="p">()</span> <span class="o">*</span><span class="nx">Downloader</span> <span class="p">{</span>
-
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><figure>
-    <img src="/images/post/tdd-test2-1.png"/> 
-</figure>
-<br />
-IDE會幫我們建立 Test Function 如下圖所示。<br />
-<figure>
-    <img src="/images/post/tdd-test2-2.png"/> 
-</figure>
-</p>
-<p>這時候我們會受到IDE的提示，告訴我們 <code>Downloader</code> 這個類型沒有定義。<br />
-另外也告訴我們這裡有 <code>TODO List</code> 要我們加入一些 test cases 。<br />
-我們先完成最少測試所需要的物件 <code>Downloader</code> ，透過IDE快速地建立所需要的物件。</p>
-<figure>
-    <img src="/images/post/tdd-test2-3.png"/> 
-</figure>
-
-<p>其實 IDE 也只是簡單幫你打幾個字而已，像是這是一個 interface 還是一個 struct  還是一個 function 還是其他物件這邊就需要自己定義。</p>
-<figure>
-    <img src="/images/post/tdd-test2-4.png"/> 
-</figure>
-
-<p>我們需要的是一個 struct ，為什麼？</p>
-<ol>
-<li>還記得我們前面定義的 function 是一個 NewDownloader 嗎？<br />
-通常這邊會需要的是 struct，所以 code 應該會長這樣子。</li>
-</ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Downloader</span> <span class="kd">struct</span> <span class="p">{</span>
-
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">TestNewDownloader</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">tests</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">name</span> <span class="kt">string</span>
-		<span class="nx">want</span> <span class="o">*</span><span class="nx">Downloader</span>
-	<span class="p">}{</span>
-		<span class="c1">// TODO: Add test cases.
-</span><span class="c1"></span>	<span class="p">}</span>
-	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">tt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tests</span> <span class="p">{</span>
-		<span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="nx">got</span> <span class="o">:=</span> <span class="nf">NewDownloader</span><span class="p">();</span> <span class="p">!</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">DeepEqual</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;NewDownloader() = %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="p">})</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>還缺少什麼呢？<br />
-剛剛有提到的 Test Case ，接著補滿我們的 Test Case 。<br />
-這裡只要因為我們只是 New 一個 NewDownloader 出來而已所以 Test Case 很間單的建立一個物，這時候程式碼可能會長這樣子。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">TestNewDownloader</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">tests</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">name</span> <span class="kt">string</span>
-		<span class="nx">want</span> <span class="o">*</span><span class="nx">Downloader</span>
-	<span class="p">}{</span>
-		<span class="p">{</span>
-			<span class="nx">name</span><span class="p">:</span> <span class="s">&#34;really init&#34;</span><span class="p">,</span>
-			<span class="nx">want</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">Downloader</span><span class="p">{},</span>
-		<span class="p">},</span>
-	<span class="p">}</span>
-	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">tt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tests</span> <span class="p">{</span>
-		<span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="nx">got</span> <span class="o">:=</span> <span class="nf">NewDownloader</span><span class="p">();</span> <span class="p">!</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">DeepEqual</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;NewDownloader() = %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="p">})</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>可以看到 IDE 還有紅色的字表示有問題<br />
-<figure>
-    <img src="/images/post/tdd-test2-5.png"/> 
-</figure>
-</p>
-<p>於是我們到 download.go 去觀察有什麼問題。<br />
-<figure>
-    <img src="/images/post/tdd-test2-6.png"/> 
-</figure>
-</p>
-<p>原來這邊告訴我們沒有定義 Download 的型別</p>
-<p>疑！奇怪，我們不是在 Test 已經定義過了嗎？<br />
-是這樣的，在 test 定義過的 Download struct 是沒有辦法再不是 test 的 package 所使用的。</p>
-<p>所以我們需要把 Test 定義過的 Download struct 過移過來到這裡，看看還有什麼其他問題。<br />
-<figure>
-    <img src="/images/post/tdd-test2-7.png"/> 
-</figure>
-<br />
-搬移過來了， Download 型別已經沒有出現紅字了，這時候 IDE 告訴我們 NewDownloader 這個 function 沒有寫 return 回傳值。那我們就寫一個給他吧。<br />
-於是我們的 code 現在變成這樣子</p>
-<p>download.go</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">download</span>
-
-<span class="kd">type</span> <span class="nx">Downloader</span> <span class="kd">struct</span> <span class="p">{</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">NewDownloader</span><span class="p">()</span> <span class="o">*</span><span class="nx">Downloader</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Downloader</span><span class="p">{}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>download_test.go</p>
+<p>由於協助自己公司內訓使用 helm 管理 Kubernetes Applicetion ，就非常的簡單的寫了怎麼看 Helm 的架構與 template 。</p>
+<h2 id="目錄結構">目錄結構</h2>
+<p>可以先看一下這一個目錄結構</p>
+<pre><code>.
+└── helm-example
+    ├── Chart.yaml
+    ├── charts
+    ├── templates
+    │   ├── NOTES.txt
+    │   ├── _helpers.tpl
+    │   ├── deployment.yaml
+    │   ├── hpa.yaml
+    │   ├── ingress.yaml
+    │   ├── service.yaml
+    │   ├── serviceaccount.yaml
+    │   └── tests
+    │       └── test-connection.yaml
+    └── values.yaml
+</code></pre><p>首先我們會看到 chart,yaml 這個檔案，裡面記錄著這個 chart 是第幾版，是一個library 還是一個 application ，部署的 application 是幾版，另外最重要的是 apiVersion 是在定義這個chart 是 helm v2 還是 v3 ，因為 helm v2 跟 v3 不相容這邊要特別注意！</p>
+<p>可來看一下chart.yaml 裡面寫了什麼。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1767,263 +1608,36 @@ IDE會幫我們建立 Test Function 如下圖所示。<br />
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">download</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;reflect&#34;</span>
-	<span class="s">&#34;testing&#34;</span>
-<span class="p">)</span>
-
-
-<span class="kd">func</span> <span class="nf">TestNewDownloader</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">tests</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">name</span> <span class="kt">string</span>
-		<span class="nx">want</span> <span class="o">*</span><span class="nx">Downloader</span>
-	<span class="p">}{</span>
-		<span class="p">{</span>
-			<span class="nx">name</span><span class="p">:</span> <span class="s">&#34;really init&#34;</span><span class="p">,</span>
-			<span class="nx">want</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">Downloader</span><span class="p">{},</span>
-		<span class="p">},</span>
-	<span class="p">}</span>
-	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">tt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tests</span> <span class="p">{</span>
-		<span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="nx">got</span> <span class="o">:=</span> <span class="nf">NewDownloader</span><span class="p">();</span> <span class="p">!</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">DeepEqual</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;NewDownloader() = %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="p">})</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v2<span class="w">
+</span><span class="w"></span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helm-example<span class="w">
+</span><span class="w"></span><span class="k">description</span><span class="p">:</span><span class="w"> </span>A<span class="w"> </span>Helm<span class="w"> </span>chart<span class="w"> </span>for<span class="w"> </span>Kubernetes<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># A chart can be either an &#39;application&#39; or a &#39;library&#39; chart.</span><span class="w">
+</span><span class="w"></span><span class="c">#</span><span class="w">
+</span><span class="w"></span><span class="c"># Application charts are a collection of templates that can be packaged into versioned archives</span><span class="w">
+</span><span class="w"></span><span class="c"># to be deployed.</span><span class="w">
+</span><span class="w"></span><span class="c">#</span><span class="w">
+</span><span class="w"></span><span class="c"># Library charts provide useful utilities or functions for the chart developer. They&#39;re included as</span><span class="w">
+</span><span class="w"></span><span class="c"># a dependency of application charts to inject those utilities and functions into the rendering</span><span class="w">
+</span><span class="w"></span><span class="c"># pipeline. Library charts do not define any templates and therefore cannot be deployed.</span><span class="w">
+</span><span class="w"></span><span class="k">type</span><span class="p">:</span><span class="w"> </span>application<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># This is the chart version. This version number should be incremented each time you make changes</span><span class="w">
+</span><span class="w"></span><span class="c"># to the chart and its templates, including the app version.</span><span class="w">
+</span><span class="w"></span><span class="c"># Versions are expected to follow Semantic Versioning (https://semver.org/)</span><span class="w">
+</span><span class="w"></span><span class="k">version</span><span class="p">:</span><span class="w"> </span><span class="m">0.1.0</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># This is the version number of the application being deployed. This version number should be</span><span class="w">
+</span><span class="w"></span><span class="c"># incremented each time you make changes to the application. Versions are not expected to</span><span class="w">
+</span><span class="w"></span><span class="c"># follow Semantic Versioning. They should reflect the version the application is using.</span><span class="w">
+</span><span class="w"></span><span class="k">appVersion</span><span class="p">:</span><span class="w"> </span><span class="m">1.16.0</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div><p>這時候跑test 應該會看到一個完美的 Test 成功</p>
-<pre><code>go test .                                                         
-ok      kata-go-example/download        0.239s
-</code></pre><h2 id="持續迭代">持續迭代</h2>
-<p>雖然你可能會覺得很煩，為什麼要寫這些有的沒的，這些步驟 IDE 可以幫你大量處理，不過當我們習慣之後 IDE 會變成輔助你哪裡忘記寫，記住一個要點 <code>小步驟的迭代</code>。</p>
-<p>好的有 <code>Downloader</code> 物件之後我們沒有一個真的下載的方法，所以我們需要一個 Download 的方法，<strong>但是</strong> 因為很重要所以要說很多次 <strong>但是</strong> <strong>但是</strong> <strong>但是</strong> <strong>但是</strong> ，我們通常會希望這個 Download 的方法 不是寫死的，保留一些抽象空間可以替換。</p>
-<p>這邊我提供幾種方法</p>
-<h3 id="第一種-在結構注入-function-type">第一種 在結構注入 function type</h3>
-<p>現定義一個最簡單的download function ，我們預期輸入一串網址，下載器會幫我處理，這串網址對應的IP位置，最簡單function 可能會是長這樣子。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Downloader</span><span class="p">)</span> <span class="nf">Download</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-	
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>定義完成之後透過 IDE 幫忙補齊 Test function</p>
-<figure>
-    <img src="/images/post/tdd-test2-8.png"/> 
-</figure>
-
-<p>IDE 建立完成的 Code 大概會長以下這樣子，也會期待你幫他補完test case 。</p>
-<figure>
-    <img src="/images/post/tdd-test2-9.png"/> 
-</figure>
-
-<p>到這裡不知道大家有沒有發現還是還沒實作 download 的 function， test code 看起來除了要我們加入一些 test case 之外好像就沒有別的錯誤了。</p>
-<p>這邊需要使用到一些小技巧例如 function type ，我們可以定義一個 Download 的function type 如下所示</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">DownloadFunc</span> <span class="kd">func</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>定義了 DownloadFunc 我們可能會希望這個 Function  在 Downloader 的struct 裡面讓 Downloader 的結構擁有外部的傳進來的下載方法，如此一來就不會強依賴 Downloader 裡面寫什麼。</p>
-<p>既然我改了 NewDownloader 勢必會導致 NewDownloader 的測試方法不會通過</p>
-<figure>
-    <img src="/images/post/tdd-test2-10.png"/> 
-</figure>
-
-<p>這邊IDE就提示我們參數不正確，我們這邊就簡單地補上一個 Download function 就行，要訣修改到之前的 test code 需要先保證舊的 test code 是可以正確執行的！</p>
-<p>好，那就繼續回到 Download function 測試這個部分，我們在 struct 中新增了 DownloadFunc 就可以讓 Downloader 直接使用，code 可能會像是以下範例。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Downloader</span><span class="p">)</span> <span class="nf">Download</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">d</span><span class="p">.</span><span class="nf">downloadFunc</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>那麼 test code 會變成怎樣樣子呢？</p>
-<p>原本是長這樣子的test code</p>
-<figure>
-    <img src="/images/post/tdd-test2-11.png"/> 
-</figure>
-
-<p>但我們新增了在 struct 裡新增了 DownloadFunc 讓 Download 的邏輯被抽離了，這邊我們只要簡單的驗證一下 DownloadFunc 是否正確被使用即可，記得最後還需要補上test case 呦！</p>
-<p>最後我們的Download Function  的test code 應該會長這樣子</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">TestDownloader_Download</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kd">type</span> <span class="nx">args</span> <span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">url</span> <span class="kt">string</span>
-	<span class="p">}</span>
-	<span class="nx">fakeWant</span> <span class="o">:=</span> <span class="s">&#34;this is fake function&#34;</span>
-	<span class="nx">tests</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">name</span> <span class="kt">string</span>
-		<span class="nx">args</span> <span class="nx">args</span>
-		<span class="nx">want</span> <span class="kt">string</span>
-	<span class="p">}{</span>
-		<span class="p">{</span>
-			<span class="nx">name</span><span class="p">:</span> <span class="s">&#34;Fake Download Func&#34;</span><span class="p">,</span>
-			<span class="nx">args</span><span class="p">:</span> <span class="nx">args</span><span class="p">{</span>
-				<span class="s">&#34;google.com&#34;</span><span class="p">,</span>
-			<span class="p">},</span>
-			<span class="nx">want</span><span class="p">:</span> <span class="nx">fakeWant</span><span class="p">,</span>
-		<span class="p">},</span>
-	<span class="p">}</span>
-	<span class="nx">fakeDownloadFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">fakeWant</span>
-	<span class="p">}</span>
-
-	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">tt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tests</span> <span class="p">{</span>
-		<span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-
-			<span class="nx">d</span> <span class="o">:=</span> <span class="nf">NewDownloader</span><span class="p">(</span><span class="nx">fakeDownloadFunc</span><span class="p">)</span>
-			<span class="k">if</span> <span class="nx">got</span> <span class="o">:=</span> <span class="nx">d</span><span class="p">.</span><span class="nf">Download</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">args</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span> <span class="nx">got</span> <span class="o">!=</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span> <span class="p">{</span>
-				<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Download() = %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="p">})</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>而我們 package 裡面的 code 應該會是長這樣子</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">DownloadFunc</span> <span class="kd">func</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span>
-
-<span class="kd">type</span> <span class="nx">Downloader</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">downloadFunc</span> <span class="nx">DownloadFunc</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">NewDownloader</span><span class="p">(</span><span class="nx">downloadFunc</span> <span class="nx">DownloadFunc</span><span class="p">)</span> <span class="o">*</span><span class="nx">Downloader</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Downloader</span><span class="p">{</span><span class="nx">downloadFunc</span><span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Downloader</span><span class="p">)</span> <span class="nf">Download</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">d</span><span class="p">.</span><span class="nf">downloadFunc</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="第二種-在方法注入-function-type">第二種 在方法注入 function type</h3>
-<p>第二種方法一樣是注入function type 不過跟第一種不一樣的地方在於我們這一次是在functnio 的參數注入。</p>
-<p>一樣定義一個 function type</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">DownloadFunc</span> <span class="kd">func</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>這一次我們不在 Struct 裡面接收這個 function ，改用在functnion 裡面接收這個function ，例如說我們會定義一個 function 他要求攜帶一個 function 進來。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Downloader</span><span class="p">)</span> <span class="nf">DownloadWithFunc</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">downloadFunc</span> <span class="nx">DownloadFunc</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>這時候我們一樣用 IDE 幫我們撰寫 test code<br />
-<figure>
-    <img src="/images/post/tdd-test2-12.png"/> 
-</figure>
-</p>
-<p>長出來的code 大概是會如下方圖片所示，一樣要求你加入一些test case 。<br />
-<figure>
-    <img src="/images/post/tdd-test2-13.png"/> 
-</figure>
-</p>
-<p>這時候我們先來修正 package ，比如說我希望外面function 處理完成後之後我要加入一點東西，範例如下所示。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">Downloader</span><span class="p">)</span> <span class="nf">DownloadWithFunc</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">downloadFunc</span> <span class="nx">DownloadFunc</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nf">downloadFunc</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span><span class="o">+</span><span class="s">&#34;WithFunc&#34;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>改完了，那 test code 要怎麼寫？<br />
-這時候我們跟 方法一 一樣依外部的function ，所以我們一樣要訂 fakeDownloadFunc。<br />
-大致上的test code會像是下面範例的樣子。</p>
+</div><h2 id="value">value</h2>
+<p>value.yaml 這個檔案定義了這個 chart 會用到的變數，基本上是提供給 <code>_helpers.tpl</code> 、<code>Deployment.yaml</code>&hellip;做使用的。<br />
+我們來看一下value.yaml 裡面寫了些什麼</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2092,77 +1706,511 @@ ok      kata-go-example/download        0.239s
 </span><span class="lnt">64
 </span><span class="lnt">65
 </span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">TestDownloader_Download</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kd">type</span> <span class="nx">args</span> <span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">url</span> <span class="kt">string</span>
-	<span class="p">}</span>
-	<span class="nx">fakeWant</span> <span class="o">:=</span> <span class="s">&#34;this is fake function&#34;</span>
-	<span class="nx">tests</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">name</span> <span class="kt">string</span>
-		<span class="nx">args</span> <span class="nx">args</span>
-		<span class="nx">want</span> <span class="kt">string</span>
-	<span class="p">}{</span>
-		<span class="p">{</span>
-			<span class="nx">name</span><span class="p">:</span> <span class="s">&#34;Fake Download Func&#34;</span><span class="p">,</span>
-			<span class="nx">args</span><span class="p">:</span> <span class="nx">args</span><span class="p">{</span>
-				<span class="s">&#34;google.com&#34;</span><span class="p">,</span>
-			<span class="p">},</span>
-			<span class="nx">want</span><span class="p">:</span> <span class="nx">fakeWant</span><span class="p">,</span>
-		<span class="p">},</span>
-	<span class="p">}</span>
-	<span class="nx">fakeDownloadFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">fakeWant</span>
-	<span class="p">}</span>
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># Default values for helm-example.</span><span class="w">
+</span><span class="w"></span><span class="c"># This is a YAML-formatted file.</span><span class="w">
+</span><span class="w"></span><span class="c"># Declare variables to be passed into your templates.</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">replicaCount</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">image</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">repository</span><span class="p">:</span><span class="w"> </span>nginx<span class="w">
+</span><span class="w">  </span><span class="k">pullPolicy</span><span class="p">:</span><span class="w"> </span>IfNotPresent<span class="w">
+</span><span class="w">  </span><span class="c"># Overrides the image tag whose default is the chart appVersion.</span><span class="w">
+</span><span class="w">  </span><span class="k">tag</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">imagePullSecrets</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="w"></span><span class="k">nameOverride</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;example-helm-playground&#34;</span><span class="w">
+</span><span class="w"></span><span class="k">fullnameOverride</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">serviceAccount</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="c"># Specifies whether a service account should be created</span><span class="w">
+</span><span class="w">  </span><span class="k">create</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">  </span><span class="c"># Annotations to add to the service account</span><span class="w">
+</span><span class="w">  </span><span class="k">annotations</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">  </span><span class="c"># The name of the service account to use.</span><span class="w">
+</span><span class="w">  </span><span class="c"># If not set and create is true, a name is generated using the fullname template</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">podAnnotations</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">podSecurityContext</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">  </span><span class="c"># fsGroup: 2000</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">securityContext</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">  </span><span class="c"># capabilities:</span><span class="w">
+</span><span class="w">  </span><span class="c">#   drop:</span><span class="w">
+</span><span class="w">  </span><span class="c">#   - ALL</span><span class="w">
+</span><span class="w">  </span><span class="c"># readOnlyRootFilesystem: true</span><span class="w">
+</span><span class="w">  </span><span class="c"># runAsNonRoot: true</span><span class="w">
+</span><span class="w">  </span><span class="c"># runAsUser: 1000</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">service</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>ClusterIP<span class="w">
+</span><span class="w">  </span><span class="k">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">ingress</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="w">  </span><span class="k">annotations</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">    </span><span class="c"># kubernetes.io/ingress.class: nginx</span><span class="w">
+</span><span class="w">    </span><span class="c"># kubernetes.io/tls-acme: &#34;true&#34;</span><span class="w">
+</span><span class="w">  </span><span class="k">hosts</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">host</span><span class="p">:</span><span class="w"> </span>chart-example.local<span class="w">
+</span><span class="w">      </span><span class="k">paths</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="w">  </span><span class="k">tls</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="w">  </span><span class="c">#  - secretName: chart-example-tls</span><span class="w">
+</span><span class="w">  </span><span class="c">#    hosts:</span><span class="w">
+</span><span class="w">  </span><span class="c">#      - chart-example.local</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">resources</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">  </span><span class="c"># We usually recommend not to specify default resources and to leave this as a conscious</span><span class="w">
+</span><span class="w">  </span><span class="c"># choice for the user. This also increases chances charts run on environments with little</span><span class="w">
+</span><span class="w">  </span><span class="c"># resources, such as Minikube. If you do want to specify resources, uncomment the following</span><span class="w">
+</span><span class="w">  </span><span class="c"># lines, adjust them as necessary, and remove the curly braces after &#39;resources:&#39;.</span><span class="w">
+</span><span class="w">  </span><span class="c"># limits:</span><span class="w">
+</span><span class="w">  </span><span class="c">#   cpu: 100m</span><span class="w">
+</span><span class="w">  </span><span class="c">#   memory: 128Mi</span><span class="w">
+</span><span class="w">  </span><span class="c"># requests:</span><span class="w">
+</span><span class="w">  </span><span class="c">#   cpu: 100m</span><span class="w">
+</span><span class="w">  </span><span class="c">#   memory: 128Mi</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">autoscaling</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="w">  </span><span class="k">minReplicas</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">  </span><span class="k">maxReplicas</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span><span class="w">  </span><span class="k">targetCPUUtilizationPercentage</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span><span class="w">  </span><span class="c"># targetMemoryUtilizationPercentage: 80</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">nodeSelector</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">tolerations</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">affinity</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到裡面定義了很多參數，這些參數<strong>基本上</strong> <strong>基本上</strong> <strong>基本上</strong> <strong>基本上</strong> 會套用到剛剛說到的<code>_helpers.tpl</code> 、<code>Deployment.yaml</code>&hellip;做使用的，有些沒寫好的在這邊就算在這邊寫說我Deployment要使用什麼參數也沒用xDD</p>
+<h2 id="templates">templates</h2>
+<p>templates 底下會放 Kubernetes要使用到的資源，如Deployment、configmap、service等等，這些資源都是一個樣板。<br />
+有一個比較特別的檔案是<code>_helpers.tpl</code>，裡面放了一些變數，可以讓整個template底下的物件共享這些變數。</p>
+<p>我們可以把文件點開來看裡面裡面是什麼一回事。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="p">{{</span><span class="cm">/*
+</span><span class="cm">{{/*
+</span><span class="cm">Expand the name of the chart.
+</span><span class="cm">*/</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">define</span> <span class="s">&#34;helm-example.name&#34;</span> <span class="o">-</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">default</span> <span class="p">.</span><span class="nx">Chart</span><span class="p">.</span><span class="nx">Name</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">nameOverride</span> <span class="p">|</span> <span class="nx">trunc</span> <span class="mi">63</span> <span class="p">|</span> <span class="nx">trimSuffix</span> <span class="s">&#34;-&#34;</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
 
-	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">tt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tests</span> <span class="p">{</span>
-		<span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">{{</span><span class="cm">/*
+</span><span class="cm">Create a default fully qualified app name.
+</span><span class="cm">We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+</span><span class="cm">If release name contains chart name it will be used as a full name.
+</span><span class="cm">*/</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">define</span> <span class="s">&#34;helm-example.fullname&#34;</span> <span class="o">-</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">if</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">fullnameOverride</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">fullnameOverride</span> <span class="p">|</span> <span class="nx">trunc</span> <span class="mi">63</span> <span class="p">|</span> <span class="nx">trimSuffix</span> <span class="s">&#34;-&#34;</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">else</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="err">$</span><span class="nx">name</span> <span class="o">:=</span> <span class="k">default</span> <span class="p">.</span><span class="nx">Chart</span><span class="p">.</span><span class="nx">Name</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">nameOverride</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">if</span> <span class="nx">contains</span> <span class="err">$</span><span class="nx">name</span> <span class="p">.</span><span class="nx">Release</span><span class="p">.</span><span class="nx">Name</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="p">.</span><span class="nx">Release</span><span class="p">.</span><span class="nx">Name</span> <span class="p">|</span> <span class="nx">trunc</span> <span class="mi">63</span> <span class="p">|</span> <span class="nx">trimSuffix</span> <span class="s">&#34;-&#34;</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">else</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">printf</span> <span class="s">&#34;%s-%s&#34;</span> <span class="p">.</span><span class="nx">Release</span><span class="p">.</span><span class="nx">Name</span> <span class="err">$</span><span class="nx">name</span> <span class="p">|</span> <span class="nx">trunc</span> <span class="mi">63</span> <span class="p">|</span> <span class="nx">trimSuffix</span> <span class="s">&#34;-&#34;</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
 
-			<span class="nx">d</span> <span class="o">:=</span> <span class="nf">NewDownloader</span><span class="p">(</span><span class="nx">fakeDownloadFunc</span><span class="p">)</span>
-			<span class="k">if</span> <span class="nx">got</span> <span class="o">:=</span> <span class="nx">d</span><span class="p">.</span><span class="nf">Download</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">args</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span> <span class="nx">got</span> <span class="o">!=</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span> <span class="p">{</span>
-				<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Download() = %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="p">})</span>
-	<span class="p">}</span>
-<span class="p">}</span>
+<span class="p">{{</span><span class="cm">/*
+</span><span class="cm">Create chart name and version as used by the chart label.
+</span><span class="cm">*/</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">define</span> <span class="s">&#34;helm-example.chart&#34;</span> <span class="o">-</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">printf</span> <span class="s">&#34;%s-%s&#34;</span> <span class="p">.</span><span class="nx">Chart</span><span class="p">.</span><span class="nx">Name</span> <span class="p">.</span><span class="nx">Chart</span><span class="p">.</span><span class="nx">Version</span> <span class="p">|</span> <span class="nx">replace</span> <span class="s">&#34;+&#34;</span> <span class="s">&#34;_&#34;</span> <span class="p">|</span> <span class="nx">trunc</span> <span class="mi">63</span> <span class="p">|</span> <span class="nx">trimSuffix</span> <span class="s">&#34;-&#34;</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
 
-<span class="kd">func</span> <span class="nf">TestDownloader_DownloadWithFunc</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kd">type</span> <span class="nx">args</span> <span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">url</span>          <span class="kt">string</span>
-		<span class="nx">downloadFunc</span> <span class="nx">DownloadFunc</span>
-	<span class="p">}</span>
-	<span class="nx">fakeWant</span> <span class="o">:=</span> <span class="s">&#34;this is fake function&#34;</span>
-	<span class="nx">fakeDownloadFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">fakeWant</span>
-	<span class="p">}</span>
-	<span class="nx">tests</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
-		<span class="nx">name</span> <span class="kt">string</span>
-		<span class="nx">args</span> <span class="nx">args</span>
-		<span class="nx">want</span> <span class="kt">string</span>
-	<span class="p">}{</span>
-		<span class="p">{</span>
-			<span class="nx">name</span><span class="p">:</span> <span class="s">&#34;Fake Download Func&#34;</span><span class="p">,</span>
+<span class="p">{{</span><span class="cm">/*
+</span><span class="cm">Common labels
+</span><span class="cm">*/</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">define</span> <span class="s">&#34;helm-example.labels&#34;</span> <span class="o">-</span><span class="p">}}</span>
+<span class="nx">helm</span><span class="p">.</span><span class="nx">sh</span><span class="o">/</span><span class="nx">chart</span><span class="p">:</span> <span class="p">{{</span> <span class="nx">include</span> <span class="s">&#34;helm-example.chart&#34;</span> <span class="p">.</span> <span class="p">}}</span>
+<span class="p">{{</span> <span class="nx">include</span> <span class="s">&#34;helm-example.selectorLabels&#34;</span> <span class="p">.</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">if</span> <span class="p">.</span><span class="nx">Chart</span><span class="p">.</span><span class="nx">AppVersion</span> <span class="p">}}</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">kubernetes</span><span class="p">.</span><span class="nx">io</span><span class="o">/</span><span class="nx">version</span><span class="p">:</span> <span class="p">{{</span> <span class="p">.</span><span class="nx">Chart</span><span class="p">.</span><span class="nx">AppVersion</span> <span class="p">|</span> <span class="nx">quote</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">kubernetes</span><span class="p">.</span><span class="nx">io</span><span class="o">/</span><span class="nx">managed</span><span class="o">-</span><span class="nx">by</span><span class="p">:</span> <span class="p">{{</span> <span class="p">.</span><span class="nx">Release</span><span class="p">.</span><span class="nx">Service</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
 
-			<span class="nx">args</span><span class="p">:</span> <span class="nx">args</span><span class="p">{</span>
-				<span class="nx">downloadFunc</span><span class="p">:</span> <span class="nx">fakeDownloadFunc</span><span class="p">,</span>
-				<span class="nx">url</span><span class="p">:</span>          <span class="s">&#34;google.com&#34;</span><span class="p">,</span>
-			<span class="p">},</span>
-			<span class="nx">want</span><span class="p">:</span> <span class="nx">fakeWant</span> <span class="o">+</span> <span class="s">&#34;WithFunc&#34;</span><span class="p">,</span>
-		<span class="p">},</span>
-	<span class="p">}</span>
-	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">tt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tests</span> <span class="p">{</span>
-		<span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nx">d</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Downloader</span><span class="p">{}</span>
-			<span class="k">if</span> <span class="nx">got</span> <span class="o">:=</span> <span class="nx">d</span><span class="p">.</span><span class="nf">DownloadWithFunc</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">args</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">args</span><span class="p">.</span><span class="nx">downloadFunc</span><span class="p">);</span> <span class="nx">got</span> <span class="o">!=</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span> <span class="p">{</span>
-				<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;DownloadWithFunc() = %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">want</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="p">})</span>
-	<span class="p">}</span>
-<span class="p">}</span>
+<span class="p">{{</span><span class="cm">/*
+</span><span class="cm">Selector labels
+</span><span class="cm">*/</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">define</span> <span class="s">&#34;helm-example.selectorLabels&#34;</span> <span class="o">-</span><span class="p">}}</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">kubernetes</span><span class="p">.</span><span class="nx">io</span><span class="o">/</span><span class="nx">name</span><span class="p">:</span> <span class="p">{{</span> <span class="nx">include</span> <span class="s">&#34;helm-example.name&#34;</span> <span class="p">.</span> <span class="p">}}</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">kubernetes</span><span class="p">.</span><span class="nx">io</span><span class="o">/</span><span class="nx">instance</span><span class="p">:</span> <span class="p">{{</span> <span class="p">.</span><span class="nx">Release</span><span class="p">.</span><span class="nx">Name</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
+
+<span class="p">{{</span><span class="cm">/*
+</span><span class="cm">Create the name of the service account to use
+</span><span class="cm">*/</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">define</span> <span class="s">&#34;helm-example.serviceAccountName&#34;</span> <span class="o">-</span><span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">if</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">serviceAccount</span><span class="p">.</span><span class="nx">create</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">default</span> <span class="p">(</span><span class="nx">include</span> <span class="s">&#34;helm-example.fullname&#34;</span> <span class="p">.)</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">serviceAccount</span><span class="p">.</span><span class="nx">name</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">else</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">default</span> <span class="s">&#34;default&#34;</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">serviceAccount</span><span class="p">.</span><span class="nx">name</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
+
 </code></pre></td></tr></table>
 </div>
+</div><p>簡單來說就是定義了好幾個全域參數，這邊我幫大家整理一下這幾個參數。</p>
+<ul>
+<li>
+<p><code>lafite-chatbot.name</code></p>
+<ul>
+<li>條件是如果 value 的 nameOverride 有定義
+<ul>
+<li>就用 nameOverride 取代 .Chart.Name</li>
+</ul>
+</li>
+<li>如果長度超過63個字
+<ul>
+<li>後面的字都不要</li>
+</ul>
+</li>
+<li>如果最後一個字元有
+<ul>
+<li>把該字元修剪掉</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>helm-example.fullname</code></p>
+<ul>
+<li>如果 Values.fullnameOverride 有定義的話
+<ul>
+<li>.Values.fullnameOverride
+<ul>
+<li>如果長度超過63個字
+<ul>
+<li>後面的字都不要</li>
+</ul>
+</li>
+<li>如果最後一個字元有
+<ul>
+<li>把該字元修剪掉</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>$name
+<ul>
+<li>如果 Values.fullnameOverride 有定義的話
+<ul>
+<li>就用 nameOverride 取代 .Chart.Name</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果 .Release.Name 有包含 $name 的話
+<ul>
+<li>如果長度超過63個字
+<ul>
+<li>後面的字都不要</li>
+</ul>
+</li>
+<li>如果最後一個字元有
+<ul>
+<li>把該字元修剪掉</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最後按照上面的規則印出 .Release.Name-$name
+<ul>
+<li>如果長度超過63個字
+<ul>
+<li>後面的字都不要</li>
+</ul>
+</li>
+<li>如果最後一個字元有
+<ul>
+<li>把該字元修剪掉</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>helm-example.chart</code></p>
+<ul>
+<li>印出 .Chart.Name-.Chart.Version
+<ul>
+<li>如果字元有遇到+
+<ul>
+<li>轉換成_</li>
+</ul>
+</li>
+<li>如果長度超過63個字
+<ul>
+<li>後面的字都不要</li>
+</ul>
+</li>
+<li>如果最後一個字元有
+<ul>
+<li>把該字元修剪掉</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>helm-example.labels</code></p>
+<ul>
+<li>helm.sh/chart : 加上之前定義的 helm-example.chart</li>
+<li>如果有定義 .Chart.AppVersion
+<ul>
+<li>那就加上 app.kubernetes.io/version : .Chart.AppVersion 的雙引號</li>
+</ul>
+</li>
+<li>app.kubernetes.io/managed-by: {{ .Release.Service }}</li>
+</ul>
+</li>
+<li>
+<p>`helm-example.selectorLabels</p>
+<ul>
+<li>app.kubernetes.io/name: 加上之前定義的 helm-example.name</li>
+<li>app.kubernetes.io/instance: 加上之前定義的 Release.Name</li>
+</ul>
+</li>
+<li>
+<p><code>helm-example.serviceAccountName</code></p>
+<ul>
+<li>如果.Values.serviceAccount.create 有定義的話
+<ul>
+<li>預設使用之前有定義的 helm-example.fullname
+<ul>
+<li>不然就是用 .Values.serviceAccount.name</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>預設使用default
+<ul>
+<li>不然就是 .Values.serviceAccount.name</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>了解了基礎的目錄結構後可以再深入地看一下元件的樣板</p>
+<h2 id="deployment">Deployment</h2>
+<p>這邊遇到有用go template 的段落才會進行解說</p>
+<h3 id="使用-_helptertpl">使用 _helpter.tpl</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span>include<span class="w"> </span><span class="s2">&#34;helm-example.fullname&#34;</span><span class="w"> </span>.<span class="w"> </span>}}<span class="w">
+</span><span class="w">  </span><span class="k">labels</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>{{- include<span class="w"> </span><span class="s2">&#34;helm-example.labels&#34;</span><span class="w"> </span>.<span class="w"> </span>|<span class="w"> </span>nindent<span class="w"> </span><span class="m">4</span><span class="w"> </span>}}<span class="w">
+</span></code></pre></td></tr></table>
 </div>
+</div><p>先看到 name 的部分 這邊他會直接套用 _helpter.tpl 內的 fullname</p>
+<p>再來看到 labels 的部分 這邊他會直接套用 _helpter.tpl 內的 labels 並且透過 nindent function 將每個開頭空四格</p>
+<h3 id="使用-value">使用 value</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml">{{- if<span class="w"> </span>not<span class="w"> </span>.Values.autoscaling.enabled<span class="w"> </span>}}<span class="w">
+</span><span class="w">  </span><span class="k">replicas</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span>.Values.replicaCount<span class="w"> </span>}}<span class="w">
+</span><span class="w"></span>{{- end<span class="w"> </span>}}<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>接下來看到 replicas 的部分如果在 Values <code>沒有</code>定義 autoscaling.enabled 就會採用 Values 內的 replicaCount。</p>
+<h3 id="使用-go-template-function">使用 go template function</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">selector</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">matchLabels</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>{{- include<span class="w"> </span><span class="s2">&#34;helm-example.selectorLabels&#34;</span><span class="w"> </span>.<span class="w"> </span>|<span class="w"> </span>nindent<span class="w"> </span><span class="m">6</span><span class="w"> </span>}}<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>在這個部分 matchLabels 直接套用 _helpter.tpl 內的 selectorLabels 並且透過 nindent function 將每個開頭空四格。</p>
+<h3 id="使用-go-template-to-yaml">使用 go template to yaml</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">    </span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>{{- with<span class="w"> </span>.Values.podAnnotations<span class="w"> </span>}}<span class="w">
+</span><span class="w">      </span><span class="k">annotations</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>{{- toYaml<span class="w"> </span>.<span class="w"> </span>|<span class="w"> </span>nindent<span class="w"> </span><span class="m">8</span><span class="w"> </span>}}<span class="w">
+</span><span class="w">    </span>{{- end<span class="w"> </span>}}<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>如果有在 value 寫 podAnnotations 這裡就會跑for each 把內容物把內容物，透過 nindent function 將每個開頭空四格。<br />
+例如你在value內定義以下這個範例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">podAnnotations</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">prometheus.io/scrape</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>Helm 會幫你轉換成以下格式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">  </span><span class="k">template</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="k">annotations</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="k">prometheus.io/scrape</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>只要了解上述這幾點並且搭配 go template 就可以做出非常多的變化，唯一缺點大概就是就是可讀性非常差吧。</p>
+<h2 id="note">Note</h2>
+<p>Note 是記錄這個 chart 是怎麼用的，直接來看範例。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="p">{{</span><span class="o">-</span> <span class="k">if</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">ingress</span><span class="p">.</span><span class="nx">enabled</span> <span class="p">}}</span>
+<span class="mf">1.</span> <span class="nx">Get</span> <span class="nx">the</span> <span class="nx">application</span> <span class="nx">URL</span> <span class="nx">by</span> <span class="nx">running</span> <span class="nx">these</span> <span class="nx">commands</span><span class="p">:</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">if</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">ingress</span><span class="p">.</span><span class="nx">enabled</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="k">range</span> <span class="err">$</span><span class="nx">host</span> <span class="o">:=</span> <span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">ingress</span><span class="p">.</span><span class="nx">hosts</span> <span class="p">}}</span>
+  <span class="p">{{</span><span class="o">-</span> <span class="k">range</span> <span class="p">.</span><span class="nx">paths</span> <span class="p">}}</span>
+  <span class="nx">http</span><span class="p">{{</span> <span class="k">if</span> <span class="err">$</span><span class="p">.</span><span class="nx">Values</span><span class="p">.</span><span class="nx">ingress</span><span class="p">.</span><span class="nx">tls</span> <span class="p">}}</span><span class="nx">s</span><span class="p">{{</span> <span class="nx">end</span> <span class="p">}}:</span><span class="c1">//{{ $host.host }}{{ . }}
+</span><span class="c1"></span>  <span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
+<span class="p">{{</span><span class="o">-</span> <span class="nx">end</span> <span class="p">}}</span>
+<span class="o">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>這邊如果我們有在 value 定義 ingress 定義 ingress.enabled 的話。<br />
+就會用 for range 去遞迴取出 value 底下的 ingress 的所有 host<br />
+並且用它組合成該 http:// &hellip;&hellip;的形式<br />
+讓使用者知道這服務該怎麼存取。</p>
+<h2 id="結語">結語</h2>
+<p>go-template 非常不直觀在幫自己公司內訓的時候不太好 debug 找括弧看變數等，都不是容易維護。</p>
     </article>
     
     <script>
@@ -2353,7 +2401,11 @@ ok      kata-go-example/download        0.239s
     <ul class="related-ul">
         
         <li>
-          <a href="/posts/go/tdd-test/" class="related__link">強迫使用 TDD 開發模式以Go為例</a>
+          <a href="/posts/ca/ca-one-way-ssl/" class="related__link">CA 動手玩</a>
+        </li>
+        
+        <li>
+          <a href="/posts/cicd/github/github-action-1/" class="related__link">Github Action 起步走第一式</a>
         </li>
         
     </ul>
@@ -2363,21 +2415,14 @@ ok      kata-go-example/download        0.239s
 <nav class="pagination-single">
   
     
-      <a href="https://blog.jjmengze.website/posts/protocol/http2/http2_stream/" class="pagination-single__left">
+      <a href="https://blog.jjmengze.website/posts/go/tdd-test2/" class="pagination-single__left">
         <div class="pagination-single__icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
         </div>
-        <div class="pagination-single__left-title">Http2_stream</div>      
+        <div class="pagination-single__left-title">強迫使用 TDD 開發模式以Go為例-2</div>      
       </a>
     
     <div class="grow"></div>
-    
-      <a href="https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/" class="pagination-single__right">      
-        <div class="pagination-single__right-title">Helm template 有講沒講差不多</div>
-        <div class="pagination-single__icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
-        </div>
-      </a>
     
   
 </nav>
@@ -3531,13 +3576,19 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="toc toc__outer " data-dir="ltr" data-folding="true" data-ani="true">
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#以最小步驟開發">以最小步驟開發</a></li>
-    <li><a href="#持續迭代">持續迭代</a>
+    <li><a href="#目錄結構">目錄結構</a></li>
+    <li><a href="#value">value</a></li>
+    <li><a href="#templates">templates</a></li>
+    <li><a href="#deployment">Deployment</a>
       <ul>
-        <li><a href="#第一種-在結構注入-function-type">第一種 在結構注入 function type</a></li>
-        <li><a href="#第二種-在方法注入-function-type">第二種 在方法注入 function type</a></li>
+        <li><a href="#使用-_helptertpl">使用 _helpter.tpl</a></li>
+        <li><a href="#使用-value">使用 value</a></li>
+        <li><a href="#使用-go-template-function">使用 go template function</a></li>
+        <li><a href="#使用-go-template-to-yaml">使用 go template to yaml</a></li>
       </ul>
     </li>
+    <li><a href="#note">Note</a></li>
+    <li><a href="#結語">結語</a></li>
   </ul>
 </nav>
         </div>

@@ -44,6 +44,38 @@
 
       
       <item>
+        <title>Helm template 有講沒講差不多</title>
+        <link>https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/</link>
+        <pubDate>Thu, 01 Oct 2020 20:48:52 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Thu, 01 Oct 2020 20:48:52 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/helmv3-gogo.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>ci/cd</category>
+            
+          
+        
+        
+          
+            
+              <category>ci/cd</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>強迫使用 TDD 開發模式以Go為例-2</title>
         <link>https://blog.jjmengze.website/posts/go/tdd-test2/</link>
         <pubDate>Mon, 21 Sep 2020 14:25:58 +0800</pubDate>
