@@ -14,13 +14,45 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Sat, 01 Aug 2020 10:29:32 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2020 16:07:21 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
     
     
 
+      
+      <item>
+        <title>Hey ! Kubernetes finalizers 不再煩惱</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/finalizers/</link>
+        <pubDate>Fri, 16 Oct 2020 16:07:21 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Fri, 16 Oct 2020 16:07:21 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/finalizers/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/audit.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
       
       <item>
         <title>Kubernetes Scheduler context流水線略窺一二</title>

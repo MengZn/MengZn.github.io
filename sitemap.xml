@@ -13,18 +13,38 @@
   </url>
   
   <url>
-    <loc>https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/</loc>
-    <lastmod>2020-10-01T20:48:52+08:00</lastmod>
+    <loc>https://blog.jjmengze.website/categories/</loc>
+    <lastmod>2020-10-16T16:07:21+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/kubernetes/finalizers/</loc>
+    <lastmod>2020-10-16T16:07:21+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/tags/kubernetes/</loc>
+    <lastmod>2020-10-16T16:07:21+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/categories/kubernetes/</loc>
+    <lastmod>2020-10-16T16:07:21+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.jjmengze.website/posts/</loc>
-    <lastmod>2020-10-01T20:48:52+08:00</lastmod>
+    <lastmod>2020-10-16T16:07:21+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.jjmengze.website/categories/</loc>
-    <lastmod>2020-09-21T14:25:58+08:00</lastmod>
+    <loc>https://blog.jjmengze.website/tags/</loc>
+    <lastmod>2020-10-16T16:07:21+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/</loc>
+    <lastmod>2020-10-01T20:48:52+08:00</lastmod>
   </url>
   
   <url>
@@ -34,11 +54,6 @@
   
   <url>
     <loc>https://blog.jjmengze.website/categories/go/</loc>
-    <lastmod>2020-09-21T14:25:58+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/tags/</loc>
     <lastmod>2020-09-21T14:25:58+08:00</lastmod>
   </url>
   
@@ -80,16 +95,6 @@
   <url>
     <loc>https://blog.jjmengze.website/posts/protocol/http2/http2_wireshark/</loc>
     <lastmod>2020-09-07T12:00:02+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/tags/kubernetes/</loc>
-    <lastmod>2020-08-01T10:29:32+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/categories/kubernetes/</loc>
-    <lastmod>2020-08-01T10:29:32+08:00</lastmod>
   </url>
   
   <url>
