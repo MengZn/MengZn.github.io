@@ -14,7 +14,7 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Fri, 16 Oct 2020 16:07:21 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2020 16:07:21 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -25,7 +25,7 @@
       <item>
         <title>kubernetes</title>
         <link>https://blog.jjmengze.website/tags/kubernetes/</link>
-        <pubDate>Fri, 16 Oct 2020 16:07:21 +0800</pubDate>
+        <pubDate>Mon, 26 Oct 2020 16:07:21 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         
         <guid>https://blog.jjmengze.website/tags/kubernetes/</guid>

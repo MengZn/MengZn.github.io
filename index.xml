@@ -44,6 +44,38 @@
 
       
       <item>
+        <title>kubernetes ssh tunnel debug pratice</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/debug/kt-connection/</link>
+        <pubDate>Mon, 26 Oct 2020 16:07:21 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Mon, 26 Oct 2020 16:07:21 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/debug/kt-connection/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kc-connection.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>Hey ! Kubernetes finalizers 不再煩惱</title>
         <link>https://blog.jjmengze.website/posts/kubernetes/finalizers/</link>
         <pubDate>Fri, 16 Oct 2020 16:07:21 +0800</pubDate>
