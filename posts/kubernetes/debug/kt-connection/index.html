@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;3&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;5&nbsp; </span>
   
   <span class="single__info">
     
@@ -1716,7 +1716,424 @@ kubectl expose deploy nginx --port <span class="m">80</span>
 service/nginx exposed
 </code></pre></td></tr></table>
 </div>
+</div><p>安裝完 nginx 之後可以透過下列指令檢視安裝成果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">kubectl get svc,deploy
+NAME                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>   AGE
+service/kubernetes   ClusterIP   10.96.0.1      &lt;none&gt;        443/TCP   24m
+service/nginx        ClusterIP   10.99.58.138   &lt;none&gt;        80/TCP    4m25s
+
+NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/kt-connect-daemon-ojbky   1/1     <span class="m">1</span>            <span class="m">1</span>           2m48s
+deployment.apps/nginx                     1/1     <span class="m">1</span>            <span class="m">1</span>           4m34s
+</code></pre></td></tr></table>
 </div>
+</div><h3 id="curl-with-nginx-pod-ip-in-localhost">curl with nginx pod ip in localhost</h3>
+<p>我們先在本地 透過 pod ip 存取 nginx 服務 看看服務是否正常</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">curl 10.32.0.5:80
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+...
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="curl-with-nginx-service-ip">curl with nginx service ip</h3>
+<p>接著在本地透過 nginx service virtual  ip 存取 nginx 服務 看看服務是否正常</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">curl 10.99.58.138:80
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+...
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="curl-with-nginx-service-dns-name">curl with nginx service DNS name</h3>
+<p>最後在本地透過 nginx cluster DNS 存取 nginx 服務 測試 服務是否正常。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">curl nginx.default.svc.cluster.local
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+&lt;style&gt;
+    body <span class="o">{</span>
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>上述三個測試表示舞們可以在 <code>localhost</code> 存取遠端 kubernetes 上的 nginx 。</p>
+<h2 id="exchange-remote-deployment-traffic-to-local">exchange remote deployment traffic to local</h2>
+<p>如果我們想要把 remote 流量導到 localhost 來該怎麼做？</p>
+<p>可以透過<code>ktctl exchang &lt;deployment&gt; --expose &lt;remote port :local port&gt;</code>指令，將 remote 的 deployment 流量轉移到 localhost 來。</p>
+<blockquote>
+<p>以下範例我現在本地啟動一個 apache 服務，把原本進入kubernetes nginx 流量導流到 localhost 的 apache 上。</p>
+</blockquote>
+<p>在localhost開一個簡單的服務！</p>
+<pre><code class="language-bash=" data-lang="bash=">  docker run -dit --name test-apache -p 80:80 httpd                                                                                                                                   
+Unable to find image 'httpd:latest' locally
+latest: Pulling from library/httpd
+bb79b6b2107f: Pull complete
+26694ef5449a: Pull complete
+7b85101950dd: Pull complete
+da919f2696f2: Pull complete
+3ae86ea9f1b9: Pull complete
+Digest: sha256:b82fb56847fcbcca9f8f162a3232acb4a302af96b1b2af1c4c3ac45ef0c9b968
+Status: Downloaded newer image for httpd:latest
+bbe6575b59c5a11d430da4c158894b7740fae8e520c72ac8a71de227fcb59e3d
+
+docker ps                                                                                                                                                                             
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS                NAMES
+bbe6575b59c5        httpd               &quot;httpd-foreground&quot;   28 seconds ago      Up 27 seconds       0.0.0.0:80-&gt;80/tcp   test-apache
+
+##在本地測試一下！
+curl 127.0.0.1:80
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre><blockquote>
+<p>原本架構  user==========&gt;(remote) nginx<br />
+導流後架構 user==========&gt;(remote) nginx==(導流)==&gt;(localhost)apache</p>
+</blockquote>
+<p>透過以下指令告訴遠端要透過 80 port 進入 nginx 的流量，需要導流到本地的 80 port。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">sudo ktctl exchange nginx --expose 80:80
+2:37PM INF <span class="s1">&#39;KT Connect&#39;</span> not runing, you can only access <span class="nb">local</span> app from cluster
+2:37PM INF Client address 192.168.51.191
+2:37PM INF deploy shadow deployment nginx-kt-rjulr in namespace default
+
+2:37PM INF pod label: <span class="nv">kt</span><span class="o">=</span>nginx-kt-rjulr
+2:37PM INF pod: nginx-kt-rjulr-7b478cd45d-c2xw5 is running,but not ready
+2:37PM INF pod: nginx-kt-rjulr-7b478cd45d-c2xw5 is running,but not ready
+2:37PM INF pod: nginx-kt-rjulr-7b478cd45d-c2xw5 is running,but not ready
+2:37PM INF Shadow pod: nginx-kt-rjulr-7b478cd45d-c2xw5 is ready.
+2:37PM INF create exchange shadow nginx-kt-rjulr in namespace default
+2:37PM INF scale deployment nginx to <span class="m">0</span>
+
+2:37PM INF  * nginx <span class="o">(</span><span class="m">0</span> replicas<span class="o">)</span> success
+2:37PM INF remote 10.32.0.4 forward to <span class="nb">local</span> 80:80
+Forwarding from 127.0.0.1:2204 -&gt; <span class="m">22</span>
+Forwarding from <span class="o">[</span>::1<span class="o">]</span>:2204 -&gt; <span class="m">22</span>
+2:37PM INF exchange port forward to <span class="nb">local</span> start at pid: <span class="m">30915</span>
+2:37PM INF redirect request from pod 10.32.0.4 <span class="m">22</span> to 127.0.0.1:2204 starting
+
+Handling connection <span class="k">for</span> <span class="m">2204</span>
+Warning: Permanently added <span class="s1">&#39;[127.0.0.1]:2204&#39;</span> <span class="o">(</span>ECDSA<span class="o">)</span> to the list of known hosts.
+2:37PM INF ssh remote port-forward start at pid: <span class="m">30917</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="curl-with-nginx-service-in-remote">curl with nginx service in remote</h3>
+<p>在 remote 環境測試請求 nginx service 能不能將 traffic 導流到 localhost 上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">curl 10.99.58.138
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="curl-with-nginx-dns-in-remote">curl with nginx DNS in remote</h3>
+<p>測試能不能在遠端透過 nginx  dns name 把請求導流到 localhost 上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">curl nginx.default.svc.cluster.local
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="dashboard">Dashboard</h2>
+<p>Kt connect 有提供一個dashboard可以使用，但目前不是很清楚這個dashboard可以提供怎麼樣的功能，就加減看一下囉！</p>
+<p>基本上按照官方的教學，先安裝RBAC 讓dashboard可以存取kubernetes上的資源。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">cat <span class="s">&lt;&lt;EOF | k apply -f -
+</span><span class="s">apiVersion: rbac.authorization.k8s.io/v1beta1
+</span><span class="s">kind: ClusterRole
+</span><span class="s">metadata:
+</span><span class="s">  name: ktadmin
+</span><span class="s">rules:
+</span><span class="s">- apiGroups: [&#34;&#34;]
+</span><span class="s">  resources:
+</span><span class="s">  - namespaces
+</span><span class="s">  - nodes
+</span><span class="s">  - nodes/proxy
+</span><span class="s">  - services
+</span><span class="s">  - endpoints
+</span><span class="s">  - pods
+</span><span class="s">  verbs: [&#34;get&#34;, &#34;list&#34;, &#34;watch&#34;]
+</span><span class="s">- apiGroups:
+</span><span class="s">  - extensions
+</span><span class="s">  resources:
+</span><span class="s">  - ingresses
+</span><span class="s">  verbs: [&#34;get&#34;, &#34;list&#34;, &#34;watch&#34;]
+</span><span class="s">- nonResourceURLs: [&#34;/metrics&#34;]
+</span><span class="s">  verbs: [&#34;get&#34;]
+</span><span class="s">---
+</span><span class="s">apiVersion: v1
+</span><span class="s">kind: ServiceAccount
+</span><span class="s">metadata:
+</span><span class="s">  name: ktadmin
+</span><span class="s">  namespace: default
+</span><span class="s">---
+</span><span class="s">apiVersion: rbac.authorization.k8s.io/v1beta1
+</span><span class="s">kind: ClusterRoleBinding
+</span><span class="s">metadata:
+</span><span class="s">  name: ktadmin
+</span><span class="s">roleRef:
+</span><span class="s">  apiGroup: rbac.authorization.k8s.io
+</span><span class="s">  kind: ClusterRole
+</span><span class="s">  name: ktadmin
+</span><span class="s">subjects:
+</span><span class="s">- kind: ServiceAccount
+</span><span class="s">  name: ktadmin
+</span><span class="s">  namespace: default
+</span><span class="s">EOF</span>  
+clusterrole.rbac.authorization.k8s.io/ktadmin created
+serviceaccount/ktadmin created
+clusterrolebinding.rbac.authorization.k8s.io/ktadmin created
+</code></pre></td></tr></table>
+</div>
+</div><p>接著繼續按照官方文件安裝 dashboard 所需要的 deployment 與 service 即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">cat <span class="s">&lt;&lt;EOF | kubectl apply -f -
+</span><span class="s">apiVersion: v1
+</span><span class="s">kind: Service
+</span><span class="s">metadata:
+</span><span class="s">  name: kt-dashboard
+</span><span class="s">spec:
+</span><span class="s">  ports:
+</span><span class="s">  - port: 80
+</span><span class="s">    targetPort: 80
+</span><span class="s">  selector:
+</span><span class="s">    app: kt-dashboard
+</span><span class="s">  type: NodePort
+</span><span class="s">---
+</span><span class="s">apiVersion: apps/v1
+</span><span class="s">kind: Deployment
+</span><span class="s">metadata:
+</span><span class="s">  labels:
+</span><span class="s">    app: kt-dashboard
+</span><span class="s">  name: kt-dashboard
+</span><span class="s">spec:
+</span><span class="s">  replicas: 1
+</span><span class="s">  selector:
+</span><span class="s">    matchLabels:
+</span><span class="s">      app: kt-dashboard
+</span><span class="s">  template:
+</span><span class="s">    metadata:
+</span><span class="s">      labels:
+</span><span class="s">        app: kt-dashboard
+</span><span class="s">    spec:
+</span><span class="s">      serviceAccount: ktadmin
+</span><span class="s">      containers:
+</span><span class="s">      - image: registry.cn-shanghai.aliyuncs.com/kube-helm/kt-dashboard:stable
+</span><span class="s">        imagePullPolicy: Always
+</span><span class="s">        name: dashboard
+</span><span class="s">        ports:
+</span><span class="s">        - containerPort: 80
+</span><span class="s">      - image: registry.cn-shanghai.aliyuncs.com/kube-helm/kt-controller:stable
+</span><span class="s">        imagePullPolicy: Always
+</span><span class="s">        name: controller
+</span><span class="s">        ports:
+</span><span class="s">        - containerPort: 8000
+</span><span class="s">EOF</span>
+service/kt-dashboard created
+deployment.apps/kt-dashboard created
+</code></pre></td></tr></table>
+</div>
+</div><p>RBAC 、 Service 與 Deployment 安裝好之後可以透過 kubectl 指令確認狀態與 kt connect dashboard 暴露出的 port 是哪個。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"> kubectl get pod,svc
+NAME                                           READY   STATUS    RESTARTS   AGE
+pod/kt-connect-daemon-lucia-7b97887df4-d6lqx   1/1     Running   <span class="m">0</span>          3m21s
+pod/kt-dashboard-68bbc66bc6-skcsp              2/2     Running   <span class="m">0</span>          12m
+pod/nginx-f89759699-zjb6b                      1/1     Running   <span class="m">0</span>          9m39s
+
+NAME                   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>        AGE
+service/kt-dashboard   NodePort    10.100.1.170   &lt;none&gt;        80:30080/TCP   13m
+service/kubernetes     ClusterIP   10.96.0.1      &lt;none&gt;        443/TCP        90m
+service/nginx          ClusterIP   10.99.58.138   &lt;none&gt;        80/TCP         69m
+</code></pre></td></tr></table>
+</div>
+</div><p>我們可以透過 service 所告訴我們的 port 去存取這個服務，存取的圖是如下所示。<br />
+<img src="https://i.imgur.com/7nhA9gb.png" alt="" /></p>
     </article>
     
     <script>
@@ -3102,7 +3519,20 @@ document.addEventListener('DOMContentLoaded', function () {
         <li><a href="#install-kt-connect">install kt-connect</a></li>
       </ul>
     </li>
-    <li><a href="#connect-kubernetes-in-localhost">connect kubernetes in localhost</a></li>
+    <li><a href="#connect-kubernetes-in-localhost">connect kubernetes in localhost</a>
+      <ul>
+        <li><a href="#curl-with-nginx-pod-ip-in-localhost">curl with nginx pod ip in localhost</a></li>
+        <li><a href="#curl-with-nginx-service-ip">curl with nginx service ip</a></li>
+        <li><a href="#curl-with-nginx-service-dns-name">curl with nginx service DNS name</a></li>
+      </ul>
+    </li>
+    <li><a href="#exchange-remote-deployment-traffic-to-local">exchange remote deployment traffic to local</a>
+      <ul>
+        <li><a href="#curl-with-nginx-service-in-remote">curl with nginx service in remote</a></li>
+        <li><a href="#curl-with-nginx-dns-in-remote">curl with nginx DNS in remote</a></li>
+      </ul>
+    </li>
+    <li><a href="#dashboard">Dashboard</a></li>
   </ul>
 </nav>
         </div>
