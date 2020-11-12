@@ -44,6 +44,38 @@
 
       
       <item>
+        <title>kubernetes 分散式資源鎖</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/resourcelock/</link>
+        <pubDate>Thu, 12 Nov 2020 16:07:21 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Thu, 12 Nov 2020 16:07:21 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/resourcelock/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/resource-lock.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>kubernetes ssh tunnel debug pratice</title>
         <link>https://blog.jjmengze.website/posts/kubernetes/debug/kt-connection/</link>
         <pubDate>Mon, 26 Oct 2020 16:07:21 +0800</pubDate>
