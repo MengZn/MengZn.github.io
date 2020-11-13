@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;1&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;3&nbsp; </span>
   
   <span class="single__info">
     
@@ -1572,6 +1572,118 @@
 </blockquote>
 <p>這是因為 Controller Manger以及 scheduler 這兩個元件採用 Lease 又或是稱為 ResourceLock 的機制來從所有的 instance 會去競爭一個資源鎖，只有競爭到資源鎖的 instance 有能力去繼續動作，沒有競爭到的則是繼續等待資源鎖的釋放，只有持有資源鎖的 instance 發生故障沒有 renew 資源鎖，其他 instacne 才會繼續競爭資源鎖並接手原來的工作。</p>
 <p>底下會透過Kubernetes controller manger source code 來簡單的介紹 Kubernetes ResourceLock。</p>
+<h2 id="resourcelock">resourcelock</h2>
+<p>在Controller Manger source code 中有使用到<code>resourcelock.New</code>，<code>resourcelock.New</code>使用到工廠模式在new的過程中會產出我們指定的<code>resourcelock</code>。</p>
+<pre><code class="language-go=" data-lang="go=">// Lock required for leader election
+	rl, err := resourcelock.New(
+               //在config會指定說要新增哪一種resource loack
+               c.ComponentConfig.Generic.LeaderElection.ResourceLock,
+		//在config會指定說resource lock要綁在哪一個namespace
+		c.ComponentConfig.Generic.LeaderElection.ResourceNamespace,
+               //在config會指定說resource lock的名稱
+		c.ComponentConfig.Generic.LeaderElection.ResourceName,
+               //帶入建立configmap,endpoint client object
+		c.LeaderElectionClient.CoreV1(),
+               //帶入建立leases client object
+		c.LeaderElectionClient.CoordinationV1(),
+                //Resource lock 內容
+		resourcelock.ResourceLockConfig{
+                //Resource lock 內容 ID 目前會以hostname_uuid
+			Identity:      id,
+                //EventRecorder 會紀錄 resource lock 事件
+			EventRecorder: c.EventRecorder,
+		})
+	if err != nil {
+		klog.Fatalf(&quot;error creating lock: %v&quot;, err)
+	}
+</code></pre><p>configmaplock,endpointlock,leaselock,MultiLock這幾個需要實作以下這個interface。<br />
+我們來簡單看一下這些是什麼功能</p>
+<ol>
+<li>Get<br />
+從 ConfigMap、enpoint 或 lease 的 Annotation 拿到 LeaderElectionRecord 的資料。</li>
+<li>Create<br />
+建立 LeaderElectionRecord 的資料 到 ConfigMap、enpoint 或 lease 的 Annotation。</li>
+<li>Update<br />
+更新現有的 LeaderElectionRecord 資料到 ConfigMap、enpoint 或 lease 的 Annotation。</li>
+<li>RecordEvent<br />
+當加入 LeaderElectionRecord 觸發紀錄的event 。</li>
+<li>Identity<br />
+拿到 resource lock 的 id 。</li>
+<li>Describe<br />
+拿到 resource name/resource meta-data name</li>
+</ol>
+<pre><code class="language-go=" data-lang="go=">type Interface interface {
+	// Get returns the LeaderElectionRecord
+	Get(ctx context.Context) (*LeaderElectionRecord, []byte, error)
+
+	// Create attempts to create a LeaderElectionRecord
+	Create(ctx context.Context, ler LeaderElectionRecord) error
+
+	// Update will update and existing LeaderElectionRecord
+	Update(ctx context.Context, ler LeaderElectionRecord) error
+
+	// RecordEvent is used to record events
+	RecordEvent(string)
+
+	// Identity will return the locks Identity
+	Identity() string
+
+	// Describe is used to convert details on current resource lock
+	// into a string
+	Describe() string
+}
+</code></pre><h2 id="configmap-locklease-lock-物件">configmap lock/lease lock 物件</h2>
+<p>這邊舉兩個例子ConfigmapLock與LeaseLock，xxxMeta主要紀錄namespace name以及resource name。<br />
+Client 主要是用來操作 Kubernetes configmap / endpoint 的client api。<br />
+LockConfig 主要操作 Kubernetes Lease 的 Client api。<br />
+cm 操作 Kubernetes configmap 實際物件，不會透露給使用者。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">ConfigMapLock</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="c1">// ConfigMapMeta should contain a Name and a Namespace of a
+</span><span class="c1"></span>	<span class="c1">// ConfigMapMeta object that the LeaderElector will attempt to lead.
+</span><span class="c1"></span>	<span class="nx">ConfigMapMeta</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span>
+	<span class="nx">Client</span>        <span class="nx">corev1client</span><span class="p">.</span><span class="nx">ConfigMapsGetter</span>
+	<span class="nx">LockConfig</span>    <span class="nx">ResourceLockConfig</span>
+	<span class="nx">cm</span>            <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">ConfigMap</span>
+<span class="p">}</span>
+
+<span class="o">...</span>
+
+<span class="kd">type</span> <span class="nx">LeaseLock</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="c1">// LeaseMeta should contain a Name and a Namespace of a
+</span><span class="c1"></span>	<span class="c1">// LeaseMeta object that the LeaderElector will attempt to lead.
+</span><span class="c1"></span>	<span class="nx">LeaseMeta</span>  <span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span>
+	<span class="nx">Client</span>     <span class="nx">coordinationv1client</span><span class="p">.</span><span class="nx">LeasesGetter</span>
+	<span class="nx">LockConfig</span> <span class="nx">ResourceLockConfig</span>
+	<span class="nx">lease</span>      <span class="o">*</span><span class="nx">coordinationv1</span><span class="p">.</span><span class="nx">Lease</span>
+<span class="p">}</span>
+<span class="o">...</span>
+</code></pre></td></tr></table>
+</div>
+</div>
     </article>
     
     <script>
@@ -2947,7 +3059,12 @@ document.addEventListener('DOMContentLoaded', function () {
           
         </div>
         <div class="toc toc__outer " data-dir="ltr" data-folding="true" data-ani="true">
-          <nav id="TableOfContents"></nav>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#resourcelock">resourcelock</a></li>
+    <li><a href="#configmap-locklease-lock-物件">configmap lock/lease lock 物件</a></li>
+  </ul>
+</nav>
         </div>
       
     
