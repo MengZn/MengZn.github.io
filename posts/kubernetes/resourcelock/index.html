@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;3&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;8&nbsp; </span>
   
   <span class="single__info">
     
@@ -1574,29 +1574,57 @@
 <p>底下會透過Kubernetes controller manger source code 來簡單的介紹 Kubernetes ResourceLock。</p>
 <h2 id="resourcelock">resourcelock</h2>
 <p>在Controller Manger source code 中有使用到<code>resourcelock.New</code>，<code>resourcelock.New</code>使用到工廠模式在new的過程中會產出我們指定的<code>resourcelock</code>。</p>
-<pre><code class="language-go=" data-lang="go=">// Lock required for leader election
-	rl, err := resourcelock.New(
-               //在config會指定說要新增哪一種resource loack
-               c.ComponentConfig.Generic.LeaderElection.ResourceLock,
-		//在config會指定說resource lock要綁在哪一個namespace
-		c.ComponentConfig.Generic.LeaderElection.ResourceNamespace,
-               //在config會指定說resource lock的名稱
-		c.ComponentConfig.Generic.LeaderElection.ResourceName,
-               //帶入建立configmap,endpoint client object
-		c.LeaderElectionClient.CoreV1(),
-               //帶入建立leases client object
-		c.LeaderElectionClient.CoordinationV1(),
-                //Resource lock 內容
-		resourcelock.ResourceLockConfig{
-                //Resource lock 內容 ID 目前會以hostname_uuid
-			Identity:      id,
-                //EventRecorder 會紀錄 resource lock 事件
-			EventRecorder: c.EventRecorder,
-		})
-	if err != nil {
-		klog.Fatalf(&quot;error creating lock: %v&quot;, err)
-	}
-</code></pre><p>configmaplock,endpointlock,leaselock,MultiLock這幾個需要實作以下這個interface。<br />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Lock required for leader election
+</span><span class="c1"></span>	<span class="nx">rl</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">resourcelock</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span>
+               <span class="c1">//在config會指定說要新增哪一種resource loack
+</span><span class="c1"></span>               <span class="nx">c</span><span class="p">.</span><span class="nx">ComponentConfig</span><span class="p">.</span><span class="nx">Generic</span><span class="p">.</span><span class="nx">LeaderElection</span><span class="p">.</span><span class="nx">ResourceLock</span><span class="p">,</span>
+		<span class="c1">//在config會指定說resource lock要綁在哪一個namespace
+</span><span class="c1"></span>		<span class="nx">c</span><span class="p">.</span><span class="nx">ComponentConfig</span><span class="p">.</span><span class="nx">Generic</span><span class="p">.</span><span class="nx">LeaderElection</span><span class="p">.</span><span class="nx">ResourceNamespace</span><span class="p">,</span>
+               <span class="c1">//在config會指定說resource lock的名稱
+</span><span class="c1"></span>		<span class="nx">c</span><span class="p">.</span><span class="nx">ComponentConfig</span><span class="p">.</span><span class="nx">Generic</span><span class="p">.</span><span class="nx">LeaderElection</span><span class="p">.</span><span class="nx">ResourceName</span><span class="p">,</span>
+               <span class="c1">//帶入建立configmap,endpoint client object
+</span><span class="c1"></span>		<span class="nx">c</span><span class="p">.</span><span class="nx">LeaderElectionClient</span><span class="p">.</span><span class="nf">CoreV1</span><span class="p">(),</span>
+               <span class="c1">//帶入建立leases client object
+</span><span class="c1"></span>		<span class="nx">c</span><span class="p">.</span><span class="nx">LeaderElectionClient</span><span class="p">.</span><span class="nf">CoordinationV1</span><span class="p">(),</span>
+                <span class="c1">//Resource lock 內容
+</span><span class="c1"></span>		<span class="nx">resourcelock</span><span class="p">.</span><span class="nx">ResourceLockConfig</span><span class="p">{</span>
+                <span class="c1">//Resource lock 內容 ID 目前會以hostname_uuid
+</span><span class="c1"></span>			<span class="nx">Identity</span><span class="p">:</span>      <span class="nx">id</span><span class="p">,</span>
+                <span class="c1">//EventRecorder 會紀錄 resource lock 事件
+</span><span class="c1"></span>			<span class="nx">EventRecorder</span><span class="p">:</span> <span class="nx">c</span><span class="p">.</span><span class="nx">EventRecorder</span><span class="p">,</span>
+		<span class="p">})</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">klog</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;error creating lock: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>configmaplock,endpointlock,leaselock,MultiLock這幾個需要實作以下這個interface。<br />
 我們來簡單看一下這些是什麼功能</p>
 <ol>
 <li>Get<br />
@@ -1612,27 +1640,53 @@
 <li>Describe<br />
 拿到 resource name/resource meta-data name</li>
 </ol>
-<pre><code class="language-go=" data-lang="go=">type Interface interface {
-	// Get returns the LeaderElectionRecord
-	Get(ctx context.Context) (*LeaderElectionRecord, []byte, error)
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Interface</span> <span class="kd">interface</span> <span class="p">{</span>
+	<span class="c1">// Get returns the LeaderElectionRecord
+</span><span class="c1"></span>	<span class="nf">Get</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">LeaderElectionRecord</span><span class="p">,</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
 
-	// Create attempts to create a LeaderElectionRecord
-	Create(ctx context.Context, ler LeaderElectionRecord) error
+	<span class="c1">// Create attempts to create a LeaderElectionRecord
+</span><span class="c1"></span>	<span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">ler</span> <span class="nx">LeaderElectionRecord</span><span class="p">)</span> <span class="kt">error</span>
 
-	// Update will update and existing LeaderElectionRecord
-	Update(ctx context.Context, ler LeaderElectionRecord) error
+	<span class="c1">// Update will update and existing LeaderElectionRecord
+</span><span class="c1"></span>	<span class="nf">Update</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">ler</span> <span class="nx">LeaderElectionRecord</span><span class="p">)</span> <span class="kt">error</span>
 
-	// RecordEvent is used to record events
-	RecordEvent(string)
+	<span class="c1">// RecordEvent is used to record events
+</span><span class="c1"></span>	<span class="nf">RecordEvent</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 
-	// Identity will return the locks Identity
-	Identity() string
+	<span class="c1">// Identity will return the locks Identity
+</span><span class="c1"></span>	<span class="nf">Identity</span><span class="p">()</span> <span class="kt">string</span>
 
-	// Describe is used to convert details on current resource lock
-	// into a string
-	Describe() string
-}
-</code></pre><h2 id="configmap-locklease-lock-物件">configmap lock/lease lock 物件</h2>
+	<span class="c1">// Describe is used to convert details on current resource lock
+</span><span class="c1"></span>	<span class="c1">// into a string
+</span><span class="c1"></span>	<span class="nf">Describe</span><span class="p">()</span> <span class="kt">string</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="configmap-locklease-lock-物件">configmap lock/lease lock 物件</h2>
 <p>這邊舉兩個例子ConfigmapLock與LeaseLock，xxxMeta主要紀錄namespace name以及resource name。<br />
 Client 主要是用來操作 Kubernetes configmap / endpoint 的client api。<br />
 LockConfig 主要操作 Kubernetes Lease 的 Client api。<br />
@@ -1681,6 +1735,437 @@ cm 操作 Kubernetes configmap 實際物件，不會透露給使用者。</p>
 	<span class="nx">lease</span>      <span class="o">*</span><span class="nx">coordinationv1</span><span class="p">.</span><span class="nx">Lease</span>
 <span class="p">}</span>
 <span class="o">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="configmap-locklease-lock-工廠">configmap lock/lease lock 工廠</h2>
+<p>kubernetes lock resource 透過工廠模式建立不同的物件<br />
+一開始一次性建立<code>EndpointsLock</code>,<code>ConfigMapLock</code>,<code>LeaseLock</code>再由lockType去選擇要回傳什麼給使用者。 例如 type 輸入 endpoints 最後回傳給使用者的就是 endpointslock ，type 輸入 configmaps 最後回傳使用者 configmaplock 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Manufacture will create a lock of a given type according to the input parameters
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">New</span><span class="p">(</span><span class="nx">lockType</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">ns</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">coreClient</span> <span class="nx">corev1</span><span class="p">.</span><span class="nx">CoreV1Interface</span><span class="p">,</span> <span class="nx">coordinationClient</span> <span class="nx">coordinationv1</span><span class="p">.</span><span class="nx">CoordinationV1Interface</span><span class="p">,</span> <span class="nx">rlc</span> <span class="nx">ResourceLockConfig</span><span class="p">)</span> <span class="p">(</span><span class="nx">Interface</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">endpointsLock</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">EndpointsLock</span><span class="p">{</span>
+		<span class="nx">EndpointsMeta</span><span class="p">:</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">{</span>
+			<span class="nx">Namespace</span><span class="p">:</span> <span class="nx">ns</span><span class="p">,</span>
+			<span class="nx">Name</span><span class="p">:</span>      <span class="nx">name</span><span class="p">,</span>
+		<span class="p">},</span>
+		<span class="nx">Client</span><span class="p">:</span>     <span class="nx">coreClient</span><span class="p">,</span>
+		<span class="nx">LockConfig</span><span class="p">:</span> <span class="nx">rlc</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="nx">configmapLock</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">ConfigMapLock</span><span class="p">{</span>
+		<span class="nx">ConfigMapMeta</span><span class="p">:</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">{</span>
+			<span class="nx">Namespace</span><span class="p">:</span> <span class="nx">ns</span><span class="p">,</span>
+			<span class="nx">Name</span><span class="p">:</span>      <span class="nx">name</span><span class="p">,</span>
+		<span class="p">},</span>
+		<span class="nx">Client</span><span class="p">:</span>     <span class="nx">coreClient</span><span class="p">,</span>
+		<span class="nx">LockConfig</span><span class="p">:</span> <span class="nx">rlc</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="nx">leaseLock</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">LeaseLock</span><span class="p">{</span>
+		<span class="nx">LeaseMeta</span><span class="p">:</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">{</span>
+			<span class="nx">Namespace</span><span class="p">:</span> <span class="nx">ns</span><span class="p">,</span>
+			<span class="nx">Name</span><span class="p">:</span>      <span class="nx">name</span><span class="p">,</span>
+		<span class="p">},</span>
+		<span class="nx">Client</span><span class="p">:</span>     <span class="nx">coordinationClient</span><span class="p">,</span>
+		<span class="nx">LockConfig</span><span class="p">:</span> <span class="nx">rlc</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="k">switch</span> <span class="nx">lockType</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="nx">EndpointsResourceLock</span><span class="p">:</span>
+		<span class="k">return</span> <span class="nx">endpointsLock</span><span class="p">,</span> <span class="kc">nil</span>
+	<span class="k">case</span> <span class="nx">ConfigMapsResourceLock</span><span class="p">:</span>
+		<span class="k">return</span> <span class="nx">configmapLock</span><span class="p">,</span> <span class="kc">nil</span>
+	<span class="k">case</span> <span class="nx">LeasesResourceLock</span><span class="p">:</span>
+		<span class="k">return</span> <span class="nx">leaseLock</span><span class="p">,</span> <span class="kc">nil</span>
+	<span class="k">case</span> <span class="nx">EndpointsLeasesResourceLock</span><span class="p">:</span>
+		<span class="k">return</span> <span class="o">&amp;</span><span class="nx">MultiLock</span><span class="p">{</span>
+			<span class="nx">Primary</span><span class="p">:</span>   <span class="nx">endpointsLock</span><span class="p">,</span>
+			<span class="nx">Secondary</span><span class="p">:</span> <span class="nx">leaseLock</span><span class="p">,</span>
+		<span class="p">},</span> <span class="kc">nil</span>
+	<span class="k">case</span> <span class="nx">ConfigMapsLeasesResourceLock</span><span class="p">:</span>
+		<span class="k">return</span> <span class="o">&amp;</span><span class="nx">MultiLock</span><span class="p">{</span>
+			<span class="nx">Primary</span><span class="p">:</span>   <span class="nx">configmapLock</span><span class="p">,</span>
+			<span class="nx">Secondary</span><span class="p">:</span> <span class="nx">leaseLock</span><span class="p">,</span>
+		<span class="p">},</span> <span class="kc">nil</span>
+	<span class="k">default</span><span class="p">:</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Invalid lock-type %s&#34;</span><span class="p">,</span> <span class="nx">lockType</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="resource-lock-怎麼使用">resource lock 怎麼使用</h2>
+<p>在 kubernetes controller manger code 裡面使用了 leaderelection package 的 RunOrDie package 這個方法會在後面解析。</p>
+<p>這邊簡單說明一下怎麼使用 RunOrDie ，非常簡單。</p>
+<ol>
+<li>lock<br />
+在上面定義的resource lock 會在這裡被使用，例如上面定義了，例如上面定義了 configmap resource lock 會在這裡被注入（<code>可能</code>會被create）。</li>
+<li>leaseduration<br />
+要佔領這個resource lock 多久</li>
+<li>renewdeadline<br />
+多久要刷新一次resource lock</li>
+<li>retryperiod<br />
+多久要嘗試建立resource lock</li>
+<li>callback
+<ul>
+<li>OnStartedLeading:<br />
+當成功拿到resource lock 後要執行的動作</li>
+<li>OnStoppedLeading:<br />
+拿取resource lock 失敗後要執行的動作</li>
+</ul>
+</li>
+<li>watchdog<br />
+健康檢查相關的Object</li>
+<li>name
+<blockquote>
+<p>todo</p>
+</blockquote>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go">
+<span class="c1">// Try and become the leader and start cloud controller manager loops
+</span><span class="c1"></span>        <span class="c1">//使用 leaderelection package 裡的 RunOrDie function 會按照你設定的 LeaseDuration, RenewDeadline , RetryPeriod 三個時間嘗試成為領導人。
+</span><span class="c1"></span>	<span class="nx">leaderelection</span><span class="p">.</span><span class="nf">RunOrDie</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">TODO</span><span class="p">(),</span> 
+            <span class="nx">leaderelection</span><span class="p">.</span><span class="nx">LeaderElectionConfig</span><span class="p">{</span>
+		<span class="nx">Lock</span><span class="p">:</span>          <span class="nx">rl</span><span class="p">,</span>
+		<span class="nx">LeaseDuration</span><span class="p">:</span> <span class="nx">c</span><span class="p">.</span><span class="nx">ComponentConfig</span><span class="p">.</span><span class="nx">Generic</span><span class="p">.</span><span class="nx">LeaderElection</span><span class="p">.</span><span class="nx">LeaseDuration</span><span class="p">.</span><span class="nx">Duration</span><span class="p">,</span>
+		<span class="nx">RenewDeadline</span><span class="p">:</span> <span class="nx">c</span><span class="p">.</span><span class="nx">ComponentConfig</span><span class="p">.</span><span class="nx">Generic</span><span class="p">.</span><span class="nx">LeaderElection</span><span class="p">.</span><span class="nx">RenewDeadline</span><span class="p">.</span><span class="nx">Duration</span><span class="p">,</span>
+		<span class="nx">RetryPeriod</span><span class="p">:</span>   <span class="nx">c</span><span class="p">.</span><span class="nx">ComponentConfig</span><span class="p">.</span><span class="nx">Generic</span><span class="p">.</span><span class="nx">LeaderElection</span><span class="p">.</span><span class="nx">RetryPeriod</span><span class="p">.</span><span class="nx">Duration</span><span class="p">,</span>
+		<span class="nx">Callbacks</span><span class="p">:</span> <span class="nx">leaderelection</span><span class="p">.</span><span class="nx">LeaderCallbacks</span><span class="p">{</span>
+                        <span class="c1">// 在 controller manger 裡面就是執行一個run 的function 當作controller 的進入點
+</span><span class="c1"></span>                        <span class="c1">// 也可以理解為controller manger 程式的進入點
+</span><span class="c1"></span>			<span class="nx">OnStartedLeading</span><span class="p">:</span> <span class="nx">run</span><span class="p">,</span>
+			<span class="nx">OnStoppedLeading</span><span class="p">:</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+				<span class="nx">klog</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;leaderelection lost&#34;</span><span class="p">)</span>
+			<span class="p">},</span>
+		<span class="p">},</span>
+		<span class="nx">WatchDog</span><span class="p">:</span> <span class="nx">electionChecker</span><span class="p">,</span>
+		<span class="nx">Name</span><span class="p">:</span>     <span class="s">&#34;cloud-controller-manager&#34;</span><span class="p">,</span>
+	<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="runordie背後的機制">RunOrDie背後的機制</h2>
+<p>對於使用者很方便的 RunOrDie，我們只要簡單的使用這個function 就可以定期的幫我們去競爭resource lock 勢必要去理解 RunOrDie 背後的機制。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// RunOrDie starts a client with the provided config or panics if the config
+</span><span class="c1">// fails to validate. RunOrDie blocks until leader election loop is
+</span><span class="c1">// stopped by ctx or it has stopped holding the leader lease
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">RunOrDie</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">lec</span> <span class="nx">LeaderElectionConfig</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//這裡很簡單的去new一個LeaderElector物件，主要是檢查使用者輸入的config有沒有問題。
+</span><span class="c1"></span>	<span class="nx">le</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">NewLeaderElector</span><span class="p">(</span><span class="nx">lec</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+        <span class="c1">//todo還不是很清楚watch dog的作用
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">lec</span><span class="p">.</span><span class="nx">WatchDog</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">lec</span><span class="p">.</span><span class="nx">WatchDog</span><span class="p">.</span><span class="nf">SetLeaderElection</span><span class="p">(</span><span class="nx">le</span><span class="p">)</span>
+	<span class="p">}</span>
+        <span class="c1">//主要在這個run function 等等會來解密這個function 做了什麼事
+</span><span class="c1"></span>	<span class="nx">le</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="leaderelector-run-解密">LeaderElector run 解密</h3>
+<p>剛剛有提到 RunOrDie 背後的機制主要是透過 LeaderElector 物件底下的 run 方法去執行的，底下就開始講解 LeaderElector run做什麼吧！</p>
+<p>大致上主要是執行 建立以及續約 resourcelock ，當沒拿到 resourcelock 就對退出，拿到 resourcelock就執行續約。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Run starts the leader election loop. Run will not return
+</span><span class="c1">// before leader election loop is stopped by ctx or it has
+</span><span class="c1">// stopped holding the leader lease
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">le</span> <span class="o">*</span><span class="nx">LeaderElector</span><span class="p">)</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//kubernetes 內置處理 crash 的方法本篇不討論。
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">runtime</span><span class="p">.</span><span class="nf">HandleCrash</span><span class="p">()</span>
+        <span class="c1">//當使用者觸發了 context cancel 時會呼叫 OnStoppedLeading 方法。
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Callbacks</span><span class="p">.</span><span class="nf">OnStoppedLeading</span><span class="p">()</span>
+	<span class="p">}()</span>
+        <span class="c1">//在這裡會試圖取得會是創建 resource lock,沒有拿到資源鎖的話就會卡在這個function裡面喔！
+</span><span class="c1"></span>	<span class="k">if</span> <span class="p">!</span><span class="nx">le</span><span class="p">.</span><span class="nf">acquire</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="c1">// ctx signalled done
+</span><span class="c1"></span>	<span class="p">}</span>
+	<span class="nx">ctx</span><span class="p">,</span> <span class="nx">cancel</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">WithCancel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+	<span class="k">defer</span> <span class="nf">cancel</span><span class="p">()</span>
+        <span class="c1">//啟動一個 goroutine 去執行 controller manger 的進入點 run function
+</span><span class="c1"></span>	<span class="k">go</span> <span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Callbacks</span><span class="p">.</span><span class="nf">OnStartedLeading</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+        <span class="c1">//執行 resource lock 的續約動作。
+</span><span class="c1"></span>	<span class="nx">le</span><span class="p">.</span><span class="nf">renew</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="leaderelector-acquire">LeaderElector acquire</h3>
+<p>這邊會簡單的說明一下獲取 resource lock 的流程，這裡主要各個process會嘗試向kubernetes 要 resource lock 如果不成功就再嘗試看看（嘗試到process死掉或是拿到resource lock為止）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// acquire loops calling tryAcquireOrRenew and returns true immediately when tryAcquireOrRenew succeeds.
+</span><span class="c1">// Returns false if ctx signals done.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">le</span> <span class="o">*</span><span class="nx">LeaderElector</span><span class="p">)</span> <span class="nf">acquire</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+	<span class="nx">ctx</span><span class="p">,</span> <span class="nx">cancel</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">WithCancel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+	<span class="k">defer</span> <span class="nf">cancel</span><span class="p">()</span>
+	<span class="nx">succeeded</span> <span class="o">:=</span> <span class="kc">false</span>
+	<span class="nx">desc</span> <span class="o">:=</span> <span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Lock</span><span class="p">.</span><span class="nf">Describe</span><span class="p">()</span>
+	<span class="nx">klog</span><span class="p">.</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;attempting to acquire leader lease %v...&#34;</span><span class="p">,</span> <span class="nx">desc</span><span class="p">)</span>
+        <span class="c1">// kubernetes封裝了一個類似timmer的function比較，細節不去探討。
+</span><span class="c1"></span>        <span class="c1">// 我們只要知道他是一個定時觸發的function就好。
+</span><span class="c1"></span>	<span class="nx">wait</span><span class="p">.</span><span class="nf">JitterUntil</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+                <span class="c1">//嘗試獲取 resource lock 或是續約resource lock
+</span><span class="c1"></span>		<span class="nx">succeeded</span> <span class="p">=</span> <span class="nx">le</span><span class="p">.</span><span class="nf">tryAcquireOrRenew</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+                <span class="c1">//不知道實際用途，追code感覺是有人定義Callbacks.OnNewLeader的話會callback告知 leader換了。
+</span><span class="c1"></span>		<span class="nx">le</span><span class="p">.</span><span class="nf">maybeReportTransition</span><span class="p">()</span>
+                <span class="c1">// 獲取 resource lock 失敗，會等下次timmer到了再嘗試獲取租約。
+</span><span class="c1"></span>		<span class="k">if</span> <span class="p">!</span><span class="nx">succeeded</span> <span class="p">{</span>
+			<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;failed to acquire lease %v&#34;</span><span class="p">,</span> <span class="nx">desc</span><span class="p">)</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+                <span class="c1">//獲取租約成功紀錄事件
+</span><span class="c1"></span>		<span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Lock</span><span class="p">.</span><span class="nf">RecordEvent</span><span class="p">(</span><span class="s">&#34;became leader&#34;</span><span class="p">)</span>
+                <span class="c1">//獲取租約成功紀錄事件
+</span><span class="c1"></span>		<span class="nx">le</span><span class="p">.</span><span class="nx">metrics</span><span class="p">.</span><span class="nf">leaderOn</span><span class="p">(</span><span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+                <span class="c1">//獲取租約成功紀錄事件
+</span><span class="c1"></span>		<span class="nx">klog</span><span class="p">.</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;successfully acquired lease %v&#34;</span><span class="p">,</span> <span class="nx">desc</span><span class="p">)</span>
+                <span class="c1">//只要獲取成功後就不用再跑timmer，（這個Timmer用意就是讓沒有拿到resource lock的人可以定時去拿拿看）
+</span><span class="c1"></span>		<span class="nf">cancel</span><span class="p">()</span>
+	<span class="p">},</span> <span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">RetryPeriod</span><span class="p">,</span> <span class="nx">JitterFactor</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">ctx</span><span class="p">.</span><span class="nf">Done</span><span class="p">())</span>
+	<span class="k">return</span> <span class="nx">succeeded</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="leaderelector-renew">LeaderElector renew</h3>
+<p>LeaderElector renew 的行為可能我是說可能有一點點複雜，對其他大大們來說可能不會 xD。</p>
+<p>當通過一關 LeaderElector acquire 的考驗 process 已經拿到 resource lock 接下來只要不斷的更新租約就好了 ～</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// renew loops calling tryAcquireOrRenew and returns immediately when tryAcquireOrRenew fails or ctx signals done.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">le</span> <span class="o">*</span><span class="nx">LeaderElector</span><span class="p">)</span> <span class="nf">renew</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">ctx</span><span class="p">,</span> <span class="nx">cancel</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">WithCancel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+	<span class="k">defer</span> <span class="nf">cancel</span><span class="p">()</span>
+        <span class="c1">// kubernetes封裝了一個類似timmer的function比較，細節不去探討。
+</span><span class="c1"></span>        <span class="c1">// 可能有人會問跟wait.JitterUntil有什麼區別，這邊之後會另開戰場去討論（先挖洞給自己跳）
+</span><span class="c1"></span>	<span class="nx">wait</span><span class="p">.</span><span class="nf">Until</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">timeoutCtx</span><span class="p">,</span> <span class="nx">timeoutCancel</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">WithCancel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+		<span class="k">defer</span> <span class="nf">timeoutCancel</span><span class="p">()</span>
+                <span class="c1">// PollImmediateUntil 會等 ConditionFunc 執行完畢
+</span><span class="c1"></span>                <span class="c1">// 若是 ConditionFunc 執行失敗(是false)就會等 RetryPeriod 時間在執行一次。
+</span><span class="c1"></span>                <span class="c1">// 如果 ConditionFunc 執行的結果是error或是true的話就不會重新嘗試 ConditionFunc 。
+</span><span class="c1"></span>		<span class="nx">err</span> <span class="o">:=</span> <span class="nx">wait</span><span class="p">.</span><span class="nf">PollImmediateUntil</span><span class="p">(</span><span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">RetryPeriod</span><span class="p">,</span> <span class="kd">func</span><span class="p">()</span> <span class="p">(</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// ConditionFunc
+</span><span class="c1"></span>                <span class="c1">// 嘗試建立resource lock 或是更新resource lock 租約
+</span><span class="c1"></span>			<span class="k">return</span> <span class="nx">le</span><span class="p">.</span><span class="nf">tryAcquireOrRenew</span><span class="p">(</span><span class="nx">timeoutCtx</span><span class="p">),</span> <span class="kc">nil</span>
+		<span class="p">},</span> <span class="nx">timeoutCtx</span><span class="p">.</span><span class="nf">Done</span><span class="p">())</span>
+                <span class="c1">//不知道實際用途，追code感覺是有人定義Callbacks.OnNewLeader的話會callback告知 leader換了。
+</span><span class="c1"></span>		<span class="nx">le</span><span class="p">.</span><span class="nf">maybeReportTransition</span><span class="p">()</span>
+                <span class="c1">// 拿到 resource lock 以configmaplock 為例 desc就會等於 configmaplock namespace/configmap name
+</span><span class="c1"></span>		<span class="nx">desc</span> <span class="o">:=</span> <span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Lock</span><span class="p">.</span><span class="nf">Describe</span><span class="p">()</span>
+                <span class="c1">// 這裡代表更新了租約成功就跳出去了，等待下一次timmer的呼叫。
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;successfully renewed lease %v&#34;</span><span class="p">,</span> <span class="nx">desc</span><span class="p">)</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+                <span class="c1">//租約更新失敗紀錄
+</span><span class="c1"></span>		<span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Lock</span><span class="p">.</span><span class="nf">RecordEvent</span><span class="p">(</span><span class="s">&#34;stopped leading&#34;</span><span class="p">)</span>
+                <span class="c1">//租約更新失敗紀錄
+</span><span class="c1"></span>		<span class="nx">le</span><span class="p">.</span><span class="nx">metrics</span><span class="p">.</span><span class="nf">leaderOff</span><span class="p">(</span><span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+                <span class="c1">//租約更新失敗紀錄
+</span><span class="c1"></span>		<span class="nx">klog</span><span class="p">.</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;failed to renew lease %v: %v&#34;</span><span class="p">,</span> <span class="nx">desc</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+                <span class="c1">//再也不透過timmer定期更新租約
+</span><span class="c1"></span>		<span class="nf">cancel</span><span class="p">()</span>
+	<span class="p">},</span> <span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">RetryPeriod</span><span class="p">,</span> <span class="nx">ctx</span><span class="p">.</span><span class="nf">Done</span><span class="p">())</span>
+
+	<span class="c1">// if we hold the lease, give it up
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">le</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">ReleaseOnCancel</span> <span class="p">{</span>
+		<span class="nx">le</span><span class="p">.</span><span class="nf">release</span><span class="p">()</span>
+	<span class="p">}</span>
+<span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
 </div>
@@ -3063,6 +3548,15 @@ document.addEventListener('DOMContentLoaded', function () {
   <ul>
     <li><a href="#resourcelock">resourcelock</a></li>
     <li><a href="#configmap-locklease-lock-物件">configmap lock/lease lock 物件</a></li>
+    <li><a href="#configmap-locklease-lock-工廠">configmap lock/lease lock 工廠</a></li>
+    <li><a href="#resource-lock-怎麼使用">resource lock 怎麼使用</a></li>
+    <li><a href="#runordie背後的機制">RunOrDie背後的機制</a>
+      <ul>
+        <li><a href="#leaderelector-run-解密">LeaderElector run 解密</a></li>
+        <li><a href="#leaderelector-acquire">LeaderElector acquire</a></li>
+        <li><a href="#leaderelector-renew">LeaderElector renew</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
         </div>
