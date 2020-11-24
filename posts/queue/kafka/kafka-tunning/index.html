@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;1&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;2&nbsp; </span>
   
   <span class="single__info">
     
@@ -1599,7 +1599,43 @@
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="n">KAFKA_HEAP_OPTS</span><span class="o">=--</span><span class="n">Xms6g</span> <span class="o">--</span><span class="n">Xmx6g</span>
 </code></pre></td></tr></table>
 </div>
-</div>
+</div><h2 id="topic調整">Topic調整</h2>
+<ul>
+<li>
+<p>log.retention.&lt;hours|minutes|ms&gt;</p>
+<ul>
+<li>基本上這個數值要依照kafka的單日傳輸量來決定，保存太久會引響io速度，以及硬碟的大小</li>
+</ul>
+</li>
+<li>
+<p>message.max.bytes</p>
+<ul>
+<li>kafka預設的數值為<code>1000012</code>，我定睛一看連1MB都不到．．．大多數的 kafka 使用場景都會超過 1MB 的，這個需要根據自身使用情境做調整！</li>
+</ul>
+</li>
+<li>
+<p>unclean.leader.election.enable</p>
+<ul>
+<li>每個版本預設的數值都不同，至於有什麼影響如果設置為 true 的話，當跑得慢的 <code>partition</code> 變成 leader ，那所有中間那一段資料就遺失了。設值為flase的話這些跑得慢的<code>partition</code>就不讓他來選幾囉！
+<ul>
+<li>leader 掛掉了 Kafka 會從 ISR 剩下的副本中選擇一個當 leader ，但如果 ISR 也沒有副本了， leader 就選不出來了。如果設置 <code>unclean.leader.election.enable=true</code>，則允許 Kafka 從那些不在 ISR 但依然存活的副本中選擇一個出來當 leader 。此時是有資料丟失的風險。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>auto.leader.rebalance.enable</p>
+<ul>
+<li>堅決設定為flase沒什麼好說的，重新選舉的代價很大！</li>
+</ul>
+</li>
+<li>
+<p>auto.create.topics.enable</p>
+<ul>
+<li>預設為 true ，需要調整為 false ，不然 cluster 會有一堆不知名的 topic ，可能你上 code 不小心打錯字&hellip; topic 就建立了，滿浪費資源的。</li>
+</ul>
+</li>
+</ul>
     </article>
     
     <script>
@@ -2952,6 +2988,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <li><a href="#heap調整">HEAP調整</a></li>
       </ul>
     </li>
+    <li><a href="#topic調整">Topic調整</a></li>
   </ul>
 </nav>
         </div>
