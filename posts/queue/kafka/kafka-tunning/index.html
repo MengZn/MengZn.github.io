@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;2&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;3&nbsp; </span>
   
   <span class="single__info">
     
@@ -1633,6 +1633,56 @@
 <p>auto.create.topics.enable</p>
 <ul>
 <li>預設為 true ，需要調整為 false ，不然 cluster 會有一堆不知名的 topic ，可能你上 code 不小心打錯字&hellip; topic 就建立了，滿浪費資源的。</li>
+</ul>
+</li>
+</ul>
+<h2 id="os-調整">OS 調整</h2>
+<ul>
+<li>Disk-Flush
+<ul>
+<li>根據爬了將近三週kafka官方說明以及許多關於kafka雜談，replicas 如何判定資料確實收到？
+<ul>
+<li>只要資料被寫入 system 的 cache 就算了完成了（buffer / cache 差異請自行google）</li>
+<li>系統會根據 LRU 定期地（預設是五秒鐘）將 cache 的資料寫入硬碟（stoarge device）</li>
+<li>需要依照情況調整 LRU 定期寫入硬碟的時間
+<ul>
+<li>可能會有人說在這五秒鐘或是更長的時間資料還沒落到硬碟就死機了，那資料不就遺失了？？</li>
+<li>確實是遺失了，但一般來說副本會複製三份（一份掉了，會被同步回來）。</li>
+<li>加長這個時間是避免io頻繁的操作，用效能換可用性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>File-system
+<ul>
+<li>根據官方網站 XFS 的性能要強於 ext4</li>
+<li><a href="https://www.confluent.io/kafka-summit-sf18/kafka-on-zfs/">https://www.confluent.io/kafka-summit-sf18/kafka-on-zfs/</a></li>
+</ul>
+</li>
+<li>Swap
+<ul>
+<li>不建議關閉Swap（裸機情況）
+<ul>
+<li>之前用裸機跑的時候在可用的記憶體空間變少時會發生 oomkill 造成 brocker 直接死掉</li>
+</ul>
+</li>
+<li>在k8s上運行
+<ul>
+<li>沒什麼好說的 k8s 不給用swap</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>FD
+<ul>
+<li>Too many open files 的錯誤
+<ul>
+<li>在k8s上我沒有遇到這個錯誤，還沒去深究原因</li>
+<li>在裸機的情況下，我會調整成<code>ulimit -n 1000000</code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2989,6 +3039,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </ul>
     </li>
     <li><a href="#topic調整">Topic調整</a></li>
+    <li><a href="#os-調整">OS 調整</a></li>
   </ul>
 </nav>
         </div>
