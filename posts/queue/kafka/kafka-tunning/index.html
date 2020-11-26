@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;3&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;4&nbsp; </span>
   
   <span class="single__info">
     
@@ -1681,6 +1681,45 @@
 <ul>
 <li>在k8s上我沒有遇到這個錯誤，還沒去深究原因</li>
 <li>在裸機的情況下，我會調整成<code>ulimit -n 1000000</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="producer">Producer</h3>
+<p>最多一次（at most once）：訊息在傳送的過程中<code>可能會遺失</code>，但是<code>絕對不會重送</code>。<br />
+至少一次（at least once）：訊息在傳送的過程中<code>不會遺失</code>，但<code>可能會重送</code>。<br />
+精确一次（exactly once）：訊息在傳送的過程中<code>不會遺失</code>，也<code>不會重送</code>。</p>
+<p>我認為精確性提交比較符合場景，以下我將針對<code>exactly once</code>模式說明與探討相關設定。</p>
+<ul>
+<li>
+<p>設定 acks = all</p>
+<ul>
+<li>有副本 replicas 都要接收到消息，該訊息才算是<code>commited</code>。這是符合<code>exactly once</code>定義
+<ul>
+<li>ISR 中只有 1 replicas 時，acks=all 也就相當於 acks=1，<code>注意ISR會變動</code>。</li>
+<li>當 replicas=3 時，ack=all 則需要 3 個副本都同步後才算<code>commited</code>，當有一個副本掛掉的時候，此時 ISR 會調整為 2 ，由於 ack=all 的設定這時候只需要 2 個副本同步後就認為“commited”</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>設定 retries 為一個較大的數值</p>
+<ul>
+<li>網路的瞬間抖動可能會導致訊息發送失敗，若是設定 retries &gt; 0 的 Producer 能夠自動重新發送訊息。</li>
+</ul>
+</li>
+<li>
+<p>設定 min.insync.replicas &gt; 1</p>
+<ul>
+<li>控制的是消息至少要被写入到多少个副本才算是“已提交”。设置成大于 1 可以提升消息持久性。在实际环境中千万不要使用默认值 1。
+<ul>
+<li>
+<p>除了 ISR 需要全部都寫入外，還要保證寫入的 ISR 數量要大於等於 min.insync.replicas ，<code>注意ISR會變動</code>。</p>
+</li>
+<li>
+<p>一旦指定 min.insync.replicas=xxx，不管什麼情況下 ISR 同步的數量最少都要跟設定xxx數量一樣，如果 ISR 當前數量小於 xxxx 那 commited 一定失敗。</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -3039,7 +3078,11 @@ document.addEventListener('DOMContentLoaded', function () {
       </ul>
     </li>
     <li><a href="#topic調整">Topic調整</a></li>
-    <li><a href="#os-調整">OS 調整</a></li>
+    <li><a href="#os-調整">OS 調整</a>
+      <ul>
+        <li><a href="#producer">Producer</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
         </div>
