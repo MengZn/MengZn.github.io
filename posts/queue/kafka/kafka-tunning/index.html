@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;4&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;5&nbsp; </span>
   
   <span class="single__info">
     
@@ -1712,8 +1712,6 @@
 <li>
 <p>設定 min.insync.replicas &gt; 1</p>
 <ul>
-<li>控制的是消息至少要被写入到多少个副本才算是“已提交”。设置成大于 1 可以提升消息持久性。在实际环境中千万不要使用默认值 1。
-<ul>
 <li>
 <p>除了 ISR 需要全部都寫入外，還要保證寫入的 ISR 數量要大於等於 min.insync.replicas ，<code>注意ISR會變動</code>。</p>
 </li>
@@ -1723,8 +1721,31 @@
 </ul>
 </li>
 </ul>
-</li>
-</ul>
+<h3 id="consumer">Consumer</h3>
+<p>確保訊息消費完成再提交。 Consumer 有個參數 enable.auto.commit，最好把它設置成 false，並採用手動提交位移的方式。</p>
+<p>手動提交又分成 sync 跟 async 兩種方法，需要這兩種方法結合使用才能確保 consumer 端不掉訊息，這裡採用一個小技巧。</p>
+<ol>
+<li>poll 資料後先使用 async 異步提交 commit</li>
+<li>若有異常可以使用處理異常的方法，可以透過 Kafka 重送的機制</li>
+<li>等 poll 所有資料做完可以使用 sync 同步提交 commit 確保本次 poll 的東西都有提交上去</li>
+</ol>
+<p>另外本來要去嘗試更細粒度的提交方式，例如每次poll下來是1000筆資料，但我想每100筆去提交一次。<br />
+看到Kafka有提供兩種方法去使用（我這裡沒去驗證，趕時間ＱＱ）。</p>
+<ol>
+<li>commitSync(Map&lt;TopicPartition, OffsetAndMetadata&gt;)</li>
+<li>commitAsync(Map&lt;TopicPartition, OffsetAndMetadata&gt;)</li>
+</ol>
+<p>這個也非常簡單，看 samplecode 應該是先建立一個 map 放入訊息從哪個 Partition 來目前處理到第幾個。<br />
+假設目前處理到第100個，那就應該提交給 kafka ，以此達到較細粒度的提交。</p>
+<ol>
+<li>增加拉取時間</li>
+</ol>
+<p>比如消費 100 筆資料我們要花費 400ms 的時間，那麼設定<code>max.poll.interval.ms</code>為300就不符合當前場景的需求。</p>
+<p>顯示的增加這個數值很直接的能解這個錯誤的產生，相對的 TPS 就會下降。</p>
+<ol start="2">
+<li>減少 poll 消息數量</li>
+</ol>
+<p>max.poll.records 是設定 cunsumer 向 kafka brocker  一次拉下來的量是多少，假設是1000筆資料，那我們在 <code>max.poll.interval.ms</code> 300 ms 單位時間內最多只能處理 800 筆資料，那這個數值設定為 1000 似乎也不符合我們的應用場景，酌量下降設定為 750 可能會是一個比較好的做法，但是也會造成 TPS 下降。</p>
     </article>
     
     <script>
@@ -3081,6 +3102,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <li><a href="#os-調整">OS 調整</a>
       <ul>
         <li><a href="#producer">Producer</a></li>
+        <li><a href="#consumer">Consumer</a></li>
       </ul>
     </li>
   </ul>
