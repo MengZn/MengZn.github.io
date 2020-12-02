@@ -1541,7 +1541,7 @@
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;5&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;6&nbsp; </span>
   
   <span class="single__info">
     
@@ -1746,6 +1746,32 @@
 <li>減少 poll 消息數量</li>
 </ol>
 <p>max.poll.records 是設定 cunsumer 向 kafka brocker  一次拉下來的量是多少，假設是1000筆資料，那我們在 <code>max.poll.interval.ms</code> 300 ms 單位時間內最多只能處理 800 筆資料，那這個數值設定為 1000 似乎也不符合我們的應用場景，酌量下降設定為 750 可能會是一個比較好的做法，但是也會造成 TPS 下降。</p>
+<h2 id="kafka架設在私有機房經驗">kafka架設在私有機房經驗</h2>
+<blockquote>
+<p>注意本章節使用的單位<br />
+另外本章節推估 kafka server 數量不是非常嚴謹，但符合我們的業務需求與場景。需要針對不同的場景做微調與優化並且小心服用。</p>
+</blockquote>
+<p>機房架設 kafka cluster switch 以及 baremetal 提供的頻寬為 1Gbps，我們業務的目標( SLA )是一個小時內處理 1TB 的資料，我們要設計多少台 kafka Server 來滿足這個業務需求呢？</p>
+<ol>
+<li>
+<p>每台機器只有安裝 Kafka Server (排除固定會安裝的 ssh-server 等)，換句話說每台機器沒有混合部署其他服務。</p>
+</li>
+<li>
+<p>假設 Kafka 滿載的情況下會使用到 80 % 頻寬（為其他常駐的服務保留一點資源），另外過去的實驗經驗告訴我超過 80 % 的使用頻寬 kafka 就會有網路調包的可能，因此可以說單台 Kafka Server 最多大改能使用 800 Mb 的頻寬。（同時避免高峰直流量的情況作些微的保留）</p>
+</li>
+<li>
+<p>要記得 Kafka Server 之間有互相備援的機制，這大概會佔用掉 1/3 的頻寬（800Mb的3分之1），那我們可以計算實際上 Kafka 提供給使用者的頻寬大概是多少 ≈ 533Mbps。</p>
+</li>
+<li>
+<p>業務上 SLA 一個小時要求我們要處理 1TB 的資料，所以表示每秒的資料量為 1000<em>1000/(60</em>60)≈2222Mb(注意！這邊有Byte換成bits)。</p>
+</li>
+<li>
+<p>計算需要多少台 Kafka Server ，每秒需要處理 2222Mb 的業務量一台 kafka 一秒頻寬最大只能使用 533 Mb ，用 2222 除與 533 就可以換換算出 4 台左右的 kafka server 。</p>
+</li>
+<li>
+<p>Kafka 一般來說不太吃 CPU ，從過去監控的紀錄來看 CPU 很少吃滿常態的情況之下 CPU 只用到一半不到（producer 與 consumer 需要用同一個壓縮算法喔！）</p>
+</li>
+</ol>
     </article>
     
     <script>
@@ -3105,6 +3131,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <li><a href="#consumer">Consumer</a></li>
       </ul>
     </li>
+    <li><a href="#kafka架設在私有機房經驗">kafka架設在私有機房經驗</a></li>
   </ul>
 </nav>
         </div>
