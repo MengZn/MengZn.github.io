@@ -389,11 +389,11 @@
       
       <item>
         <title>Kubernetes Scheduler context流水線略窺一二</title>
-        <link>https://blog.jjmengze.website/posts/kubernetes/scheduler/kubernetes-scheduler-context/</link>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler-context/</link>
         <pubDate>Sat, 01 Aug 2020 10:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         <atom:modified>Sat, 01 Aug 2020 10:29:32 +0800</atom:modified>
-        <guid>https://blog.jjmengze.website/posts/kubernetes/scheduler/kubernetes-scheduler-context/</guid>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler-context/</guid>
         <description>&lt;p&gt;&lt;figure&gt;
     &lt;img src=&#34;https://blog.jjmengze.website/images/theme/Kubernetes-Scheduler-context.png&#34;/&gt; 
 &lt;/figure&gt;
@@ -423,11 +423,11 @@ ref:&lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/sche
       
       <item>
         <title>Kubernetes Scheduler 探討 source code 前的準備</title>
-        <link>https://blog.jjmengze.website/posts/kubernetes/scheduler/kubernetes-scheduler/</link>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler/</link>
         <pubDate>Sat, 25 Jul 2020 10:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         <atom:modified>Sat, 25 Jul 2020 10:29:32 +0800</atom:modified>
-        <guid>https://blog.jjmengze.website/posts/kubernetes/scheduler/kubernetes-scheduler/</guid>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler/</guid>
         <description>&lt;figure&gt;
     &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-scheduler.jpeg&#34;/&gt; 
 &lt;/figure&gt;</description>

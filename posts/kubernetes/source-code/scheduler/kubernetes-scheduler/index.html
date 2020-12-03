@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Hey ! Kubernetes finalizers 不再煩惱 – Hugo Zzo Theme</title>
+    <title>Kubernetes Scheduler 探討 source code 前的準備 – Hugo Zzo Theme</title>
     
 
 
@@ -556,7 +556,7 @@
     
     var baseurl = JSON.parse("\"https://blog.jjmengze.website/\"");
     
-    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/finalizers/\"");
+    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler/\"");
     
     var langprefix = JSON.parse("\"\"");
     var searchResults = null;
@@ -1226,16 +1226,16 @@
 
 <meta name="keywords" content="kubernetes">
 
-<meta name="created" content="2020-10-16T16:07:21&#43;0800">
-<meta name="modified" content="2020-10-16T16:07:21&#43;0800">
-<meta property="article:published_time" content="2020-10-16T16:07:21&#43;0800">
+<meta name="created" content="2020-07-25T10:29:32&#43;0800">
+<meta name="modified" content="2020-07-25T10:29:32&#43;0800">
+<meta property="article:published_time" content="2020-07-25T10:29:32&#43;0800">
 
 <meta name="author" content="Meng Ze Li">
 
 
 <meta property="og:site_name" content="Hugo Zzo Theme">
-<meta property="og:title" content="Hey ! Kubernetes finalizers 不再煩惱">
-<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/finalizers/">
+<meta property="og:title" content="Kubernetes Scheduler 探討 source code 前的準備">
+<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler/">
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
@@ -1248,7 +1248,7 @@
 
 <meta name="apple-mobile-web-app-status-bar-style" content="#fff">
 
-<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/finalizers/">
+<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler/">
 
 <link rel="manifest" href="/manifest.json">
 
@@ -1274,11 +1274,11 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "headline": "Hey ! Kubernetes finalizers 不再煩惱",
-    "datePublished": "2020-10-16T16:07:21+08:00",
-    "dateModified": "2020-10-16T16:07:21+08:00",
-    "url" : "https://blog.jjmengze.website/posts/kubernetes/finalizers/",
-    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/finalizers.jpg\"/\u003e  \u003c/figure\u003e",
+    "headline": "Kubernetes Scheduler 探討 source code 前的準備",
+    "datePublished": "2020-07-25T10:29:32+08:00",
+    "dateModified": "2020-07-25T10:29:32+08:00",
+    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler/",
+    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-scheduler.jpeg\"/\u003e  \u003c/figure\u003e",
     "keywords": ["kubernetes"],
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -1523,7 +1523,7 @@
   
   <li  class="is-active" >
     
-      <span>Hey ! Kubernetes finalizers 不再煩惱</span>
+      <span>Kubernetes Scheduler 探討 source code 前的準備</span>
     
   </li>
   
@@ -1535,13 +1535,13 @@
   <div class="single ">
     <div class="single__nojs"></div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
-    <h2 class="single__title" data-ani="true">Hey ! Kubernetes finalizers 不再煩惱</h2>
+    <h2 class="single__title" data-ani="true">Kubernetes Scheduler 探討 source code 前的準備</h2>
     <div class="single__meta">
       
 <div class="single__infos">
   <time class="single__info" title="">📅&nbsp; </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;3&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;1&nbsp; </span>
   
   <span class="single__info">
     
@@ -1560,284 +1560,26 @@
     <article class="single__contents" data-dir="ltr" data-ani="true">
       
       <figure>
-    <img src="/images/theme/finalizers.jpg"/> 
+    <img src="/images/theme/kubernetes-scheduler.jpeg"/> 
 </figure>
 
-<h2 id="前言">前言</h2>
-<p>透過原理來了解事情的因果關係可能會太複雜，但作為一個軟體工程師理解背後如何實踐以及為什麼會有這樣的東西出現（歷史緣由）是非常重要的。<br />
-本篇文章將會記錄 finalizers 的背後原理以及一些 source code ，這是使用者在操作 Kubernetes 常常會看到的一個欄位，好像有聽過但又不太了解的東西xD</p>
-<h2 id="觀察細節">觀察細節</h2>
-<p>finalizers 定義於 Kubernetes 的 metadata的欄位</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="o">...</span>
-<span class="c1">// ObjectMeta is metadata that all persisted resources must have, which includes all objects
-</span><span class="c1">// users must create.
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">ObjectMeta</span> <span class="kd">struct</span> <span class="p">{</span>
-<span class="o">...</span>
-	<span class="c1">// Populated by the system when a graceful deletion is requested.
-</span><span class="c1"></span>	<span class="c1">// Read-only.
-</span><span class="c1"></span>	<span class="c1">// More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-</span><span class="c1"></span>	<span class="c1">// +optional
-</span><span class="c1"></span>	<span class="nx">DeletionTimestamp</span> <span class="o">*</span><span class="nx">Time</span> <span class="s">`json:&#34;deletionTimestamp,omitempty&#34; protobuf:&#34;bytes,9,opt,name=deletionTimestamp&#34;`</span>
-
-	<span class="c1">// Number of seconds allowed for this object to gracefully terminate before
-</span><span class="c1"></span>	<span class="c1">// it will be removed from the system. Only set when deletionTimestamp is also set.
-</span><span class="c1"></span>	<span class="c1">// May only be shortened.
-</span><span class="c1"></span>	<span class="c1">// Read-only.
-</span><span class="c1"></span>	<span class="c1">// +optional
-</span><span class="c1"></span>	<span class="nx">DeletionGracePeriodSeconds</span> <span class="o">*</span><span class="kt">int64</span> <span class="s">`json:&#34;deletionGracePeriodSeconds,omitempty&#34; protobuf:&#34;varint,10,opt,name=deletionGracePeriodSeconds&#34;`</span>
-
-	<span class="c1">// Must be empty before the object is deleted from the registry. Each entry
-</span><span class="c1"></span>	<span class="c1">// is an identifier for the responsible component that will remove the entry
-</span><span class="c1"></span>	<span class="c1">// from the list. If the deletionTimestamp of the object is non-nil, entries
-</span><span class="c1"></span>	<span class="c1">// in this list can only be removed.
-</span><span class="c1"></span>	<span class="c1">// Finalizers may be processed and removed in any order.  Order is NOT enforced
-</span><span class="c1"></span>	<span class="c1">// because it introduces significant risk of stuck finalizers.
-</span><span class="c1"></span>	<span class="c1">// finalizers is a shared field, any actor with permission can reorder it.
-</span><span class="c1"></span>	<span class="c1">// If the finalizer list is processed in order, then this can lead to a situation
-</span><span class="c1"></span>	<span class="c1">// in which the component responsible for the first finalizer in the list is
-</span><span class="c1"></span>	<span class="c1">// waiting for a signal (field value, external system, or other) produced by a
-</span><span class="c1"></span>	<span class="c1">// component responsible for a finalizer later in the list, resulting in a deadlock.
-</span><span class="c1"></span>	<span class="c1">// Without enforced ordering finalizers are free to order amongst themselves and
-</span><span class="c1"></span>	<span class="c1">// are not vulnerable to ordering changes in the list.
-</span><span class="c1"></span>	<span class="c1">// +optional
-</span><span class="c1"></span>	<span class="c1">// +patchStrategy=merge
-</span><span class="c1"></span>	<span class="nx">Finalizers</span> <span class="p">[]</span><span class="kt">string</span> <span class="s">`json:&#34;finalizers,omitempty&#34; patchStrategy:&#34;merge&#34; protobuf:&#34;bytes,14,rep,name=finalizers&#34;`</span>
-    <span class="o">...</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>從註解中我們大概可以了解這個欄位要表達的意義,我把它整理成比較容易閱讀的方式（可能只有我覺得godoc的 // 註解換行很煩xD</p>
-<blockquote>
-<p>Must be empty before the object is deleted from the registry. Each entry is an identifier for the responsible component that will remove the entry from the list. If the deletionTimestamp of the object is non-nil, entries in this list can only be removed. Finalizers may be processed and removed in any order. Order is NOT enforced because it introduces significant risk of stuck finalizers. finalizers is a shared field, any actor with permission can reorder it. If the finalizer list is processed in order, then this can lead to a situation in which the component responsible for the first finalizer in the list is waiting for a signal (field value, external system, or other) produced by a component responsible for a finalizer later in the list, resulting in a deadlock. Without enforced ordering finalizers are free to order amongst themselves and are not vulnerable to ordering changes in the list.</p>
-</blockquote>
-<h2 id="大膽假設">大膽假設</h2>
-<p>我認為上述的文字簡單來說有三個重點(以下的順序不重要)</p>
-<ol>
-<li><code>If the deletionTimestamp of the object is non-nil, entries in this list can only be removed.</code><br />
-簡單來說當 <code>deletionTimestamp</code> 不是 nil 的時候需要先刪除 Finalizers 內的條目</li>
-<li><code>Finalizers may be processed and removed in any order</code><br />
-Finalizers 條目的刪除順序不是固定的</li>
-<li><code>Must be empty before the object is deleted from the registry.</code><br />
-再刪除這個物件前 Finalizers 條目必須是空的</li>
-</ol>
-<p>從上述註解的我們大概可以推測幾件事情，第一 當使用者刪除 Kubernetes 物件時，GC 回收機制需要檢查 Finalizers是否為空，第二其他物件可以任意刪除 Finalizers 欄位，前提是 deletionTimestamp 欄位不為 nil。</p>
-<p>大膽假設這個現象了，那就應該小心求證事實。</p>
-<h2 id="小心求證">小心求證</h2>
-<p>我已最近我在玩耍的 argo cd  進行球證對象，大部分處理物件的邏輯都會落在 controller 的 reconcile 階段裡，只要在 reconcile 搜尋 <code>Finalizer</code> 應該可以發現點什麼。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
-</span><span class="lnt">69
-</span><span class="lnt">70
-</span><span class="lnt">71
-</span><span class="lnt">72
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">ctrl</span> <span class="o">*</span><span class="nx">ApplicationController</span><span class="p">)</span> <span class="nf">processProjectQueueItem</span><span class="p">()</span> <span class="p">(</span><span class="nx">processNext</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="nx">origProj</span><span class="p">.</span><span class="nx">DeletionTimestamp</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">origProj</span><span class="p">.</span><span class="nf">HasFinalizer</span><span class="p">()</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ctrl</span><span class="p">.</span><span class="nf">finalizeProjectDeletion</span><span class="p">(</span><span class="nx">origProj</span><span class="p">.</span><span class="nf">DeepCopy</span><span class="p">());</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-			<span class="nx">log</span><span class="p">.</span><span class="nf">Warnf</span><span class="p">(</span><span class="s">&#34;Failed to finalize project deletion: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-	<span class="k">return</span>
-    <span class="o">...</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="p">(</span><span class="nx">ctrl</span> <span class="o">*</span><span class="nx">ApplicationController</span><span class="p">)</span> <span class="nf">finalizeProjectDeletion</span><span class="p">(</span><span class="nx">proj</span> <span class="o">*</span><span class="nx">appv1</span><span class="p">.</span><span class="nx">AppProject</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="nx">apps</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ctrl</span><span class="p">.</span><span class="nx">appLister</span><span class="p">.</span><span class="nf">Applications</span><span class="p">(</span><span class="nx">ctrl</span><span class="p">.</span><span class="nx">namespace</span><span class="p">).</span><span class="nf">List</span><span class="p">(</span><span class="nx">labels</span><span class="p">.</span><span class="nf">Everything</span><span class="p">())</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">err</span>
-	<span class="p">}</span>
-	<span class="nx">appsCount</span> <span class="o">:=</span> <span class="mi">0</span>
-	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">apps</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">apps</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Spec</span><span class="p">.</span><span class="nf">GetProject</span><span class="p">()</span> <span class="o">==</span> <span class="nx">proj</span><span class="p">.</span><span class="nx">Name</span> <span class="p">{</span>
-			<span class="nx">appsCount</span><span class="o">++</span>
-			<span class="k">break</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-	<span class="k">if</span> <span class="nx">appsCount</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">ctrl</span><span class="p">.</span><span class="nf">removeProjectFinalizer</span><span class="p">(</span><span class="nx">proj</span><span class="p">)</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="nx">log</span><span class="p">.</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Cannot remove project &#39;%s&#39; finalizer as is referenced by %d applications&#34;</span><span class="p">,</span> <span class="nx">proj</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">appsCount</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="kc">nil</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="p">(</span><span class="nx">ctrl</span> <span class="o">*</span><span class="nx">ApplicationController</span><span class="p">)</span> <span class="nf">removeProjectFinalizer</span><span class="p">(</span><span class="nx">proj</span> <span class="o">*</span><span class="nx">appv1</span><span class="p">.</span><span class="nx">AppProject</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="nx">proj</span><span class="p">.</span><span class="nf">RemoveFinalizer</span><span class="p">()</span>
-	<span class="kd">var</span> <span class="nx">patch</span> <span class="p">[]</span><span class="kt">byte</span>
-	<span class="nx">patch</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Marshal</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}{</span>
-		<span class="s">&#34;metadata&#34;</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}{</span>
-			<span class="s">&#34;finalizers&#34;</span><span class="p">:</span> <span class="nx">proj</span><span class="p">.</span><span class="nx">Finalizers</span><span class="p">,</span>
-		<span class="p">},</span>
-	<span class="p">})</span>
-	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ctrl</span><span class="p">.</span><span class="nx">applicationClientset</span><span class="p">.</span><span class="nf">ArgoprojV1alpha1</span><span class="p">().</span><span class="nf">AppProjects</span><span class="p">(</span><span class="nx">ctrl</span><span class="p">.</span><span class="nx">namespace</span><span class="p">).</span><span class="nf">Patch</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">(),</span> <span class="nx">proj</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">types</span><span class="p">.</span><span class="nx">MergePatchType</span><span class="p">,</span> <span class="nx">patch</span><span class="p">,</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">PatchOptions</span><span class="p">{})</span>
-	<span class="k">return</span> <span class="nx">err</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="p">(</span><span class="nx">proj</span> <span class="nx">AppProject</span><span class="p">)</span> <span class="nf">HasFinalizer</span><span class="p">()</span> <span class="kt">bool</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nf">getFinalizerIndex</span><span class="p">(</span><span class="nx">proj</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">,</span> <span class="nx">common</span><span class="p">.</span><span class="nx">ResourcesFinalizerName</span><span class="p">)</span> <span class="p">&gt;</span> <span class="o">-</span><span class="mi">1</span>
-<span class="p">}</span>
-
-<span class="c1">// getFinalizerIndex returns finalizer index in the list of object finalizers or -1 if finalizer does not exist
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">getFinalizerIndex</span><span class="p">(</span><span class="nx">meta</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
-	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">finalizer</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">finalizer</span> <span class="o">==</span> <span class="nx">name</span> <span class="p">{</span>
-			<span class="k">return</span> <span class="nx">i</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="p">(</span><span class="nx">proj</span> <span class="o">*</span><span class="nx">AppProject</span><span class="p">)</span> <span class="nf">RemoveFinalizer</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nf">setFinalizer</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">proj</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">,</span> <span class="nx">common</span><span class="p">.</span><span class="nx">ResourcesFinalizerName</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="c1">// setFinalizer adds or removes finalizer with the specified name
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">setFinalizer</span><span class="p">(</span><span class="nx">meta</span> <span class="o">*</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">exist</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">index</span> <span class="o">:=</span> <span class="nf">getFinalizerIndex</span><span class="p">(</span><span class="o">*</span><span class="nx">meta</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">exist</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">index</span> <span class="p">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">index</span> <span class="p">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="p">{</span>
-			<span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="p">=</span> <span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-			<span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span> <span class="p">=</span> <span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-			<span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">meta</span><span class="p">.</span><span class="nx">Finalizers</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>我把主要的判斷邏輯抓出來，可以看到大致上的邏輯有幾項</p>
-<ol>
-<li><code>processProjectQueueItem</code> function 裡面會判斷 <code>Application</code> 物件的 <code>DeletionTimestamp</code> 以及 Finalizers 內有沒有我們要關注的 <code>key</code>。</li>
-<li>檢查 <code>Applications</code> namespaces 下面的其他的相關物件，並且計算物件的總數。
-<ol>
-<li>如果&gt;0
+<p>kube-scheduler 是Kubernetes的預設調度程式，每個新建立的Pod，kube-scheduler需要幫他選擇一個最佳的節點，讓節點上的Kubelet可以把Pod執行起來。</p>
+<p>但是，每個Pod對資源的要求都不同，因此，需要根據特定的調度演算法對現有的節點進行過濾。</p>
+<p>kube-scheduler通過兩步操作為Pod選擇節點：</p>
 <ul>
-<li>直接回傳，因為相關的資源還沒情理乾淨</li>
+<li>篩選
+<ul>
+<li>篩選步驟中，scheduler根據篩選規則，保留符合規則的節點，例如某些節點被打上taint的標記，Pod無法容忍這些被污染過(taint)的節點，scheduler根據篩選規則將合適的節點留下。</li>
 </ul>
 </li>
-<li>如果=0
+<li>計分
 <ul>
-<li>移除 Finalizers 我們要關注的 <code>key</code>。</li>
+<li>計分步驟中，scheduler根據計分規則為每個對篩選完的節點打分數接著為每一個節點進行得分排名，藉以選擇最合適擺放的Pod節點。</li>
+<li>如果存在多個得分相等的節點，則 scheduler 會隨機選擇其中之一。</li>
 </ul>
 </li>
-</ol>
-</li>
-</ol>
-<p>這邊可以看到幾個之前提過的重點</p>
-<ol>
-<li>簡單來說當 <code>deletionTimestamp</code> 不是 nil 的時候需要先刪除 Finalizers 內的條目</li>
-<li><code>Finalizers may be processed and removed in any order</code><br />
-Finalizers 條目的刪除順序不是固定的</li>
-</ol>
-<h2 id="結語">結語</h2>
-<p>類似像 Finalizers 這種的小螺絲都能起到這麼大的作用，我們應該更靜下心來學時事務的本質，不只要會操作它更要理解背後的原理是什麼。</p>
+</ul>
+<p>了解上述的大方向後，後續的文章將source code來了解整個scheduler的架構與運作流程。</p>
     </article>
     
     <script>
@@ -2028,14 +1770,6 @@ Finalizers 條目的刪除順序不是固定的</li>
     <ul class="related-ul">
         
         <li>
-          <a href="/posts/kubernetes/source-code/scheduler/kubernetes-scheduler-context/" class="related__link">Kubernetes Scheduler context流水線略窺一二</a>
-        </li>
-        
-        <li>
-          <a href="/posts/kubernetes/source-code/scheduler/kubernetes-scheduler/" class="related__link">Kubernetes Scheduler 探討 source code 前的準備</a>
-        </li>
-        
-        <li>
           <a href="/posts/kubernetes/reset-api-server/" class="related__link">使用reset api 存取 Kubernetes </a>
         </li>
         
@@ -2047,6 +1781,14 @@ Finalizers 條目的刪除順序不是固定的</li>
           <a href="/posts/azure/private-image/" class="related__link">Azure Kubernetes Service pull unssl  image registry</a>
         </li>
         
+        <li>
+          <a href="/posts/kubernetes/kubernetes-garbage-collection/" class="related__link">學習Kubernetes Garbage Collection機制</a>
+        </li>
+        
+        <li>
+          <a href="/posts/istio/istio1.0-install/" class="related__link">service mesh 之 Istio 1.0 安裝及極度簡易操作</a>
+        </li>
+        
     </ul>
     
   </section>
@@ -2054,17 +1796,17 @@ Finalizers 條目的刪除順序不是固定的</li>
 <nav class="pagination-single">
   
     
-      <a href="https://blog.jjmengze.website/posts/cicd/helm/helmv3-gogo/" class="pagination-single__left">
+      <a href="https://blog.jjmengze.website/posts/ocp/cluster-monitoring-operator/" class="pagination-single__left">
         <div class="pagination-single__icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
         </div>
-        <div class="pagination-single__left-title">Helm template 有講沒講差不多</div>      
+        <div class="pagination-single__left-title">Cluster Monitoring Operator</div>      
       </a>
     
     <div class="grow"></div>
     
-      <a href="https://blog.jjmengze.website/posts/kubernetes/debug/kt-connection/" class="pagination-single__right">      
-        <div class="pagination-single__right-title">kubernetes ssh tunnel debug pratice</div>
+      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/scheduler/kubernetes-scheduler-context/" class="pagination-single__right">      
+        <div class="pagination-single__right-title">Kubernetes Scheduler context流水線略窺一二</div>
         <div class="pagination-single__icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
         </div>
@@ -3220,15 +2962,7 @@ document.addEventListener('DOMContentLoaded', function () {
           
         </div>
         <div class="toc toc__outer " data-dir="ltr" data-folding="true" data-ani="true">
-          <nav id="TableOfContents">
-  <ul>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#觀察細節">觀察細節</a></li>
-    <li><a href="#大膽假設">大膽假設</a></li>
-    <li><a href="#小心求證">小心求證</a></li>
-    <li><a href="#結語">結語</a></li>
-  </ul>
-</nav>
+          <nav id="TableOfContents"></nav>
         </div>
       
     
