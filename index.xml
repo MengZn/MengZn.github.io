@@ -44,6 +44,54 @@
 
       
       <item>
+        <title>Kubernetes common work queue 設計真d不錯</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/common/</link>
+        <pubDate>Thu, 10 Dec 2020 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Thu, 10 Dec 2020 10:29:32 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/common/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-common-queue.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>controller</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>controller</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+      </item>
+      
+      <item>
         <title>Kafka consumer CommitFailedException 好煩</title>
         <link>https://blog.jjmengze.website/posts/queue/kafka/kafka-commitfailed/</link>
         <pubDate>Tue, 01 Dec 2020 02:12:05 +0800</pubDate>
