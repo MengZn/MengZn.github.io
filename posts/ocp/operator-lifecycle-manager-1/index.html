@@ -1239,7 +1239,7 @@
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
-<meta name="generator" content="Hugo 0.69.0-DEV" />
+<meta name="generator" content="Hugo 0.80.0-DEV" />
 <meta name="msapplication-TileColor" content="#fff">
 
 <meta name="theme-color" content="#fff">
@@ -1323,12 +1323,12 @@
             <nav class="navbar" role="navigation" aria-label="main navigation" data-dir="ltr">
   <div class="navbar__brand">
     
-    <a href="/" title="" rel="home" class="navbar__logo-link">
+    <a href="/" title="Home" rel="home" class="navbar__logo-link">
       <img src="/logo.png" alt="Home" class="navbar__logo">
     </a>
     
     
-      <a href="/" title="" rel="home" class="navbar__title-link">
+      <a href="/" title="Home" rel="home" class="navbar__title-link">
         <h6 class="navbar__title">Meng</h6>
       </a>
     
@@ -1430,13 +1430,13 @@
     
       <li class="navbarm__menu--item ">
         <a href="/categories" class="navbarm__menu--term" data-index="1">
-          
+          Categories
         </a>
       </li>
     
       <li class="navbarm__menu--item ">
         <a href="/series" class="navbarm__menu--term" data-index="2">
-          
+          Series
         </a>
       </li>
     
@@ -1533,15 +1533,15 @@
   
   
   <div class="single ">
-    <div class="single__nojs"></div>
+    <div class="single__nojs">This page looks best with JavaScript enabled</div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
     <h2 class="single__title" data-ani="true">簡單理解 Operator Lifecycle Manager - 1 (OLM)</h2>
     <div class="single__meta">
       
 <div class="single__infos">
-  <time class="single__info" title="">📅&nbsp; </time>
+  <time class="single__info" title="Written At">📅&nbsp;Jul 7, 2020 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;3&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;4&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -1876,130 +1876,130 @@ kubevirt-hyperconverged             Red Hat Operators   32d
 </span><span class="lnt">124
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml">oc<span class="w"> </span>get<span class="w"> </span>packagemanifests<span class="w">  </span>prometheus-exporter-operator<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w">
-</span><span class="w"></span><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>packages.operators.coreos.com/v1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>PackageManifest<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">creationTimestamp</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2020-06-20T07:23:23Z&#34;</span><span class="w">
-</span><span class="w">  </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">catalog</span><span class="p">:</span><span class="w"> </span>community-operators<span class="w">
-</span><span class="w">    </span><span class="k">catalog-namespace</span><span class="p">:</span><span class="w"> </span>openshift-marketplace<span class="w">
-</span><span class="w">    </span><span class="k">olm-visibility</span><span class="p">:</span><span class="w"> </span>hidden<span class="w">
-</span><span class="w">    </span><span class="k">openshift-marketplace</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
-</span><span class="w">    </span><span class="k">operatorframework.io/arch.amd64</span><span class="p">:</span><span class="w"> </span>supported<span class="w">
-</span><span class="w">    </span><span class="k">operatorframework.io/os.linux</span><span class="p">:</span><span class="w"> </span>supported<span class="w">
-</span><span class="w">    </span><span class="k">opsrc-datastore</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
-</span><span class="w">    </span><span class="k">opsrc-owner-name</span><span class="p">:</span><span class="w"> </span>community-operators<span class="w">
-</span><span class="w">    </span><span class="k">opsrc-owner-namespace</span><span class="p">:</span><span class="w"> </span>openshift-marketplace<span class="w">
-</span><span class="w">    </span><span class="k">opsrc-provider</span><span class="p">:</span><span class="w"> </span>community<span class="w">
-</span><span class="w">    </span><span class="k">provider</span><span class="p">:</span><span class="w"> </span>Red<span class="w"> </span>Hat<span class="w">
-</span><span class="w">    </span><span class="k">provider-url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>prometheus-exporter-operator<span class="w">
-</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">  </span><span class="k">selfLink</span><span class="p">:</span><span class="w"> </span>/apis/packages.operators.coreos.com/v1/namespaces/default/packagemanifests/prometheus-exporter-operator<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
-</span><span class="w"></span><span class="k">status</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">catalogSource</span><span class="p">:</span><span class="w"> </span>community-operators<span class="w">
-</span><span class="w">  </span><span class="k">catalogSourceDisplayName</span><span class="p">:</span><span class="w"> </span>Community<span class="w"> </span>Operators<span class="w">
-</span><span class="w">  </span><span class="k">catalogSourceNamespace</span><span class="p">:</span><span class="w"> </span>openshift-marketplace<span class="w">
-</span><span class="w">  </span><span class="k">catalogSourcePublisher</span><span class="p">:</span><span class="w"> </span>Red<span class="w"> </span>Hat<span class="w">
-</span><span class="w">  </span><span class="k">channels</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>- <span class="k">currentCSV</span><span class="p">:</span><span class="w"> </span>prometheus-exporter-operator.v0<span class="m">.2.0</span><span class="w">
-</span><span class="w">    </span><span class="k">currentCSVDesc</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="k">annotations</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">alm-examples</span><span class="p">:</span><span class="w"> </span>|<span class="sd">-
-</span><span class="sd">          [</span><span class="w">
-</span><span class="w">            </span>{<span class="w">
-</span><span class="w">              </span><span class="k">&#34;apiVersion&#34;: </span><span class="s2">&#34;monitoring.3scale.net/v1alpha1&#34;</span><span class="p">,</span><span class="w">
-</span><span class="w">              </span><span class="k">&#34;kind&#34;: </span><span class="s2">&#34;PrometheusExporter&#34;</span><span class="p">,</span><span class="w">
-</span><span class="w">              </span><span class="k">&#34;metadata&#34;: </span>{<span class="w">
-</span><span class="w">                </span><span class="k">&#34;name&#34;: </span><span class="s2">&#34;example-memcached&#34;</span><span class="w">
-</span><span class="w">              </span>}<span class="p">,</span><span class="w">
-</span><span class="w">              </span><span class="k">&#34;spec&#34;: </span>{<span class="w">
-</span><span class="w">                </span><span class="k">&#34;dbHost&#34;: </span><span class="s2">&#34;your-memcached-host&#34;</span><span class="p">,</span><span class="w">
-</span><span class="w">                </span><span class="k">&#34;dbPort&#34;: </span><span class="m">11211</span><span class="p">,</span><span class="w">
-</span><span class="w">                </span><span class="k">&#34;grafanaDashboard&#34;: </span>{<span class="w">
-</span><span class="w">                  </span><span class="k">&#34;label&#34;: </span>{<span class="w">
-</span><span class="w">                    </span><span class="k">&#34;key&#34;: </span><span class="s2">&#34;autodiscovery&#34;</span><span class="p">,</span><span class="w">
-</span><span class="w">                    </span><span class="k">&#34;value&#34;: </span><span class="s2">&#34;enabled&#34;</span><span class="w">
-</span><span class="w">                  </span>}<span class="w">
-</span><span class="w">                </span>}<span class="p">,</span><span class="w">
-</span><span class="w">                </span><span class="k">&#34;type&#34;: </span><span class="s2">&#34;memcached&#34;</span><span class="w">
-</span><span class="w">              </span>}<span class="w">
-</span><span class="w">            </span>}<span class="w">
-</span><span class="w">          </span><span class="p">]</span><span class="w">
-</span><span class="w">        </span><span class="k">capabilities</span><span class="p">:</span><span class="w"> </span>Deep<span class="w"> </span>Insights<span class="w">
-</span><span class="w">        </span><span class="k">categories</span><span class="p">:</span><span class="w"> </span>Monitoring<span class="w">
-</span><span class="w">        </span><span class="k">certified</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;false&#34;</span><span class="w">
-</span><span class="w">        </span><span class="k">containerImage</span><span class="p">:</span><span class="w"> </span>quay.io/3scale/prometheus-exporter-operator<span class="p">:</span>v0<span class="m">.2.0</span><span class="w">
-</span><span class="w">        </span><span class="k">createdAt</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2020-06-08 00:00:00&#34;</span><span class="w">
-</span><span class="w">        </span><span class="k">description</span><span class="p">:</span><span class="w"> </span>Operator<span class="w"> </span>to<span class="w"> </span>setup<span class="w"> </span>3rd<span class="w"> </span>party<span class="w"> </span>prometheus<span class="w"> </span>exporters<span class="p">,</span><span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>collection<span class="w">
-</span><span class="w">          </span>of<span class="w"> </span>grafana<span class="w"> </span>dashboards<span class="w">
-</span><span class="w">        </span><span class="k">repository</span><span class="p">:</span><span class="w"> </span>https<span class="p">:</span>//github.com/3scale/prometheus-exporter-operator<span class="w">
-</span><span class="w">        </span><span class="k">support</span><span class="p">:</span><span class="w"> </span>Red<span class="w"> </span>Hat<span class="p">,</span><span class="w"> </span>Inc.<span class="w">
-</span><span class="w">      </span><span class="k">apiservicedefinitions</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
-</span><span class="w">      </span><span class="k">customresourcedefinitions</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">owned</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="k">description</span><span class="p">:</span><span class="w"> </span>Configures<span class="w"> </span>a<span class="w"> </span>prometheus<span class="w"> </span>exporter<span class="w"> </span>to<span class="w"> </span>monitor<span class="w"> </span>a<span class="w"> </span>memcached<span class="w"> </span>instance<span class="w">
-</span><span class="w">          </span><span class="k">displayName</span><span class="p">:</span><span class="w"> </span>PrometheusExporter<span class="w">
-</span><span class="w">          </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>PrometheusExporter<span class="w">
-</span><span class="w">          </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>prometheusexporters.monitoring.3scale.net<span class="w">
-</span><span class="w">          </span><span class="k">version</span><span class="p">:</span><span class="w"> </span>v1alpha1<span class="w">
-</span><span class="w">      </span><span class="k">description</span><span class="p">:</span><span class="w"> </span><span class="sd">|
-</span><span class="sd">        A Kubernetes Operator based on the Operator SDK to centralize the setup of 3rd party prometheus exporters on **Kubernetes/OpenShift**, with a collection of grafana dashboards.</span><span class="w">
-</span><span class="w">
-</span><span class="w">        </span>You<span class="w"> </span>can<span class="w"> </span>setup<span class="w"> </span>different<span class="w"> </span>prometheus<span class="w"> </span>exporters<span class="w"> </span>to<span class="w"> </span>monitor<span class="w"> </span>the<span class="w"> </span>internals<span class="w"> </span>from<span class="w"> </span>different<span class="w"> </span>databases<span class="p">,</span><span class="w"> </span>or<span class="w"> </span>even<span class="w"> </span>any<span class="w"> </span>available<span class="w"> </span>cloudwatch<span class="w"> </span>metric<span class="w"> </span>from<span class="w"> </span>any<span class="w"> </span>AWS<span class="w"> </span>Service<span class="p">,</span><span class="w"> </span>by<span class="w"> </span>just<span class="w"> </span>providing<span class="w"> </span>a<span class="w"> </span>few<span class="w"> </span>parameters<span class="w"> </span>like<span class="w"> </span><span class="cp">**dbHost**</span><span class="w"> </span>or<span class="w"> </span><span class="cp">**dbPort**</span><span class="w"> </span>(operator<span class="w"> </span>manages<span class="w"> </span>the<span class="w"> </span>container<span class="w"> </span>image<span class="p">,</span><span class="w"> </span>port<span class="p">,</span><span class="w"> </span>argument<span class="p">,</span><span class="w"> </span>command<span class="p">,</span><span class="w"> </span>volumes...<span class="w"> </span>and<span class="w"> </span>also<span class="w"> </span>prometheus<span class="w"> </span><span class="cp">**ServiceMonitor**</span><span class="w"> </span>and<span class="w"> </span><span class="cp">**GrafanaDashboard**</span><span class="w"> </span>k8s<span class="w"> </span>objects).<span class="w">
-</span><span class="w">
-</span><span class="w">        </span><span class="k">Current prometheus exporters types supported, managed by same prometheus-exporter-operator</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>memcached<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>redis<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>mysql<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>postgresql<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>sphinx<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>es<span class="w"> </span>(elasticsearch)<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>cloudwatch<span class="w">
-</span><span class="w">
-</span><span class="w">        </span><span class="k">The operator manages the lifecycle of the following objects</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>Deployment<span class="w"> </span>(one<span class="w"> </span>per<span class="w"> </span>CR)<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>Service<span class="w"> </span>(one<span class="w"> </span>per<span class="w"> </span>CR)<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>ServiceMonitor<span class="w"> </span>(optional<span class="p">,</span><span class="w"> </span>one<span class="w"> </span>per<span class="w"> </span>CR)<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>GrafanaDashboard<span class="w"> </span>(optional<span class="p">,</span><span class="w"> </span>one<span class="w"> </span>per<span class="w"> </span>Namespace)<span class="w">
-</span><span class="w">
-</span><span class="w">        </span><span class="c">### Documentation</span><span class="w">
-</span><span class="w">        </span>Documentation<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>found<span class="w"> </span>on<span class="w"> </span>our<span class="w"> </span><span class="p">[</span>website<span class="p">]</span>(https<span class="p">:</span>//github.com/3scale/prometheus-exporter-operator<span class="c">#documentation).</span><span class="w">
-</span><span class="w">
-</span><span class="w">        </span><span class="c">### Getting help</span><span class="w">
-</span><span class="w">        </span>If<span class="w"> </span>you<span class="w"> </span>encounter<span class="w"> </span>any<span class="w"> </span>issues<span class="w"> </span>while<span class="w"> </span>using<span class="w"> </span>operator<span class="p">,</span><span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>create<span class="w"> </span>an<span class="w"> </span>issue<span class="w"> </span>on<span class="w"> </span>our<span class="w"> </span><span class="p">[</span>website<span class="p">]</span>(https<span class="p">:</span>//github.com/3scale/prometheus-exporter-operator)<span class="w"> </span>for<span class="w"> </span>bugs<span class="p">,</span><span class="w"> </span>enhancements<span class="p">,</span><span class="w"> </span>or<span class="w"> </span>other<span class="w"> </span>requests.<span class="w">
-</span><span class="w">
-</span><span class="w">        </span><span class="c">### Contributing</span><span class="w">
-</span><span class="w">        </span><span class="k">You can contribute by</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>Raising<span class="w"> </span>any<span class="w"> </span>issues<span class="w"> </span>you<span class="w"> </span>find<span class="w"> </span>using<span class="w"> </span>Prometheus<span class="w"> </span>Exporter<span class="w"> </span>Operator<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>Fixing<span class="w"> </span>issues<span class="w"> </span>by<span class="w"> </span>opening<span class="w"> </span><span class="p">[</span>Pull<span class="w"> </span>Requests<span class="p">]</span>(https<span class="p">:</span>//github.com/3scale/prometheus-exporter-operator/pulls)<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>Submitting<span class="w"> </span>a<span class="w"> </span>patch<span class="w"> </span>or<span class="w"> </span>opening<span class="w"> </span>a<span class="w"> </span>PR<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>Improving<span class="w"> </span><span class="p">[</span>documentation<span class="p">]</span>(https<span class="p">:</span>//github.com/3scale/prometheus-exporter-operator)<span class="w">
-</span><span class="w">        </span>*<span class="w"> </span>Talking<span class="w"> </span>about<span class="w"> </span>Prometheus<span class="w"> </span>Exporter<span class="w"> </span>Operator<span class="w">
-</span><span class="w">        </span>All<span class="w"> </span>bugs<span class="p">,</span><span class="w"> </span>tasks<span class="w"> </span>or<span class="w"> </span>enhancements<span class="w"> </span>are<span class="w"> </span>tracked<span class="w"> </span>as<span class="w"> </span><span class="p">[</span>GitHub<span class="w"> </span>issues<span class="p">]</span>(https<span class="p">:</span>//github.com/3scale/prometheus-exporter-operator/issues).<span class="w">
-</span><span class="w">
-</span><span class="w">        </span><span class="c">### License</span><span class="w">
-</span><span class="w">        </span>Prometheus<span class="w"> </span>Exporter<span class="w"> </span>Operator<span class="w"> </span>is<span class="w"> </span>licensed<span class="w"> </span>under<span class="w"> </span>the<span class="w"> </span><span class="p">[</span>Apache<span class="w"> </span><span class="m">2.0</span><span class="w"> </span>license<span class="p">]</span>(https<span class="p">:</span>//github.com/3scale/prometheus-exporter-operator/blob/master/LICENSE)<span class="w">
-</span><span class="w">      </span><span class="k">displayName</span><span class="p">:</span><span class="w"> </span>Prometheus<span class="w"> </span>Exporter<span class="w"> </span>Operator<span class="w">
-</span><span class="w">      </span><span class="k">installModes</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="k">supported</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">        </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>OwnNamespace<span class="w">
-</span><span class="w">      </span>- <span class="k">supported</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">        </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>SingleNamespace<span class="w">
-</span><span class="w">      </span>- <span class="k">supported</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span><span class="w">        </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>MultiNamespace<span class="w">
-</span><span class="w">      </span>- <span class="k">supported</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">        </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>AllNamespaces<span class="w">
-</span><span class="w">      </span><span class="k">provider</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>Red<span class="w"> </span>Hat<span class="w">
-</span><span class="w">      </span><span class="k">version</span><span class="p">:</span><span class="w"> </span><span class="m">0.2.0</span><span class="w">
-</span><span class="w">    </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>alpha<span class="w">
-</span><span class="w">  </span><span class="k">defaultChannel</span><span class="p">:</span><span class="w"> </span>alpha<span class="w">
-</span><span class="w">  </span><span class="k">packageName</span><span class="p">:</span><span class="w"> </span>prometheus-exporter-operator<span class="w">
-</span><span class="w">  </span><span class="k">provider</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>Red<span class="w"> </span>Hat<span class="w">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="l">oc get packagemanifests  prometheus-exporter-operator -o yaml</span><span class="w">
+</span><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">packages.operators.coreos.com/v1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PackageManifest</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">creationTimestamp</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2020-06-20T07:23:23Z&#34;</span><span class="w">
+</span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">catalog</span><span class="p">:</span><span class="w"> </span><span class="l">community-operators</span><span class="w">
+</span><span class="w">    </span><span class="nt">catalog-namespace</span><span class="p">:</span><span class="w"> </span><span class="l">openshift-marketplace</span><span class="w">
+</span><span class="w">    </span><span class="nt">olm-visibility</span><span class="p">:</span><span class="w"> </span><span class="l">hidden</span><span class="w">
+</span><span class="w">    </span><span class="nt">openshift-marketplace</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">operatorframework.io/arch.amd64</span><span class="p">:</span><span class="w"> </span><span class="l">supported</span><span class="w">
+</span><span class="w">    </span><span class="nt">operatorframework.io/os.linux</span><span class="p">:</span><span class="w"> </span><span class="l">supported</span><span class="w">
+</span><span class="w">    </span><span class="nt">opsrc-datastore</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">opsrc-owner-name</span><span class="p">:</span><span class="w"> </span><span class="l">community-operators</span><span class="w">
+</span><span class="w">    </span><span class="nt">opsrc-owner-namespace</span><span class="p">:</span><span class="w"> </span><span class="l">openshift-marketplace</span><span class="w">
+</span><span class="w">    </span><span class="nt">opsrc-provider</span><span class="p">:</span><span class="w"> </span><span class="l">community</span><span class="w">
+</span><span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l">Red Hat</span><span class="w">
+</span><span class="w">    </span><span class="nt">provider-url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">prometheus-exporter-operator</span><span class="w">
+</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">default</span><span class="w">
+</span><span class="w">  </span><span class="nt">selfLink</span><span class="p">:</span><span class="w"> </span><span class="l">/apis/packages.operators.coreos.com/v1/namespaces/default/packagemanifests/prometheus-exporter-operator</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w"></span><span class="nt">status</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">catalogSource</span><span class="p">:</span><span class="w"> </span><span class="l">community-operators</span><span class="w">
+</span><span class="w">  </span><span class="nt">catalogSourceDisplayName</span><span class="p">:</span><span class="w"> </span><span class="l">Community Operators</span><span class="w">
+</span><span class="w">  </span><span class="nt">catalogSourceNamespace</span><span class="p">:</span><span class="w"> </span><span class="l">openshift-marketplace</span><span class="w">
+</span><span class="w">  </span><span class="nt">catalogSourcePublisher</span><span class="p">:</span><span class="w"> </span><span class="l">Red Hat</span><span class="w">
+</span><span class="w">  </span><span class="nt">channels</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">currentCSV</span><span class="p">:</span><span class="w"> </span><span class="l">prometheus-exporter-operator.v0.2.0</span><span class="w">
+</span><span class="w">    </span><span class="nt">currentCSVDesc</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">annotations</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">alm-examples</span><span class="p">:</span><span class="w"> </span><span class="p">|-</span><span class="sd">
+</span><span class="sd">          [
+</span><span class="sd">            {
+</span><span class="sd">              &#34;apiVersion&#34;: &#34;monitoring.3scale.net/v1alpha1&#34;,
+</span><span class="sd">              &#34;kind&#34;: &#34;PrometheusExporter&#34;,
+</span><span class="sd">              &#34;metadata&#34;: {
+</span><span class="sd">                &#34;name&#34;: &#34;example-memcached&#34;
+</span><span class="sd">              },
+</span><span class="sd">              &#34;spec&#34;: {
+</span><span class="sd">                &#34;dbHost&#34;: &#34;your-memcached-host&#34;,
+</span><span class="sd">                &#34;dbPort&#34;: 11211,
+</span><span class="sd">                &#34;grafanaDashboard&#34;: {
+</span><span class="sd">                  &#34;label&#34;: {
+</span><span class="sd">                    &#34;key&#34;: &#34;autodiscovery&#34;,
+</span><span class="sd">                    &#34;value&#34;: &#34;enabled&#34;
+</span><span class="sd">                  }
+</span><span class="sd">                },
+</span><span class="sd">                &#34;type&#34;: &#34;memcached&#34;
+</span><span class="sd">              }
+</span><span class="sd">            }
+</span><span class="sd">          ]</span><span class="w">          
+</span><span class="w">        </span><span class="nt">capabilities</span><span class="p">:</span><span class="w"> </span><span class="l">Deep Insights</span><span class="w">
+</span><span class="w">        </span><span class="nt">categories</span><span class="p">:</span><span class="w"> </span><span class="l">Monitoring</span><span class="w">
+</span><span class="w">        </span><span class="nt">certified</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;false&#34;</span><span class="w">
+</span><span class="w">        </span><span class="nt">containerImage</span><span class="p">:</span><span class="w"> </span><span class="l">quay.io/3scale/prometheus-exporter-operator:v0.2.0</span><span class="w">
+</span><span class="w">        </span><span class="nt">createdAt</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2020-06-08 00:00:00&#34;</span><span class="w">
+</span><span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Operator to setup 3rd party prometheus exporters, with a collection</span><span class="w">
+</span><span class="w">          </span><span class="l">of grafana dashboards</span><span class="w">
+</span><span class="w">        </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l">https://github.com/3scale/prometheus-exporter-operator</span><span class="w">
+</span><span class="w">        </span><span class="nt">support</span><span class="p">:</span><span class="w"> </span><span class="l">Red Hat, Inc.</span><span class="w">
+</span><span class="w">      </span><span class="nt">apiservicedefinitions</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">      </span><span class="nt">customresourcedefinitions</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">owned</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Configures a prometheus exporter to monitor a memcached instance</span><span class="w">
+</span><span class="w">          </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="l">PrometheusExporter</span><span class="w">
+</span><span class="w">          </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PrometheusExporter</span><span class="w">
+</span><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">prometheusexporters.monitoring.3scale.net</span><span class="w">
+</span><span class="w">          </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l">v1alpha1</span><span class="w">
+</span><span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span><span class="sd">        A Kubernetes Operator based on the Operator SDK to centralize the setup of 3rd party prometheus exporters on **Kubernetes/OpenShift**, with a collection of grafana dashboards.
+</span><span class="sd">
+</span><span class="sd">        You can setup different prometheus exporters to monitor the internals from different databases, or even any available cloudwatch metric from any AWS Service, by just providing a few parameters like **dbHost** or **dbPort** (operator manages the container image, port, argument, command, volumes... and also prometheus **ServiceMonitor** and **GrafanaDashboard** k8s objects).
+</span><span class="sd">
+</span><span class="sd">        Current prometheus exporters types supported, managed by same prometheus-exporter-operator:
+</span><span class="sd">        * memcached
+</span><span class="sd">        * redis
+</span><span class="sd">        * mysql
+</span><span class="sd">        * postgresql
+</span><span class="sd">        * sphinx
+</span><span class="sd">        * es (elasticsearch)
+</span><span class="sd">        * cloudwatch
+</span><span class="sd">
+</span><span class="sd">        The operator manages the lifecycle of the following objects:
+</span><span class="sd">        * Deployment (one per CR)
+</span><span class="sd">        * Service (one per CR)
+</span><span class="sd">        * ServiceMonitor (optional, one per CR)
+</span><span class="sd">        * GrafanaDashboard (optional, one per Namespace)
+</span><span class="sd">
+</span><span class="sd">        ### Documentation
+</span><span class="sd">        Documentation can be found on our [website](https://github.com/3scale/prometheus-exporter-operator#documentation).
+</span><span class="sd">
+</span><span class="sd">        ### Getting help
+</span><span class="sd">        If you encounter any issues while using operator, you can create an issue on our [website](https://github.com/3scale/prometheus-exporter-operator) for bugs, enhancements, or other requests.
+</span><span class="sd">
+</span><span class="sd">        ### Contributing
+</span><span class="sd">        You can contribute by:
+</span><span class="sd">        * Raising any issues you find using Prometheus Exporter Operator
+</span><span class="sd">        * Fixing issues by opening [Pull Requests](https://github.com/3scale/prometheus-exporter-operator/pulls)
+</span><span class="sd">        * Submitting a patch or opening a PR
+</span><span class="sd">        * Improving [documentation](https://github.com/3scale/prometheus-exporter-operator)
+</span><span class="sd">        * Talking about Prometheus Exporter Operator
+</span><span class="sd">        All bugs, tasks or enhancements are tracked as [GitHub issues](https://github.com/3scale/prometheus-exporter-operator/issues).
+</span><span class="sd">
+</span><span class="sd">        ### License
+</span><span class="sd">        Prometheus Exporter Operator is licensed under the [Apache 2.0 license](https://github.com/3scale/prometheus-exporter-operator/blob/master/LICENSE)</span><span class="w">        
+</span><span class="w">      </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="l">Prometheus Exporter Operator</span><span class="w">
+</span><span class="w">      </span><span class="nt">installModes</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="nt">supported</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">OwnNamespace</span><span class="w">
+</span><span class="w">      </span>- <span class="nt">supported</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">SingleNamespace</span><span class="w">
+</span><span class="w">      </span>- <span class="nt">supported</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">MultiNamespace</span><span class="w">
+</span><span class="w">      </span>- <span class="nt">supported</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">AllNamespaces</span><span class="w">
+</span><span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Red Hat</span><span class="w">
+</span><span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="m">0.2.0</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">alpha</span><span class="w">
+</span><span class="w">  </span><span class="nt">defaultChannel</span><span class="p">:</span><span class="w"> </span><span class="l">alpha</span><span class="w">
+</span><span class="w">  </span><span class="nt">packageName</span><span class="p">:</span><span class="w"> </span><span class="l">prometheus-exporter-operator</span><span class="w">
+</span><span class="w">  </span><span class="nt">provider</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Red Hat</span><span class="w">
 </span></code></pre></td></tr></table>
 </div>
 </div><h2 id="結語">結語</h2>
@@ -2072,7 +2072,7 @@ kubevirt-hyperconverged             Red Hat Operators   32d
   </div>
   <div class="whoami__contents">
     <div class="whoami__written-by">
-      
+      WRITTEN BY
     </div>
     <div class="whoami__title">
       
@@ -2189,7 +2189,7 @@ kubevirt-hyperconverged             Red Hat Operators   32d
     <h1 class="related__title">
       <hr class="hr-dots"/>
       <div>
-        
+        See Also
       </div>
       <hr class="hr-dots"/>
     </h1>
@@ -3363,7 +3363,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
       
         <div class="toc__flexbox--outer" data-position="fixed" data-dir="ltr" data-ani="true">
-          <h6 class="toc__title toc__title--outer" data-ani="true"></h6>
+          <h6 class="toc__title toc__title--outer" data-ani="true">What&#39;s on this Page</h6>
           
           <label class="switch" data-ani="true">
             <input id="visible-toc" aria-label="Visible TOC" type="checkbox" checked>

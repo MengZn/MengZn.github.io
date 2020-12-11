@@ -1239,7 +1239,7 @@
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
-<meta name="generator" content="Hugo 0.69.0-DEV" />
+<meta name="generator" content="Hugo 0.80.0-DEV" />
 <meta name="msapplication-TileColor" content="#fff">
 
 <meta name="theme-color" content="#fff">
@@ -1323,12 +1323,12 @@
             <nav class="navbar" role="navigation" aria-label="main navigation" data-dir="ltr">
   <div class="navbar__brand">
     
-    <a href="/" title="" rel="home" class="navbar__logo-link">
+    <a href="/" title="Home" rel="home" class="navbar__logo-link">
       <img src="/logo.png" alt="Home" class="navbar__logo">
     </a>
     
     
-      <a href="/" title="" rel="home" class="navbar__title-link">
+      <a href="/" title="Home" rel="home" class="navbar__title-link">
         <h6 class="navbar__title">Meng</h6>
       </a>
     
@@ -1430,13 +1430,13 @@
     
       <li class="navbarm__menu--item ">
         <a href="/categories" class="navbarm__menu--term" data-index="1">
-          
+          Categories
         </a>
       </li>
     
       <li class="navbarm__menu--item ">
         <a href="/series" class="navbarm__menu--term" data-index="2">
-          
+          Series
         </a>
       </li>
     
@@ -1533,15 +1533,15 @@
   
   
   <div class="single ">
-    <div class="single__nojs"></div>
+    <div class="single__nojs">This page looks best with JavaScript enabled</div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
     <h2 class="single__title" data-ani="true">kubernetes Audit 查起來</h2>
     <div class="single__meta">
       
 <div class="single__infos">
-  <time class="single__info" title="">📅&nbsp; </time>
+  <time class="single__info" title="Written At">📅&nbsp;Jun 29, 2020 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;6&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;6&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -1703,73 +1703,73 @@
 </span><span class="lnt">68
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>audit.k8s.io/v1<span class="w"> </span><span class="c"># This is required.</span><span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Policy<span class="w">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">audit.k8s.io/v1</span><span class="w"> </span><span class="c"># This is required.</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Policy</span><span class="w">
 </span><span class="w"></span><span class="c"># Don&#39;t generate audit events for all requests in RequestReceived stage.</span><span class="w">
-</span><span class="w"></span><span class="k">omitStages</span><span class="p">:</span><span class="w">
+</span><span class="w"></span><span class="nt">omitStages</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span>- <span class="s2">&#34;RequestReceived&#34;</span><span class="w">
-</span><span class="w"></span><span class="k">rules</span><span class="p">:</span><span class="w">
+</span><span class="w"></span><span class="nt">rules</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="c"># Log pod changes at RequestResponse level</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>RequestResponse<span class="w">
-</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">RequestResponse</span><span class="w">
+</span><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
 </span><span class="w">      </span><span class="c"># Resource &#34;pods&#34; doesn&#39;t match requests to any subresource of pods,</span><span class="w">
 </span><span class="w">      </span><span class="c"># which is consistent with the RBAC policy.</span><span class="w">
-</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods&#34;</span><span class="p">]</span><span class="w">
 </span><span class="w">  </span><span class="c"># Log &#34;pods/log&#34;, &#34;pods/status&#34; at Metadata level</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Metadata<span class="w">
-</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods/log&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;pods/status&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Metadata</span><span class="w">
+</span><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods/log&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;pods/status&#34;</span><span class="p">]</span><span class="w">
 </span><span class="w">
 </span><span class="w">  </span><span class="c"># Don&#39;t log requests to a configmap called &#34;controller-leader&#34;</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>None<span class="w">
-</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
-</span><span class="w">      </span><span class="k">resourceNames</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;controller-leader&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">      </span><span class="nt">resourceNames</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;controller-leader&#34;</span><span class="p">]</span><span class="w">
 </span><span class="w">
 </span><span class="w">  </span><span class="c"># Don&#39;t log watch requests by the &#34;system:kube-proxy&#34; on endpoints or services</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>None<span class="w">
-</span><span class="w">    </span><span class="k">users</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;system:kube-proxy&#34;</span><span class="p">]</span><span class="w">
-</span><span class="w">    </span><span class="k">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;watch&#34;</span><span class="p">]</span><span class="w">
-</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
-</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;endpoints&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;services&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span><span class="w">    </span><span class="nt">users</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;system:kube-proxy&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;watch&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
+</span><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;endpoints&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;services&#34;</span><span class="p">]</span><span class="w">
 </span><span class="w">
 </span><span class="w">  </span><span class="c"># Don&#39;t log authenticated requests to certain non-resource URL paths.</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>None<span class="w">
-</span><span class="w">    </span><span class="k">userGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;system:authenticated&#34;</span><span class="p">]</span><span class="w">
-</span><span class="w">    </span><span class="k">nonResourceURLs</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span><span class="w">    </span><span class="nt">userGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;system:authenticated&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="nt">nonResourceURLs</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span>- <span class="s2">&#34;/api*&#34;</span><span class="w"> </span><span class="c"># Wildcard matching.</span><span class="w">
 </span><span class="w">    </span>- <span class="s2">&#34;/version&#34;</span><span class="w">
 </span><span class="w">
 </span><span class="w">  </span><span class="c"># Log the request body of configmap changes in kube-system.</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Request<span class="w">
-</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
-</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Request</span><span class="w">
+</span><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
+</span><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
 </span><span class="w">    </span><span class="c"># This rule only applies to resources in the &#34;kube-system&#34; namespace.</span><span class="w">
 </span><span class="w">    </span><span class="c"># The empty string &#34;&#34; can be used to select non-namespaced resources.</span><span class="w">
-</span><span class="w">    </span><span class="k">namespaces</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;kube-system&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">    </span><span class="nt">namespaces</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;kube-system&#34;</span><span class="p">]</span><span class="w">
 </span><span class="w">
 </span><span class="w">  </span><span class="c"># Log configmap and secret changes in all other namespaces at the Metadata level.</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Metadata<span class="w">
-</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
-</span><span class="w">      </span><span class="k">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;secrets&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Metadata</span><span class="w">
+</span><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
+</span><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;secrets&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
 </span><span class="w">
 </span><span class="w">  </span><span class="c"># Log all other resources in core and extensions at the Request level.</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Request<span class="w">
-</span><span class="w">    </span><span class="k">resources</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
-</span><span class="w">    </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;extensions&#34;</span><span class="w"> </span><span class="c"># Version of group should NOT be included.</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Request</span><span class="w">
+</span><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API group</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;extensions&#34;</span><span class="w"> </span><span class="c"># Version of group should NOT be included.</span><span class="w">
 </span><span class="w">
 </span><span class="w">  </span><span class="c"># A catch-all rule to log all other requests at the Metadata level.</span><span class="w">
-</span><span class="w">  </span>- <span class="k">level</span><span class="p">:</span><span class="w"> </span>Metadata<span class="w">
+</span><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Metadata</span><span class="w">
 </span><span class="w">    </span><span class="c"># Long-running requests like watches that fall under this rule will not</span><span class="w">
 </span><span class="w">    </span><span class="c"># generate an audit event in RequestReceived.</span><span class="w">
-</span><span class="w">    </span><span class="k">omitStages</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">omitStages</span><span class="p">:</span><span class="w">
 </span><span class="w">      </span>- <span class="s2">&#34;RequestReceived&#34;</span><span class="w">
 </span></code></pre></td></tr></table>
 </div>
@@ -1803,28 +1803,28 @@
 </span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>kubeadm.k8s.io/v1beta2<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterConfiguration<span class="w">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeadm.k8s.io/v1beta2</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterConfiguration</span><span class="w">
 </span><span class="w"></span><span class="c">#featureGates:</span><span class="w">
 </span><span class="w"></span><span class="c">#  not support DynamicAuditing</span><span class="w">
 </span><span class="w"></span><span class="c">#  DynamicAuditing: true</span><span class="w">
-</span><span class="w"></span><span class="k">apiServer</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">extraArgs</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">audit-log-path</span><span class="p">:</span><span class="w"> </span>/home/ubuntu/audit.log<span class="w">
-</span><span class="w">    </span><span class="k">audit-policy-file</span><span class="p">:</span><span class="w"> </span>/etc/kubernetes/addon/audit-policy.yaml<span class="w">
+</span><span class="w"></span><span class="nt">apiServer</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">extraArgs</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">audit-log-path</span><span class="p">:</span><span class="w"> </span><span class="l">/home/ubuntu/audit.log</span><span class="w">
+</span><span class="w">    </span><span class="nt">audit-policy-file</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/kubernetes/addon/audit-policy.yaml</span><span class="w">
 </span><span class="w"></span><span class="c">#    not support DynamicAuditing</span><span class="w">
 </span><span class="w"></span><span class="c">#    runtime-config=auditregistration.k8s.io/v1alpha1: &#34;true&#34;</span><span class="w">
 </span><span class="w"></span><span class="c">#    audit-dynamic-configuration:</span><span class="w">
-</span><span class="w">  </span><span class="k">extraVolumes</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>audit<span class="w">
-</span><span class="w">    </span><span class="k">hostPath</span><span class="p">:</span><span class="w"> </span>/etc/kubernetes/addon/audit-policy.yaml<span class="w">
-</span><span class="w">    </span><span class="k">mountPath</span><span class="p">:</span><span class="w"> </span>/etc/kubernetes/addon/audit-policy.yaml<span class="w">
-</span><span class="w">    </span><span class="k">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">    </span><span class="k">pathType</span><span class="p">:</span><span class="w"> </span>File<span class="w">
-</span><span class="w">  </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>audit-log<span class="w">
-</span><span class="w">    </span><span class="k">hostPath</span><span class="p">:</span><span class="w"> </span>/home/ubuntu<span class="w">
-</span><span class="w">    </span><span class="k">mountPath</span><span class="p">:</span><span class="w"> </span>/home/ubuntu<span class="w">
-</span><span class="w">    </span><span class="k">pathType</span><span class="p">:</span><span class="w"> </span>DirectoryOrCreate<span class="w">
+</span><span class="w">  </span><span class="nt">extraVolumes</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">audit</span><span class="w">
+</span><span class="w">    </span><span class="nt">hostPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/kubernetes/addon/audit-policy.yaml</span><span class="w">
+</span><span class="w">    </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/kubernetes/addon/audit-policy.yaml</span><span class="w">
+</span><span class="w">    </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">    </span><span class="nt">pathType</span><span class="p">:</span><span class="w"> </span><span class="l">File</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">audit-log</span><span class="w">
+</span><span class="w">    </span><span class="nt">hostPath</span><span class="p">:</span><span class="w"> </span><span class="l">/home/ubuntu</span><span class="w">
+</span><span class="w">    </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/home/ubuntu</span><span class="w">
+</span><span class="w">    </span><span class="nt">pathType</span><span class="p">:</span><span class="w"> </span><span class="l">DirectoryOrCreate</span><span class="w">
 </span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -1874,9 +1874,9 @@ W0629 07:46:16.046453   <span class="m">86387</span> configset.go:202<span class
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">    </span>- --audit-dynamic-configuration<span class="w">
-</span><span class="w">    </span>- --feature-gates=DynamicAuditing=<span class="kc">true</span><span class="w">
-</span><span class="w">    </span>- --runtime-config=auditregistration.k8s.io/v1alpha1=<span class="kc">true</span><span class="w">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">    </span>- --<span class="l">audit-dynamic-configuration</span><span class="w">
+</span><span class="w">    </span>- --<span class="l">feature-gates=DynamicAuditing=true</span><span class="w">
+</span><span class="w">    </span>- --<span class="l">runtime-config=auditregistration.k8s.io/v1alpha1=true</span><span class="w">
 </span></code></pre></td></tr></table>
 </div>
 </div><p>修改完成後，可以透過 <code>kubectl</code> 指令檢查是否開啟 <code>auditregistration.k8s.io/v1alpha1</code> 的資源。</p>
@@ -1924,7 +1924,7 @@ auditsinks                                     auditregistration.k8s.io       <s
 {&quot;kind&quot;:&quot;Event&quot;,&quot;apiVersion&quot;:&quot;audit.k8s.io/v1&quot;,&quot;level&quot;:&quot;Metadata&quot;,&quot;auditID&quot;:&quot;0595bb26-d8a2-4b59-b3d1-7d538c2e131f&quot;,&quot;stage&quot;:&quot;ResponseComplete&quot;,&quot;requestURI&quot;:&quot;/api/v1/namespaces/default/pods?limit=500&quot;,&quot;verb&quot;:&quot;list&quot;,&quot;user&quot;:{&quot;username&quot;:&quot;kubernetes-admin&quot;,&quot;groups&quot;:[&quot;system:masters&quot;,&quot;system:authenticated&quot;]},&quot;sourceIPs&quot;:[&quot;10.0.2.4&quot;],&quot;userAgent&quot;:&quot;kubectl/v1.18.5 (linux/amd64) kubernetes/e6503f8&quot;,&quot;objectRef&quot;:{&quot;resource&quot;:&quot;pods&quot;,&quot;namespace&quot;:&quot;default&quot;,&quot;apiVersion&quot;:&quot;v1&quot;},&quot;responseStatus&quot;:{&quot;metadata&quot;:{},&quot;code&quot;:200},&quot;requestReceivedTimestamp&quot;:&quot;2020-07-04T15:26:20.895927Z&quot;,&quot;stageTimestamp&quot;:&quot;2020-07-04T15:26:20.897187Z&quot;,&quot;annotations&quot;:{&quot;authorization.k8s.io/decision&quot;:&quot;allow&quot;,&quot;authorization.k8s.io/reason&quot;:&quot;&quot;}}
 </code></pre><p>整理 audit log 的資訊得到以下重點</p>
 <ol>
-<li>&ldquo;requestURI&rdquo;:&quot;/api/v1/namespaces/default/pods?limit=500&rdquo;</li>
+<li>&ldquo;requestURI&rdquo;:&quot;/api/v1/namespaces/default/pods?limit=500&quot;</li>
 <li>&ldquo;verb&rdquo;:&ldquo;list&rdquo;</li>
 <li>&ldquo;user&rdquo;:{&ldquo;username&rdquo;:&ldquo;kubernetes-admin&rdquo;,&ldquo;groups&rdquo;:[&ldquo;system:masters&rdquo;,&ldquo;system:authenticated&rdquo;]}</li>
 <li>&ldquo;sourceIPs&rdquo;:[&ldquo;10.0.2.4&rdquo;]</li>
@@ -2119,7 +2119,7 @@ I0707 05:47:44.209296       <span class="m">1</span> main.go:34<span class="o">]
   </div>
   <div class="whoami__contents">
     <div class="whoami__written-by">
-      
+      WRITTEN BY
     </div>
     <div class="whoami__title">
       
@@ -2236,7 +2236,7 @@ I0707 05:47:44.209296       <span class="m">1</span> main.go:34<span class="o">]
     <h1 class="related__title">
       <hr class="hr-dots"/>
       <div>
-        
+        See Also
       </div>
       <hr class="hr-dots"/>
     </h1>
@@ -3426,7 +3426,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
       
         <div class="toc__flexbox--outer" data-position="fixed" data-dir="ltr" data-ani="true">
-          <h6 class="toc__title toc__title--outer" data-ani="true"></h6>
+          <h6 class="toc__title toc__title--outer" data-ani="true">What&#39;s on this Page</h6>
           
           <label class="switch" data-ani="true">
             <input id="visible-toc" aria-label="Visible TOC" type="checkbox" checked>

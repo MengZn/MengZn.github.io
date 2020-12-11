@@ -13,6 +13,11 @@
   </url>
   
   <url>
+    <loc>https://blog.jjmengze.website/</loc>
+    <lastmod>2020-12-10T10:29:32+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.jjmengze.website/categories/</loc>
     <lastmod>2020-12-10T10:29:32+08:00</lastmod>
   </url>
@@ -39,6 +44,11 @@
   
   <url>
     <loc>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/common/</loc>
+    <lastmod>2020-12-10T10:29:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/delaying/</loc>
     <lastmod>2020-12-10T10:29:32+08:00</lastmod>
   </url>
   
@@ -295,11 +305,6 @@
   <url>
     <loc>https://blog.jjmengze.website/archive/</loc>
     <lastmod>2019-10-19T11:44:14+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.jjmengze.website/</loc>
-    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>

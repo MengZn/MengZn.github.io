@@ -1239,7 +1239,7 @@
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
-<meta name="generator" content="Hugo 0.69.0-DEV" />
+<meta name="generator" content="Hugo 0.80.0-DEV" />
 <meta name="msapplication-TileColor" content="#fff">
 
 <meta name="theme-color" content="#fff">
@@ -1323,12 +1323,12 @@
             <nav class="navbar" role="navigation" aria-label="main navigation" data-dir="ltr">
   <div class="navbar__brand">
     
-    <a href="/" title="" rel="home" class="navbar__logo-link">
+    <a href="/" title="Home" rel="home" class="navbar__logo-link">
       <img src="/logo.png" alt="Home" class="navbar__logo">
     </a>
     
     
-      <a href="/" title="" rel="home" class="navbar__title-link">
+      <a href="/" title="Home" rel="home" class="navbar__title-link">
         <h6 class="navbar__title">Meng</h6>
       </a>
     
@@ -1430,13 +1430,13 @@
     
       <li class="navbarm__menu--item ">
         <a href="/categories" class="navbarm__menu--term" data-index="1">
-          
+          Categories
         </a>
       </li>
     
       <li class="navbarm__menu--item ">
         <a href="/series" class="navbarm__menu--term" data-index="2">
-          
+          Series
         </a>
       </li>
     
@@ -1533,15 +1533,15 @@
   
   
   <div class="single ">
-    <div class="single__nojs"></div>
+    <div class="single__nojs">This page looks best with JavaScript enabled</div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
     <h2 class="single__title" data-ani="true">Github Action 起步走第一式</h2>
     <div class="single__meta">
       
 <div class="single__infos">
-  <time class="single__info" title="">📅&nbsp; </time>
+  <time class="single__info" title="Written At">📅&nbsp;Apr 26, 2020 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title=""> ☕&nbsp;6&nbsp; </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;6&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -1681,40 +1681,40 @@ Artifacts 就是把某一個 Job 執行完的結果（可能是 binary 檔、 lo
 </span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">name</span><span class="p">:</span><span class="w"> </span>Go<span class="w">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Go</span><span class="w">
 </span><span class="w">
-</span><span class="w"></span><span class="k">on</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">push</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">branches</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span>master<span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="w">  </span><span class="k">pull_request</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">branches</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span>master<span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="l">master ]</span><span class="w">
+</span><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="l">master ]</span><span class="w">
 </span><span class="w">
-</span><span class="w"></span><span class="k">jobs</span><span class="p">:</span><span class="w">
+</span><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
 </span><span class="w">
-</span><span class="w">  </span><span class="k">build</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>Build<span class="w">
-</span><span class="w">    </span><span class="k">runs-on</span><span class="p">:</span><span class="w"> </span>ubuntu-latest<span class="w">
-</span><span class="w">    </span><span class="k">steps</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">build</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Build</span><span class="w">
+</span><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
 </span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>Set<span class="w"> </span>up<span class="w"> </span>Go<span class="w"> </span><span class="m">1.13</span><span class="w">
-</span><span class="w">      </span><span class="k">uses</span><span class="p">:</span><span class="w"> </span>actions/setup-go@v1<span class="w">
-</span><span class="w">      </span><span class="k">with</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">go-version</span><span class="p">:</span><span class="w"> </span><span class="m">1.13</span><span class="w">
-</span><span class="w">      </span><span class="k">id</span><span class="p">:</span><span class="w"> </span>go<span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Set up Go 1.13</span><span class="w">
+</span><span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/setup-go@v1</span><span class="w">
+</span><span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">go-version</span><span class="p">:</span><span class="w"> </span><span class="m">1.13</span><span class="w">
+</span><span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">go</span><span class="w">
 </span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>Check<span class="w"> </span>out<span class="w"> </span>code<span class="w"> </span>into<span class="w"> </span>the<span class="w"> </span>Go<span class="w"> </span>module<span class="w"> </span>directory<span class="w">
-</span><span class="w">      </span><span class="k">uses</span><span class="p">:</span><span class="w"> </span>actions/checkout@v2<span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Check out code into the Go module directory</span><span class="w">
+</span><span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v2</span><span class="w">
 </span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>Get<span class="w"> </span>dependencies<span class="w">
-</span><span class="w">      </span><span class="k">run</span><span class="p">:</span><span class="w"> </span><span class="sd">|
-</span><span class="sd">        go get -v -t -d ./...</span><span class="w">
-</span><span class="w">        </span>if<span class="w"> </span><span class="p">[</span><span class="w"> </span>-f<span class="w"> </span>Gopkg.toml<span class="w"> </span><span class="p">]</span>;<span class="w"> </span>then<span class="w">
-</span><span class="w">            </span>curl<span class="w"> </span>https<span class="p">:</span>//raw.githubusercontent.com/golang/dep/master/install.sh<span class="w"> </span>|<span class="w"> </span>sh<span class="w">
-</span><span class="w">            </span>dep<span class="w"> </span>ensure<span class="w">
-</span><span class="w">        </span>fi<span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Get dependencies</span><span class="w">
+</span><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span><span class="sd">        go get -v -t -d ./...
+</span><span class="sd">        if [ -f Gopkg.toml ]; then
+</span><span class="sd">            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+</span><span class="sd">            dep ensure
+</span><span class="sd">        fi</span><span class="w">        
 </span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>Build<span class="w">
-</span><span class="w">      </span><span class="k">run</span><span class="p">:</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-v<span class="w"> </span>.<span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Build</span><span class="w">
+</span><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">go build -v .</span><span class="w">
 </span></code></pre></td></tr></table>
 </div>
 </div><p>稍微幾解釋一下這個yaml所代表的意義</p>
@@ -1785,8 +1785,8 @@ Artifacts 就是把某一個 Job 執行完的結果（可能是 binary 檔、 lo
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">      </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>Build<span class="w">
-</span><span class="w">        </span><span class="k">run</span><span class="p">:</span><span class="w">  </span>go<span class="w"> </span>build<span class="w"> </span>cmd/main.go<span class="w">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Build</span><span class="w">
+</span><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w">  </span><span class="l">go build cmd/main.go</span><span class="w">
 </span></code></pre></td></tr></table>
 </div>
 </div><p>再次檢查Github Action 的Workflow是不是都亮綠燈通過拉～</p>
@@ -1862,7 +1862,7 @@ Artifacts 就是把某一個 Job 執行完的結果（可能是 binary 檔、 lo
   </div>
   <div class="whoami__contents">
     <div class="whoami__written-by">
-      
+      WRITTEN BY
     </div>
     <div class="whoami__title">
       
@@ -3138,7 +3138,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
       
         <div class="toc__flexbox--outer" data-position="fixed" data-dir="ltr" data-ani="true">
-          <h6 class="toc__title toc__title--outer" data-ani="true"></h6>
+          <h6 class="toc__title toc__title--outer" data-ani="true">What&#39;s on this Page</h6>
           
           <label class="switch" data-ani="true">
             <input id="visible-toc" aria-label="Visible TOC" type="checkbox" checked>
