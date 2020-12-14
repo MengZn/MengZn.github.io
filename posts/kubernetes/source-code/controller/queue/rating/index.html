@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kubernetes delaying work queue 設計真d不錯 – Hugo Zzo Theme</title>
+    <title>Kubernetes RateLimite work queue 設計真d不錯 – Hugo Zzo Theme</title>
     
 
 
@@ -556,7 +556,7 @@
     
     var baseurl = JSON.parse("\"https://blog.jjmengze.website/\"");
     
-    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/delaying/\"");
+    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/\"");
     
     var langprefix = JSON.parse("\"\"");
     var searchResults = null;
@@ -1226,16 +1226,16 @@
 
 <meta name="keywords" content="kubernetes,controller,source-code">
 
-<meta name="created" content="2020-12-11T12:29:32&#43;0800">
-<meta name="modified" content="2020-12-11T12:29:32&#43;0800">
-<meta property="article:published_time" content="2020-12-11T12:29:32&#43;0800">
+<meta name="created" content="2020-12-14T12:29:32&#43;0800">
+<meta name="modified" content="2020-12-14T12:29:32&#43;0800">
+<meta property="article:published_time" content="2020-12-14T12:29:32&#43;0800">
 
 <meta name="author" content="Meng Ze Li">
 
 
 <meta property="og:site_name" content="Hugo Zzo Theme">
-<meta property="og:title" content="Kubernetes delaying work queue 設計真d不錯">
-<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/delaying/">
+<meta property="og:title" content="Kubernetes RateLimite work queue 設計真d不錯">
+<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/">
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
@@ -1248,7 +1248,7 @@
 
 <meta name="apple-mobile-web-app-status-bar-style" content="#fff">
 
-<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/delaying/">
+<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/">
 
 <link rel="manifest" href="/manifest.json">
 
@@ -1274,11 +1274,11 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "headline": "Kubernetes delaying work queue 設計真d不錯",
-    "datePublished": "2020-12-11T12:29:32+08:00",
-    "dateModified": "2020-12-11T12:29:32+08:00",
-    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/delaying/",
-    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-delaying-queue.jpg\"/\u003e  \u003c/figure\u003e",
+    "headline": "Kubernetes RateLimite work queue 設計真d不錯",
+    "datePublished": "2020-12-14T12:29:32+08:00",
+    "dateModified": "2020-12-14T12:29:32+08:00",
+    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/",
+    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-rating-work-queue.jpg\"/\u003e  \u003c/figure\u003e",
     "keywords": ["kubernetes","controller","source-code"],
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -1523,7 +1523,7 @@
   
   <li  class="is-active" >
     
-      <span>Kubernetes delaying work queue 設計真d不錯</span>
+      <span>Kubernetes RateLimite work queue 設計真d不錯</span>
     
   </li>
   
@@ -1535,13 +1535,13 @@
   <div class="single ">
     <div class="single__nojs">This page looks best with JavaScript enabled</div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
-    <h2 class="single__title" data-ani="true">Kubernetes delaying work queue 設計真d不錯</h2>
+    <h2 class="single__title" data-ani="true">Kubernetes RateLimite work queue 設計真d不錯</h2>
     <div class="single__meta">
       
 <div class="single__infos">
-  <time class="single__info" title="Written At">📅&nbsp;Dec 11, 2020 </time>
+  <time class="single__info" title="Written At">📅&nbsp;Dec 14, 2020 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;7&nbsp;min read </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;5&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -1564,103 +1564,68 @@
     <article class="single__contents" data-dir="ltr" data-ani="true">
       
       <figure>
-    <img src="/images/theme/kubernetes-delaying-queue.jpg"/> 
+    <img src="/images/theme/kubernetes-rating-work-queue.jpg"/> 
 </figure>
 
 <p>首先本文所以 source code 基於 kubernetes 1.19 版本，所有 source code 的為了版面的整潔會精簡掉部分 log 相關的程式碼，僅保留核心邏輯，如果有見解錯誤的地方，還麻煩觀看本文的大大們提出，感謝！</p>
 <h2 id="kubernetes-work-queue">kubernetes work queue</h2>
-<p>在前一篇 kubernetes common work queue 設計真d不錯一文中分享 kubernetes work queue最基礎的實作方式，再複習一次！Kubernetes 為什麼要實踐一個 work queue 呢？</p>
+<p>在前一篇 kubernetes delaying work queue 設計真d不錯一文中分享 kubernetes work queue最基礎的實作方式，再複習一次！Kubernetes 為什麼要實踐一個 work queue 呢？</p>
 <p>就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件需要根據延遲時間排序的queue，例如限制物件取出速度的queue。</p>
 <figure>
-    <img src="/images/posts/kubernetes-controller-arch.png"/> 
+    <img src="/images/post/kubernetes-controller-arch.png"/> 
 </figure>
 
 <p>圖片來源：<a href="https://itnext.io/how-to-create-a-kubernetes-custom-controller-using-client-go-f36a7a7536cc">How to Create a Kubernetes Custom Controller Using client-go</a></p>
 <p>上圖引用了<a href="https://itnext.io/how-to-create-a-kubernetes-custom-controller-using-client-go-f36a7a7536cc">How to Create a Kubernetes Custom Controller Using client-go</a>的 controller 架構圖可以看到在 sharedindexinformer 內有引用到這個元件，這個元件實際被定義在 kubernetes 的 client-go library 中。</p>
 <p>在第二步驟與第三步驟之間透過 queue 不只解偶了上下層的耦合關係同時 Queue 有達到了消峰填谷的作用，當觀察的物件一直送資料進來不會因為我們業務邏輯處理得太慢而卡住，資料會保留在 queue 中直到被取出。</p>
-<p>之前有提到了兩種 queue ，分別是 rate limiters queue 以及 delaying queue ，上一章節介紹完 Kubernetes 通用的 common queue ，本篇文章會從 delaying queu 開始探討。</p>
-<h2 id="delaying-queue">delaying queue</h2>
+<p>之前有提到了兩種 queue ，分別是 rate limiters queue 以及 delaying queue ，上一章節介紹完 Kubernetes delaying queue ，本篇文章將介紹最後一個 rate limiters queue ！</p>
+<h2 id="ratelimiter-queue">RateLimiter queue</h2>
 <p>kubernetes source code 設計得非常精美，我們可以先從 interface 定義了哪些方法來推敲實作這個 interface 的物件可能有什麼功能。</p>
 <h3 id="interface">interface</h3>
-<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/delaying_queue.go">source code</a></p>
+<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// DelayingInterface is an Interface that can Add an item at a later time. This makes it easier to
-</span><span class="c1">// requeue items after failures without ending up in a hot-loop.
-</span><span class="c1">// 原生的註解寫得非常棒了，大致上意思為一個物件處理失敗，如果很快地物件在被處理一次失敗的可能性還是很高會造成 
-</span><span class="c1">// hot-loop，所以讓物件等待一下在排隊進入 queue 就是 delaying queue 的用意
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">DelayingInterface</span> <span class="kd">interface</span> <span class="p">{</span>
-	<span class="nx">Interface</span>    <span class="c1">//嵌入了common work queue的interface，delaying queue 也是common queue 的一種
-</span><span class="c1"></span>	
-	<span class="nf">AddAfter</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">duration</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span>    <span class="c1">//表示物件需要等待多久才能被放入 queue 中
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// RateLimitingInterface is an interface that rate limits items being added to the queue.
+</span><span class="c1">//RateLimiting interface 結合了 delaying work queue ，透過一些方法計算 物件的延遲速率
+</span><span class="c1">// 再交由 delaying work queue 丟入Heap 最後放入 common queue中。
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">RateLimitingInterface</span> <span class="kd">interface</span> <span class="p">{</span>
+	<span class="nx">DelayingInterface</span>        <span class="c1">// delaying work queue 前一篇有介紹過
+</span><span class="c1"></span>
+	<span class="c1">// AddRateLimited adds an item to the workqueue after the rate limiter says it&#39;s ok
+</span><span class="c1"></span>	<span class="nf">AddRateLimited</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span>    <span class="c1">// 對某個物件加入延遲
+</span><span class="c1"></span>
+	<span class="c1">// Forget indicates that an item is finished being retried.  Doesn&#39;t matter whether it&#39;s for perm failing
+</span><span class="c1"></span>	<span class="c1">// or for success, we&#39;ll stop the rate limiter from tracking it.  This only clears the `rateLimiter`, you
+</span><span class="c1"></span>	<span class="c1">// still have to call `Done` on the queue.
+</span><span class="c1"></span>	<span class="nf">Forget</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span>    <span class="c1">//  表示某個物件已經做了
+</span><span class="c1"></span>
+	<span class="c1">// NumRequeues returns back how many times the item was requeued
+</span><span class="c1"></span>	<span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">int</span> <span class="c1">//計算某個物件調用queueAddRateLimited的次數
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>看完了抽象的定義之後，必須要回過來看 delaying queue 實際物件定義了哪些屬性</p>
 <h3 id="struct">struct</h3>
-<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/delaying_queue.go">source code</a></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// delayingType wraps an Interface and provides delayed re-enquing
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">delayingType</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">Interface</span>    <span class="c1">//嵌入了一個common queue
-</span><span class="c1"></span>
-	<span class="c1">// clock tracks time for delayed firing
-</span><span class="c1"></span>	<span class="nx">clock</span> <span class="nx">clock</span><span class="p">.</span><span class="nx">Clock</span>    <span class="c1">//用來比對物件延遲時間
-</span><span class="c1"></span>
-	<span class="c1">// stopCh lets us signal a shutdown to the waiting loop
-</span><span class="c1"></span>	<span class="nx">stopCh</span> <span class="kd">chan</span> <span class="kd">struct</span><span class="p">{}</span>    <span class="c1">//異步退出用
-</span><span class="c1"></span>	<span class="c1">// stopOnce guarantees we only signal shutdown a single time
-</span><span class="c1"></span>	<span class="nx">stopOnce</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Once</span>    <span class="c1">//異步退出用，保證退出只會被呼叫一次
-</span><span class="c1"></span>
-	<span class="c1">// heartbeat ensures we wait no more than maxWait before firing
-</span><span class="c1"></span>	<span class="nx">heartbeat</span> <span class="nx">clock</span><span class="p">.</span><span class="nx">Ticker</span>    <span class="c1">//定時器，定時喚醒thread處理物件
-</span><span class="c1"></span>
-	<span class="c1">// waitingForAddCh is a buffered channel that feeds waitingForAdd
-</span><span class="c1"></span>	<span class="nx">waitingForAddCh</span> <span class="kd">chan</span> <span class="o">*</span><span class="nx">waitFor</span> <span class="c1">//用以添加延遲物件的channel
-</span><span class="c1"></span>
-	<span class="c1">// metrics counts the number of retries
-</span><span class="c1"></span>	<span class="nx">metrics</span> <span class="nx">retryMetrics</span>    <span class="c1">//用以紀錄重試的metric
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>剛剛上面有一個疑點那就 type waitFor 到底是什麼<br />
-我們先來看看 type waitFor 的結構<br />
-<a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/delaying_queue.go">source code</a></p>
+<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -1670,23 +1635,82 @@
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// waitFor holds the data to add and the time it should be added
-</span><span class="c1">// 如果需要延遲的物件都會被轉換成這個類型
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">waitFor</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">data</span>    <span class="nx">t</span>            <span class="c1">// t 在common queue介紹過，為一個泛行表示什麼都接受的物件
-</span><span class="c1"></span>	<span class="nx">readyAt</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span>    <span class="c1">//在什麼時間加入到queue中的
-</span><span class="c1"></span>	<span class="c1">// index in the priority queue (heap)
-</span><span class="c1"></span>	<span class="nx">index</span> <span class="kt">int</span>            <span class="c1">// index會用在後面的排序，延遲時間較小的排前面（用heap排序）
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// rateLimitingType wraps an Interface and provides rateLimited re-enquing
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">rateLimitingType</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">DelayingInterface</span>      <span class="c1">// 嵌入 delaying work queue 表示 rateLimitingType 也有 delay work queue的能力
+</span><span class="c1"></span>                              <span class="c1">//（不一定需要傳入實作的物件，本身就是DelayingInterface的一種）
+</span><span class="c1"></span>                             
+	<span class="nx">rateLimiter</span> <span class="nx">RateLimiter</span>     <span class="c1">//組合了一個 RateLimiter interface，需要明確傳入實作的物件。
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h4 id="heap-排序">heap 排序</h4>
-<p>由於放入 dealying queue 的物件，有的可能要延遲 1s 有的可能要延遲 2ms等等， dealying queue 如何保證延遲較小的物件先放入 queue 呢？</p>
-<p>delaying queue 透過 heap 進行排序，底下讓展開排序的實作方式。</p>
-<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/delaying_queue.go">source code</a></p>
+</div><p>剛剛上面有一個疑點那就 type RateLimiter 到底是什麼<br />
+我們先來看看 type RateLimiter 的結構</p>
+<h4 id="ratelimiter">RateLimiter</h4>
+<p>由於 rateLimitingType 組合了一個 RateLimiter 我們來看看 RateLimiter 是什麼吧！<br />
+<a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/default_rate_limiters.go">source code</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">RateLimiter</span> <span class="kd">interface</span> <span class="p">{</span>
+	<span class="c1">// When gets an item and gets to decide how long that item should wait
+</span><span class="c1"></span>    <span class="c1">//當一個物件放入的時候，需要回傳延遲多久（可自定義規則，等等會看到）
+</span><span class="c1"></span>	<span class="nf">When</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span>
+    
+    
+	<span class="c1">// Forget indicates that an item is finished being retried.  Doesn&#39;t matter whether its for perm failing	    
+</span><span class="c1"></span>    <span class="c1">// or for success, we&#39;ll stop tracking it
+</span><span class="c1"></span>    <span class="c1">//當一個物件完成的時候可以，要忘記曾經延遲過（重新計算）
+</span><span class="c1"></span>    <span class="nf">Forget</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span>
+    
+    
+	<span class="c1">// NumRequeues returns back how many failures the item has had
+</span><span class="c1"></span>    <span class="c1">// 回傳物件已經放入幾次（重試了幾次，白話一點呼叫whem幾次）
+</span><span class="c1"></span>	<span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">int</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>看到這裡想必大家一定亂了，我幫大家整理一下個類別之間的關係。</p>
+<p><img src="https://i.imgur.com/qYRniMj.jpg" alt="" /></p>
+<p>看圖說故事的時間到了<br />
+Interface 繼承關係</p>
+<pre><code>1. Interface 為 common work queue 的介面（先用介面表示抽象方法，這裡就不用Interface會搞混....）
+
+2. DelayingInterface 為 delaying work queue 的介面，這個介面繼承了Interface
+
+3. RateLimitingInterface 繼承了 delaying work queue 的介面
+</code></pre>
+<p>rateLimitingType 有什麼能力</p>
+<pre><code>- rateLimitingType 嵌入(embedding)了 DelayingInterface ，表示 `rateLimitingType` 有 DelayingInterface 的能力（用嵌入委託給其他人）
+
+- rateLimitingType 實作了 RateLimitingInterface ，表示 `rateLimitingType` 有 RateLimitingInterface 的能力（這個能力要自己實作）
+</code></pre>
+<p>rateLimitingType 依賴</p>
+<pre><code>- 由於 rateLimitingType 組合了(Composite) rateLimiter ，所以在 UML 上呈現的是依賴 rateLimiter 
+- rateLimiter 被 ItemExponentialFailureRateLimiter 實作（還由其他物件實作，我這裡沒畫出來）
+</code></pre>
+<h4 id="struct-function">struct function</h4>
+<p>rateLimitingType 實作了 RateLimitingInterface 我們來看一下他實作了什麼</p>
+<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1709,93 +1733,34 @@
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go">
-<span class="c1">// waitForPriorityQueue implements a priority queue for waitFor items.
-</span><span class="c1">//
-</span><span class="c1">// waitForPriorityQueue implements heap.Interface. The item occurring next in
-</span><span class="c1">// time (i.e., the item with the smallest readyAt) is at the root (index 0).
-</span><span class="c1">// Peek returns this minimum item at index 0. Pop returns the minimum item after
-</span><span class="c1">// it has been removed from the queue and placed at index Len()-1 by
-</span><span class="c1">// container/heap. Push adds an item at index Len(), and container/heap
-</span><span class="c1">// percolates it into the correct location.
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">waitForPriorityQueue</span> <span class="p">[]</span><span class="o">*</span><span class="nx">waitFor</span>    <span class="c1">//waitForPriorityQueue 這個類型實作了 heap interface ，排序的物件為 waitFor
-</span><span class="c1"></span>
-<span class="c1">//實作heap interface 的len方法，取出heap當前的長度。
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="nx">waitForPriorityQueue</span><span class="p">)</span> <span class="nf">Len</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">pq</span><span class="p">)</span>
+<span class="c1">// AddRateLimited AddAfter&#39;s the item based on the time when the rate limiter says it&#39;s ok
+</span><span class="c1">// rateLimitingType 本身實作了 RateLimitingInterface 
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">rateLimitingType</span><span class="p">)</span> <span class="nf">AddRateLimited</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="c1">// 由於嵌入了 DelayingInterface 可以直接使用 delay work queue的抽象方法
+</span><span class="c1"></span>    <span class="c1">// 這裡就是說放入的物件要延遲多久，延遲多久就由組合的 rateLimiter 抽象方法實作。
+</span><span class="c1"></span>	<span class="nx">q</span><span class="p">.</span><span class="nx">DelayingInterface</span><span class="p">.</span><span class="nf">AddAfter</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">q</span><span class="p">.</span><span class="nx">rateLimiter</span><span class="p">.</span><span class="nf">When</span><span class="p">(</span><span class="nx">item</span><span class="p">))</span>
 <span class="p">}</span>
 
-<span class="c1">//實作 heap interface 的 Less 方法，確認在 waitForPriorityQueue 的第 i 個元素是否比第 j 個元素小
-</span><span class="c1">// 若是第 i 個元素比第 j 個元素小就交換，因為我們希望，因為我們希望越小的排越前面。
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="nx">waitForPriorityQueue</span><span class="p">)</span> <span class="nf">Less</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">readyAt</span><span class="p">.</span><span class="nf">Before</span><span class="p">(</span><span class="nx">pq</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">readyAt</span><span class="p">)</span> <span class="c1">// 比的是時間
-</span><span class="c1"></span><span class="p">}</span>
-
-<span class="c1">//實作 heap interface 的 swap ，實作 i j 交換
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="nx">waitForPriorityQueue</span><span class="p">)</span> <span class="nf">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
-	<span class="nx">pq</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">index</span> <span class="p">=</span> <span class="nx">i</span>
-	<span class="nx">pq</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">index</span> <span class="p">=</span> <span class="nx">j</span>
+<span class="c1">//  rateLimitingType 本身實作了 RateLimitingInterface
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">rateLimitingType</span><span class="p">)</span> <span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="c1">// 這裡就是說放入的物件已經被重複放入多少次了，放入多少次就由組合的 rateLimiter 抽象方法實作。
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">q</span><span class="p">.</span><span class="nx">rateLimiter</span><span class="p">.</span><span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="c1">//實作 heap interface 的 Push ，向 heap 添加物件
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="o">*</span><span class="nx">waitForPriorityQueue</span><span class="p">)</span> <span class="nf">Push</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
-	<span class="nx">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">pq</span><span class="p">)</span>
-	<span class="nx">item</span> <span class="o">:=</span> <span class="nx">x</span><span class="p">.(</span><span class="o">*</span><span class="nx">waitFor</span><span class="p">)</span>
-	<span class="nx">item</span><span class="p">.</span><span class="nx">index</span> <span class="p">=</span> <span class="nx">n</span>              <span class="c1">//新加入的物件會記錄當前自己的位置
-</span><span class="c1"></span>	<span class="o">*</span><span class="nx">pq</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="o">*</span><span class="nx">pq</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span>     <span class="c1">//新加入的物件排到heap的最後面
-</span><span class="c1"></span><span class="p">}</span>
-
-<span class="c1">//實作 heap interface 的 Pop ，從 heap 的尾巴彈出最後一個物件。
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="o">*</span><span class="nx">waitForPriorityQueue</span><span class="p">)</span> <span class="nf">Pop</span><span class="p">()</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">{</span>
-	<span class="nx">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">pq</span><span class="p">)</span>
-	<span class="nx">item</span> <span class="o">:=</span> <span class="p">(</span><span class="o">*</span><span class="nx">pq</span><span class="p">)[</span><span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> 
-	<span class="nx">item</span><span class="p">.</span><span class="nx">index</span> <span class="p">=</span> <span class="o">-</span><span class="mi">1</span>
-	<span class="o">*</span><span class="nx">pq</span> <span class="p">=</span> <span class="p">(</span><span class="o">*</span><span class="nx">pq</span><span class="p">)[</span><span class="mi">0</span><span class="p">:(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>    <span class="c1">//縮小heap，移除最後一個物件
-</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">item</span>
-<span class="p">}</span>
-
-<span class="c1">//回傳heap第一個物件，延遲時間最短的那一個物件
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pq</span> <span class="nx">waitForPriorityQueue</span><span class="p">)</span> <span class="nf">Peek</span><span class="p">()</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">pq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1">//  rateLimitingType 本身實作了 RateLimitingInterface
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">rateLimitingType</span><span class="p">)</span> <span class="nf">Forget</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="c1">// 這裡就是說放入的物件已經被做完了，可以重新計算了，從新計算的方法就交給組合的 rateLimiter 抽象方法實作。
+</span><span class="c1"></span>	<span class="nx">q</span><span class="p">.</span><span class="nx">rateLimiter</span><span class="p">.</span><span class="nf">Forget</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>看完了資料結構我們接著來看 delaying queue 實作的方法，與初始化方法！</p>
+</div><p>其實看到這裡，我覺得 rateLimitingType 有點像是 proxy 設計模式，只要有人實作了 RateLimiter 就可以放進來給上層做使，反正上層只會呼叫 AddRateLimited 、NumRequeues 、Forget。</p>
+<p>Kubernetes 這邊做的鬆偶做得很不錯， 有新的計算延遲的方法 rateLimitingType 根本不用動，透過 rateLimitingType 代理呼叫 RateLimiter 就好，更上層的使用者也只會使用 RateLimitingInterface 而已。</p>
 <h3 id="new-function">new function</h3>
-<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/delaying_queue.go">source code</a></p>
+<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1816,373 +1781,29 @@
 </span><span class="lnt">16
 </span><span class="lnt">17
 </span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//給心跳用最久10秒delaying queue會檢查一次
-</span><span class="c1"></span><span class="kd">const</span> <span class="nx">maxWait</span> <span class="p">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span>
-
-<span class="c1">//傳入clock與common queue以及紀錄這個物件metric的名字，這是一個不公開的方法，有其他封裝好的 new function 可以用
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">newDelayingQueue</span><span class="p">(</span><span class="nx">clock</span> <span class="nx">clock</span><span class="p">.</span><span class="nx">Clock</span><span class="p">,</span> <span class="nx">q</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">delayingType</span> <span class="p">{</span>
-	<span class="nx">ret</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">delayingType</span><span class="p">{</span>
-		<span class="nx">Interface</span><span class="p">:</span>       <span class="nx">q</span><span class="p">,</span>
-		<span class="nx">clock</span><span class="p">:</span>           <span class="nx">clock</span><span class="p">,</span>
-		<span class="nx">heartbeat</span><span class="p">:</span>       <span class="nx">clock</span><span class="p">.</span><span class="nf">NewTicker</span><span class="p">(</span><span class="nx">maxWait</span><span class="p">),</span>
-		<span class="nx">stopCh</span><span class="p">:</span>          <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{}),</span>
-		<span class="nx">waitingForAddCh</span><span class="p">:</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="o">*</span><span class="nx">waitFor</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
-		<span class="nx">metrics</span><span class="p">:</span>         <span class="nf">newRetryMetrics</span><span class="p">(</span><span class="nx">name</span><span class="p">),</span>
-	<span class="p">}</span>
-    <span class="c1">// 啟動一個 thread 檢測有沒有 wiatfor 物件在等待進入 queue，稍後會展開分析。
-</span><span class="c1"></span>	<span class="k">go</span> <span class="nx">ret</span><span class="p">.</span><span class="nf">waitingLoop</span><span class="p">()</span>
-	<span class="k">return</span> <span class="nx">ret</span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// NewRateLimitingQueue constructs a new workqueue with rateLimited queuing ability
+</span><span class="c1">// Remember to call Forget!  If you don&#39;t, you may end up tracking failures forever.
+</span><span class="c1">//使用者在使用RateLimiting的時候可以傳入自己實作的RateLimiter，此時使用預設的delay work queue。
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewRateLimitingQueue</span><span class="p">(</span><span class="nx">rateLimiter</span> <span class="nx">RateLimiter</span><span class="p">)</span> <span class="nx">RateLimitingInterface</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">rateLimitingType</span><span class="p">{</span>
+		<span class="nx">DelayingInterface</span><span class="p">:</span> <span class="nf">NewDelayingQueue</span><span class="p">(),</span>        <span class="c1">//前一小節有提到過delating work queue的newfunction
+</span><span class="c1"></span>		<span class="nx">rateLimiter</span><span class="p">:</span>       <span class="nx">rateLimiter</span><span class="p">,</span>               <span class="c1">//自行實作的rateLimiter
+</span><span class="c1"></span>	<span class="p">}</span>
 <span class="p">}</span>
 
-<span class="c1">// 不同的封裝方式，不提 （設定 metric 的 name 為空）
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewDelayingQueue</span><span class="p">()</span> <span class="nx">DelayingInterface</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nf">NewDelayingQueueWithCustomClock</span><span class="p">(</span><span class="nx">clock</span><span class="p">.</span><span class="nx">RealClock</span><span class="p">{},</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
-<span class="p">}</span>
 
-<span class="c1">//不同的封裝方式，不提 （設定 metric 的 name 為空，可傳入自己實作的 common queue ）
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewDelayingQueueWithCustomQueue</span><span class="p">(</span><span class="nx">q</span> <span class="nx">Interface</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">DelayingInterface</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nf">newDelayingQueue</span><span class="p">(</span><span class="nx">clock</span><span class="p">.</span><span class="nx">RealClock</span><span class="p">{},</span> <span class="nx">q</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="c1">//不同的封裝方式，不提 （可傳入 metric 的 name ）
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewNamedDelayingQueue</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">DelayingInterface</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nf">NewDelayingQueueWithCustomClock</span><span class="p">(</span><span class="nx">clock</span><span class="p">.</span><span class="nx">RealClock</span><span class="p">{},</span> <span class="nx">name</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="c1">//不同的封裝方式，不提 （可傳入 metric 的 name 以及 clock ）
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewDelayingQueueWithCustomClock</span><span class="p">(</span><span class="nx">clock</span> <span class="nx">clock</span><span class="p">.</span><span class="nx">Clock</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">DelayingInterface</span> <span class="p">{</span>
-    <span class="c1">// NewNamed 是前一章節提到建立 common queue的方法
-</span><span class="c1"></span>	<span class="k">return</span> <span class="nf">newDelayingQueue</span><span class="p">(</span><span class="nx">clock</span><span class="p">,</span> <span class="nf">NewNamed</span><span class="p">(</span><span class="nx">name</span><span class="p">),</span> <span class="nx">name</span><span class="p">)</span>
-<span class="p">}</span>
-
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="implement-function">implement function</h3>
-<p>看完了初始化 delaying queue function 後接下來看看核心的功能。<br />
-<a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/delaying_queue.go">source code</a></p>
-<h4 id="addafter">AddAfter</h4>
-<p>使用者要放入有延遲的物件需要呼叫這個function，帶入要延遲的物件，以及該物件要延遲多久。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// AddAfter adds the given item to the work queue after the given delay
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">delayingType</span><span class="p">)</span> <span class="nf">AddAfter</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">duration</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">// don&#39;t add if we&#39;re already shutting down
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">q</span><span class="p">.</span><span class="nf">ShuttingDown</span><span class="p">()</span> <span class="p">{</span>    <span class="c1">//如果queue關閉了就不能放入
-</span><span class="c1"></span>		<span class="k">return</span>
-	<span class="p">}</span>
-
-	<span class="nx">q</span><span class="p">.</span><span class="nx">metrics</span><span class="p">.</span><span class="nf">retry</span><span class="p">()</span>        <span class="c1">//metric不解釋
-</span><span class="c1"></span>
-	<span class="c1">// immediately add things with no delay
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">duration</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>        <span class="c1">//如果延遲時間小於等於0表示不用延遲
-</span><span class="c1"></span>		<span class="nx">q</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span>           <span class="c1">//直接丟入common queue中
-</span><span class="c1"></span>		<span class="k">return</span>
-	<span class="p">}</span>
-
-	<span class="k">select</span> <span class="p">{</span>
-	<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">q</span><span class="p">.</span><span class="nx">stopCh</span><span class="p">:</span>            <span class="c1">//因為可能會組塞在 waitingForAddCh 透過 stop 保證退出？
-</span><span class="c1"></span>		<span class="c1">// unblock if ShutDown() is called
-</span><span class="c1"></span>        <span class="c1">// 要延遲的物件會封裝成 waitFor 型態並且方入 channel 等待處理
-</span><span class="c1"></span>	<span class="k">case</span> <span class="nx">q</span><span class="p">.</span><span class="nx">waitingForAddCh</span> <span class="o">&lt;-</span> <span class="o">&amp;</span><span class="nx">waitFor</span><span class="p">{</span><span class="nx">data</span><span class="p">:</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">readyAt</span><span class="p">:</span> <span class="nx">q</span><span class="p">.</span><span class="nx">clock</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">Add</span><span class="p">(</span><span class="nx">duration</span><span class="p">)}:</span>    
-	<span class="p">}</span>
+<span class="c1">//使用者在使用RateLimiting的時候可以傳入自己實作的RateLimiter，此時使用預設的delaying  work queue並且可以設定delaying work queue的metric name。
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewNamedRateLimitingQueue</span><span class="p">(</span><span class="nx">rateLimiter</span> <span class="nx">RateLimiter</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">RateLimitingInterface</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">rateLimitingType</span><span class="p">{</span>
+		<span class="nx">DelayingInterface</span><span class="p">:</span> <span class="nf">NewNamedDelayingQueue</span><span class="p">(</span><span class="nx">name</span><span class="p">),</span>    <span class="c1">//前一小節有提到delating work queue的newfunction（可以設定metric name）
+</span><span class="c1"></span>		<span class="nx">rateLimiter</span><span class="p">:</span>       <span class="nx">rateLimiter</span><span class="p">,</span>                    <span class="c1">//自行實作的rateLimiter
+</span><span class="c1"></span>	<span class="p">}</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h4 id="waitingloop">waitingLoop</h4>
-<p>這邊是delaying queue的主要邏輯，執行檢查 waitingForAddCh channel 有沒有延遲物件，取出延遲物件看延遲時間是達到選擇加入 Heap 或是 queue，以及接收心跳包。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
-</span><span class="lnt">69
-</span><span class="lnt">70
-</span><span class="lnt">71
-</span><span class="lnt">72
-</span><span class="lnt">73
-</span><span class="lnt">74
-</span><span class="lnt">75
-</span><span class="lnt">76
-</span><span class="lnt">77
-</span><span class="lnt">78
-</span><span class="lnt">79
-</span><span class="lnt">80
-</span><span class="lnt">81
-</span><span class="lnt">82
-</span><span class="lnt">83
-</span><span class="lnt">84
-</span><span class="lnt">85
-</span><span class="lnt">86
-</span><span class="lnt">87
-</span><span class="lnt">88
-</span><span class="lnt">89
-</span><span class="lnt">90
-</span><span class="lnt">91
-</span><span class="lnt">92
-</span><span class="lnt">93
-</span><span class="lnt">94
-</span><span class="lnt">95
-</span><span class="lnt">96
-</span><span class="lnt">97
-</span><span class="lnt">98
-</span><span class="lnt">99
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// waitingLoop runs until the workqueue is shutdown and keeps a check on the list of items to be added.
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">delayingType</span><span class="p">)</span> <span class="nf">waitingLoop</span><span class="p">()</span> <span class="p">{</span>
-	<span class="k">defer</span> <span class="nx">utilruntime</span><span class="p">.</span><span class="nf">HandleCrash</span><span class="p">()</span>
-
-	<span class="c1">// Make a placeholder channel to use when there are no items in our list
-</span><span class="c1"></span>	<span class="nx">never</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="o">&lt;-</span><span class="kd">chan</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="p">)</span>                   <span class="c1">//我不是很定他的用意...可以看到 nerver channel 又換一個別名表示
-</span><span class="c1"></span>
-	<span class="c1">// Make a timer that expires when the item at the head of the waiting queue is ready
-</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">nextReadyAtTimer</span> <span class="nx">clock</span><span class="p">.</span><span class="nx">Timer</span>                <span class="c1">//當 heap 吐出一個延遲物件時透過這個 timer 延遲
-</span><span class="c1"></span>
-	<span class="nx">waitingForQueue</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">waitForPriorityQueue</span><span class="p">{}</span>     <span class="c1">// heap 物件
-</span><span class="c1"></span>	<span class="nx">heap</span><span class="p">.</span><span class="nf">Init</span><span class="p">(</span><span class="nx">waitingForQueue</span><span class="p">)</span>                    <span class="c1">// heap初始化
-</span><span class="c1"></span>
-	<span class="nx">waitingEntryByData</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="nx">t</span><span class="p">]</span><span class="o">*</span><span class="nx">waitFor</span><span class="p">{}</span>        <span class="c1">//用來防止同一個物件重複放入，如果有重複的物件就更新延遲時間
-</span><span class="c1"></span>    
-    
-	<span class="k">for</span> <span class="p">{</span>
-        <span class="c1">//如果queue關閉就離開
-</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">q</span><span class="p">.</span><span class="nx">Interface</span><span class="p">.</span><span class="nf">ShuttingDown</span><span class="p">()</span> <span class="p">{</span>
-			<span class="k">return</span>
-		<span class="p">}</span>
-        <span class="c1">//標記現在時間
-</span><span class="c1"></span>		<span class="nx">now</span> <span class="o">:=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">clock</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
-
-		<span class="c1">// 如果在 heap 裡面有東西
-</span><span class="c1"></span>		<span class="k">for</span> <span class="nx">waitingForQueue</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-                        <span class="c1">//拿出第一個在 heap 的物件
-</span><span class="c1"></span>			<span class="nx">entry</span> <span class="o">:=</span> <span class="nx">waitingForQueue</span><span class="p">.</span><span class="nf">Peek</span><span class="p">().(</span><span class="o">*</span><span class="nx">waitFor</span><span class="p">)</span>
-                        <span class="c1">//如果現在時間還沒達到物件要等待的時間就退出
-</span><span class="c1"></span>			<span class="k">if</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="nx">now</span><span class="p">)</span> <span class="p">{</span>
-				<span class="k">break</span>
-			<span class="p">}</span>
-                        <span class="c1">//如果現在時間達到物件要等到的時間，將物件從heap彈出
-</span><span class="c1"></span>			<span class="nx">entry</span> <span class="p">=</span> <span class="nx">heap</span><span class="p">.</span><span class="nf">Pop</span><span class="p">(</span><span class="nx">waitingForQueue</span><span class="p">).(</span><span class="o">*</span><span class="nx">waitFor</span><span class="p">)</span>
-                        <span class="c1">//加到queue中
-</span><span class="c1"></span>			<span class="nx">q</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
-                        <span class="c1">//刪除set儲存的物件
-</span><span class="c1"></span>			<span class="nb">delete</span><span class="p">(</span><span class="nx">waitingEntryByData</span><span class="p">,</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
-		<span class="p">}</span>
-
-		<span class="c1">// Set up a wait for the first item&#39;s readyAt (if one exists)
-</span><span class="c1"></span>		<span class="nx">nextReadyAt</span> <span class="o">:=</span> <span class="nx">never</span>        <span class="c1">//在上面有提到過nerver channel 只換成這個名字，不知道用意為何
-</span><span class="c1"></span>        <span class="c1">// 如果在 heap 裡面有東西
-</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">waitingForQueue</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-                        <span class="c1">//  計算時鐘就暫停
-</span><span class="c1"></span>			<span class="k">if</span> <span class="nx">nextReadyAtTimer</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-				<span class="nx">nextReadyAtTimer</span><span class="p">.</span><span class="nf">Stop</span><span class="p">()</span>
-			<span class="p">}</span>
-                        <span class="c1">//拿出第一個在 heap 的物件
-</span><span class="c1"></span>			<span class="nx">entry</span> <span class="o">:=</span> <span class="nx">waitingForQueue</span><span class="p">.</span><span class="nf">Peek</span><span class="p">().(</span><span class="o">*</span><span class="nx">waitFor</span><span class="p">)</span>
-                        <span class="c1">//看物件延遲多久
-</span><span class="c1"></span>			<span class="nx">nextReadyAtTimer</span> <span class="p">=</span> <span class="nx">q</span><span class="p">.</span><span class="nx">clock</span><span class="p">.</span><span class="nf">NewTimer</span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">.</span><span class="nf">Sub</span><span class="p">(</span><span class="nx">now</span><span class="p">))</span>
-                        <span class="c1">//當物件延遲時間到了發通知
-</span><span class="c1"></span>			<span class="nx">nextReadyAt</span> <span class="p">=</span> <span class="nx">nextReadyAtTimer</span><span class="p">.</span><span class="nf">C</span><span class="p">()</span>
-		<span class="p">}</span>
-
-		<span class="k">select</span> <span class="p">{</span>
-            <span class="c1">// queue關閉
-</span><span class="c1"></span>		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">q</span><span class="p">.</span><span class="nx">stopCh</span><span class="p">:</span>
-			<span class="k">return</span>
-            <span class="c1">// 定時被心跳喚醒
-</span><span class="c1"></span>		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">q</span><span class="p">.</span><span class="nx">heartbeat</span><span class="p">.</span><span class="nf">C</span><span class="p">():</span>
-			<span class="c1">// continue the loop, which will add ready items
-</span><span class="c1"></span>            <span class="c1">// 當收到物件延遲時間到了發通知
-</span><span class="c1"></span>		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">nextReadyAt</span><span class="p">:</span>
-			<span class="c1">// continue the loop, which will add ready items
-</span><span class="c1"></span>            <span class="c1">//當有人放需要延遲的物件進queue中
-</span><span class="c1"></span>		<span class="k">case</span> <span class="nx">waitEntry</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">q</span><span class="p">.</span><span class="nx">waitingForAddCh</span><span class="p">:</span>
-                    <span class="c1">//如果新放入的物件還沒超過延遲時間
-</span><span class="c1"></span>			<span class="k">if</span> <span class="nx">waitEntry</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="nx">q</span><span class="p">.</span><span class="nx">clock</span><span class="p">.</span><span class="nf">Now</span><span class="p">())</span> <span class="p">{</span>
-                            <span class="c1">//放入heap中
-</span><span class="c1"></span>				<span class="nf">insert</span><span class="p">(</span><span class="nx">waitingForQueue</span><span class="p">,</span> <span class="nx">waitingEntryByData</span><span class="p">,</span> <span class="nx">waitEntry</span><span class="p">)</span>
-			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                    <span class="c1">//已經到了延遲時間直接放入queue
-</span><span class="c1"></span>				<span class="nx">q</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">waitEntry</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
-			<span class="p">}</span>
-
-                     <span class="c1">//一次取光用
-</span><span class="c1"></span>			<span class="nx">drained</span> <span class="o">:=</span> <span class="kc">false</span>
-			<span class="k">for</span> <span class="p">!</span><span class="nx">drained</span> <span class="p">{</span>
-				<span class="k">select</span> <span class="p">{</span>
-                                <span class="c1">// 一次把把延遲物件的channel取乾淨
-</span><span class="c1"></span>				<span class="k">case</span> <span class="nx">waitEntry</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">q</span><span class="p">.</span><span class="nx">waitingForAddCh</span><span class="p">:</span>
-                                      <span class="c1">//如果新放入的物件還沒超過延遲時間
-</span><span class="c1"></span>					<span class="k">if</span> <span class="nx">waitEntry</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="nx">q</span><span class="p">.</span><span class="nx">clock</span><span class="p">.</span><span class="nf">Now</span><span class="p">())</span> <span class="p">{</span>
-                                            <span class="c1">//放入heap中
-</span><span class="c1"></span>						<span class="nf">insert</span><span class="p">(</span><span class="nx">waitingForQueue</span><span class="p">,</span> <span class="nx">waitingEntryByData</span><span class="p">,</span> <span class="nx">waitEntry</span><span class="p">)</span>
-					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                            <span class="c1">//已經到了延遲時間直接放入queue
-</span><span class="c1"></span>						<span class="nx">q</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">waitEntry</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
-					<span class="p">}</span>
-				<span class="k">default</span><span class="p">:</span>
-                                <span class="c1">// 保證會退出這個取光的loop
-</span><span class="c1"></span>					<span class="nx">drained</span> <span class="p">=</span> <span class="kc">true</span>
-				<span class="p">}</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="insert">insert</h4>
-<p>這裡很簡單</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// insert adds the entry to the priority queue, or updates the readyAt if it already exists in the queue
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">insert</span><span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">waitForPriorityQueue</span><span class="p">,</span> <span class="nx">knownEntries</span> <span class="kd">map</span><span class="p">[</span><span class="nx">t</span><span class="p">]</span><span class="o">*</span><span class="nx">waitFor</span><span class="p">,</span> <span class="nx">entry</span> <span class="o">*</span><span class="nx">waitFor</span><span class="p">)</span> <span class="p">{</span>
-<span class="c1">// if the entry already exists, update the time only if it would cause the item to be queued sooner
-</span><span class="c1"></span><span class="nx">existing</span><span class="p">,</span> <span class="nx">exists</span> <span class="o">:=</span> <span class="nx">knownEntries</span><span class="p">[</span><span class="nx">entry</span><span class="p">.</span><span class="nx">data</span><span class="p">]</span>
-<span class="k">if</span> <span class="nx">exists</span> <span class="p">{</span>
-<span class="k">if</span> <span class="nx">existing</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">)</span> <span class="p">{</span>
-<span class="nx">existing</span><span class="p">.</span><span class="nx">readyAt</span> <span class="p">=</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">readyAt</span>
-<span class="nx">heap</span><span class="p">.</span><span class="nf">Fix</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">existing</span><span class="p">.</span><span class="nx">index</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="k">return</span>
-<span class="p">}</span>
-
-<span class="nx">heap</span><span class="p">.</span><span class="nf">Push</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">entry</span><span class="p">)</span>
-<span class="nx">knownEntries</span><span class="p">[</span><span class="nx">entry</span><span class="p">.</span><span class="nx">data</span><span class="p">]</span> <span class="p">=</span> <span class="nx">entry</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="小結">小結</h2>
-<p>本章講述了 kubernetes common work queue 的底層實作方法，接下來還會有兩篇介紹基於 common work queue的 rate limiters queue 以及 delaying queue ，從中我們可以了解 kubernetes controller 監聽到 etcd 變化的物件後如何把 變化的物件丟入 queue 中等待其他人取出並處理，相關業務邏輯，如果文中有錯希望大家不吝嗇提出，讓我們互相交流學習。</p>
+</div><p>下一章節會講解實作<code>rateLimiter</code>介面的物件<code>Item Exponential Failure RateLimiter</code>，我們來看看 kubernetes 怎麼限制物件進入 queue 的速度！</p>
     </article>
     
     <script>
@@ -2373,6 +1994,10 @@
     <ul class="related-ul">
         
         <li>
+          <a href="/posts/kubernetes/source-code/controller/queue/delaying/" class="related__link">Kubernetes delaying work queue 設計真d不錯</a>
+        </li>
+        
+        <li>
           <a href="/posts/kubernetes/source-code/controller/queue/common/" class="related__link">Kubernetes common work queue 設計真d不錯</a>
         </li>
         
@@ -2388,10 +2013,6 @@
           <a href="/posts/kubernetes/finalizers/" class="related__link">Hey ! Kubernetes finalizers 不再煩惱</a>
         </li>
         
-        <li>
-          <a href="/posts/kubernetes/source-code/scheduler/kubernetes-scheduler-context/" class="related__link">Kubernetes Scheduler context流水線略窺一二</a>
-        </li>
-        
     </ul>
     
   </section>
@@ -2399,21 +2020,14 @@
 <nav class="pagination-single">
   
     
-      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/common/" class="pagination-single__left">
+      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/delaying/" class="pagination-single__left">
         <div class="pagination-single__icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
         </div>
-        <div class="pagination-single__left-title">Kubernetes common work queue 設計真d不錯</div>      
+        <div class="pagination-single__left-title">Kubernetes delaying work queue 設計真d不錯</div>      
       </a>
     
     <div class="grow"></div>
-    
-      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/" class="pagination-single__right">      
-        <div class="pagination-single__right-title">Kubernetes RateLimite work queue 設計真d不錯</div>
-        <div class="pagination-single__icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
-        </div>
-      </a>
     
   
 </nav>
@@ -3568,25 +3182,18 @@ document.addEventListener('DOMContentLoaded', function () {
           <nav id="TableOfContents">
   <ul>
     <li><a href="#kubernetes-work-queue">kubernetes work queue</a></li>
-    <li><a href="#delaying-queue">delaying queue</a>
+    <li><a href="#ratelimiter-queue">RateLimiter queue</a>
       <ul>
         <li><a href="#interface">interface</a></li>
         <li><a href="#struct">struct</a>
           <ul>
-            <li><a href="#heap-排序">heap 排序</a></li>
+            <li><a href="#ratelimiter">RateLimiter</a></li>
+            <li><a href="#struct-function">struct function</a></li>
           </ul>
         </li>
         <li><a href="#new-function">new function</a></li>
-        <li><a href="#implement-function">implement function</a>
-          <ul>
-            <li><a href="#addafter">AddAfter</a></li>
-            <li><a href="#waitingloop">waitingLoop</a></li>
-            <li><a href="#insert">insert</a></li>
-          </ul>
-        </li>
       </ul>
     </li>
-    <li><a href="#小結">小結</a></li>
   </ul>
 </nav>
         </div>
