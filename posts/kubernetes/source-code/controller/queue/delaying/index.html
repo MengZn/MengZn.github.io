@@ -1572,7 +1572,7 @@
 <p>在前一篇 kubernetes common work queue 設計真d不錯一文中分享 kubernetes work queue最基礎的實作方式，再複習一次！Kubernetes 為什麼要實踐一個 work queue 呢？</p>
 <p>就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件需要根據延遲時間排序的queue，例如限制物件取出速度的queue。</p>
 <figure>
-    <img src="/images/posts/kubernetes-controller-arch.png"/> 
+    <img src="/images/post/kubernetes-controller-arch.png"/> 
 </figure>
 
 <p>圖片來源：<a href="https://itnext.io/how-to-create-a-kubernetes-custom-controller-using-client-go-f36a7a7536cc">How to Create a Kubernetes Custom Controller Using client-go</a></p>
