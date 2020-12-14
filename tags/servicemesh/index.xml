@@ -6,9 +6,9 @@
   xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" 
   xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>servicemesh on Hugo Zzo Theme</title>
+    <title>servicemesh on MengZe Blog</title>
     <link>https://blog.jjmengze.website/tags/servicemesh/</link>
-    <description>Recent content in servicemesh on Hugo Zzo Theme</description>
+    <description>Recent content in servicemesh on MengZe Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>

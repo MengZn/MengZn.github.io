@@ -6,9 +6,9 @@
   xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" 
   xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>queue on Hugo Zzo Theme</title>
+    <title>queue on MengZe Blog</title>
     <link>https://blog.jjmengze.website/tags/queue/</link>
-    <description>Recent content in queue on Hugo Zzo Theme</description>
+    <description>Recent content in queue on MengZe Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
