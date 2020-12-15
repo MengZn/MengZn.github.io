@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kubernetes RateLimite work queue 設計真d不錯 – MengZe Blog</title>
+    <title>Kubernetes Item Exponential Failure RateLimiter work queue 設計真d不錯 – MengZe Blog</title>
     
 
 
@@ -556,7 +556,7 @@
     
     var baseurl = JSON.parse("\"https://blog.jjmengze.website/\"");
     
-    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/\"");
+    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/item-exponential-failure-ratelimiter/\"");
     
     var langprefix = JSON.parse("\"\"");
     var searchResults = null;
@@ -1226,16 +1226,16 @@
 
 <meta name="keywords" content="kubernetes,controller,source-code">
 
-<meta name="created" content="2020-12-14T12:29:32&#43;0800">
-<meta name="modified" content="2020-12-14T12:29:32&#43;0800">
-<meta property="article:published_time" content="2020-12-14T12:29:32&#43;0800">
+<meta name="created" content="2020-12-15T12:29:32&#43;0800">
+<meta name="modified" content="2020-12-15T12:29:32&#43;0800">
+<meta property="article:published_time" content="2020-12-15T12:29:32&#43;0800">
 
 <meta name="author" content="Meng Ze Li">
 
 
 <meta property="og:site_name" content="MengZe Blog">
-<meta property="og:title" content="Kubernetes RateLimite work queue 設計真d不錯">
-<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/">
+<meta property="og:title" content="Kubernetes Item Exponential Failure RateLimiter work queue 設計真d不錯">
+<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/item-exponential-failure-ratelimiter/">
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
@@ -1248,7 +1248,7 @@
 
 <meta name="apple-mobile-web-app-status-bar-style" content="#fff">
 
-<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/">
+<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/item-exponential-failure-ratelimiter/">
 
 <link rel="manifest" href="/manifest.json">
 
@@ -1274,11 +1274,11 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "headline": "Kubernetes RateLimite work queue 設計真d不錯",
-    "datePublished": "2020-12-14T12:29:32+08:00",
-    "dateModified": "2020-12-14T12:29:32+08:00",
-    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/",
-    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-rating-work-queue.jpg\"/\u003e  \u003c/figure\u003e",
+    "headline": "Kubernetes Item Exponential Failure RateLimiter work queue 設計真d不錯",
+    "datePublished": "2020-12-15T12:29:32+08:00",
+    "dateModified": "2020-12-15T12:29:32+08:00",
+    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/item-exponential-failure-ratelimiter/",
+    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-Item-Exponential-Failure-RateLimiter.jpg\"/\u003e  \u003c/figure\u003e",
     "keywords": ["kubernetes","controller","source-code"],
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -1547,7 +1547,7 @@ if (!doNotTrack) {
   
   <li  class="is-active" >
     
-      <span>Kubernetes RateLimite work queue 設計真d不錯</span>
+      <span>Kubernetes Item Exponential Failure RateLimiter work queue 設計真d不錯</span>
     
   </li>
   
@@ -1559,13 +1559,13 @@ if (!doNotTrack) {
   <div class="single ">
     <div class="single__nojs">This page looks best with JavaScript enabled</div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
-    <h2 class="single__title" data-ani="true">Kubernetes RateLimite work queue 設計真d不錯</h2>
+    <h2 class="single__title" data-ani="true">Kubernetes Item Exponential Failure RateLimiter work queue 設計真d不錯</h2>
     <div class="single__meta">
       
 <div class="single__infos">
-  <time class="single__info" title="Written At">📅&nbsp;Dec 14, 2020 </time>
+  <time class="single__info" title="Written At">📅&nbsp;Dec 15, 2020 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;5&nbsp;min read </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;4&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -1588,93 +1588,24 @@ if (!doNotTrack) {
     <article class="single__contents" data-dir="ltr" data-ani="true">
       
       <figure>
-    <img src="/images/theme/kubernetes-rating-work-queue.jpg"/> 
+    <img src="/images/theme/kubernetes-Item-Exponential-Failure-RateLimiter.jpg"/> 
 </figure>
 
-<p>首先本文所以 source code 基於 kubernetes 1.19 版本，所有 source code 的為了版面的整潔會精簡掉部分 log 相關的程式碼，僅保留核心邏輯，如果有見解錯誤的地方，還麻煩觀看本文的大大們提出，感謝！</p>
+<p>先本文所以 source code 基於 kubernetes 1.19 版本，所有 source code 的為了版面的整潔會精簡掉部分 log 相關的程式碼，僅保留核心邏輯，如果有見解錯誤的地方，還麻煩觀看本文的大大們提出，感謝！</p>
 <h2 id="kubernetes-work-queue">kubernetes work queue</h2>
-<p>在前一篇 kubernetes delaying work queue 設計真d不錯一文中分享 kubernetes work queue最基礎的實作方式，再複習一次！Kubernetes 為什麼要實踐一個 work queue 呢？</p>
-<p>就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件需要根據延遲時間排序的queue，例如限制物件取出速度的queue。</p>
+<p>Kubernetes controller/operator 是一個非常精彩的設計模式，在了解Kubernetes controller/operator 怎麼撰寫之前，了解kubernetes work queue的實作模式是非常重要的，下面引用了How to Create a Kubernetes Custom Controller Using client-go的 controller 架構圖可以看到在 sharedindexinformer 內有引用到這個元件，這個元件實際被定義在 kubernetes 的 client-go library 中。</p>
 <figure>
     <img src="/images/post/kubernetes-controller-arch.png"/> 
 </figure>
 
 <p>圖片來源：<a href="https://itnext.io/how-to-create-a-kubernetes-custom-controller-using-client-go-f36a7a7536cc">How to Create a Kubernetes Custom Controller Using client-go</a></p>
-<p>上圖引用了<a href="https://itnext.io/how-to-create-a-kubernetes-custom-controller-using-client-go-f36a7a7536cc">How to Create a Kubernetes Custom Controller Using client-go</a>的 controller 架構圖可以看到在 sharedindexinformer 內有引用到這個元件，這個元件實際被定義在 kubernetes 的 client-go library 中。</p>
-<p>在第二步驟與第三步驟之間透過 queue 不只解偶了上下層的耦合關係同時 Queue 有達到了消峰填谷的作用，當觀察的物件一直送資料進來不會因為我們業務邏輯處理得太慢而卡住，資料會保留在 queue 中直到被取出。</p>
-<p>之前有提到了兩種 queue ，分別是 rate limiters queue 以及 delaying queue ，上一章節介紹完 Kubernetes delaying queue ，本篇文章將介紹最後一個 rate limiters queue ！</p>
-<h2 id="ratelimiter-queue">RateLimiter queue</h2>
-<p>kubernetes source code 設計得非常精美，我們可以先從 interface 定義了哪些方法來推敲實作這個 interface 的物件可能有什麼功能。</p>
+<p>Kubernetes 為什麼要實踐一個 work queue 呢？就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件需要根據延遲時間排序的queue，例如限制物件取出速度的queue。</p>
+<p>之先前的章節有提到 common work queue 、 delaying work queue 、 ratelimiting queue，但 ratelimiting queue 有組合 ratelimiter ，本章節將有實作 ratelimiter 同時也滿常被用到的 ItemExponentialFailureRateLimiter 展開解說。</p>
+<h2 id="itemexponentialfailureratelimiter">ItemExponentialFailureRateLimiter</h2>
+<p><img src="https://i.imgur.com/eGTmOxg.jpg" alt="" /></p>
 <h3 id="interface">interface</h3>
-<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// RateLimitingInterface is an interface that rate limits items being added to the queue.
-</span><span class="c1">//RateLimiting interface 結合了 delaying work queue ，透過一些方法計算 物件的延遲速率
-</span><span class="c1">// 再交由 delaying work queue 丟入Heap 最後放入 common queue中。
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">RateLimitingInterface</span> <span class="kd">interface</span> <span class="p">{</span>
-	<span class="nx">DelayingInterface</span>        <span class="c1">// delaying work queue 前一篇有介紹過
-</span><span class="c1"></span>
-	<span class="c1">// AddRateLimited adds an item to the workqueue after the rate limiter says it&#39;s ok
-</span><span class="c1"></span>	<span class="nf">AddRateLimited</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span>    <span class="c1">// 對某個物件加入延遲
-</span><span class="c1"></span>
-	<span class="c1">// Forget indicates that an item is finished being retried.  Doesn&#39;t matter whether it&#39;s for perm failing
-</span><span class="c1"></span>	<span class="c1">// or for success, we&#39;ll stop the rate limiter from tracking it.  This only clears the `rateLimiter`, you
-</span><span class="c1"></span>	<span class="c1">// still have to call `Done` on the queue.
-</span><span class="c1"></span>	<span class="nf">Forget</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span>    <span class="c1">//  表示某個物件已經做了
-</span><span class="c1"></span>
-	<span class="c1">// NumRequeues returns back how many times the item was requeued
-</span><span class="c1"></span>	<span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">int</span> <span class="c1">//計算某個物件調用queueAddRateLimited的次數
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>看完了抽象的定義之後，必須要回過來看 delaying queue 實際物件定義了哪些屬性</p>
-<h3 id="struct">struct</h3>
-<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// rateLimitingType wraps an Interface and provides rateLimited re-enquing
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">rateLimitingType</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">DelayingInterface</span>      <span class="c1">// 嵌入 delaying work queue 表示 rateLimitingType 也有 delay work queue的能力
-</span><span class="c1"></span>                              <span class="c1">//（不一定需要傳入實作的物件，本身就是DelayingInterface的一種）
-</span><span class="c1"></span>                             
-	<span class="nx">rateLimiter</span> <span class="nx">RateLimiter</span>     <span class="c1">//組合了一個 RateLimiter interface，需要明確傳入實作的物件。
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>剛剛上面有一個疑點那就 type RateLimiter 到底是什麼<br />
-我們先來看看 type RateLimiter 的結構</p>
-<h4 id="ratelimiter">RateLimiter</h4>
-<p>由於 rateLimitingType 組合了一個 RateLimiter 我們來看看 RateLimiter 是什麼吧！<br />
-<a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/default_rate_limiters.go">source code</a></p>
+<p>kubernetes source code 設計得非常精美，我們可以先從 interface 定義了哪些方法來推敲實作這個 interface 的物件可能有什麼功能。</p>
+<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/default_rate_limiters.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1708,32 +1639,82 @@ if (!doNotTrack) {
     
     
 	<span class="c1">// NumRequeues returns back how many failures the item has had
-</span><span class="c1"></span>    <span class="c1">// 回傳物件已經放入幾次（重試了幾次，白話一點呼叫whem幾次）
+</span><span class="c1"></span>    <span class="c1">// 回傳物件已經放入幾次（重試了幾次，白話一點呼叫NumRequeues幾次）
 </span><span class="c1"></span>	<span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">int</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>看到這裡想必大家一定亂了，我幫大家整理一下個類別之間的關係。</p>
-<p><img src="https://i.imgur.com/qYRniMj.jpg" alt="" /></p>
-<p>看圖說故事的時間到了<br />
-Interface 繼承關係</p>
-<pre><code>1. Interface 為 common work queue 的介面（先用介面表示抽象方法，這裡就不用Interface會搞混....）
+</div><p>看完了抽象的定義之後，必須要回過來看 Item Exponential Failure RateLimiter queue 實際物件定義了哪些屬性</p>
+<h3 id="struct">struct</h3>
+<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/default_rate_limiters.go">source code</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// ItemExponentialFailureRateLimiter does a simple baseDelay*2^&lt;num-failures&gt; limit
+</span><span class="c1">// dealing with max failures and expiration are up to the caller
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">ItemExponentialFailureRateLimiter</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">failuresLock</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>            <span class="c1">//鎖，防止資源競爭
+</span><span class="c1"></span>	<span class="nx">failures</span>     <span class="kd">map</span><span class="p">[</span><span class="kd">interface</span><span class="p">{}]</span><span class="kt">int</span>   <span class="c1">//計算某個物件呼叫了延遲的次數
+</span><span class="c1"></span>
+	<span class="nx">baseDelay</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span>            <span class="c1">//基礎延遲的時間
+</span><span class="c1"></span>	<span class="nx">maxDelay</span>  <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span>            <span class="c1">//最多要延遲多久
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>看完了資料結構我們接著來看 ItemExponentialFailureRateLimiter 實作的方法，與初始化方法。</p>
+<h3 id="new-function">new function</h3>
+<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//不知道為什麼要設定一個空的變數
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">_</span> <span class="nx">RateLimiter</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">ItemExponentialFailureRateLimiter</span><span class="p">{}</span>
 
-2. DelayingInterface 為 delaying work queue 的介面，這個介面繼承了Interface
+<span class="c1">//傳入基礎要等待的時間，最大等待時間，以及初始化failures map資料集
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewItemExponentialFailureRateLimiter</span><span class="p">(</span><span class="nx">baseDelay</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">,</span> <span class="nx">maxDelay</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span> <span class="nx">RateLimiter</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">ItemExponentialFailureRateLimiter</span><span class="p">{</span>
+		<span class="nx">failures</span><span class="p">:</span>  <span class="kd">map</span><span class="p">[</span><span class="kd">interface</span><span class="p">{}]</span><span class="kt">int</span><span class="p">{},</span>
+		<span class="nx">baseDelay</span><span class="p">:</span> <span class="nx">baseDelay</span><span class="p">,</span>
+		<span class="nx">maxDelay</span><span class="p">:</span>  <span class="nx">maxDelay</span><span class="p">,</span>
+	<span class="p">}</span>
+<span class="p">}</span>
 
-3. RateLimitingInterface 繼承了 delaying work queue 的介面
-</code></pre>
-<p>rateLimitingType 有什麼能力</p>
-<pre><code>- rateLimitingType 嵌入(embedding)了 DelayingInterface ，表示 `rateLimitingType` 有 DelayingInterface 的能力（用嵌入委託給其他人）
-
-- rateLimitingType 實作了 RateLimitingInterface ，表示 `rateLimitingType` 有 RateLimitingInterface 的能力（這個能力要自己實作）
-</code></pre>
-<p>rateLimitingType 依賴</p>
-<pre><code>- 由於 rateLimitingType 組合了(Composite) rateLimiter ，所以在 UML 上呈現的是依賴 rateLimiter 
-- rateLimiter 被 ItemExponentialFailureRateLimiter 實作（還由其他物件實作，我這裡沒畫出來）
-</code></pre>
-<h4 id="struct-function">struct function</h4>
-<p>rateLimitingType 實作了 RateLimitingInterface 我們來看一下他實作了什麼</p>
+<span class="c1">//預設等待時間為 1 Millisecond，最大等待時間為1000秒
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">DefaultItemBasedRateLimiter</span><span class="p">()</span> <span class="nx">RateLimiter</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nf">NewItemExponentialFailureRateLimiter</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">,</span> <span class="mi">1000</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="implement-function">implement function</h3>
+<p>看完了初始化 ItemExponentialFailureRateLimiter 後接下來看看核心的功能。</p>
+<h4 id="when">When</h4>
 <p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1757,77 +1738,117 @@ Interface 繼承關係</p>
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go">
-<span class="c1">// AddRateLimited AddAfter&#39;s the item based on the time when the rate limiter says it&#39;s ok
-</span><span class="c1">// rateLimitingType 本身實作了 RateLimitingInterface 
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">rateLimitingType</span><span class="p">)</span> <span class="nf">AddRateLimited</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
-    <span class="c1">// 由於嵌入了 DelayingInterface 可以直接使用 delay work queue的抽象方法
-</span><span class="c1"></span>    <span class="c1">// 這裡就是說放入的物件要延遲多久，延遲多久就由組合的 rateLimiter 抽象方法實作。
-</span><span class="c1"></span>	<span class="nx">q</span><span class="p">.</span><span class="nx">DelayingInterface</span><span class="p">.</span><span class="nf">AddAfter</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">q</span><span class="p">.</span><span class="nx">rateLimiter</span><span class="p">.</span><span class="nf">When</span><span class="p">(</span><span class="nx">item</span><span class="p">))</span>
-<span class="p">}</span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">ItemExponentialFailureRateLimiter</span><span class="p">)</span> <span class="nf">When</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span> <span class="p">{</span>
+	<span class="nx">r</span><span class="p">.</span><span class="nx">failuresLock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>                    <span class="c1">//鎖不做解釋
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">r</span><span class="p">.</span><span class="nx">failuresLock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>            <span class="c1">//解鎖不做解釋
+</span><span class="c1"></span>
+	<span class="nx">exp</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">failures</span><span class="p">[</span><span class="nx">item</span><span class="p">]</span>                  <span class="c1">//查看map裡面物件放入的次數
+</span><span class="c1"></span>	<span class="nx">r</span><span class="p">.</span><span class="nx">failures</span><span class="p">[</span><span class="nx">item</span><span class="p">]</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">failures</span><span class="p">[</span><span class="nx">item</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>    <span class="c1">//放入次數＋1
+</span><span class="c1"></span>
+	<span class="c1">// The backoff is capped such that &#39;calculated&#39; value never overflows.
+</span><span class="c1"></span>        <span class="c1">// backoff=base * 2^（物件放入的次數），代表延遲時間為指數型成長。
+</span><span class="c1"></span>	<span class="nx">backoff</span> <span class="o">:=</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">baseDelay</span><span class="p">.</span><span class="nf">Nanoseconds</span><span class="p">())</span> <span class="o">*</span> <span class="nx">math</span><span class="p">.</span><span class="nf">Pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">float64</span><span class="p">(</span><span class="nx">exp</span><span class="p">))</span>  
+        <span class="c1">//如果backoff 大於int64（溢位）就回傳最大延遲時間
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">backoff</span> <span class="p">&gt;</span> <span class="nx">math</span><span class="p">.</span><span class="nx">MaxInt64</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">r</span><span class="p">.</span><span class="nx">maxDelay</span>
+	<span class="p">}</span>
+        <span class="c1">//封裝為延遲時間
+</span><span class="c1"></span>	<span class="nx">calculated</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Duration</span><span class="p">(</span><span class="nx">backoff</span><span class="p">)</span>
+        <span class="c1">//延遲時間超過最大延遲時間就回傳最大延遲時間
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">calculated</span> <span class="p">&gt;</span> <span class="nx">r</span><span class="p">.</span><span class="nx">maxDelay</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">r</span><span class="p">.</span><span class="nx">maxDelay</span>
+	<span class="p">}</span>
 
-<span class="c1">//  rateLimitingType 本身實作了 RateLimitingInterface
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">rateLimitingType</span><span class="p">)</span> <span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">int</span> <span class="p">{</span>
-    <span class="c1">// 這裡就是說放入的物件已經被重複放入多少次了，放入多少次就由組合的 rateLimiter 抽象方法實作。
-</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">q</span><span class="p">.</span><span class="nx">rateLimiter</span><span class="p">.</span><span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="c1">//  rateLimitingType 本身實作了 RateLimitingInterface
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">rateLimitingType</span><span class="p">)</span> <span class="nf">Forget</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
-    <span class="c1">// 這裡就是說放入的物件已經被做完了，可以重新計算了，從新計算的方法就交給組合的 rateLimiter 抽象方法實作。
-</span><span class="c1"></span>	<span class="nx">q</span><span class="p">.</span><span class="nx">rateLimiter</span><span class="p">.</span><span class="nf">Forget</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nx">calculated</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>其實看到這裡，我覺得 rateLimitingType 有點像是 proxy 設計模式，只要有人實作了 RateLimiter 就可以放進來給上層做使，反正上層只會呼叫 AddRateLimited 、NumRequeues 、Forget。</p>
-<p>Kubernetes 這邊做的鬆偶做得很不錯， 有新的計算延遲的方法 rateLimitingType 根本不用動，透過 rateLimitingType 代理呼叫 RateLimiter 就好，更上層的使用者也只會使用 RateLimitingInterface 而已。</p>
-<h3 id="new-function">new function</h3>
-<p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
+</div><h4 id="numrequeues">NumRequeues</h4>
+<p>當我們需要知道物件已經重試了幾次可以透過NumRequeues function 得知物件重是的次數。<br />
+<a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// NewRateLimitingQueue constructs a new workqueue with rateLimited queuing ability
-</span><span class="c1">// Remember to call Forget!  If you don&#39;t, you may end up tracking failures forever.
-</span><span class="c1">//使用者在使用RateLimiting的時候可以傳入自己實作的RateLimiter，此時使用預設的delay work queue。
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewRateLimitingQueue</span><span class="p">(</span><span class="nx">rateLimiter</span> <span class="nx">RateLimiter</span><span class="p">)</span> <span class="nx">RateLimitingInterface</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">ItemExponentialFailureRateLimiter</span><span class="p">)</span> <span class="nf">NumRequeues</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="nx">r</span><span class="p">.</span><span class="nx">failuresLock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>                    <span class="c1">//鎖不做解釋
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">r</span><span class="p">.</span><span class="nx">failuresLock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>            <span class="c1">//解鎖不做解釋
+</span><span class="c1"></span>
+	<span class="k">return</span> <span class="nx">r</span><span class="p">.</span><span class="nx">failures</span><span class="p">[</span><span class="nx">item</span><span class="p">]</span>                  <span class="c1">//回傳重試次數
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="forget">Forget</h4>
+<p>當物件做完時需要重新計算放延遲時間與放入次數，需要透過Forget function完成。<br />
+<a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/rate_limiting_queue.go">source code</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">ItemExponentialFailureRateLimiter</span><span class="p">)</span> <span class="nf">Forget</span><span class="p">(</span><span class="nx">item</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+	<span class="nx">r</span><span class="p">.</span><span class="nx">failuresLock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>                    <span class="c1">//鎖不做解釋
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">r</span><span class="p">.</span><span class="nx">failuresLock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>            <span class="c1">//解鎖不做解釋
+</span><span class="c1"></span>
+	<span class="nb">delete</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">failures</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span>                 <span class="c1">//刪除map裡的物件（重新計算）
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="怎麼使用">怎麼使用</h2>
+<p>對於 <code>ItemExponentialFailureRateLimiter</code> 物件而言，他只是實作了 <code>RateLimiter</code> interface，使用者要怎麼用這個 Rate Limiter queue 呢？</p>
+<p>上一篇有提到 <code>RateLimiter</code> 的初始化方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">NewRateLimitingQueue</span><span class="p">(</span><span class="nx">rateLimiter</span> <span class="nx">RateLimiter</span><span class="p">)</span> <span class="nx">RateLimitingInterface</span> <span class="p">{</span>
 	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">rateLimitingType</span><span class="p">{</span>
 		<span class="nx">DelayingInterface</span><span class="p">:</span> <span class="nf">NewDelayingQueue</span><span class="p">(),</span>        <span class="c1">//前一小節有提到過delating work queue的newfunction
 </span><span class="c1"></span>		<span class="nx">rateLimiter</span><span class="p">:</span>       <span class="nx">rateLimiter</span><span class="p">,</span>               <span class="c1">//自行實作的rateLimiter
 </span><span class="c1"></span>	<span class="p">}</span>
 <span class="p">}</span>
-
-
-<span class="c1">//使用者在使用RateLimiting的時候可以傳入自己實作的RateLimiter，此時使用預設的delaying  work queue並且可以設定delaying work queue的metric name。
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewNamedRateLimitingQueue</span><span class="p">(</span><span class="nx">rateLimiter</span> <span class="nx">RateLimiter</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">RateLimitingInterface</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">rateLimitingType</span><span class="p">{</span>
-		<span class="nx">DelayingInterface</span><span class="p">:</span> <span class="nf">NewNamedDelayingQueue</span><span class="p">(</span><span class="nx">name</span><span class="p">),</span>    <span class="c1">//前一小節有提到delating work queue的newfunction（可以設定metric name）
-</span><span class="c1"></span>		<span class="nx">rateLimiter</span><span class="p">:</span>       <span class="nx">rateLimiter</span><span class="p">,</span>                    <span class="c1">//自行實作的rateLimiter
-</span><span class="c1"></span>	<span class="p">}</span>
-<span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>下一章節會講解實作<code>rateLimiter</code>介面的物件<code>Item Exponential Failure RateLimiter</code>，我們來看看 kubernetes 怎麼限制物件進入 queue 的速度！</p>
+</div><p>使用者可以在傳入參數帶入實作 <code>RateLimiter</code> interface的 <code>ItemExponentialFailureRateLimiter</code> 物件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nf">NewRateLimitingQueue</span><span class="p">(</span><span class="nf">NewItemExponentialFailureRateLimiter</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">,</span> <span class="mi">1000</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>表示使用者要求的 Rate Limiter queue 用了 <code>DelayingQueue</code> 與 <code>ItemExponentialFailureRateLimiter</code>。</p>
+<ol>
+<li>物件延遲時間由<code>ItemExponentialFailureRateLimiter</code>決定</li>
+<li>物件延遲的排序方式由 <code>DelayingQueue</code> 決定（之前有提過用heap加上clock來觸發）</li>
+<li>存放物件的 queue 由 <code>common queue</code> 決定（之前有提過用 processing set 加上 dirty set 合力完成）</li>
+</ol>
+<p>大致上流程是這樣，不清楚的地方可以回去複習之前提到過的元件</p>
+<h2 id="小結">小結</h2>
+<p>下一章節將介紹另外一個實作 <code>rateLimiter</code> interface的物件<code>ItemFastSlowRateLimiter</code>，文章有錯的部分希望大大們指出，謝謝！</p>
     </article>
     
     <script>
@@ -2018,6 +2039,10 @@ Interface 繼承關係</p>
     <ul class="related-ul">
         
         <li>
+          <a href="/posts/kubernetes/source-code/controller/queue/rating/" class="related__link">Kubernetes RateLimite work queue 設計真d不錯</a>
+        </li>
+        
+        <li>
           <a href="/posts/kubernetes/source-code/controller/queue/delaying/" class="related__link">Kubernetes delaying work queue 設計真d不錯</a>
         </li>
         
@@ -2033,10 +2058,6 @@ Interface 繼承關係</p>
           <a href="/posts/kubernetes/debug/kt-connection/" class="related__link">kubernetes ssh tunnel debug pratice</a>
         </li>
         
-        <li>
-          <a href="/posts/kubernetes/finalizers/" class="related__link">Hey ! Kubernetes finalizers 不再煩惱</a>
-        </li>
-        
     </ul>
     
   </section>
@@ -2044,21 +2065,14 @@ Interface 繼承關係</p>
 <nav class="pagination-single">
   
     
-      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/delaying/" class="pagination-single__left">
+      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/rating/" class="pagination-single__left">
         <div class="pagination-single__icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
         </div>
-        <div class="pagination-single__left-title">Kubernetes delaying work queue 設計真d不錯</div>      
+        <div class="pagination-single__left-title">Kubernetes RateLimite work queue 設計真d不錯</div>      
       </a>
     
     <div class="grow"></div>
-    
-      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/queue/item-exponential-failure-ratelimiter/" class="pagination-single__right">      
-        <div class="pagination-single__right-title">Kubernetes Item Exponential Failure RateLimiter work queue 設計真d不錯</div>
-        <div class="pagination-single__icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
-        </div>
-      </a>
     
   
 </nav>
@@ -3232,18 +3246,22 @@ document.addEventListener('DOMContentLoaded', function () {
           <nav id="TableOfContents">
   <ul>
     <li><a href="#kubernetes-work-queue">kubernetes work queue</a></li>
-    <li><a href="#ratelimiter-queue">RateLimiter queue</a>
+    <li><a href="#itemexponentialfailureratelimiter">ItemExponentialFailureRateLimiter</a>
       <ul>
         <li><a href="#interface">interface</a></li>
-        <li><a href="#struct">struct</a>
+        <li><a href="#struct">struct</a></li>
+        <li><a href="#new-function">new function</a></li>
+        <li><a href="#implement-function">implement function</a>
           <ul>
-            <li><a href="#ratelimiter">RateLimiter</a></li>
-            <li><a href="#struct-function">struct function</a></li>
+            <li><a href="#when">When</a></li>
+            <li><a href="#numrequeues">NumRequeues</a></li>
+            <li><a href="#forget">Forget</a></li>
           </ul>
         </li>
-        <li><a href="#new-function">new function</a></li>
       </ul>
     </li>
+    <li><a href="#怎麼使用">怎麼使用</a></li>
+    <li><a href="#小結">小結</a></li>
   </ul>
 </nav>
         </div>
