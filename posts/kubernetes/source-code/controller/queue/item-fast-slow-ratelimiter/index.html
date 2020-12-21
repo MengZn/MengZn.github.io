@@ -1692,7 +1692,10 @@
 <p>Kubernetes 為什麼要實踐一個 work queue 呢？就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件需要根據延遲時間排序的queue，例如限制物件取出速度的queue。</p>
 <p>之先前的章節有提到 common work queue 、 delaying work queue 、 ratelimiting queue，但 ratelimiting queue 有組合 ratelimiter ，本章節將有實作 ratelimiter 的 ItemFastSlowRateLimiter 展開解說。</p>
 <h2 id="itemfastslowratelimiter">ItemFastSlowRateLimiter</h2>
-<p><img src="https://i.imgur.com/eGTmOxg.jpg" alt="" /></p>
+<figure>
+    <img src="/images/post/kubernetes-ItemFastSlowRateLimiter-queue.png"/> 
+</figure>
+
 <h3 id="interface">interface</h3>
 <p>kubernetes source code 設計得非常精美，我們可以先從 interface 定義了哪些方法來推敲實作這個 interface 的物件可能有什麼功能。</p>
 <p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/default_rate_limiters.go">source code</a></p>
