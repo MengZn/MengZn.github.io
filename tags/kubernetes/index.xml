@@ -14,13 +14,61 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Mon, 21 Dec 2020 10:29:32 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 23 Dec 2020 10:29:32 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
     
     
 
+      
+      <item>
+        <title>Kubernetes Controller 設計挖掘之路</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/dig-kubernetes-controller/</link>
+        <pubDate>Wed, 23 Dec 2020 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Wed, 23 Dec 2020 10:29:32 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/dig-kubernetes-controller/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-dig-controller.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>controller</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>controller</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+      </item>
       
       <item>
         <title>Kubernetes Bucket Rate Limiter 設計真d不錯</title>
