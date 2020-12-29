@@ -14,13 +14,53 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Wed, 23 Dec 2020 10:29:32 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 29 Dec 2020 13:29:32 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
     
     
 
+      
+      <item>
+        <title>Kubernetes error handle 好吃驚</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/errors/kubernetes-errors-handle/</link>
+        <pubDate>Tue, 29 Dec 2020 13:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Tue, 29 Dec 2020 13:29:32 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/errors/kubernetes-errors-handle/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-errors-handle.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+      </item>
       
       <item>
         <title>Kubernetes Controller 設計挖掘之路</title>
