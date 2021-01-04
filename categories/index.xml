@@ -14,7 +14,7 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Thu, 31 Dec 2020 17:11:32 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 03 Jan 2021 09:29:32 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -23,12 +23,12 @@
 
       
       <item>
-        <title>life</title>
-        <link>https://blog.jjmengze.website/categories/life/</link>
-        <pubDate>Thu, 31 Dec 2020 17:11:32 +0800</pubDate>
+        <title>controller</title>
+        <link>https://blog.jjmengze.website/categories/controller/</link>
+        <pubDate>Sun, 03 Jan 2021 09:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         
-        <guid>https://blog.jjmengze.website/categories/life/</guid>
+        <guid>https://blog.jjmengze.website/categories/controller/</guid>
         <description></description>
         
         <dc:creator>Meng Ze Li</dc:creator>
@@ -43,7 +43,7 @@
       <item>
         <title>kubernetes</title>
         <link>https://blog.jjmengze.website/categories/kubernetes/</link>
-        <pubDate>Tue, 29 Dec 2020 13:29:32 +0800</pubDate>
+        <pubDate>Sun, 03 Jan 2021 09:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         
         <guid>https://blog.jjmengze.website/categories/kubernetes/</guid>
@@ -61,7 +61,7 @@
       <item>
         <title>source-code</title>
         <link>https://blog.jjmengze.website/categories/source-code/</link>
-        <pubDate>Tue, 29 Dec 2020 13:29:32 +0800</pubDate>
+        <pubDate>Sun, 03 Jan 2021 09:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         
         <guid>https://blog.jjmengze.website/categories/source-code/</guid>
@@ -77,12 +77,12 @@
       </item>
       
       <item>
-        <title>controller</title>
-        <link>https://blog.jjmengze.website/categories/controller/</link>
-        <pubDate>Wed, 23 Dec 2020 10:29:32 +0800</pubDate>
+        <title>life</title>
+        <link>https://blog.jjmengze.website/categories/life/</link>
+        <pubDate>Thu, 31 Dec 2020 17:11:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         
-        <guid>https://blog.jjmengze.website/categories/controller/</guid>
+        <guid>https://blog.jjmengze.website/categories/life/</guid>
         <description></description>
         
         <dc:creator>Meng Ze Li</dc:creator>

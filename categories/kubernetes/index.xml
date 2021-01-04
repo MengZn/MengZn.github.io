@@ -14,13 +14,61 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Tue, 29 Dec 2020 13:29:32 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 03 Jan 2021 09:29:32 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
     
     
 
+      
+      <item>
+        <title>Kubernetes Indexers local cache 之美 （I）</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/dig-kubernetes-controller/</link>
+        <pubDate>Sun, 03 Jan 2021 09:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Sun, 03 Jan 2021 09:29:32 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/dig-kubernetes-controller/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-indexer-1.jpg&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>controller</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>controller</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+      </item>
       
       <item>
         <title>Kubernetes error handle 好吃驚</title>
