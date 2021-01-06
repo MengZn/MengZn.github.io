@@ -45,11 +45,11 @@
       
       <item>
         <title>Kubernetes Indexers local cache 之美 （I）</title>
-        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/dig-kubernetes-controller/</link>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/kubernetes-indexers-local-cache-1/</link>
         <pubDate>Sun, 03 Jan 2021 09:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         <atom:modified>Sun, 03 Jan 2021 09:29:32 +0800</atom:modified>
-        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/dig-kubernetes-controller/</guid>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/kubernetes-indexers-local-cache-1/</guid>
         <description>&lt;figure&gt;
     &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-indexer-1.jpg&#34;/&gt; 
 &lt;/figure&gt;</description>
