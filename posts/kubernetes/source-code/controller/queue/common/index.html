@@ -1689,8 +1689,8 @@
 </figure>
 <br />
 圖片來源：<a href="https://itnext.io/how-to-create-a-kubernetes-custom-controller-using-client-go-f36a7a7536cc">How to Create a Kubernetes Custom Controller Using client-go</a></p>
-<p>Kubernetes 為什麼要實踐一個 work queue 呢？就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件需要根據延遲時間排序的queue，例如限制物件取出速度的queue。</p>
-<p>剛剛提到了兩種queue，分別是rate limiters queue以及delaying queue，此外還有一種通用的common queue，本篇文章會先從common queue開始探討。</p>
+<p>Kubernetes 為什麼要實踐一個 work queue 呢？就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件 queue 就需要根據延遲時間排序 ，例如限制物件取出速度的 queue 。</p>
+<p>剛剛提到了兩種 queue ，kubernetes 實作上稱為 rate limiters queue 以及 delaying queue ，此外還有一種通用的 common queue ，本篇文章會先從 common queue 開始探討。</p>
 <h2 id="common-queue">common queue</h2>
 <p>kubernetes source code 設計得非常精美，我們可以先從 interface 定義了哪些方法來推敲實作這個 interface 的物件可能有什麼功能。</p>
 <h3 id="interface">interface</h3>
@@ -1717,7 +1717,7 @@
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>看完了抽象的定義之後，必須要回過來看 common queue實際物件定義了哪些屬性</p>
+</div><p>看完了抽象的定義之後，必須要回過來看 common queue 實際物件定義了哪些屬性</p>
 <h3 id="struct">struct</h3>
 <p><a href="https://github.com/kubernetes/client-go/blob/master/util/workqueue/queue.go">source code</a></p>
 <div class="highlight"><div class="chroma">
@@ -1906,7 +1906,7 @@
 </span><span class="lnt">64
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//透過 MewQueue function 建立一個common work queue。
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//透過 NewQueue function 建立一個common work queue。
 </span><span class="c1">//其中需要帶入 clock , metric , updatePeriod 參數
 </span><span class="c1"></span><span class="kd">func</span> <span class="nf">newQueue</span><span class="p">(</span><span class="nx">c</span> <span class="nx">clock</span><span class="p">.</span><span class="nx">Clock</span><span class="p">,</span> <span class="nx">metrics</span> <span class="nx">queueMetrics</span><span class="p">,</span> <span class="nx">updatePeriod</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span> <span class="o">*</span><span class="nx">Type</span> <span class="p">{</span>
 	<span class="nx">t</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Type</span><span class="p">{</span>
