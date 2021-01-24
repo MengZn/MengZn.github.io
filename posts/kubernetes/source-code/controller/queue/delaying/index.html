@@ -1653,7 +1653,7 @@
 <div class="single__infos">
   <time class="single__info" title="Written At">📅&nbsp;Dec 11, 2020 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;7&nbsp;min read </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;8&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -1684,15 +1684,15 @@
 <p>首先本文所以 source code 基於 kubernetes 1.19 版本，所有 source code 的為了版面的整潔會精簡掉部分 log 相關的程式碼，僅保留核心邏輯，如果有見解錯誤的地方，還麻煩觀看本文的大大們提出，感謝！</p>
 <h2 id="kubernetes-work-queue">kubernetes work queue</h2>
 <p>在前一篇 kubernetes common work queue 設計真d不錯一文中分享 kubernetes work queue最基礎的實作方式，再複習一次！Kubernetes 為什麼要實踐一個 work queue 呢？</p>
-<p>就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件需要根據延遲時間排序的queue，例如限制物件取出速度的queue。</p>
+<p>就我們所知 kubernetes 是用 go 撰寫應該可以使用 channel 的機制直接將物件送給要用的元件(thread)啊，原因其實非常簡單，go channel 的設計功能非常單一無法滿足 kubernetes 所要的場景，例如帶有延遲時間物件需要根據延遲時間排序的 queue ，例如限制物件取出速度的 queue 。</p>
 <figure>
     <img src="/images/post/kubernetes-controller-arch.png"/> 
 </figure>
 
 <p>圖片來源：<a href="https://itnext.io/how-to-create-a-kubernetes-custom-controller-using-client-go-f36a7a7536cc">How to Create a Kubernetes Custom Controller Using client-go</a></p>
 <p>上圖引用了<a href="https://itnext.io/how-to-create-a-kubernetes-custom-controller-using-client-go-f36a7a7536cc">How to Create a Kubernetes Custom Controller Using client-go</a>的 controller 架構圖可以看到在 sharedindexinformer 內有引用到這個元件，這個元件實際被定義在 kubernetes 的 client-go library 中。</p>
-<p>在第二步驟與第三步驟之間透過 queue 不只解偶了上下層的耦合關係同時 Queue 有達到了消峰填谷的作用，當觀察的物件一直送資料進來不會因為我們業務邏輯處理得太慢而卡住，資料會保留在 queue 中直到被取出。</p>
-<p>之前有提到了兩種 queue ，分別是 rate limiters queue 以及 delaying queue ，上一章節介紹完 Kubernetes 通用的 common queue ，本篇文章會從 delaying queu 開始探討。</p>
+<p>在第五步驟與第六步驟之間透過 queue 不只解偶了上下層的耦合關係同時 Queue 有達到了消峰填谷的作用，當觀察的物件一直送資料進來不會因為我們業務邏輯處理得太慢而卡住，資料會保留在 queue 中直到被取出。</p>
+<p>之前有提到了兩種 queue ，分別是 rate limiters queue 以及 delaying queue ，上一章節介紹完 Kubernetes 通用的 common queue ，本篇文章會從 delaying queue 開始探討。</p>
 <h2 id="delaying-queue">delaying queue</h2>
 <p>kubernetes source code 設計得非常精美，我們可以先從 interface 定義了哪些方法來推敲實作這個 interface 的物件可能有什麼功能。</p>
 <h3 id="interface">interface</h3>
@@ -2196,9 +2196,9 @@
 
 		<span class="c1">// Set up a wait for the first item&#39;s readyAt (if one exists)
 </span><span class="c1"></span>		<span class="nx">nextReadyAt</span> <span class="o">:=</span> <span class="nx">never</span>        <span class="c1">//在上面有提到過nerver channel 只換成這個名字，不知道用意為何
-</span><span class="c1"></span>        <span class="c1">// 如果在 heap 裡面有東西
+</span><span class="c1"></span>            <span class="c1">// 如果在 heap 裡面有東西
 </span><span class="c1"></span>		<span class="k">if</span> <span class="nx">waitingForQueue</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-                        <span class="c1">//  計算時鐘就暫停
+                        <span class="c1">//  若是前一個物件的計時器有殘留物就清除前一個物件的計時器
 </span><span class="c1"></span>			<span class="k">if</span> <span class="nx">nextReadyAtTimer</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
 				<span class="nx">nextReadyAtTimer</span><span class="p">.</span><span class="nf">Stop</span><span class="p">()</span>
 			<span class="p">}</span>
@@ -2256,7 +2256,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="insert">insert</h4>
-<p>這裡很簡單</p>
+<p>在 waitingLoop 有使用到 insert 這個 function ，他的實作也相當的簡單，簡單的來說就是把 waitfor 的物件放到 Heap 中，我們來看看他是如何實作的。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2275,28 +2275,32 @@
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// insert adds the entry to the priority queue, or updates the readyAt if it already exists in the queue
 </span><span class="c1"></span><span class="kd">func</span> <span class="nf">insert</span><span class="p">(</span><span class="nx">q</span> <span class="o">*</span><span class="nx">waitForPriorityQueue</span><span class="p">,</span> <span class="nx">knownEntries</span> <span class="kd">map</span><span class="p">[</span><span class="nx">t</span><span class="p">]</span><span class="o">*</span><span class="nx">waitFor</span><span class="p">,</span> <span class="nx">entry</span> <span class="o">*</span><span class="nx">waitFor</span><span class="p">)</span> <span class="p">{</span>
-<span class="c1">// if the entry already exists, update the time only if it would cause the item to be queued sooner
-</span><span class="c1"></span><span class="nx">existing</span><span class="p">,</span> <span class="nx">exists</span> <span class="o">:=</span> <span class="nx">knownEntries</span><span class="p">[</span><span class="nx">entry</span><span class="p">.</span><span class="nx">data</span><span class="p">]</span>
-<span class="k">if</span> <span class="nx">exists</span> <span class="p">{</span>
-<span class="k">if</span> <span class="nx">existing</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">)</span> <span class="p">{</span>
-<span class="nx">existing</span><span class="p">.</span><span class="nx">readyAt</span> <span class="p">=</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">readyAt</span>
-<span class="nx">heap</span><span class="p">.</span><span class="nf">Fix</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">existing</span><span class="p">.</span><span class="nx">index</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="k">return</span>
-<span class="p">}</span>
-
-<span class="nx">heap</span><span class="p">.</span><span class="nf">Push</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">entry</span><span class="p">)</span>
-<span class="nx">knownEntries</span><span class="p">[</span><span class="nx">entry</span><span class="p">.</span><span class="nx">data</span><span class="p">]</span> <span class="p">=</span> <span class="nx">entry</span>
+    <span class="c1">//先判斷加入的物件有沒有重複的
+</span><span class="c1"></span>    <span class="nx">existing</span><span class="p">,</span> <span class="nx">exists</span> <span class="o">:=</span> <span class="nx">knownEntries</span><span class="p">[</span><span class="nx">entry</span><span class="p">.</span><span class="nx">data</span><span class="p">]</span>
+    <span class="c1">//若是有重複的話
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">exists</span> <span class="p">{</span>
+    	<span class="c1">// 跟之前放入的物件比較哪個延遲時間比較短
+</span><span class="c1"></span>    	<span class="c1">// 若是現在要放入的物件比較短的話就更新 set 中的物件延遲時間
+</span><span class="c1"></span>        <span class="k">if</span> <span class="nx">existing</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">readyAt</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">existing</span><span class="p">.</span><span class="nx">readyAt</span> <span class="p">=</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">readyAt</span>
+            <span class="nx">heap</span><span class="p">.</span><span class="nf">Fix</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">existing</span><span class="p">.</span><span class="nx">index</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+    <span class="c1">//如果 set 沒有重複的話就直接加到 heap 中，以及使用 set 紀錄 heap 有這個物件。
+</span><span class="c1"></span>    <span class="nx">heap</span><span class="p">.</span><span class="nf">Push</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">entry</span><span class="p">)</span>
+    <span class="nx">knownEntries</span><span class="p">[</span><span class="nx">entry</span><span class="p">.</span><span class="nx">data</span><span class="p">]</span> <span class="p">=</span> <span class="nx">entry</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="小結">小結</h2>
-<p>本章講述了 kubernetes common work queue 的底層實作方法，接下來還會有兩篇介紹基於 common work queue的 rate limiters queue 以及 delaying queue ，從中我們可以了解 kubernetes controller 監聽到 etcd 變化的物件後如何把 變化的物件丟入 queue 中等待其他人取出並處理，相關業務邏輯，如果文中有錯希望大家不吝嗇提出，讓我們互相交流學習。</p>
+<p>本章講述了 kubernetes delaying work queue 的底層實作方法，接下來還會有幾篇介紹基於 common work queue 的 rate limiters work queue 以及 其他類型的 work queue ，從中我們可以了解 kubernetes controller 監聽到 etcd 變化的物件後如何把 變化的物件丟入 queue 中等待其他人取出並處理，相關業務邏輯，如果文中有錯希望大家不吝嗇提出，讓我們互相交流學習。</p>
     </article>
     
     
