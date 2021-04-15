@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因 – MengZe Blog</title>
+    <title> Kubernetes kubelet 怎麼抓住你的 configmap – MengZe Blog</title>
     
 
 
@@ -653,7 +653,7 @@
     
     var baseurl = JSON.parse("\"https://blog.jjmengze.website/\"");
     
-    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cacheobject/\"");
+    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-configmap-overlay/\"");
     
     var langprefix = JSON.parse("\"\"");
     var searchResults = null;
@@ -1328,16 +1328,16 @@
 
 <meta name="keywords" content="kubernetes,source-code">
 
-<meta name="created" content="2021-04-07T10:29:32&#43;0800">
-<meta name="modified" content="2021-04-07T10:29:32&#43;0800">
-<meta property="article:published_time" content="2021-04-07T10:29:32&#43;0800">
+<meta name="created" content="2021-04-15T10:29:32&#43;0800">
+<meta name="modified" content="2021-04-15T10:29:32&#43;0800">
+<meta property="article:published_time" content="2021-04-15T10:29:32&#43;0800">
 
 <meta name="author" content="Meng Ze Li">
 
 
 <meta property="og:site_name" content="MengZe Blog">
-<meta property="og:title" content="Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因">
-<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cacheobject/">
+<meta property="og:title" content=" Kubernetes kubelet 怎麼抓住你的 configmap">
+<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-configmap-overlay/">
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
@@ -1350,7 +1350,7 @@
 
 <meta name="apple-mobile-web-app-status-bar-style" content="#fff">
 
-<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cacheobject/">
+<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-configmap-overlay/">
 
 <link rel="manifest" href="/manifest.json">
 
@@ -1376,11 +1376,11 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "headline": "Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因",
-    "datePublished": "2021-04-07T10:29:32+08:00",
-    "dateModified": "2021-04-07T10:29:32+08:00",
-    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cacheobject/",
-    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-kubelet-cacheBasedManager-objectcache.png\"/\u003e  \u003c/figure\u003e",
+    "headline": " Kubernetes kubelet 怎麼抓住你的 configmap",
+    "datePublished": "2021-04-15T10:29:32+08:00",
+    "dateModified": "2021-04-15T10:29:32+08:00",
+    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-configmap-overlay/",
+    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-kubelet-configmap-overlay.png\"/\u003e  \u003c/figure\u003e",
     "keywords": ["kubernetes","source-code"],
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -1634,7 +1634,7 @@
   
   <li  class="is-active" >
     
-      <span>Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因</span>
+      <span> Kubernetes kubelet 怎麼抓住你的 configmap</span>
     
   </li>
   
@@ -1646,14 +1646,14 @@
   <div class="single ">
     <div class="single__nojs">This page looks best with JavaScript enabled</div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
-    <h2 class="single__title" data-ani="true">Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因</h2>
+    <h2 class="single__title" data-ani="true"> Kubernetes kubelet 怎麼抓住你的 configmap</h2>
     <h3 class="single__subtitle"></h3>
     <div class="single__meta">
       
 <div class="single__infos">
-  <time class="single__info" title="Written At">📅&nbsp;Apr 7, 2021 </time>
+  <time class="single__info" title="Written At">📅&nbsp;Apr 15, 2021 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;11&nbsp;min read </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;9&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -1676,176 +1676,18 @@
     <article class="single__contents" data-dir="ltr" data-ani="true">
       
       <figure>
-    <img src="/images/theme/kubernetes-kubelet-cacheBasedManager-objectcache.png"/> 
+    <img src="/images/theme/kubernetes-kubelet-configmap-overlay.png"/> 
 </figure>
 
 <p>首先本文所有的 source code 基於 kubernetes 1.19 版本，所有 source code 為了版面的整潔會精簡掉部分 log 相關的程式碼，僅保留核心邏輯，如果有見解錯誤的地方，還麻煩觀看本文的大大們提出，感謝！</p>
-<p>在上一篇 <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/kubernetes-kubelet/">Kubernetes kubelet cacheBasedManager 現在才知道</a> 留了一個伏筆，就是  <code>objectStore</code> 到底是什麼？</p>
-<p>在 <code>cacheBasedManager</code> 的 GetObject 、 RegisterPod 以及 UnregisterPod  這三個 function 都有用到，想必 <code>objectStore</code> 一定是個狠角色吧，本篇將承接上一篇文章繼續探討 kubernetes kubelet 怎麼監控 configmap/secret 的底層實作，焦點會聚焦在 <code>objectStore</code> 的實作上。</p>
-<h2 id="cachebasedmanager">cacheBasedManager</h2>
-<p>我們先來回顧一下 <code>cacheBasedManager</code> 的資料結構定義，可以看到 <code>objectStore</code> 的資料型態是 <code>Store</code>，那這個型態是什麼？</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">cacheBasedManager</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">objectStore</span>          <span class="nx">Store</span>				<span class="c1">//主要用來儲存 reflector 觀測到的物件狀態
-</span><span class="c1"></span>	<span class="nx">getReferencedObjects</span> <span class="kd">func</span><span class="p">(</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span> <span class="nx">sets</span><span class="p">.</span><span class="nx">String</span>	<span class="c1">//主要用來找到 pod 內所有關聯的欄位，例如 configmap 就有可能出現在 envform configMapKeyRef 、 envform configMapRef 或是 volumes configMap  
-</span><span class="c1"></span>
-	<span class="nx">lock</span>           <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>				<span class="c1">//可能有大量的 pod 同時塞入我們必須保證狀態的一致性
-</span><span class="c1"></span>	<span class="nx">registeredPods</span> <span class="kd">map</span><span class="p">[</span><span class="nx">objectKey</span><span class="p">]</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span>			<span class="c1">//主要用來儲存哪個 pod 已經在觀測名單了
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>是之前講的 <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/kubernetes-indexers-local-cache-1/">Kubernetes Indexers local cache</a>的 store interface 嗎？ 恩&hellip;.這裡並不是之前提到的 local store ，實際的定義我們往下看一下！</p>
-<blockquote>
-<p>tip: controller/operator 中 reflector  用到的是 cache.store， import 的 package 不一樣呦！</p>
-</blockquote>
-<h2 id="store">Store</h2>
-<h3 id="interface">interface</h3>
-<p>這裡的 Store 並不是給之前我們再討論 controller/operator 時候給 indexer 用的，這裡的 store 主要是給 cache base manager 建立，刪除以及取得 kubernets 物件的 reference 。</p>
-<p>如果對 controller/operator 的 store interface  有興趣可以回去複習一下這一篇<a href="https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/kubernetes-indexers-local-cache-1/#interface">Kubernetes Indexers local cache 之美</a>，希望對你有幫助。</p>
-<p>好，回過頭來看 kubelet 中所定義的 store interface 到底是什麼吧！<br />
-<a href="pkg/kubelet/util/manager/manager.go">source code</a></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Store</span> <span class="kd">interface</span> <span class="p">{</span>
-	<span class="c1">// 使用者將 pod namespace 與 pod name 透過 addreference 實作的物件應該要增加 reference  以及建立對應的 reflector。
-</span><span class="c1"></span>	<span class="nf">AddReference</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span>
-    
-    
-	<span class="c1">// 上一篇我們有談到當沒有任何物件使用 reference 時應該要呼叫 DeleteReference，實作的物件應該要幫我們把對應的 reflector 處理掉
-</span><span class="c1"></span>	<span class="nf">DeleteReference</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span>
-    
-    
-	<span class="c1">// 當  cache base manager 要 kubernetes 物件資料時，會把物件的  namespace 與  name 帶入這個 function ，這裡會幫忙把物件取出。
-</span><span class="c1"></span>	<span class="nf">Get</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>單看定義僅能大概了解 store interface 要做的事情，我們還需要深入挖掘底層的實作 let&rsquo;s do  it !</p>
-<h3 id="struct">struct</h3>
-<p>從 source code 上面的註解來看，可以知道這個 objectCache 是一個透過獨立 watcher 傳播物件的 local cache ，那到底是什麼意思呢？</p>
-<p>這裡先賣個關子先看 code 整理一下思緒會比較清楚</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// objectCache is a local cache of objects propagated via individual watches.
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">objectCache</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">listObject</span>    <span class="nx">listObjectFunc</span>				<span class="c1">//列出 kubernetes 物件的過濾方法
-</span><span class="c1"></span>	<span class="nx">watchObject</span>   <span class="nx">watchObjectFunc</span>				<span class="c1">//監控 kubernetes 物件的過濾方法
-</span><span class="c1"></span>	<span class="nx">newObject</span>     <span class="nx">newObjectFunc</span>				<span class="c1">//reflector 預期要得到的物件型態為何的方法
-</span><span class="c1"></span>	<span class="nx">isImmutable</span>   <span class="nx">isImmutableFunc</span>				<span class="c1">//如何判斷觀測的 kubernetes 物件是否屬於不可變的
-</span><span class="c1"></span>	<span class="nx">groupResource</span> <span class="nx">schema</span><span class="p">.</span><span class="nx">GroupResource</span>			<span class="c1">//kubernetes 的GVK
-</span><span class="c1"></span>
-	<span class="nx">lock</span>  <span class="nx">sync</span><span class="p">.</span><span class="nx">RWMutex</span>					<span class="c1">//讀寫所會用讀寫鎖主要因為讀多寫少（除非一直在加 pod 對應的 reflector）
-</span><span class="c1"></span>    
-	<span class="c1">//上一篇有提過，cacheBasedManager 會透過解析用到物件名稱 secret/configmap name 以及 namespace 作為 Objectkey 傳入
-</span><span class="c1"></span>	<span class="c1">//並且生成對應的 reflector 
-</span><span class="c1"></span>	<span class="nx">items</span> <span class="kd">map</span><span class="p">[</span><span class="nx">objectKey</span><span class="p">]</span><span class="o">*</span><span class="nx">objectCacheItem</span>			<span class="c1">//用來儲存 kubelet configmap/secret 各自對應的 reflector 
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>上面你可以能會有一個疑問， <code>objectCacheItem</code> 到底是什麼？ 總不能我說他是儲存各自對應的 reflector 他就是吧xD</p>
-<h4 id="objectcacheitem">objectCacheItem</h4>
-<p>我們接著來看為什麼 <code>objectCacheItem</code> 為什麼要儲存各自對應的 reflector</p>
+<p>經過了前幾章節的鋪成今天終於可以跟大家聊聊非常常用在 kubernetes 的 configmap ， configmap 的底層到底是怎麼運作的。本章節的內容建議需要先了解 <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/kubernetes-kubelet/">Kubernetes kubelet cacheBasedManager 現在才知道</a>以及<a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cacheobject/">Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因</a>，會比較容易了解本章節的重點！</p>
+<h2 id="manger-interface">manger interface</h2>
+<p>Kubernetes 先定義出取得 configmap 資料的行為，有以下三點。</p>
 <ol>
-<li>在 objectCache struct 定義了一個 map，Key 為objectKey（resource name 加上 namespac），Value 為 objectCacheItem。
-<ul>
-<li>表示xxx-configmap對應xxx-objectCacheItem。</li>
-<li>表示yyy-configmap對應yyy-objectCacheItem。</li>
-</ul>
-</li>
+<li>當 pod spec 內寫到需要 configmap 的時候如何註冊需要的 configmap 。</li>
+<li>曾經 pod spce 內有需要 xxx configmap 現在不用的時候，需要反註冊 configmap 。</li>
+<li>能透過 configmap 的 namespace 與 name 取得對應的資料。</li>
 </ol>
-<ul>
-<li>換句話說，也可以看成
-<ul>
-<li>表示aaa-secret對應aaa-objectCacheItem。</li>
-<li>表示bbb-secret對應aaa-objectCacheItem。</li>
-</ul>
-</li>
-</ul>
-<ol start="2">
-<li>如果有 nginxA 以及 nginxB 兩個 pod 同時都有 xxx-configmap該怎麼辦？
-<ul>
-<li>xxx-configmap 對應 xxx-objectCacheItem ， xxx-objectCacheItem 要記錄有兩個人 refference 到。</li>
-</ul>
-</li>
-<li>承上如果 nginx B 不再關注這個 xxx-configmap 要如何處理？
-<ul>
-<li>xxx-configmap 對應 xxx-objectCacheItem ， xxx-objectCacheItem 要記錄現在有只有一個人  refference 到。</li>
-</ul>
-</li>
-<li>承上如果 nginx A 也不再關注這個 xxx-configmap 要如何處理？
-<ul>
-<li>xxx-configmap 對應 xxx-objectCacheItem ， xxx-objectCacheItem 要記錄現在有沒有人  refference 到。</li>
-<li>xxx-objectCacheItem 沒有人 reference 到的話，需要把 reflector 關閉減少資源的浪費該如何</li>
-</ul>
-</li>
-</ol>
-<p>帶著以上的方向我們來看 <code>objectCacheItem</code> 如何實作的吧！</p>
-<h5 id="struct-1">struct</h5>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// objectCacheItem is a single item stored in objectCache.
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">objectCacheItem</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">refCount</span>  <span class="kt">int</span>						<span class="c1">//用來紀錄有多少人引用這個物件，當沒有人引用的時候就可以把 reflector 關掉了
-</span><span class="c1"></span>	<span class="nx">store</span>     <span class="nx">cache</span><span class="p">.</span><span class="nx">Store</span>					<span class="c1">//用來儲存 kubernetes 物件的 local stroage（這裡的 stroe 就是 controller/operaoter 會用到的 store 囉）
-</span><span class="c1"></span>	<span class="nx">hasSynced</span> <span class="kd">func</span><span class="p">()</span> <span class="p">(</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>				<span class="c1">//用來確認 local stroage 有沒有同步
-</span><span class="c1"></span>
-	<span class="nx">lock</span>   <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>					<span class="c1">//用來防止stop channel重複被呼叫
-</span><span class="c1"></span>	<span class="nx">stopCh</span> <span class="kd">chan</span> <span class="kd">struct</span><span class="p">{}</span>					<span class="c1">//用來傳遞關閉 reflector 的 channel 
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>當 object cache item 的 refCount 歸零，換句話說就是沒有人引用這個 reflector 了，就可以把對應的 reflector 關閉。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1859,33 +1701,41 @@
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span><span class="nx">objectCacheItem</span><span class="p">)</span> <span class="nf">stop</span><span class="p">()</span> <span class="kt">bool</span> <span class="p">{</span>
-	<span class="c1">//避免競爭上鎖
-</span><span class="c1"></span>	<span class="nx">i</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
-	<span class="k">defer</span> <span class="nx">i</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Manager interface provides methods for Kubelet to manage ConfigMap.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Manager</span> <span class="kd">interface</span> <span class="p">{</span>
+	
+	<span class="nf">GetConfigMap</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">ConfigMap</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
 
-	<span class="c1">//當使用者呼叫關閉 objectCacheItem.stop 時，第一次會進  default 的 select case 。
-</span><span class="c1"></span>	<span class="c1">//關閉 stop channel ，此時 stop channel 會發出訊號給關聯的 reflector 關閉對 kubernetes resource 的追蹤。
-</span><span class="c1"></span>	<span class="k">select</span> <span class="p">{</span>
-	<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">i</span><span class="p">.</span><span class="nx">stopCh</span><span class="p">:</span>
-		<span class="c1">// This means that channel is already closed.
-</span><span class="c1"></span>		<span class="k">return</span> <span class="kc">false</span>
-	<span class="k">default</span><span class="p">:</span>
-		<span class="nb">close</span><span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nx">stopCh</span><span class="p">)</span>
-		<span class="k">return</span> <span class="kc">true</span>
-	<span class="p">}</span>
+	
+	<span class="nf">RegisterPod</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span>
+
+	
+	<span class="nf">UnregisterPod</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="new-function">new function</h3>
-<p>透過 NewObjectCache function  產出符合 store interface 的物件也就是會建立一個 ObjectCache 物件，這裡會把一些 function 帶入，例如要監控什麼物件他的 list 條件是什麼、他的 watch 條件是什麼以及 GVS 是什麼。</p>
+</div><h2 id="configmap-manager">configmap manager</h2>
+<p><code>configMapManager</code> 這個物件實作了 <code>manger interface</code>，物件裡面的屬性也相當的簡單只有一個我們在前兩章節介紹過的 <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cachebasedmanager/">Kubernetes kubelet configmap &amp; secret 與 cacheBasedManager 激情四射</a> ，也就是說configmap manager 極度依賴 manager.Manager 的實作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">configMapManager</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">manager</span> <span class="nx">manager</span><span class="p">.</span><span class="nx">Manager</span>				<span class="c1">//用以處理 pod 註冊 configmap/secret ，建立 reflector 等相關操作。
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>[color=#f41dc9]TIPS:<br />
+如果還不是很了解的 manager.Manager 的實作方式，強烈建議複習一下<a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cachebasedmanager/">Kubernetes kubelet configmap &amp; secret 與 cacheBasedManager 激情四射</a>。</p>
+</blockquote>
+<h3 id="new-function">new function</h3>
+<p>了解完<code>configMapManager</code>的資料結構後，我們接著要來看看在初始化這個物件時需要什麼東西吧！</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1905,33 +1755,138 @@
 </span><span class="lnt">15
 </span><span class="lnt">16
 </span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// NewObjectCache returns a new watch-based instance of Store interface.
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">NewObjectCache</span><span class="p">(</span>
-	<span class="nx">listObject</span> <span class="nx">listObjectFunc</span><span class="p">,</span>				<span class="c1">//使用者會傳入要怎麼列出物件
-</span><span class="c1"></span>	<span class="nx">watchObject</span> <span class="nx">watchObjectFunc</span><span class="p">,</span>				<span class="c1">//使用者會傳入要怎麼監控物件
-</span><span class="c1"></span>	<span class="nx">newObject</span> <span class="nx">newObjectFunc</span><span class="p">,</span>				<span class="c1">//reflector 要用的 object store是哪一個
-</span><span class="c1"></span>	<span class="nx">isImmutable</span> <span class="nx">isImmutableFunc</span><span class="p">,</span>				<span class="c1">//使用者會傳入怎麼判斷這個物件是不是 Immutable
-</span><span class="c1"></span>	<span class="nx">groupResource</span> <span class="nx">schema</span><span class="p">.</span><span class="nx">GroupResource</span><span class="p">)</span> <span class="nx">Store</span> <span class="p">{</span>		<span class="c1">//使用者會傳入物件的GVS
-</span><span class="c1"></span>	<span class="c1">//最後 new fucntion 回傳實作 store interface 的 objectCache 物件
-</span><span class="c1"></span>	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">objectCache</span><span class="p">{</span>
-		<span class="nx">listObject</span><span class="p">:</span>    <span class="nx">listObject</span><span class="p">,</span>
-		<span class="nx">watchObject</span><span class="p">:</span>   <span class="nx">watchObject</span><span class="p">,</span>
-		<span class="nx">newObject</span><span class="p">:</span>     <span class="nx">newObject</span><span class="p">,</span>
-		<span class="nx">isImmutable</span><span class="p">:</span>   <span class="nx">isImmutable</span><span class="p">,</span>
-		<span class="nx">groupResource</span><span class="p">:</span> <span class="nx">groupResource</span><span class="p">,</span>
-		<span class="nx">items</span><span class="p">:</span>         <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="nx">objectKey</span><span class="p">]</span><span class="o">*</span><span class="nx">objectCacheItem</span><span class="p">),</span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">NewWatchingConfigMapManager</span><span class="p">(</span><span class="nx">kubeClient</span> <span class="nx">clientset</span><span class="p">.</span><span class="nx">Interface</span><span class="p">)</span> <span class="nx">Manager</span>
+	<span class="c1">//建立一個 lister  watcher function ，主要用來監聽 kubernetes configmap 的變化
+</span><span class="c1"></span>	<span class="c1">//list 的條件為透過 client go 的 corev1 configmap list＆watch 相關的資訊。
+</span><span class="c1"></span>	<span class="c1">//實作上依賴注入的 kubernetes client interface ，這個 interface 功能非常多有機會之後再來看
+</span><span class="c1"></span>	<span class="nx">listConfigMap</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">namespace</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">opts</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">kubeClient</span><span class="p">.</span><span class="nf">CoreV1</span><span class="p">().</span><span class="nf">ConfigMaps</span><span class="p">(</span><span class="nx">namespace</span><span class="p">).</span><span class="nf">List</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">TODO</span><span class="p">(),</span> <span class="nx">opts</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">watchConfigMap</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">namespace</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">opts</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">watch</span><span class="p">.</span><span class="nx">Interface</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">kubeClient</span><span class="p">.</span><span class="nf">CoreV1</span><span class="p">().</span><span class="nf">ConfigMaps</span><span class="p">(</span><span class="nx">namespace</span><span class="p">).</span><span class="nf">Watch</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">TODO</span><span class="p">(),</span> <span class="nx">opts</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">//還記得之前在挖掘 kubernetes controller operator 的過程嗎？ 需要知道要觀測對象的型態
+</span><span class="c1"></span>	<span class="c1">//在這裡就是 configmap
+</span><span class="c1"></span>	<span class="nx">newConfigMap</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">()</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="o">&amp;</span><span class="nx">v1</span><span class="p">.</span><span class="nx">ConfigMap</span><span class="p">{}</span>
+	<span class="p">}</span>
+	<span class="c1">//configmap 其中有個欄位是 Immutable ，當 reflector 觀察到 configmap 會透過這個 function 
+</span><span class="c1"></span>	<span class="c1">// 檢查 configmap 是不是 Immutable 的狀態，若是為 Immutable 的狀態就會停止該物件的 reflector 
+</span><span class="c1"></span>	<span class="nx">isImmutable</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">object</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">configMap</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">object</span><span class="p">.(</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">ConfigMap</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">configMap</span><span class="p">.</span><span class="nx">Immutable</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="nx">configMap</span><span class="p">.</span><span class="nx">Immutable</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="kc">false</span>
+	<span class="p">}</span>
+
+	<span class="nx">gr</span> <span class="o">:=</span> <span class="nx">corev1</span><span class="p">.</span><span class="nf">Resource</span><span class="p">(</span><span class="s">&#34;configmap&#34;</span><span class="p">)</span>
+	<span class="c1">//回傳 configMap Manger 的物件，其中 manager 的實作為 WatchBasedManager
+</span><span class="c1"></span>	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">configMapManager</span><span class="p">{</span>
+		<span class="nx">manager</span><span class="p">:</span> <span class="nx">manager</span><span class="p">.</span><span class="nf">NewWatchBasedManager</span><span class="p">(</span><span class="nx">listConfigMap</span><span class="p">,</span> <span class="nx">watchConfigMap</span><span class="p">,</span> <span class="nx">newConfigMap</span><span class="p">,</span> <span class="nx">isImmutable</span><span class="p">,</span> <span class="nx">gr</span><span class="p">,</span> <span class="nx">getConfigMapNames</span><span class="p">),</span>
 	<span class="p">}</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="impliment">impliment</h3>
-<p>看完了 objectCache 物件的參數定義與如何 new 出物件後，接著就可以來了解實作的部分囉！</p>
-<h4 id="addreference">AddReference</h4>
-<p>還記得在 cacheBasedManager 的 RegisterPod 的過程嗎？忘記的話我們簡單的複習一下</p>
-<p>簡單來說就是當 kubernetes assign 一個 pod 到 node 上的時候  ，會透過 cacheBasedManager 幫我們把 pod 內用到 secret/configmap 的地方選出來接著遞迴的呼叫 objectStore.AddReference 幫我們建立對應的 reflector 觀察 kubernetes 物件的變化。<br />
-<a href="pkg/kubelet/util/manager/cache_based_manager.go">source code</a></p>
+</div><h3 id="registerpodunregisterpod">RegisterPod/UnregisterPod</h3>
+<p>configMapManager 這裡就是無腦的把任務交給 manager 的 RegisterPod function 或是 UnregisterPod function ，裡面的實作簡單的提一下細節可以回去複習<a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cachebasedmanager/">Kubernetes kubelet configmap &amp; secret 與 cacheBasedManager 激情四射</a>。</p>
+<p><a href="pkg/kubelet/configmap/configmap_manager.go">source code</a></p>
+<ul>
+<li>RegisterPod function
+<ul>
+<li>pod spec 內用到 configmap 的地方會透過 cacheBasedManager 去解析並且生成對應的 reflector</li>
+</ul>
+</li>
+<li>UnregisterPod function
+<ul>
+<li>pod spec 內用到 configmap 的地方會透過 cacheBasedManager 去解析並且刪除對應的 reflector</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">configMapManager</span><span class="p">)</span> <span class="nf">RegisterPod</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">manager</span><span class="p">.</span><span class="nf">RegisterPod</span><span class="p">(</span><span class="nx">pod</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">configMapManager</span><span class="p">)</span> <span class="nf">UnregisterPod</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">manager</span><span class="p">.</span><span class="nf">UnregisterPod</span><span class="p">(</span><span class="nx">pod</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>一定有人問 kubelet 如何取得 configmap 資料，中間過程非常非常非常的長，整個調用鍊生命週期也有點小雜亂，之後有時間會來整理一下 kubelet 的調用鍊，本小節只簡單的帶出 kubelet 的 configmap manager 如何註/反註冊 pod spec 中用到的 configmap 欄位。</p>
+<p>底下這個 function 會觸發的時機點就先想像成,  kubelet 會先把這一段時間有變化的 pod 都透過這個 function 丟進來。前面怎麼走到這一步的先不要管他&hellip;太複雜了會迷失方向xD<br />
+<a href="pkg/kubelet/pod/pod_manager.go">source code</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// updatePodsInternal replaces the given pods in the current state of the
+</span><span class="c1">// manager, updating the various indices. The caller is assumed to hold the
+</span><span class="c1">// lock.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pm</span> <span class="o">*</span><span class="nx">basicManager</span><span class="p">)</span> <span class="nf">updatePodsInternal</span><span class="p">(</span><span class="nx">pods</span> <span class="o">...*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">//遞迴所有變化的 pod
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">pod</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">pods</span> <span class="p">{</span>
+		<span class="o">...</span>
+		<span class="c1">//一般來說...前面已經會把 configMapManager 設定好
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">pm</span><span class="p">.</span><span class="nx">configMapManager</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="c1">// 如果 pod 處於 Terminated 狀態就需要返註冊 pod status 
+</span><span class="c1"></span>			<span class="k">if</span> <span class="nf">isPodInTerminatedState</span><span class="p">(</span><span class="nx">pod</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">pm</span><span class="p">.</span><span class="nx">configMapManager</span><span class="p">.</span><span class="nf">UnregisterPod</span><span class="p">(</span><span class="nx">pod</span><span class="p">)</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="c1">// 如果 pod 處於其他狀態就需要註冊 pod status，開始解析用到的 configmap 建立對應的 reflector 等等 
+</span><span class="c1"></span>				<span class="nx">pm</span><span class="p">.</span><span class="nx">configMapManager</span><span class="p">.</span><span class="nf">RegisterPod</span><span class="p">(</span><span class="nx">pod</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+        <span class="o">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="getconfigmap">GetConfigMap</h3>
+<p>只剩下一個主要的 GetConfigMap function，只要傳入 namespace 以及要取得的 configmap name 就能得到對應的 configmap 物件，這邊的情境略為複雜需要舉幾個例子來說明，我們先來看實作的部分。</p>
+<p><a href="pkg/kubelet/configmap/configmap_manager.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1949,23 +1904,401 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">cacheBasedManager</span><span class="p">)</span> <span class="nf">RegisterPod</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">//當 kubernetes assign 一個 pod 到 node 上的時候
-</span><span class="c1"></span>	<span class="c1">//kubelet 會取得 pod 的相關資訊，getReferencedObjects 會將 pod spec 庖丁解牛
-</span><span class="c1"></span>	<span class="c1">//檢查裡面有沒有我們要的欄位，目前追 code 只看到 configmap 與 secret 有用到
-</span><span class="c1"></span>	<span class="nx">names</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">getReferencedObjects</span><span class="p">(</span><span class="nx">pod</span><span class="p">)</span>
-	<span class="c1">//防止競爭加鎖
-</span><span class="c1"></span>	<span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
-	<span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
-    
-	<span class="c1">//針對 pod 內每一個用到的物件，例如 configmap 、 secret 建立一個對應的 reflector 用以觀察物件的變化
-</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">name</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">names</span> <span class="p">{</span>
-		<span class="nx">c</span><span class="p">.</span><span class="nx">objectStore</span><span class="p">.</span><span class="nf">AddReference</span><span class="p">(</span><span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">configMapManager</span><span class="p">)</span> <span class="nf">GetConfigMap</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">ConfigMap</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">//主要是透過前幾章說的[Kubernetes kubelet configmap &amp; secret 與 cacheBasedManager 激情四射](https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cachebasedmanager/) 
+</span><span class="c1"></span>	<span class="c1">//去取得 configmap 物件的資料，這邊不了解的話可以去複習一下相關連結。
+</span><span class="c1"></span>	<span class="nx">object</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">manager</span><span class="p">.</span><span class="nf">GetObject</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
 	<span class="p">}</span>
+	<span class="c1">//透過 cacheBasedManager 取得的物件需要轉成對應的型態例如 configmap
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">configmap</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">object</span><span class="p">.(</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">ConfigMap</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">configmap</span><span class="p">,</span> <span class="kc">nil</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;unexpected object type: %v&#34;</span><span class="p">,</span> <span class="nx">object</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>cacheBasedManager 主要透過 AddReference  這個 function 來新增 reflector 關聯的數量，若是第一次建立的出現的reflector 就要建立忙建立對應的 reflector ～<br />
-<a href="pkg/kubelet/util/manager/watch_based_manager.go">source code</a></p>
+</div><p>總共有三種方法可以將 kubernetes 中設定好的 configmap 掛載到 pod container 中，這三種方法分別是。</p>
+<ul>
+<li>env
+<ul>
+<li>valueFrom
+<ul>
+<li>configMapKeyRef</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>envFrom
+<ul>
+<li>configMapRef</li>
+</ul>
+</li>
+<li>volumes
+<ul>
+<li>configMap</li>
+</ul>
+</li>
+</ul>
+<p>撰寫 yaml 給 kubernetes 很簡單那實際上 kubernetes 幫我們做了什麼呢？</p>
+<h4 id="env---valuefrom---configmapref">env - valueFrom - configMapRef</h4>
+<p>範例是擷取自 kubernetes 官方網站，撰寫一個 yaml 檔送給 kubernetes 告訴 kubernetes 幫忙啟動一個 pod 並且建立一個 configmap ，將所有 ConfigMap 的 data 定義為 pod 的環境變數。 ConfigMap中的 key 成為 Pod 中的環境變數名稱，value 則為環境變數的數值。</p>
+<p><a href="https://kubernetes.io/examples/configmap/configmap-multikeys.yaml">configmap/multiple key-value pairs.yaml </a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ConfigMap</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">special-config</span><span class="w">
+</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">default</span><span class="w">
+</span><span class="w"></span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">SPECIAL_LEVEL</span><span class="p">:</span><span class="w"> </span><span class="l">very</span><span class="w">
+</span><span class="w">  </span><span class="nt">SPECIAL_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l">charm</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p><a href="https://kubernetes.io/examples/pods/pod-configmap-envFrom.yaml">pods/pod-single-configmap-env-variable.yaml</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">dapi-test-pod</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-container</span><span class="w">
+</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/busybox</span><span class="w">
+</span><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&#34;/bin/sh&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;env&#34;</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="w">      </span><span class="nt">envFrom</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="nt">configMapRef</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">special-config</span><span class="w">
+</span><span class="w">  </span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>話不多說我們先來看 kubelet 怎麼從 api server 經過層層關卡抓到 pod  yaml 裡面寫的東西，再取得對應的 configmap 。<br />
+<a href="pkg/kubelet/kubelet_pods.go">source code</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">kl</span> <span class="o">*</span><span class="nx">Kubelet</span><span class="p">)</span> <span class="nf">makeEnvironmentVariables</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">,</span> <span class="nx">container</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">podIP</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">podIPs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="p">([]</span><span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">EnvVar</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">//儲存最後要變成 pod 的環境變數
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">result</span> <span class="p">[]</span><span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">EnvVar</span>
+    
+    <span class="c1">//簡單來說就是如果 pod yaml 有啟用 EnableServiceLinks 的話就需要把同一個 namespaces 所有的 service 
+</span><span class="c1"></span>    <span class="c1">//對應的名稱、IP 與 port 以環境變數的方式除存在 serviceENV 中
+</span><span class="c1"></span>	<span class="nx">serviceEnv</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">kl</span><span class="p">.</span><span class="nf">getServiceEnvVarMap</span><span class="p">(</span><span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="o">*</span><span class="nx">pod</span><span class="p">.</span><span class="nx">Spec</span><span class="p">.</span><span class="nx">EnableServiceLinks</span><span class="p">)</span>
+    
+	<span class="kd">var</span> <span class="p">(</span>
+		<span class="nx">configMaps</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">ConfigMap</span><span class="p">)</span>
+		<span class="nx">secrets</span>    <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Secret</span><span class="p">)</span>
+		<span class="nx">tmpEnv</span>     <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span>
+	<span class="p">)</span>
+	<span class="o">...</span>
+    
+	<span class="c1">// Env will override EnvFrom variables.
+</span><span class="c1"></span>	<span class="c1">// Process EnvFrom first then allow Env to replace existing values.
+</span><span class="c1"></span>	<span class="c1">//這裡會遞迴 yaml 裡面 container envform 的欄位
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">envFrom</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">container</span><span class="p">.</span><span class="nx">EnvFrom</span> <span class="p">{</span>
+		<span class="c1">//接著要來判斷 envform 裡面有沒有 ConfigMapRef 這個欄位了
+</span><span class="c1"></span>		<span class="k">switch</span> <span class="p">{</span>
+        
+		<span class="c1">//如果有找到  ConfigMapRef 這個欄位的話
+</span><span class="c1"></span>		<span class="k">case</span> <span class="nx">envFrom</span><span class="p">.</span><span class="nx">ConfigMapRef</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">:</span>
+			<span class="c1">//把 ConfigMapRef 欄位內的資料結構拿出來為 cm
+</span><span class="c1"></span>			<span class="nx">cm</span> <span class="o">:=</span> <span class="nx">envFrom</span><span class="p">.</span><span class="nx">ConfigMapRef</span>
+            
+			<span class="c1">// 把 ConfigMapRef 欄位內的名稱拿出來 ，這裡就是 configmap 的名稱
+</span><span class="c1"></span>			<span class="nx">name</span> <span class="o">:=</span> <span class="nx">cm</span><span class="p">.</span><span class="nx">Name</span>
+            
+			<span class="c1">// 檢查 configmap map 是否有處理過同樣名字的物件過
+</span><span class="c1"></span>			<span class="nx">configMap</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">configMaps</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
+            
+			<span class="c1">//如果 map 找不到東西表示....我們要自己向 api server 要看相關的 configmap 
+</span><span class="c1"></span>			<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+				<span class="c1">//這裡用的又是 kubernetes client interface ，沒有這個 interface 什麼都做不了
+</span><span class="c1"></span>				<span class="c1">//所以這裡有錯的話就可以回家洗洗睡了xD
+</span><span class="c1"></span>				<span class="k">if</span> <span class="nx">kl</span><span class="p">.</span><span class="nx">kubeClient</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+					<span class="k">return</span> <span class="nx">result</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;couldn&#39;t get configMap %v/%v, no kubeClient defined&#34;</span><span class="p">,</span> <span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+				<span class="p">}</span>
+                
+				<span class="c1">//簡單來說就是有定義 ConfigMapEnvSource.Optional = true，等等會看到要用來做什麼的
+</span><span class="c1"></span>				<span class="nx">optional</span> <span class="o">:=</span> <span class="nx">cm</span><span class="p">.</span><span class="nx">Optional</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="nx">cm</span><span class="p">.</span><span class="nx">Optional</span>
+				
+				<span class="c1">//這邊就是用 configmap manager 的 GetConfigMap function 去取得 configmap 
+</span><span class="c1"></span>				<span class="c1">//所要求的參數也不多只要 namespace 與 configmap 的 name 就能取的對應的資料
+</span><span class="c1"></span>				<span class="nx">configMap</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">kl</span><span class="p">.</span><span class="nx">configMapManager</span><span class="p">.</span><span class="nf">GetConfigMap</span><span class="p">(</span><span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+                
+				<span class="c1">//如果在找的過程有出現錯的話，並且有定義 ConfigMapEnvSource.Optional = true 那就不會直接噴 error 
+</span><span class="c1"></span>				<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+					<span class="k">if</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">IsNotFound</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">optional</span> <span class="p">{</span>
+						<span class="c1">// ignore error when marked optional
+</span><span class="c1"></span>						<span class="k">continue</span>
+					<span class="p">}</span>
+					<span class="k">return</span> <span class="nx">result</span><span class="p">,</span> <span class="nx">err</span>
+				<span class="p">}</span>
+				<span class="c1">//接著以 configmap name 作為 key 以及 configmap 物件的內容作為 value 存在 map 中
+</span><span class="c1"></span>				<span class="c1">//以供後續重複使用                
+</span><span class="c1"></span>				<span class="nx">configMaps</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="p">=</span> <span class="nx">configMap</span>
+			<span class="p">}</span>
+            
+			
+            
+            
+			<span class="c1">//configmap 中如果 key value 有不符合環境變數的資料會存在這個 slice 中                
+</span><span class="c1"></span>			<span class="nx">invalidKeys</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{}</span>
+            
+            
+			<span class="c1">//剛剛我們透過 configMapManager.GetConfigMap 取的對應的 configmap 
+</span><span class="c1"></span>            <span class="c1">//我們的最終目的是取的 configmap 對應的 key value 資料
+</span><span class="c1"></span>            <span class="c1">//這裡就用 for 迴圈遞迴 configmap 資料的每一列
+</span><span class="c1"></span>			<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">configMap</span><span class="p">.</span><span class="nx">Data</span> <span class="p">{</span>
+				
+				<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">envFrom</span><span class="p">.</span><span class="nx">Prefix</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+					<span class="nx">k</span> <span class="p">=</span> <span class="nx">envFrom</span><span class="p">.</span><span class="nx">Prefix</span> <span class="o">+</span> <span class="nx">k</span>
+				<span class="p">}</span>
+				<span class="c1">//IsEnvVarName 判斷 configmap 資料的 key value 其中的 key 是否為有效的環境變變數名稱。
+</span><span class="c1"></span>				<span class="k">if</span> <span class="nx">errMsgs</span> <span class="o">:=</span> <span class="nx">utilvalidation</span><span class="p">.</span><span class="nf">IsEnvVarName</span><span class="p">(</span><span class="nx">k</span><span class="p">);</span> <span class="nb">len</span><span class="p">(</span><span class="nx">errMsgs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+					<span class="c1">//configmap 中如果 key value 有不符合環境變數的資料會存在這個 slice 中 
+</span><span class="c1"></span>					<span class="nx">invalidKeys</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">invalidKeys</span><span class="p">,</span> <span class="nx">k</span><span class="p">)</span>
+					<span class="k">continue</span>
+				<span class="p">}</span>
+				<span class="c1">//把沒問題的資料存在暫存的環境變數 map 
+</span><span class="c1"></span>				<span class="nx">tmpEnv</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="nx">v</span>
+			<span class="p">}</span>
+
+			<span class="c1">//將有問題的 configmap 資料做整理加入一些 log 資訊讓使用者更好閱讀
+</span><span class="c1"></span>			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">invalidKeys</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+				<span class="c1">//不知道為什麼要 sort xDDD            
+</span><span class="c1"></span>				<span class="nx">sort</span><span class="p">.</span><span class="nf">Strings</span><span class="p">(</span><span class="nx">invalidKeys</span><span class="p">)</span>
+                
+				<span class="nx">kl</span><span class="p">.</span><span class="nx">recorder</span><span class="p">.</span><span class="nf">Eventf</span><span class="p">(</span><span class="nx">pod</span><span class="p">,</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">EventTypeWarning</span><span class="p">,</span> <span class="s">&#34;InvalidEnvironmentVariableNames&#34;</span><span class="p">,</span> <span class="s">&#34;Keys [%s] from the EnvFrom configMap %s/%s were skipped since they are considered invalid environment variable names.&#34;</span><span class="p">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Join</span><span class="p">(</span><span class="nx">invalidKeys</span><span class="p">,</span> <span class="s">&#34;, &#34;</span><span class="p">),</span> <span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+			<span class="p">}</span>
+           
+
+<span class="c1">//環境變數的正規表達式
+</span><span class="c1"></span><span class="kd">const</span> <span class="nx">envVarNameFmt</span> <span class="p">=</span> <span class="s">&#34;[-._a-zA-Z][-._a-zA-Z0-9]*&#34;</span>
+<span class="kd">var</span> <span class="nx">envVarNameRegexp</span> <span class="p">=</span> <span class="nx">regexp</span><span class="p">.</span><span class="nf">MustCompile</span><span class="p">(</span><span class="s">&#34;^&#34;</span> <span class="o">+</span> <span class="nx">envVarNameFmt</span> <span class="o">+</span> <span class="s">&#34;$&#34;</span><span class="p">)</span>
+
+<span class="c1">//IsEnvVarName 測試 configmap 資料的 key value 其中的 key 是否為有效的環境變變數名稱。
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">IsEnvVarName</span><span class="p">(</span><span class="nx">value</span> <span class="kt">string</span><span class="p">)</span> <span class="p">[]</span><span class="kt">string</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">errs</span> <span class="p">[]</span><span class="kt">string</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">envVarNameRegexp</span><span class="p">.</span><span class="nf">MatchString</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">errs</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">errs</span><span class="p">,</span> <span class="nf">RegexError</span><span class="p">(</span><span class="nx">envVarNameFmtErrMsg</span><span class="p">,</span> <span class="nx">envVarNameFmt</span><span class="p">,</span> <span class="s">&#34;my.env-name&#34;</span><span class="p">,</span> <span class="s">&#34;MY_ENV.NAME&#34;</span><span class="p">,</span> <span class="s">&#34;MyEnvName1&#34;</span><span class="p">))</span>
+	<span class="p">}</span>
+
+	<span class="nx">errs</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">errs</span><span class="p">,</span> <span class="nf">hasChDirPrefix</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nx">errs</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="env---valuefrom---configmapkeyref">env - valueFrom - configMapKeyRef</h4>
+<p>範例是擷取自 kubernetes 官方網站，撰寫一個 yaml 檔送給 kubernetes 告訴 kubernetes 幫忙啟動一個 pod 並且建立一個 configmap ，將 ConfigMap 中定義的 special.how 數值作為 Pod 中的 SPECIAL_LEVEL_KEY 環境變數。</p>
+<p><a href="https://kubernetes.io/examples/configmap/configmap-multikeys.yaml">configmap/multiple key-value pairs.yaml </a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ConfigMap</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">special-config</span><span class="w">
+</span><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">default</span><span class="w">
+</span><span class="w"></span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">SPECIAL_LEVEL</span><span class="p">:</span><span class="w"> </span><span class="l">very</span><span class="w">
+</span><span class="w">  </span><span class="nt">SPECIAL_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l">charm</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p><a href="https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/pods/pod-configmap-envFrom.yaml">pods/pod-configmap-envFrom.yaml</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">dapi-test-pod</span><span class="w">
+</span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-container</span><span class="w">
+</span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/busybox</span><span class="w">
+</span><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&#34;/bin/sh&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;env&#34;</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="w">      </span><span class="nt">env</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="c"># Define the environment variable</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">SPECIAL_LEVEL_KEY</span><span class="w">
+</span><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">configMapKeyRef</span><span class="p">:</span><span class="w">
+</span><span class="w">              </span><span class="c"># The ConfigMap containing the value you want to assign to SPECIAL_LEVEL_KEY</span><span class="w">
+</span><span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">special-config</span><span class="w">
+</span><span class="w">              </span><span class="c"># Specify the key associated with the value</span><span class="w">
+</span><span class="w">              </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">special.how</span><span class="w">
+</span><span class="w">  </span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>話不多說我們先來看 kubelet 怎麼從 api server 經過層層關卡抓到 pod  yaml 裡面寫的東西，再取得對應的 configmap ，這邊的code 是接續著<code>env - valueFrom - configMapRef</code> 那一小節的 code。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2044,248 +2377,133 @@
 </span><span class="lnt">74
 </span><span class="lnt">75
 </span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span><span class="lnt">97
+</span><span class="lnt">98
+</span><span class="lnt">99
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">AddReference</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">//透過使用者傳入的 namespace 以及物件的名稱 封裝為 objectKey 作為唯一值
-</span><span class="c1"></span>	<span class="nx">key</span> <span class="o">:=</span> <span class="nx">objectKey</span><span class="p">{</span><span class="nx">namespace</span><span class="p">:</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">:</span> <span class="nx">name</span><span class="p">}</span>
-
-	<span class="c1">//加鎖避免操作時產生競爭
-</span><span class="c1"></span>	<span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
-	<span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
-
-	<span class="c1">//此時會把剛剛封裝好的 objectKey 作為 key 放入 items map 儲存
-</span><span class="c1"></span>	<span class="c1">//若發現 items map 沒有資料的話需要幫這個 objectKey 建立對應的 newReflector
-</span><span class="c1"></span>	
-	<span class="nx">item</span><span class="p">,</span> <span class="nx">exists</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
-	<span class="k">if</span> <span class="p">!</span><span class="nx">exists</span> <span class="p">{</span>
-		<span class="nx">item</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">newReflector</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-		<span class="nx">c</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="p">=</span> <span class="nx">item</span>
-	<span class="p">}</span>
-	<span class="c1">//最後再讓 item.refCount++ 的原因在於要記錄有多少物件共同使用這個 reflector 。
-</span><span class="c1"></span>    
-	<span class="nx">item</span><span class="p">.</span><span class="nx">refCount</span><span class="o">++</span>
-<span class="p">}</span>
-
-<span class="c1">//來看看 newReflector 做了什麼吧
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">newReflector</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">objectCacheItem</span> <span class="p">{</span>
-	<span class="c1">//先建立一個 fieldSelector 用來過濾 kubernetes 物件
-</span><span class="c1"></span>	<span class="nx">fieldSelector</span> <span class="o">:=</span> <span class="nx">fields</span><span class="p">.</span><span class="nx">Set</span><span class="p">{</span><span class="s">&#34;metadata.name&#34;</span><span class="p">:</span> <span class="nx">name</span><span class="p">}.</span><span class="nf">AsSelector</span><span class="p">().</span><span class="nf">String</span><span class="p">()</span>
-	
-    
-    
-	<span class="c1">//用 NewObjectCache 時建立的 list watch function 
-</span><span class="c1"></span>	<span class="c1">//並且透過剛剛建立的 fieldSelector 過濾 kubernetes 物件
-</span><span class="c1"></span>	<span class="nx">listFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">options</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">options</span><span class="p">.</span><span class="nx">FieldSelector</span> <span class="p">=</span> <span class="nx">fieldSelector</span>
-		<span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nf">listObject</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span>
-	<span class="p">}</span>
-    
-	<span class="nx">watchFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">options</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">watch</span><span class="p">.</span><span class="nx">Interface</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">options</span><span class="p">.</span><span class="nx">FieldSelector</span> <span class="p">=</span> <span class="nx">fieldSelector</span>
-		<span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nf">watchObject</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span>
-	<span class="p">}</span>
-    
-	<span class="c1">//這裡的 stroe 之前有介紹過，詳細內容可以參考 https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/kubernetes-indexers-local-cache-1/
-</span><span class="c1"></span>	<span class="c1">//簡單來說就是一個以 index 去儲存的 local storage     
-</span><span class="c1"></span>	<span class="nx">store</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">newStore</span><span class="p">()</span>
-    
-    
-	<span class="c1">//建立一個 Reflector 詳細的內容也可以參考之前對 controller / Reflector 的分析  https://blog.jjmengze.website/posts/kubernetes/source-code/controller/redlector/reflector-1/
-</span><span class="c1"></span>	<span class="c1">//簡單來就是建立對 kubernetes 物件的監聽，透過剛剛的 list watch function 去過濾 kubernetes 物件
-</span><span class="c1"></span>	<span class="nx">reflector</span> <span class="o">:=</span> <span class="nx">cache</span><span class="p">.</span><span class="nf">NewNamedReflector</span><span class="p">(</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;object-%q/%q&#34;</span><span class="p">,</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">),</span>
-		<span class="o">&amp;</span><span class="nx">cache</span><span class="p">.</span><span class="nx">ListWatch</span><span class="p">{</span><span class="nx">ListFunc</span><span class="p">:</span> <span class="nx">listFunc</span><span class="p">,</span> <span class="nx">WatchFunc</span><span class="p">:</span> <span class="nx">watchFunc</span><span class="p">},</span>
-		<span class="nx">c</span><span class="p">.</span><span class="nf">newObject</span><span class="p">(),</span>
-		<span class="nx">store</span><span class="p">,</span>
-		<span class="mi">0</span><span class="p">,</span>
-	<span class="p">)</span>
-	<span class="c1">//建立一個 stop channel 用來終止 Reflector
-</span><span class="c1"></span>	<span class="nx">stopCh</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{})</span>
-    
-	<span class="c1">//啟動 reflector 去獲取對應的資源    
-</span><span class="c1"></span>	<span class="k">go</span> <span class="nx">reflector</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">stopCh</span><span class="p">)</span>
-    
-	<span class="c1">//最後將上面產出的物件封裝成 objectCacheItem ，  object chache item 目前使用的 stoe 為 MetaNamespaceKeyFunc stoe 
-</span><span class="c1"></span>	<span class="c1">// 目前使用這個 reflector 的物件為 0 個 ，可以透過 stop channel 關閉 reflector 。
-</span><span class="c1"></span>	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">objectCacheItem</span><span class="p">{</span>
-		<span class="nx">refCount</span><span class="p">:</span>  <span class="mi">0</span><span class="p">,</span>
-		<span class="nx">store</span><span class="p">:</span>     <span class="nx">store</span><span class="p">,</span>
-		<span class="nx">hasSynced</span><span class="p">:</span> <span class="kd">func</span><span class="p">()</span> <span class="p">(</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">reflector</span><span class="p">.</span><span class="nf">LastSyncResourceVersion</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="kc">nil</span> <span class="p">},</span>
-		<span class="nx">stopCh</span><span class="p">:</span>    <span class="nx">stopCh</span><span class="p">,</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">//這裡的 stroe 之前有介紹過，詳細內容可以參考 https://blog.jjmengze.website/posts/kubernetes/source-code/controller/indexer/kubernetes-indexers-local-cache-1/
-</span><span class="c1">//簡單來說就是一個以 index 去儲存的 local storage     
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">newStore</span><span class="p">()</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">Store</span> <span class="p">{</span>
-	<span class="c1">//object key 計算方法用預設的 MetaNamespaceKeyFunc
-</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">cache</span><span class="p">.</span><span class="nf">NewStore</span><span class="p">(</span><span class="nx">cache</span><span class="p">.</span><span class="nx">MetaNamespaceKeyFunc</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>題外話我滿喜歡，上述 source code 中這一段處理方式。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">newReflector</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">objectCacheItem</span> <span class="p">{</span>
-
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">kl</span> <span class="o">*</span><span class="nx">Kubelet</span><span class="p">)</span> <span class="nf">makeEnvironmentVariables</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">,</span> <span class="nx">container</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">podIP</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">podIPs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="p">([]</span><span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">EnvVar</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 	<span class="o">...</span>
-    
-	<span class="nx">listFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">options</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">options</span><span class="p">.</span><span class="nx">FieldSelector</span> <span class="p">=</span> <span class="nx">fieldSelector</span>
-		<span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nf">listObject</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span>
-	<span class="p">}</span>
-    
-	<span class="nx">reflector</span> <span class="o">:=</span> <span class="nx">cache</span><span class="p">.</span><span class="nf">NewNamedReflector</span><span class="p">(</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;object-%q/%q&#34;</span><span class="p">,</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">),</span>
-		<span class="o">&amp;</span><span class="nx">cache</span><span class="p">.</span><span class="nx">ListWatch</span><span class="p">{</span><span class="nx">ListFunc</span><span class="p">:</span> <span class="nx">listFunc</span><span class="p">,</span> <span class="nx">WatchFunc</span><span class="p">:</span> 
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">envFrom</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">container</span><span class="p">.</span><span class="nx">EnvFrom</span>
+	    <span class="k">switch</span> <span class="p">{</span>
         
-        <span class="o">...</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>還記得我們在 <code>newObjectCache</code> 的時候有把 list object function 帶入嗎？那一個 list object function 到這裡才派上用， reflector 在用的時候會像是這樣的呼叫練。</p>
-<pre><code>當 reflector 呼叫 list function 會先經由--------&gt;newReflector裡面的listFunc&lt;加了 field selector &gt;進行處理
-
-
-newReflector裡面的listFunc&lt;加了 field selector &gt;處理完後會再丟給--------&gt; 使用者定義的 list  watcher function 做最後的處理。
-</code></pre><h4 id="deletereference">DeleteReference</h4>
-<p>透過這個 function 減少 reflector 關聯到的物件數量，當 reflector 沒有跟其他物件有所關聯時需要停止 reflector ~</p>
-<p>我們先來複習一下 cacheBasedManager 是在哪一段呼叫 objectCache 的 DeleteReference function 如何解除關聯的。</p>
-<p>cacheBasedManager 主要透過 UnregisterPod 這個 function 來刪除 reflector 關聯的數量。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">cacheBasedManager</span><span class="p">)</span> <span class="nf">UnregisterPod</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kd">var</span> <span class="nx">prev</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span>
-	<span class="c1">//以 pod spc 中的 namespace 與 pod name 封裝為 object key     
-</span><span class="c1"></span>	<span class="nx">key</span> <span class="o">:=</span> <span class="nx">objectKey</span><span class="p">{</span><span class="nx">namespace</span><span class="p">:</span> <span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">:</span> <span class="nx">pod</span><span class="p">.</span><span class="nx">Name</span><span class="p">}</span>
-	<span class="c1">//防止競爭加鎖
-</span><span class="c1"></span>	<span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
-	<span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
-    <span class="c1">//透過 pod spec 中的 namespace 與 pod name 作為 key 取得 registeredPods  map 中對應的資料
-</span><span class="c1"></span>	<span class="nx">prev</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">registeredPods</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+		<span class="c1">//如果有找到  ConfigMapRef 這個欄位的話
+</span><span class="c1"></span>		<span class="k">case</span> <span class="nx">envFrom</span><span class="p">.</span><span class="nx">ConfigMapRef</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">:</span>
+	<span class="o">...</span>
+	<span class="c1">//接續env - valueFrom - configMapRef 小節
+</span><span class="c1"></span>    
     
-    
-	<span class="c1">//透過  pod spec 中的 namespace 與 pod name 作為 key 刪除 registeredPods  map 中對應的資料
-</span><span class="c1"></span>	<span class="nb">delete</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">registeredPods</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
-    
-	<span class="c1">//如果有資料的話，要刪除對應的 `Reflector` ，這裡也是用到 getReferencedObjects 去解析 pod spec 的每個欄位
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">prev</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">for</span> <span class="nx">name</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">c</span><span class="p">.</span><span class="nf">getReferencedObjects</span><span class="p">(</span><span class="nx">prev</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nx">c</span><span class="p">.</span><span class="nx">objectStore</span><span class="p">.</span><span class="nf">DeleteReference</span><span class="p">(</span><span class="nx">prev</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+	<span class="c1">//遞迴 container 的Env 欄位
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">envVar</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">container</span><span class="p">.</span><span class="nx">Env</span> <span class="p">{</span>
+		<span class="nx">runtimeVal</span> <span class="o">:=</span> <span class="nx">envVar</span><span class="p">.</span><span class="nx">Value</span>
+		<span class="k">if</span> <span class="nx">runtimeVal</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+        
+			<span class="o">...</span>
+			<span class="c1">//若是有定義 ValueFrom 欄位的話
+</span><span class="c1"></span>		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">envVar</span><span class="p">.</span><span class="nx">ValueFrom</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="c1">// Step 1b: resolve alternate env var sources
+</span><span class="c1"></span>			<span class="c1">//需要判斷是從 from 哪一種資源，本篇文章只關心 configmap 
+</span><span class="c1"></span>			<span class="k">switch</span> <span class="p">{</span>
+			<span class="k">case</span> <span class="nx">envVar</span><span class="p">.</span><span class="nx">ValueFrom</span><span class="p">.</span><span class="nx">FieldRef</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">:</span>
+				<span class="o">...</span>
+                
+			<span class="k">case</span> <span class="nx">envVar</span><span class="p">.</span><span class="nx">ValueFrom</span><span class="p">.</span><span class="nx">ResourceFieldRef</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">:</span>
+				<span class="o">...</span>
+			<span class="c1">//如果 valueFrom 是引用 configmap 的話                
+</span><span class="c1"></span>			<span class="k">case</span> <span class="nx">envVar</span><span class="p">.</span><span class="nx">ValueFrom</span><span class="p">.</span><span class="nx">ConfigMapKeyRef</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">:</span>
+				<span class="c1">//先取出 ConfigMapKeyRef 為 cm
+</span><span class="c1"></span>				<span class="nx">cm</span> <span class="o">:=</span> <span class="nx">envVar</span><span class="p">.</span><span class="nx">ValueFrom</span><span class="p">.</span><span class="nx">ConfigMapKeyRef</span>
+				<span class="c1">//取出 configmap 的 name                
+</span><span class="c1"></span>				<span class="nx">name</span> <span class="o">:=</span> <span class="nx">cm</span><span class="p">.</span><span class="nx">Name</span>
+				<span class="c1">//取出對應的 key 
+</span><span class="c1"></span>				<span class="nx">key</span> <span class="o">:=</span> <span class="nx">cm</span><span class="p">.</span><span class="nx">Key</span>
+				<span class="c1">//簡單來說就是有定義 ConfigMapEnvSource.Optional = true，等等會看到要用來做什麼的
+</span><span class="c1"></span>				<span class="nx">optional</span> <span class="o">:=</span> <span class="nx">cm</span><span class="p">.</span><span class="nx">Optional</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="nx">cm</span><span class="p">.</span><span class="nx">Optional</span>
+                
+                
+				<span class="c1">// 檢查 configmap map 是否有處理過同樣名字的物件過，如果有就可以直接拿出來用
+</span><span class="c1"></span>				<span class="nx">configMap</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">configMaps</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
+            
+				<span class="c1">//如果 map 找不到東西表示....我們要自己向 api server 要看相關的 configmap 				
+</span><span class="c1"></span>				<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+					<span class="c1">//這裡用的又是 kubernetes client interface ，沒有這個 interface 什麼都做不了
+</span><span class="c1"></span>					<span class="c1">//其實...這一段流程也沒拿來幹嘛...xD
+</span><span class="c1"></span>					<span class="k">if</span> <span class="nx">kl</span><span class="p">.</span><span class="nx">kubeClient</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+						<span class="k">return</span> <span class="nx">result</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;couldn&#39;t get configMap %v/%v, no kubeClient defined&#34;</span><span class="p">,</span> <span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+					<span class="p">}</span>
+                    
+					<span class="c1">//這邊就是用 configmap manager 的 GetConfigMap function 去取得 configmap 
+</span><span class="c1"></span>					<span class="c1">//所要求的參數也不多只要 namespace 與 configmap 的 name 就能取的對應的資料
+</span><span class="c1"></span>					<span class="nx">configMap</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">kl</span><span class="p">.</span><span class="nx">configMapManager</span><span class="p">.</span><span class="nf">GetConfigMap</span><span class="p">(</span><span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+                    
+                    
+					<span class="c1">//如果在找的過程有出現錯的話，並且有定義 ConfigMapEnvSource.Optional = true 那就不會直接噴 error 
+</span><span class="c1"></span>					<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+						<span class="k">if</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">IsNotFound</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">optional</span> <span class="p">{</span>
+							<span class="c1">// ignore error when marked optional
+</span><span class="c1"></span>							<span class="k">continue</span>
+						<span class="p">}</span>
+						<span class="k">return</span> <span class="nx">result</span><span class="p">,</span> <span class="nx">err</span>
+					<span class="p">}</span>
+					<span class="c1">//接著以 configmap name 作為 key 以及 configmap 物件的內容作為 value 存在 map 中
+</span><span class="c1"></span>					<span class="c1">//以供後續重複使用
+</span><span class="c1"></span>					<span class="nx">configMaps</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="p">=</span> <span class="nx">configMap</span>
+				<span class="p">}</span>
+				<span class="c1">//取出 configmap data 對應的 key 當作環境變數
+</span><span class="c1"></span>				<span class="nx">runtimeVal</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nx">configMap</span><span class="p">.</span><span class="nx">Data</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+				<span class="c1">//如果拿不到對應的 key 且 ConfigMapEnvSource.Optional = true 那就不會直接噴 error    
+</span><span class="c1"></span>				<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+					<span class="k">if</span> <span class="nx">optional</span> <span class="p">{</span>
+						<span class="k">continue</span>
+					<span class="p">}</span>
+					<span class="k">return</span> <span class="nx">result</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;couldn&#39;t find key %v in ConfigMap %v/%v&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+				<span class="p">}</span>
+			<span class="k">case</span> <span class="nx">envVar</span><span class="p">.</span><span class="nx">ValueFrom</span><span class="p">.</span><span class="nx">SecretKeyRef</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">:</span>
+				<span class="o">...</span>
+			<span class="p">}</span>
 		<span class="p">}</span>
+        
+		<span class="c1">//還記得在env - valueFrom - configMapRef 這一小節，有提到過 serviceEnv 嗎？
+</span><span class="c1"></span>		<span class="c1">//幫大家快速複習一下
+</span><span class="c1"></span>		<span class="c1">//簡單來說就是如果 pod yaml 有啟用 EnableServiceLinks 的話就需要把同一個 namespaces 所有的 service 
+</span><span class="c1"></span>		<span class="c1">//對應的名稱、IP 與 port 以環境變數的方式存在 serviceENV 中
+</span><span class="c1"></span>		<span class="c1">//我們舉一個例子 kubernetes 通常會幫你在 default namespace 的 pod 加上一些環境變數
+</span><span class="c1"></span>		<span class="c1">//例如：KUBERNETES_PORT_443_TCP_PROTO=tcp
+</span><span class="c1"></span>		<span class="c1">//這一行環境變數就是 serviceEnv 裡面的資料，資料來源可能透過kubelet 或是 api server 
+</span><span class="c1"></span>		<span class="c1">//對應到 code 就是在env - valueFrom - configMapRef 這一小節的
+</span><span class="c1"></span>		<span class="c1">//serviceEnv, err := kl.getServiceEnvVarMap(pod.Namespace, *pod.Spec.EnableServiceLinks)
+</span><span class="c1"></span>		
+		
+		<span class="c1">//如果使用者就是想覆蓋這個環境變數該怎麼辦？
+</span><span class="c1"></span>		<span class="c1">//其實就直接在 yaml 直接設定一下就覆蓋過去了xD也就是下面這一行code而已拉
+</span><span class="c1"></span>		<span class="nb">delete</span><span class="p">(</span><span class="nx">serviceEnv</span><span class="p">,</span> <span class="nx">envVar</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+		<span class="c1">//設定環境變數名稱為 pod spec 中定義的 name value 為從 configmap 或是其他資源取的數值
+</span><span class="c1"></span>		<span class="nx">tmpEnv</span><span class="p">[</span><span class="nx">envVar</span><span class="p">.</span><span class="nx">Name</span><span class="p">]</span> <span class="p">=</span> <span class="nx">runtimeVal</span>
 	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>cacheBasedManager 主要也是透過 getReferencedObjects 拿到 pod sepc 中有的物件交由 objectCache 刪除關聯的 reflector ，接著來看實際上怎麼刪除的。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">DeleteReference</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">//透過 namespace 與 name 建立一個 object key 用以後續刪除對應的 reference
-</span><span class="c1"></span>	<span class="nx">key</span> <span class="o">:=</span> <span class="nx">objectKey</span><span class="p">{</span><span class="nx">namespace</span><span class="p">:</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">:</span> <span class="nx">name</span><span class="p">}</span>
 
-
-	<span class="c1">//有可能同時多個 thread  在操作所以要上鎖避免競爭
-</span><span class="c1"></span>	<span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
-	<span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
-    
-	<span class="c1">//從 object cache 中的 map 透過 object key 找尋對應的物件
-</span><span class="c1"></span>	<span class="c1">//map 中存的是 objectCacheItem ， object cache item 會記錄當前有多少 reflector 
-</span><span class="c1"></span>	
-	<span class="k">if</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span> <span class="nx">ok</span> <span class="p">{</span>
-		<span class="c1">//這個 function 是要刪除 Reference 所以要減少 object cache item 所管理的數量 
-</span><span class="c1"></span>		<span class="nx">item</span><span class="p">.</span><span class="nx">refCount</span><span class="o">--</span>
-		<span class="c1">//如果 object cache item 已經沒有管理任何 reference 那就需要把最底層的 reflector 停掉
-</span><span class="c1"></span>		<span class="c1">//並且透過 object key 從 object cache 中的 map 移除自己
-</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">item</span><span class="p">.</span><span class="nx">refCount</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-			<span class="c1">// Stop the underlying reflector.
-</span><span class="c1"></span>			<span class="nx">item</span><span class="p">.</span><span class="nf">stop</span><span class="p">()</span>
-			<span class="nb">delete</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">items</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-<span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h4 id="get">Get</h4>
-<p>一樣我們先來看 cacheBasedManager 是如何使用的，這裡非常簡單直接把想要拿到 kubernetes 物件名稱與 namespace 交給 objectStore 去處理。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">cacheBasedManager</span><span class="p">)</span> <span class="nf">GetObject</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nx">objectStore</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>我們就接著來看 objectStore 是怎麼處理的 Get 的實作。</p>
+</div><p><a href="pkg/kubelet/kubelet_pods.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2320,266 +2538,43 @@ newReflector裡面的listFunc&lt;加了 field selector &gt;處理完後會再丟
 </span><span class="lnt">30
 </span><span class="lnt">31
 </span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
-</span><span class="lnt">69
-</span><span class="lnt">70
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">Get</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">//透過 namespace 與物件名稱 name 建立一個 object key 用以後續從 map 中查詢對應的 reference
-</span><span class="c1"></span>	<span class="nx">key</span> <span class="o">:=</span> <span class="nx">objectKey</span><span class="p">{</span><span class="nx">namespace</span><span class="p">:</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">:</span> <span class="nx">name</span><span class="p">}</span>
-    
-    
-	<span class="c1">//有可能同時多個 thread  在進行 get 操作所以要上鎖避免競爭
-</span><span class="c1"></span>	<span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">RLock</span><span class="p">()</span>
-	<span class="c1">//先把資料讀出來就可以解鎖囉
-</span><span class="c1"></span>	<span class="nx">item</span><span class="p">,</span> <span class="nx">exists</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
-	<span class="nx">c</span><span class="p">.</span><span class="nx">lock</span><span class="p">.</span><span class="nf">RUnlock</span><span class="p">()</span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">kl</span> <span class="o">*</span><span class="nx">Kubelet</span><span class="p">)</span> <span class="nf">makeEnvironmentVariables</span><span class="p">(</span><span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">,</span> <span class="nx">container</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">podIP</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">podIPs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="p">([]</span><span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">EnvVar</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> 
 
-
-	<span class="c1">//如果透過 object key 找不到對應的資料表示...阿就還沒加過 reference xD
-</span><span class="c1"></span>	<span class="k">if</span> <span class="p">!</span><span class="nx">exists</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;object %q/%q not registered&#34;</span><span class="p">,</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-	<span class="p">}</span>
+	<span class="o">...</span>
     
+	<span class="kd">var</span> <span class="nx">result</span> <span class="p">[]</span><span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">EnvVar</span>
     
-	<span class="c1">//會立刻嘗試檢查 reflector 是不是已經同步了，關於怎麼確認是不是已經同步可以參考本篇文章 https://blog.jjmengze.website/posts/kubernetes/source-code/controller/deltafifo/kubernetes-delta-fifo-queue/#impliment
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">wait</span><span class="p">.</span><span class="nf">PollImmediate</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">hasSynced</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to sync %s cache: %v&#34;</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">groupResource</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="nx">serviceEnv</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">kl</span><span class="p">.</span><span class="nf">getServiceEnvVarMap</span><span class="p">(</span><span class="nx">pod</span><span class="p">.</span><span class="nx">Namespace</span><span class="p">,</span> <span class="o">*</span><span class="nx">pod</span><span class="p">.</span><span class="nx">Spec</span><span class="p">.</span><span class="nx">EnableServiceLinks</span><span class="p">)</span>
+	<span class="o">...</span>
+	<span class="kd">var</span> <span class="p">(</span>
+		<span class="nx">configMaps</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">ConfigMap</span><span class="p">)</span>
+		<span class="nx">secrets</span>    <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Secret</span><span class="p">)</span>
+		<span class="nx">tmpEnv</span>     <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span>
+	<span class="p">)</span>
+	<span class="o">...</span>
+    
+	<span class="c1">// 將剛剛所產生出的環境變數暫存檔加入到 result 這個 slice ，未來將作為 container 的環境變數
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tmpEnv</span> <span class="p">{</span>
+		<span class="nx">result</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">EnvVar</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">Value</span><span class="p">:</span> <span class="nx">v</span><span class="p">})</span>
 	<span class="p">}</span>
 
-
-	<span class="c1">//透過 object key 取得 object 怎麼取得的可以參考之前的文章，會從reflector 的 storage 透過  object  key 把物件取出。
-</span><span class="c1"></span>	<span class="c1">//這裡有個小 tip 就是我們 reflector 再把物件放入 store 的時候是透過 indexed function 計算後放入 store 的
-</span><span class="c1"></span>	<span class="c1">//所以我們再取出的時候一樣要先透過 indexed function 算出物件的位置。
-</span><span class="c1"></span>	<span class="nx">obj</span><span class="p">,</span> <span class="nx">exists</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">store</span><span class="p">.</span><span class="nf">GetByKey</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nf">key</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">))</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
-	<span class="p">}</span>
-	<span class="k">if</span> <span class="p">!</span><span class="nx">exists</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">apierrors</span><span class="p">.</span><span class="nf">NewNotFound</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">groupResource</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-	<span class="p">}</span>
-    
-    
-    
-	<span class="c1">//因為 storage 儲存的是 interface 什麼東西都可以放進去，我們要先判物件是不是     runtime.Object 型態。
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">object</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">obj</span><span class="p">.(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
-		<span class="c1">// If the returned object is immutable, stop the reflector.
-</span><span class="c1"></span>		<span class="c1">//
-</span><span class="c1"></span>		<span class="c1">// NOTE: we may potentially not even start the reflector if the object is
-</span><span class="c1"></span>		<span class="c1">// already immutable. However, given that:
-</span><span class="c1"></span>		<span class="c1">// - we want to also handle the case when object is marked as immutable later
-</span><span class="c1"></span>		<span class="c1">// - Secrets and ConfigMaps are periodically fetched by volumemanager anyway
-</span><span class="c1"></span>		<span class="c1">// - doing that wouldn&#39;t provide visible scalability/performance gain - we
-</span><span class="c1"></span>		<span class="c1">//   already have it from here
-</span><span class="c1"></span>		<span class="c1">// - doing that would require significant refactoring to reflector
-</span><span class="c1"></span>		<span class="c1">// we limit ourselves to just quickly stop the reflector here.
-</span><span class="c1"></span>		
-		<span class="c1">//會先檢查有沒有開啟 FeatureGate  ImmutableEphemeralVolumes 
-</span><span class="c1"></span>		<span class="c1">//以及物件是否有明確標注處於 immutable = true ，若是有這兩種情況同時存在
-</span><span class="c1"></span>		<span class="c1">//就停止監控 kubernetes 物件，因為物件已經處於 immutable 狀態
-</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">utilfeature</span><span class="p">.</span><span class="nx">DefaultFeatureGate</span><span class="p">.</span><span class="nf">Enabled</span><span class="p">(</span><span class="nx">features</span><span class="p">.</span><span class="nx">ImmutableEphemeralVolumes</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="p">.</span><span class="nf">isImmutable</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="nx">item</span><span class="p">.</span><span class="nf">stop</span><span class="p">()</span> <span class="p">{</span>
-				<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Stopped watching for changes of %q/%q - object is immutable&#34;</span><span class="p">,</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-			<span class="p">}</span>
+	<span class="c1">// 加入 service env 環境變數
+</span><span class="c1"></span>	<span class="c1">//簡單來說就是如果 pod yaml 有啟用 EnableServiceLinks 的話就需要把同一個 namespaces 所有的 service 
+</span><span class="c1"></span>	<span class="c1">//對應的名稱、IP 與 port 以環境變數的方式除存在 serviceENV 中
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">serviceEnv</span> <span class="p">{</span>
+		<span class="c1">//如果 service env 的 key 暫存的環境變數不暫存這個  key 的話
+</span><span class="c1"></span>        <span class="c1">//加入 service env 的環境變數到 result 的 slice 中
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">present</span> <span class="o">:=</span> <span class="nx">tmpEnv</span><span class="p">[</span><span class="nx">k</span><span class="p">];</span> <span class="p">!</span><span class="nx">present</span> <span class="p">{</span>
+			<span class="nx">result</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">EnvVar</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">Value</span><span class="p">:</span> <span class="nx">v</span><span class="p">})</span>
 		<span class="p">}</span>
-		<span class="k">return</span> <span class="nx">object</span><span class="p">,</span> <span class="kc">nil</span>
 	<span class="p">}</span>
-	<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;unexpected object type: %v&#34;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="c1">// 因為我們 storage 用的 index function 是 MetaNamespaceKeyFunc 所以我們要從 storage 把 object 拿出來的時候要符合 MetaNamespaceKeyFunc 的格式。
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">key</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">namespace</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">namespace</span> <span class="o">+</span> <span class="s">&#34;/&#34;</span> <span class="o">+</span> <span class="nx">name</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="nx">name</span>
+	<span class="k">return</span> <span class="nx">result</span><span class="p">,</span> <span class="kc">nil</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h4 id="回收伏筆">回收伏筆</h4>
-<p>上面再說明 <code>objectCache</code> 時有賣一個關子，從註解來看 <code>objectCache</code>  是一個透過獨立 watcher 傳播物件的 local cache 。</p>
-<p><a href="pkg/kubelet/util/manager/watch_based_manager.go">source code</a></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// objectCache is a local cache of objects propagated via individual watches.
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">objectCache</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">listObject</span>    <span class="nx">listObjectFunc</span>				<span class="c1">//列出 kubernetes 物件的過濾方法
-</span><span class="c1"></span>	<span class="nx">watchObject</span>   <span class="nx">watchObjectFunc</span>				<span class="c1">//監控 kubernetes 物件的過濾方法
-</span><span class="c1"></span>    <span class="o">...</span>
-</code></pre></td></tr></table>
 </div>
-</div><p>這裡終於可以回收為什麼  <code>objectCache</code>  是一個透過獨立 watcher 傳播物件的 local cache 了！</p>
-<ol>
-<li>listObjectFunc 與 watchObjectFunc<br />
-在執行 newReflector function 其實是把傳入的 listObjectFunc 與 watchObjectFunc 加了 fieldSelector 用來過濾 kubernetes 物件。<br />
-對應到的 code 是以下這一段<br />
-<a href="pkg/kubelet/util/manager/watch_based_manager.go">soure code</a>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">newReflector</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">objectCacheItem</span> <span class="p">{</span>
-<span class="c1">//先建立一個 fieldSelector 用來過濾 kubernetes 物件
-</span><span class="c1"></span><span class="nx">fieldSelector</span> <span class="o">:=</span> <span class="nx">fields</span><span class="p">.</span><span class="nx">Set</span><span class="p">{</span><span class="s">&#34;metadata.name&#34;</span><span class="p">:</span> <span class="nx">name</span><span class="p">}.</span><span class="nf">AsSelector</span><span class="p">().</span><span class="nf">String</span><span class="p">()</span>
-   
-<span class="c1">//用 NewObjectCache 時建立的 list watch function 
-</span><span class="c1">//並且透過剛剛建立的 fieldSelector 過濾 kubernetes 物件
-</span><span class="c1"></span><span class="nx">listFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">options</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">options</span><span class="p">.</span><span class="nx">FieldSelector</span> <span class="p">=</span> <span class="nx">fieldSelector</span>
-    <span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nf">listObject</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span>
-<span class="p">}</span>
-   
-<span class="nx">watchFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">options</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">watch</span><span class="p">.</span><span class="nx">Interface</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">options</span><span class="p">.</span><span class="nx">FieldSelector</span> <span class="p">=</span> <span class="nx">fieldSelector</span>
-    <span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nf">watchObject</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
-<li>newObjectFunc<br />
-在執行 newReflector function 是把傳入的 newObjectFunc 交給 reflector package 的 NewNamedReflector function 去處理。<br />
-對應到的 code 是以下這一段。<br />
-<a href="pkg/kubelet/util/manager/watch_based_manager.go">soure code</a>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">objectCache</span><span class="p">)</span> <span class="nf">newReflector</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">objectCacheItem</span> <span class="p">{</span>
-<span class="o">...</span>
-<span class="nx">reflector</span> <span class="o">:=</span> <span class="nx">cache</span><span class="p">.</span><span class="nf">NewNamedReflector</span><span class="p">(</span>
-    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;object-%q/%q&#34;</span><span class="p">,</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">),</span>
-    <span class="o">&amp;</span><span class="nx">cache</span><span class="p">.</span><span class="nx">ListWatch</span><span class="p">{</span><span class="nx">ListFunc</span><span class="p">:</span> <span class="nx">listFunc</span><span class="p">,</span> <span class="nx">WatchFunc</span><span class="p">:</span> <span class="nx">watchFunc</span><span class="p">},</span>
-    <span class="nx">c</span><span class="p">.</span><span class="nf">newObject</span><span class="p">(),</span>
-    <span class="nx">store</span><span class="p">,</span>
-    <span class="mi">0</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="o">...</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
-<li>isImmutableFunc<br />
-最後要討論的就是在 Get function 會把 isImmutableFunc 作為判斷 object 是否為 Immutable 物件的方法。<br />
-對應到的 code 是以下這一段。<br />
-<a href="pkg/kubelet/util/manager/watch_based_manager.go">soure code</a>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="k">if</span> <span class="nx">utilfeature</span><span class="p">.</span><span class="nx">DefaultFeatureGate</span><span class="p">.</span><span class="nf">Enabled</span><span class="p">(</span><span class="nx">features</span><span class="p">.</span><span class="nx">ImmutableEphemeralVolumes</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="p">.</span><span class="nf">isImmutable</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="nx">item</span><span class="p">.</span><span class="nf">stop</span><span class="p">()</span> <span class="p">{</span>
-            <span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Stopped watching for changes of %q/%q - object is immutable&#34;</span><span class="p">,</span> <span class="nx">namespace</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="nx">object</span><span class="p">,</span> <span class="kc">nil</span>
-<span class="p">}</span> 
-</code></pre></td></tr></table>
-</div>
-</div></li>
-</ol>
-<h2 id="小結">小結</h2>
-<p>終於到了做結論的地方了，這章節比較繁瑣涉及到多個物件如何共用 objectCache ，這裡就牽扯到以下概念的實作。</p>
-<ul>
-<li>共用 objectCache 需要紀錄多少人（pod 中使用 configmap/secret 的各個欄位）使用 objectCacheItem
-<ul>
-<li>透過 map 的 key 去紀錄對應的使用者是誰， value 去紀錄 objectCacheItem</li>
-<li>第一次建立的時候需要建立 objectCacheItem 並且啟動 reflector</li>
-<li>當沒有人使用的時候需要回收  objectCacheItem
-<ul>
-<li>透過 stop channel 關閉 reflector</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>依賴 reflector 的資源監聽
-<ul>
-<li>需注入 list watch function 告知 reflector 如何過濾</li>
-<li>需注入 obejct store 告知 reflector 在哪裡儲存</li>
-<li>需注入 GVK 確保 reflector 的資料正確性（我不確定xD）</li>
-</ul>
-</li>
-<li>監聽的 resource 是否處於 Immutable 狀態
-<ul>
-<li>需要注入 isImmutable function 用來確認監聽的 resource 是否處於Immutable 狀態</li>
-</ul>
-</li>
-</ul>
-<p>以上的實作是為了前一章節提到 <code>cacheBasedManager</code> 解析完  pod spec 得到了 secret/configmap 的欄位後，後需要有人監聽個欄位對應的 kubernetes 資源的變化同時可能會有多個 pod spec 使用到相同的 secret/configmap 資源所 <code>objectCache</code> 以需要額外的處理。</p>
-<p>下一章節會開始進入 kubernetres configmap 與 <code>cacheBasedManager</code> 、<code>objectCache</code> 之間的愛恨情仇，文章中若有出現錯誤的見解希望各位在觀看文章的大大們可以指出哪裡有問題，讓我學習改進，謝謝。</p>
     </article>
     
     
@@ -2909,6 +2904,10 @@ newReflector裡面的listFunc&lt;加了 field selector &gt;處理完後會再丟
     <ul class="related-ul">
         
         <li>
+          <a href="/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cacheobject/" class="related__link">Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因</a>
+        </li>
+        
+        <li>
           <a href="/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cachebasedmanager/" class="related__link">Kubernetes kubelet configmap &amp; secret 與 cacheBasedManager 激情四射</a>
         </li>
         
@@ -2924,10 +2923,6 @@ newReflector裡面的listFunc&lt;加了 field selector &gt;處理完後會再丟
           <a href="/posts/kubernetes/source-code/controller/redlector/reflector-1/" class="related__link">Kubernetes Reflector 我在盯著你 （ I ）</a>
         </li>
         
-        <li>
-          <a href="/posts/kubernetes/source-code/controller/deltafifo/kubernetes-delta-fifo-queue/" class="related__link">Kubernetes DeltaFIFO 承上啟下</a>
-        </li>
-        
     </ul>
     
   </section>
@@ -2935,21 +2930,14 @@ newReflector裡面的listFunc&lt;加了 field selector &gt;處理完後會再丟
 <nav class="pagination-single">
   
     
-      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cachebasedmanager/" class="pagination-single__left">
+      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cacheobject/" class="pagination-single__left">
         <div class="pagination-single__icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
         </div>
-        <div class="pagination-single__left-title">Kubernetes kubelet configmap &amp; secret 與 cacheBasedManager 激情四射</div>      
+        <div class="pagination-single__left-title">Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因</div>      
       </a>
     
     <div class="grow"></div>
-    
-      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-configmap-overlay/" class="pagination-single__right">      
-        <div class="pagination-single__right-title"> Kubernetes kubelet 怎麼抓住你的 configmap</div>
-        <div class="pagination-single__icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
-        </div>
-      </a>
     
   
 </nav>
@@ -4064,27 +4052,19 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="toc toc__outer " data-dir="ltr" data-folding="true" data-ani="true">
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#cachebasedmanager">cacheBasedManager</a></li>
-    <li><a href="#store">Store</a>
+    <li><a href="#manger-interface">manger interface</a></li>
+    <li><a href="#configmap-manager">configmap manager</a>
       <ul>
-        <li><a href="#interface">interface</a></li>
-        <li><a href="#struct">struct</a>
-          <ul>
-            <li><a href="#objectcacheitem">objectCacheItem</a></li>
-          </ul>
-        </li>
         <li><a href="#new-function">new function</a></li>
-        <li><a href="#impliment">impliment</a>
+        <li><a href="#registerpodunregisterpod">RegisterPod/UnregisterPod</a></li>
+        <li><a href="#getconfigmap">GetConfigMap</a>
           <ul>
-            <li><a href="#addreference">AddReference</a></li>
-            <li><a href="#deletereference">DeleteReference</a></li>
-            <li><a href="#get">Get</a></li>
-            <li><a href="#回收伏筆">回收伏筆</a></li>
+            <li><a href="#env---valuefrom---configmapref">env - valueFrom - configMapRef</a></li>
+            <li><a href="#env---valuefrom---configmapkeyref">env - valueFrom - configMapKeyRef</a></li>
           </ul>
         </li>
       </ul>
     </li>
-    <li><a href="#小結">小結</a></li>
   </ul>
 </nav>
         </div>
