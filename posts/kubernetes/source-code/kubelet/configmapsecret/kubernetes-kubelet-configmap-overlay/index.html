@@ -1653,7 +1653,7 @@
 <div class="single__infos">
   <time class="single__info" title="Written At">📅&nbsp;Apr 15, 2021 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;9&nbsp;min read </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;10&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -2574,7 +2574,43 @@
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
+</div><h2 id="小結">小結</h2>
+<p>上面我們了解了 kubernetes 的 Manager 怎麼實作並且如何取得對應的 configmap 資料了，基本上是依賴透過前兩章內容<a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/kubernetes-kubelet/">Kubernetes kubelet cacheBasedManager 現在才知道</a>以及<a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cacheobject/">Kubernetes kubelet cacheBasedManager 好喜歡 objectcache 的原因</a>。</p>
+<ol>
+<li></li>
+</ol>
+<p>透過 cacheBasedManager 註冊 pod 的時候 ，將有使用到 configmap 的欄位提取出來建立對應的 reflector ，並且將 reflector 對應到 objectStore 的 objectCacheItem 中。</p>
+<p>objectStore 主要用來儲存 reflector 觀測到的物件狀態（新增的情況）</p>
+<ul>
+<li>如果有 nginxA 以及 nginxB 兩個 pod 同時都有 xxx-configmap該怎麼辦
+<ul>
+<li>xxx-configmap 對應 xxx-objectCacheItem ， xxx-objectCacheItem 要記錄有兩個人 refference 到。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>透過 cacheBasedManager 反註冊 pod 的時候 ，將上一次 pod 引用到 configmap 用到的欄位取出來 ，並且將對應的 reflector 到 objectStore 的 objectCacheItem 進行移除。<br />
+objectStore 主要用來儲存 reflector 觀測到的物件狀態（刪除的情況）</li>
+</ol>
+<ul>
+<li>如果 nginx B 不再關注這個 xxx-configmap 要如何處理？
+<ul>
+<li>xxx-configmap 對應 xxx-objectCacheItem ， xxx-objectCacheItem 要記錄現在有只有一個人 refference 到。</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>GetConfigMap 我們透過 namespace/name 向 cacheBasedManager 與 objectStore 取得對應的資料</li>
+</ol>
+<ul>
+<li>objectStore 會拿 namespace/name 作為  key 找到對應到 objectCacheItem
+<ul>
+<li>objectCacheItem 內有 reflector 可以把資料吐出來</li>
+</ul>
+</li>
+</ul>
+<p>以上為 configmap manager 的簡易分析，如果對詳細的步驟有疑慮的話建議先到前兩章節去了解底層是如何處理的！下一章節會繼續解析 kubernetes kubelet 是如何和抓住你的 secret。</p>
+<p>文章中若有出現錯誤的見解希望各位在觀看文章的大大們可以指出哪裡有問題，讓我學習改進，謝謝。</p>
     </article>
     
     
@@ -4065,6 +4101,7 @@ document.addEventListener('DOMContentLoaded', function () {
         </li>
       </ul>
     </li>
+    <li><a href="#小結">小結</a></li>
   </ul>
 </nav>
         </div>
