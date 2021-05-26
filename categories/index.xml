@@ -14,13 +14,85 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Thu, 20 May 2021 10:29:32 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 25 May 2021 10:29:32 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     
 
+      
+      <item>
+        <title>kubelet</title>
+        <link>https://blog.jjmengze.website/categories/kubelet/</link>
+        <pubDate>Tue, 25 May 2021 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/kubelet/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
+      
+      <item>
+        <title>kubernetes</title>
+        <link>https://blog.jjmengze.website/categories/kubernetes/</link>
+        <pubDate>Tue, 25 May 2021 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/kubernetes/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
+      
+      <item>
+        <title>probes</title>
+        <link>https://blog.jjmengze.website/categories/probes/</link>
+        <pubDate>Tue, 25 May 2021 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/probes/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
+      
+      <item>
+        <title>source-code</title>
+        <link>https://blog.jjmengze.website/categories/source-code/</link>
+        <pubDate>Tue, 25 May 2021 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/categories/source-code/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
       
       <item>
         <title>configmap</title>
@@ -41,66 +113,12 @@
       </item>
       
       <item>
-        <title>kubelet</title>
-        <link>https://blog.jjmengze.website/categories/kubelet/</link>
-        <pubDate>Thu, 20 May 2021 10:29:32 +0800</pubDate>
-        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
-        
-        <guid>https://blog.jjmengze.website/categories/kubelet/</guid>
-        <description></description>
-        
-        <dc:creator>Meng Ze Li</dc:creator>
-        
-        
-        
-        
-        
-        
-      </item>
-      
-      <item>
-        <title>kubernetes</title>
-        <link>https://blog.jjmengze.website/categories/kubernetes/</link>
-        <pubDate>Thu, 20 May 2021 10:29:32 +0800</pubDate>
-        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
-        
-        <guid>https://blog.jjmengze.website/categories/kubernetes/</guid>
-        <description></description>
-        
-        <dc:creator>Meng Ze Li</dc:creator>
-        
-        
-        
-        
-        
-        
-      </item>
-      
-      <item>
         <title>secret</title>
         <link>https://blog.jjmengze.website/categories/secret/</link>
         <pubDate>Thu, 20 May 2021 10:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         
         <guid>https://blog.jjmengze.website/categories/secret/</guid>
-        <description></description>
-        
-        <dc:creator>Meng Ze Li</dc:creator>
-        
-        
-        
-        
-        
-        
-      </item>
-      
-      <item>
-        <title>source-code</title>
-        <link>https://blog.jjmengze.website/categories/source-code/</link>
-        <pubDate>Thu, 20 May 2021 10:29:32 +0800</pubDate>
-        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
-        
-        <guid>https://blog.jjmengze.website/categories/source-code/</guid>
         <description></description>
         
         <dc:creator>Meng Ze Li</dc:creator>
