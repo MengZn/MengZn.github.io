@@ -44,12 +44,12 @@
 
       
       <item>
-        <title>Kubernetes kubelet 探測 pod 的生命症狀 - liveness</title>
-        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-liveness/</link>
+        <title>Kubernetes kubelet 探測 pod 的生命症狀 Http Get</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/</link>
         <pubDate>Tue, 25 May 2021 10:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
         <atom:modified>Tue, 25 May 2021 10:29:32 +0800</atom:modified>
-        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-liveness/</guid>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/</guid>
         <description>&lt;figure&gt;
     &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-kubelet-liveness.png&#34;/&gt; 
 &lt;/figure&gt;</description>
