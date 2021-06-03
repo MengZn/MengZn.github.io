@@ -2588,7 +2588,7 @@
 </div>
 </div><h2 id="小結">小結</h2>
 <p>以上為 kubelet 探測 pod 的生命症狀  Http Get 簡易分析，簡單來說 kubernetes worker node 上的 kubelet process 會有一隻 worker 的 thread 建立一個探針，該 worker 會把 pod prob spec 解析出來並建立對應的探針（這一部份在後續會揭露），本篇以 prob 為 http get 為例。</p>
-<p>我們看到了 http status code 介於 200 ~ 400 之間就當作成功，此外 StatusCode 為重新導向的話 （300） ，就回報 warring ，下一章節將會針對 kubelet 如何透過 TCP Prob 探測 pod 的生命症狀。</p>
+<p>我們看到了 http status code 介於 200 ~ 400 之間就當作成功，此外 StatusCode 為重新導向的話 （300） ，就回報 warring ，下一章節將會針對 kubelet 如何透過 exec Prob 探測 pod 的生命症狀。</p>
 <p>文章中若有出現錯誤的見解希望各位在觀看文章的大大們可以指出哪裡有問題，讓我學習改進，謝謝。</p>
     </article>
     
