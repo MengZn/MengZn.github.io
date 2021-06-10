@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kubernetes kubelet 探測 pod 的生命症狀 Http Get – MengZe Blog</title>
+    <title>Kubernetes kubelet 探測 pod 的生命症狀 Exec – MengZe Blog</title>
     
 
 
@@ -653,7 +653,7 @@
     
     var baseurl = JSON.parse("\"https://blog.jjmengze.website/\"");
     
-    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/\"");
+    var permalink = JSON.parse("\"https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-exec/\"");
     
     var langprefix = JSON.parse("\"\"");
     var searchResults = null;
@@ -1328,16 +1328,16 @@
 
 <meta name="keywords" content="kubernetes,source-code">
 
-<meta name="created" content="2021-05-25T10:29:32&#43;0800">
-<meta name="modified" content="2021-05-25T10:29:32&#43;0800">
-<meta property="article:published_time" content="2021-05-25T10:29:32&#43;0800">
+<meta name="created" content="2021-06-10T10:29:32&#43;0800">
+<meta name="modified" content="2021-06-10T10:29:32&#43;0800">
+<meta property="article:published_time" content="2021-06-10T10:29:32&#43;0800">
 
 <meta name="author" content="Meng Ze Li">
 
 
 <meta property="og:site_name" content="MengZe Blog">
-<meta property="og:title" content="Kubernetes kubelet 探測 pod 的生命症狀 Http Get">
-<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/">
+<meta property="og:title" content="Kubernetes kubelet 探測 pod 的生命症狀 Exec">
+<meta property="og:url" content="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-exec/">
 <meta property="og:type" content="article">
 <meta property="og:description" content="Meng Learning Note">
 
@@ -1350,7 +1350,7 @@
 
 <meta name="apple-mobile-web-app-status-bar-style" content="#fff">
 
-<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/">
+<link rel="canonical" href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-exec/">
 
 <link rel="manifest" href="/manifest.json">
 
@@ -1376,11 +1376,11 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "headline": "Kubernetes kubelet 探測 pod 的生命症狀 Http Get",
-    "datePublished": "2021-05-25T10:29:32+08:00",
-    "dateModified": "2021-05-25T10:29:32+08:00",
-    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/",
-    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-kubelet-liveness.png\"/\u003e  \u003c/figure\u003e",
+    "headline": "Kubernetes kubelet 探測 pod 的生命症狀 Exec",
+    "datePublished": "2021-06-10T10:29:32+08:00",
+    "dateModified": "2021-06-10T10:29:32+08:00",
+    "url" : "https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-exec/",
+    "description": "\u003cfigure\u003e     \u003cimg src=\"/images/theme/kubernetes-kubelet-liveness-exec.png\"/\u003e  \u003c/figure\u003e",
     "keywords": ["kubernetes","source-code"],
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -1634,7 +1634,7 @@
   
   <li  class="is-active" >
     
-      <span>Kubernetes kubelet 探測 pod 的生命症狀 Http Get</span>
+      <span>Kubernetes kubelet 探測 pod 的生命症狀 Exec</span>
     
   </li>
   
@@ -1646,14 +1646,14 @@
   <div class="single ">
     <div class="single__nojs">This page looks best with JavaScript enabled</div>
     <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
-    <h2 class="single__title" data-ani="true">Kubernetes kubelet 探測 pod 的生命症狀 Http Get</h2>
+    <h2 class="single__title" data-ani="true">Kubernetes kubelet 探測 pod 的生命症狀 Exec</h2>
     <h3 class="single__subtitle"></h3>
     <div class="single__meta">
       
 <div class="single__infos">
-  <time class="single__info" title="Written At">📅&nbsp;May 25, 2021 </time>
+  <time class="single__info" title="Written At">📅&nbsp;Jun 10, 2021 </time>
   
-  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;10&nbsp;min read </span>
+  &nbsp;&middot;&nbsp; <span class="single__info" title="Reading Time"> ☕&nbsp;13&nbsp;min read </span>
   
   <span class="single__info">
     
@@ -1676,10 +1676,11 @@
     <article class="single__contents" data-dir="ltr" data-ani="true">
       
       <figure>
-    <img src="/images/theme/kubernetes-kubelet-liveness.png"/> 
+    <img src="/images/theme/kubernetes-kubelet-liveness-exec.png"/> 
 </figure>
 
 <p>首先本文所有的 source code 基於 kubernetes 1.19 版本，所有 source code 為了版面的整潔會精簡掉部分 log 相關的程式碼，僅保留核心邏輯，如果有見解錯誤的地方，還麻煩觀看本文的大大們提出，感謝！</p>
+<p>本篇文章基於<a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/">Kubernetes kubelet 探測 pod 的生命症狀 Http Get</a>繼續往上蓋的違建（Ｘ），大部分的內容都差不多，如有看過前一篇的並且建立基礎觀念的朋友可以直接滑到最下面看 kubernetes kubelet 如何透過 exec 探測 pod 的生命症狀。</p>
 <p>使用 kubernetes 在建置自己的服務時，我們通常會透過 kubernetes 所提供的探針<code>（probes）</code> 來探測 pod 的特定服務是否正常運作。 probes 主要用來進行自我修復的功能，例如今天某一隻 process 因為業務邏輯或是程式寫錯造成死鎖的問題，我們就能透過 probes 來重新啟動 pod 來恢復程式的運行。或是假設今天 process 啟動到真正可以提供外部存取提供服務，所花費的時間需要比較長的時候我們也會透過 kubernetes 所提供的探針<code>（probes）</code> 來探測服務是不是可以提供外部使用。</p>
 <p>綜上所述 probes 分成兩種</p>
 <ol>
@@ -1688,7 +1689,7 @@
 <li>readiness<br />
 主要用來判斷 pod 是否可以提供給其他服務存取，如果探測失敗的話 kubelet 會把 pod 從 service backend 移除，這樣的話其他服務就無法從 service 存取到該服務。</li>
 </ol>
-<p>今天主要跟大家分享是的 kubernetes 怎麼透過 Http Get 去探測  pod 的生命狀態。</p>
+<p>今天主要跟大家分享是的 kubernetes 怎麼透過 liveness probes 的 exec 去探測  pod 的生命狀態。</p>
 <h2 id="probes">probes</h2>
 <p><a href="pkg/kubelet/prober/prober.go">source code</a></p>
 <div class="highlight"><div class="chroma">
@@ -1779,7 +1780,7 @@
 	<span class="c1">//傳入探針型態，探針規格，pod狀態，pod spec，以及要探測哪一個 container，以及重試次次數。
 </span><span class="c1"></span>	<span class="c1">//接著會依照探測結果進行不同策略
 </span><span class="c1"></span>	<span class="nx">result</span><span class="p">,</span> <span class="nx">output</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">pb</span><span class="p">.</span><span class="nf">runProbeWithRetries</span><span class="p">(</span><span class="nx">probeType</span><span class="p">,</span> <span class="nx">probeSpec</span><span class="p">,</span> <span class="nx">pod</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">container</span><span class="p">,</span> <span class="nx">containerID</span><span class="p">,</span> <span class="nx">maxProbeRetries</span><span class="p">)</span>
-	<span class="c1">//如果 err 不是 nil 或是 result 不是 Success 也不是 Warning
+	<span class="c1">//如果 err 不是 nil 或是 result 不是 Success 同時不是 Warning，就要進行 log 處理
 </span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">||</span> <span class="p">(</span><span class="nx">result</span> <span class="o">!=</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Success</span> <span class="o">&amp;&amp;</span> <span class="nx">result</span> <span class="o">!=</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Warning</span><span class="p">)</span> <span class="p">{</span>
 		<span class="c1">// Probe failed in one way or another.
 </span><span class="c1"></span>		<span class="c1">//簡單來說就是紀錄哪個 pod 哪個 container 發生了探針探測結果 ContainerUnhealthy，以及印一下 log 。
@@ -1798,7 +1799,7 @@
 		<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;%s probe for %q succeeded with a warning: %s&#34;</span><span class="p">,</span> <span class="nx">probeType</span><span class="p">,</span> <span class="nx">ctrName</span><span class="p">,</span> <span class="nx">output</span><span class="p">)</span>
 	<span class="p">}</span> 
 	<span class="c1">//不然就是成功，發個 log 沒什麼其他的用途。
-</span><span class="c1"></span>    <span class="k">else</span> <span class="p">{</span>
+</span><span class="c1"></span>	<span class="k">else</span> <span class="p">{</span>
 		<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;%s probe for %q succeeded&#34;</span><span class="p">,</span> <span class="nx">probeType</span><span class="p">,</span> <span class="nx">ctrName</span><span class="p">)</span>
 	<span class="p">}</span>
 	<span class="c1">//回傳一下探測結果    
@@ -1807,8 +1808,7 @@
 
 </code></pre></td></tr></table>
 </div>
-</div><p><code>runProbeWithRetries</code> 主要傳入探針型態，探針規格，pod狀態，pod spec，以及要探測哪一個 container，接著透過 runProbe function 去執行探測。<br />
-<a href="pkg/kubelet/prober/prober.go">source code</a></p>
+</div><p><code>runProbeWithRetries</code> 主要傳入探針型態，探針規格，pod狀態，pod spec，以及要探測哪一個 container，接著透過 runProbe function 去執行探測。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1838,7 +1838,7 @@
 </span><span class="c1">// if it never succeeds.
 </span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pb</span> <span class="o">*</span><span class="nx">prober</span><span class="p">)</span> <span class="nf">runProbeWithRetries</span><span class="p">(</span><span class="nx">probeType</span> <span class="nx">probeType</span><span class="p">,</span> <span class="nx">p</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Probe</span><span class="p">,</span> <span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">,</span> <span class="nx">status</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">PodStatus</span><span class="p">,</span> <span class="nx">container</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">containerID</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">ContainerID</span><span class="p">,</span> <span class="nx">retries</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="nx">probe</span><span class="p">.</span><span class="nx">Result</span><span class="p">,</span> <span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 	<span class="c1">//探針錯誤訊息
-</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">err</span> <span class="kt">error</span>
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">err</span> <span class="kt">error</span>
 	<span class="c1">//探針結果
 </span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">result</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Result</span>
 	<span class="c1">//探針結果
@@ -1852,13 +1852,12 @@
 			<span class="k">return</span> <span class="nx">result</span><span class="p">,</span> <span class="nx">output</span><span class="p">,</span> <span class="kc">nil</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
-    <span class="c1">//如果探測失敗達到重試次數
+	<span class="c1">//如果探測失敗達到重試次數
 </span><span class="c1"></span>	<span class="k">return</span> <span class="nx">result</span><span class="p">,</span> <span class="nx">output</span><span class="p">,</span> <span class="nx">err</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p><code>runProbe</code> function 主要是執行探針探測的動作。<br />
-<a href="pkg/kubelet/prober/prober.go">source code</a></p>
+</div><p><code>runProbe</code> function 主要是執行探針探測的動作。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1952,19 +1951,18 @@
 </span><span class="lnt">89
 </span><span class="lnt">90
 </span><span class="lnt">91
-</span><span class="lnt">92
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">pb</span> <span class="o">*</span><span class="nx">prober</span><span class="p">)</span> <span class="nf">runProbe</span><span class="p">(</span><span class="nx">probeType</span> <span class="nx">probeType</span><span class="p">,</span> <span class="nx">p</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Probe</span><span class="p">,</span> <span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">,</span> <span class="nx">status</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">PodStatus</span><span class="p">,</span> <span class="nx">container</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">containerID</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">ContainerID</span><span class="p">)</span> <span class="p">(</span><span class="nx">probe</span><span class="p">.</span><span class="nx">Result</span><span class="p">,</span> <span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 	<span class="c1">//設定太測多久會 timeout
 </span><span class="c1"></span>	<span class="nx">timeout</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Duration</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">TimeoutSeconds</span><span class="p">)</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span>
     
-	<span class="c1">//如果 pod 有設定 exec 的話，就會透過 pb.exec.Probe 進行探測，這一塊未來會再討論。
+	<span class="c1">//如果 pod 有設定 exec 的話，就會透過 pb.exec.Probe 進行探測，今天主要討論這一塊。
 </span><span class="c1"></span>	<span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Exec</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
 		<span class="c1">//先打個要執行 exec 的 log     
 </span><span class="c1"></span>		<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Exec-Probe Pod: %v, Container: %v, Command: %v&#34;</span><span class="p">,</span> <span class="nx">pod</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">container</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">)</span>
         
-		<span class="c1">//實際執行 exec prob 的部分這一塊未來會再討論。
+		<span class="c1">//實際執行 exec prob 本篇主要討論的對象
 </span><span class="c1"></span>		<span class="nx">command</span> <span class="o">:=</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nf">ExpandContainerCommandOnlyStatic</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">Exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">,</span> <span class="nx">container</span><span class="p">.</span><span class="nx">Env</span><span class="p">)</span>
         
 		<span class="c1">//回傳執行結果
@@ -1972,7 +1970,7 @@
 	<span class="p">}</span>
     
     
-	<span class="c1">//如果 pod 有設定 HTTPGet 的話，就會透過 pb.HTTPGet.Probe 進行探測，今天主要討論這一塊。
+	<span class="c1">//如果 pod 有設定 HTTPGet 的話，就會透過 pb.HTTPGet.Probe 進行探測,上一篇[Kubernetes kubelet 探測 pod 的生命症狀 Http Get](https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/)主要在討論這一塊。
 </span><span class="c1"></span>	<span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">HTTPGet</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
     
     
@@ -2020,8 +2018,7 @@
 			<span class="k">return</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">readinessHTTP</span><span class="p">.</span><span class="nf">Probe</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">headers</span><span class="p">,</span> <span class="nx">timeout</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
-	<span class="c1">//如果有 pod 定義 tc
-</span><span class="c1"></span>	<span class="c1">//p socket 的話，就會透過 pb.tcp.Probe 進行探測，這一塊未來會再討論。
+	<span class="c1">//如果有 pod 定義 tcp socket 的話，就會透過 pb.tcp.Probe 進行探測，這一塊未來會再討論。
 </span><span class="c1"></span>	<span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">TCPSocket</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
     
 		<span class="c1">//取出 pod 裡面指定 prob 的 port 號，有可能有人寫成 port: &#34;http&#34;或是寫成 port: 80 又或是 port : &#34;80&#34;
@@ -2049,8 +2046,7 @@
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>針對上述用到的 function 進行一些補充～<br />
-<a href="pkg/kubelet/prober/prober.go">source code</a></p>
+</div><p>針對上述用到的 function 進行一些補充～</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2136,10 +2132,6 @@
 </span><span class="lnt">81
 </span><span class="lnt">82
 </span><span class="lnt">83
-</span><span class="lnt">84
-</span><span class="lnt">85
-</span><span class="lnt">86
-</span><span class="lnt">87
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//仔細觀察參數的話，第一個輸入的 param 型態為 intstr.IntOrString，這個型態是什麼東西呢？
@@ -2175,8 +2167,7 @@
 <span class="p">}</span>
 
 <span class="c1">//上面有看到透過 param.IntValue() 把 intstr.IntOrString 為 int type 的轉換成 int 是透過這個方法
-</span><span class="c1"></span><span class="p">[</span><span class="nx">source</span> <span class="nx">code</span><span class="p">](</span><span class="nx">vendor</span><span class="o">/</span><span class="nx">k8s</span><span class="p">.</span><span class="nx">io</span><span class="o">/</span><span class="nx">apimachinery</span><span class="o">/</span><span class="nx">pkg</span><span class="o">/</span><span class="nx">util</span><span class="o">/</span><span class="nx">intstr</span><span class="o">/</span><span class="nx">intstr</span><span class="p">.</span><span class="k">go</span><span class="p">)</span>
-<span class="kd">func</span> <span class="p">(</span><span class="nx">intstr</span> <span class="o">*</span><span class="nx">IntOrString</span><span class="p">)</span> <span class="nf">IntValue</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">intstr</span> <span class="o">*</span><span class="nx">IntOrString</span><span class="p">)</span> <span class="nf">IntValue</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
 	<span class="c1">//應該不會跑到這個方法，外面已經判斷過了，可能多一層做保障？
 </span><span class="c1"></span>	<span class="k">if</span> <span class="nx">intstr</span><span class="p">.</span><span class="nx">Type</span> <span class="o">==</span> <span class="nx">String</span> <span class="p">{</span>
 		<span class="nx">i</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">Atoi</span><span class="p">(</span><span class="nx">intstr</span><span class="p">.</span><span class="nx">StrVal</span><span class="p">)</span>
@@ -2186,8 +2177,7 @@
 <span class="p">}</span>
 
 <span class="c1">// 通過名稱查找 container 中的 Port。
-</span><span class="c1"></span><span class="p">[</span><span class="nx">source</span> <span class="nx">code</span><span class="p">](</span><span class="nx">pkg</span><span class="o">/</span><span class="nx">kubelet</span><span class="o">/</span><span class="nx">prober</span><span class="o">/</span><span class="nx">prober</span><span class="p">.</span><span class="k">go</span><span class="p">)</span>
-<span class="kd">func</span> <span class="nf">findPortByName</span><span class="p">(</span><span class="nx">container</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">portName</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">findPortByName</span><span class="p">(</span><span class="nx">container</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">portName</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 	<span class="c1">//透過傳入的 container port 透過迴圈找尋 port 名稱對應到的實際 port 號，以 int 的方式回傳。
 </span><span class="c1"></span>	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">port</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">container</span><span class="p">.</span><span class="nx">Ports</span> <span class="p">{</span>
 		<span class="k">if</span> <span class="nx">port</span><span class="p">.</span><span class="nx">Name</span> <span class="o">==</span> <span class="nx">portName</span> <span class="p">{</span>
@@ -2200,8 +2190,7 @@
 
 
 <span class="c1">// formatURL 格式化 args 中的 URL。
-</span><span class="c1"></span><span class="p">[</span><span class="nx">source</span> <span class="nx">code</span><span class="p">](</span><span class="nx">pkg</span><span class="o">/</span><span class="nx">kubelet</span><span class="o">/</span><span class="nx">prober</span><span class="o">/</span><span class="nx">prober</span><span class="p">.</span><span class="k">go</span><span class="p">)</span>
-<span class="kd">func</span> <span class="nf">formatURL</span><span class="p">(</span><span class="nx">scheme</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">host</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">port</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">path</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">formatURL</span><span class="p">(</span><span class="nx">scheme</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">host</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">port</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">path</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span> <span class="p">{</span>
 	<span class="c1">// 透過 url package 的 parse function 將 url 去解析。
 </span><span class="c1"></span>	<span class="nx">u</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">url</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
 	<span class="c1">//不知道這個錯誤什麼時候會出現...先保留註解，求大大幫看xD
@@ -2219,8 +2208,7 @@
 <span class="p">}</span>
 
 <span class="c1">//把 pod spec prob header 加入到 prob 的請求中。
-</span><span class="c1"></span><span class="p">[</span><span class="nx">source</span> <span class="nx">code</span><span class="p">](</span><span class="nx">pkg</span><span class="o">/</span><span class="nx">kubelet</span><span class="o">/</span><span class="nx">prober</span><span class="o">/</span><span class="nx">prober</span><span class="p">.</span><span class="k">go</span><span class="p">)</span>
-<span class="kd">func</span> <span class="nf">buildHeader</span><span class="p">(</span><span class="nx">headerList</span> <span class="p">[]</span><span class="nx">v1</span><span class="p">.</span><span class="nx">HTTPHeader</span><span class="p">)</span> <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">buildHeader</span><span class="p">(</span><span class="nx">headerList</span> <span class="p">[]</span><span class="nx">v1</span><span class="p">.</span><span class="nx">HTTPHeader</span><span class="p">)</span> <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span> <span class="p">{</span>
 	<span class="c1">//建立一個 head slice 
 </span><span class="c1"></span>	<span class="nx">headers</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">Header</span><span class="p">)</span>
 	<span class="c1">//把 pod spec prob header 透過 for rnge 的方式加入到 prob 的請求中。
@@ -2231,10 +2219,10 @@
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="http-request">HTTP request</h3>
+</div><h3 id="exec">exec</h3>
 <p>kubernetes worker 上的 kubelet 會定期發送一個 HTTP request 給 pod 內的 container  ，如果 HTTP status code  回傳成功（400&gt; code &gt;= 200)，判斷目前 container 是否正常運作運作，若是不在這個 status code 範圍就會把 pod 刪掉。</p>
-<p><a href="https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/pods/probe/http-liveness.yaml">pods/probe/http-liveness.yaml</a><br />
-範例是擷取自 kubernetes 官方網站，撰寫一個 yaml 檔送給 kubernetes 告訴 kubernetes 幫忙啟動一個 pod 並且建立一個 livenessProbe ， livenessProbe 會透過 http get 方法去判斷 pod:8080/healthz 並且 header 加上 http header key:Custom-Header value:Awesome。</p>
+<p><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command">pods/probe/exec-liveness.yaml </a><br />
+範例是擷取自 kubernetes 官方網站，撰寫一個 yaml 檔送給 kubernetes 告訴 kubernetes 幫忙啟動一個 pod 並且建立一個 livenessProbe ， livenessProbe 會透過 exec 方法去判斷 cat /tmp/healthy 執行指令是否執行成功。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2258,7 +2246,6 @@
 </span><span class="lnt">19
 </span><span class="lnt">20
 </span><span class="lnt">21
-</span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
@@ -2266,26 +2253,25 @@
 </span><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="l">liveness</span><span class="w">
-</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">liveness-http</span><span class="w">
+</span><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">liveness-exec</span><span class="w">
 </span><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">liveness</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/liveness</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/busybox</span><span class="w">
 </span><span class="w">    </span><span class="nt">args</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="l">/server</span><span class="w">
+</span><span class="w">    </span>- <span class="l">/bin/sh</span><span class="w">
+</span><span class="w">    </span>- -<span class="l">c</span><span class="w">
+</span><span class="w">    </span>- <span class="l">touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600</span><span class="w">
 </span><span class="w">    </span><span class="nt">livenessProbe</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">httpGet</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/healthz</span><span class="w">
-</span><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
-</span><span class="w">        </span><span class="nt">httpHeaders</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Custom-Header</span><span class="w">
-</span><span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l">Awesome</span><span class="w">
-</span><span class="w">      </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
-</span><span class="w">      </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
-</span><span class="w">
+</span><span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="l">cat</span><span class="w">
+</span><span class="w">        </span>- <span class="l">/tmp/healthy</span><span class="w">
+</span><span class="w">      </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span><span class="w">      </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
 </span></code></pre></td></tr></table>
 </div>
-</div><p>我們就以這個範例 kubelet livenessProbe 的 httpGet 底層是如何實現的吧，先從觸發點來看</p>
+</div><p>我們就以這個範例 kubelet livenessProbe 的 exec 底層是如何實現的吧，先從觸發點來看</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2302,30 +2288,27 @@
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">pb</span> <span class="o">*</span><span class="nx">prober</span><span class="p">)</span> <span class="nf">runProbe</span><span class="p">(</span><span class="nx">probeType</span> <span class="nx">probeType</span><span class="p">,</span> <span class="nx">p</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Probe</span><span class="p">,</span> <span class="nx">pod</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">,</span> <span class="nx">status</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">PodStatus</span><span class="p">,</span> <span class="nx">container</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">containerID</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">ContainerID</span><span class="p">)</span> <span class="p">(</span><span class="nx">probe</span><span class="p">.</span><span class="nx">Result</span><span class="p">,</span> <span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 <span class="o">...</span>
-	<span class="c1">//如果 pod 有設定 HTTPGet 的話，就會透過 pb.HTTPGet.Probe 進行探測
+	<span class="c1">//如果 pod 有設定 exec 的話，就會透過 pb.exec.Probe 進行探測
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Exec</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="c1">//印一下 log 看要執行甚麼指令，執行指令的 pod 與 container 是哪一個
+</span><span class="c1"></span>		<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">InfoS</span><span class="p">(</span><span class="s">&#34;Exec-Probe runProbe&#34;</span><span class="p">,</span> <span class="s">&#34;pod&#34;</span><span class="p">,</span> <span class="nx">klog</span><span class="p">.</span><span class="nf">KObj</span><span class="p">(</span><span class="nx">pod</span><span class="p">),</span> <span class="s">&#34;containerName&#34;</span><span class="p">,</span> <span class="nx">container</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="s">&#34;execCommand&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">Exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">)</span>
+		<span class="c1">//把 command 與 container 的環境變數進行整理        
+</span><span class="c1"></span>		<span class="nx">command</span> <span class="o">:=</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nf">ExpandContainerCommandOnlyStatic</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">Exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">,</span> <span class="nx">container</span><span class="p">.</span><span class="nx">Env</span><span class="p">)</span>
+		<span class="c1">//整理完的 command 與 container 環境變數透過帶入 container id 去告知 pb.exec.Probe function 哪個 container 要執行什麼指令。
+</span><span class="c1"></span>		<span class="k">return</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">exec</span><span class="p">.</span><span class="nf">Probe</span><span class="p">(</span><span class="nx">pb</span><span class="p">.</span><span class="nf">newExecInContainer</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">containerID</span><span class="p">,</span> <span class="nx">command</span><span class="p">,</span> <span class="nx">timeout</span><span class="p">))</span>
+	<span class="p">}</span>
+	<span class="c1">//如果有設定 http get 的話，上一篇主要在討論這一塊    
 </span><span class="c1"></span>	<span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">HTTPGet</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-    
-		<span class="c1">//先把  HTTPGet.Scheme 轉成小寫，一般來說就是 http 或是 https
-</span><span class="c1"></span>		<span class="nx">scheme</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">ToLower</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">HTTPGet</span><span class="p">.</span><span class="nx">Scheme</span><span class="p">))</span>
-		<span class="o">...</span>
-        
-		<span class="c1">//本次要探測的型態，依照不同的探測型態去進行探測。
-</span><span class="c1"></span>		<span class="k">switch</span> <span class="nx">probeType</span> <span class="p">{</span>
-		<span class="c1">//若為 liveness 就透過 liveness Probe function 去檢測
-</span><span class="c1"></span>		<span class="k">case</span> <span class="nx">liveness</span><span class="p">:</span>
-			<span class="k">return</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">livenessHTTP</span><span class="p">.</span><span class="nf">Probe</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">headers</span><span class="p">,</span> <span class="nx">timeout</span><span class="p">)</span>
-		<span class="k">case</span> <span class="nx">startup</span><span class="p">:</span>
-		<span class="o">...</span> 
+    <span class="o">...</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>如果 probeType 是 liveness ，就會透過（非常非常非常外面注入的）livenessHTTP 物件去處理探針，至於怎麼注入的&hellip;之後再找時間整理xD<br />
-<a href="pkg/probe/http/http.go">source code</a></p>
+</div><p>如果探針型態為 exec 的話，就會透過（非常非常非常外面注入的）exec 物件去處理探針，至於怎麼注入的&hellip;之後再找時間整理xD</p>
+<p>我們來看一下怎模透過 ExpandContainerCommandOnlyStatic 這個 function 整理 env 環境變數與 cmd 指令吧～<br />
+<a href="pkg/kubelet/container/helpers.go">source code</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">  1
@@ -2455,140 +2438,344 @@
 </span><span class="lnt">125
 </span><span class="lnt">126
 </span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Probe returns a ProbeRunner capable of running an HTTP check.
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pr</span> <span class="nx">httpProber</span><span class="p">)</span> <span class="nf">Probe</span><span class="p">(</span><span class="nx">url</span> <span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span><span class="p">,</span> <span class="nx">headers</span> <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span><span class="p">,</span> <span class="nx">timeout</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span> <span class="p">(</span><span class="nx">probe</span><span class="p">.</span><span class="nx">Result</span><span class="p">,</span> <span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">//會從外部帶入要 prob 的 url 物件， header timeout 等參數。
-</span><span class="c1"></span>    
-	<span class="c1">//先組成一個 http client ，Transport 這邊不是很重要先不要管他。
-</span><span class="c1"></span>	<span class="nx">client</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span><span class="p">{</span>
-		<span class="nx">Timeout</span><span class="p">:</span>       <span class="nx">timeout</span><span class="p">,</span>
-		<span class="nx">Transport</span><span class="p">:</span>     <span class="nx">pr</span><span class="p">.</span><span class="nx">transport</span><span class="p">,</span>
-		<span class="c1">//設定轉發策略
-</span><span class="c1"></span>		<span class="nx">CheckRedirect</span><span class="p">:</span> <span class="nf">redirectChecker</span><span class="p">(</span><span class="nx">pr</span><span class="p">.</span><span class="nx">followNonLocalRedirects</span><span class="p">),</span>
-	<span class="p">}</span>
-	<span class="c1">//執行 prob 探測，傳入 http client 以及 要探測的 url 物件以及 header。
-</span><span class="c1"></span>	<span class="k">return</span> <span class="nf">DoHTTPProbe</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">headers</span><span class="p">,</span> <span class="nx">client</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">redirectChecker</span><span class="p">(</span><span class="nx">followNonLocalRedirects</span> <span class="kt">bool</span><span class="p">)</span> <span class="kd">func</span><span class="p">(</span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span> <span class="p">[]</span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="c1">//使用預設的 Redirects ，預設十次   
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">followNonLocalRedirects</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span> 
-	<span class="p">}</span>
-
-	<span class="k">return</span> <span class="kd">func</span><span class="p">(</span><span class="nx">req</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span> <span class="nx">via</span> <span class="p">[]</span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-		<span class="c1">// 轉發得目標不等於原來要發送的目標，也是直接噴錯。
-</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">req</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nf">Hostname</span><span class="p">()</span> <span class="o">!=</span> <span class="nx">via</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">URL</span><span class="p">.</span><span class="nf">Hostname</span><span class="p">()</span> <span class="p">{</span>
-			<span class="k">return</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ErrUseLastResponse</span>
+<pre class="chroma"><code class="language-go" data-lang="go">
+<span class="c1">// ExpandContainerCommandOnlyStatic substitutes only static environment variable values from the
+</span><span class="c1">// container environment definitions. This does *not* include valueFrom substitutions.
+</span><span class="c1">// TODO: callers should use ExpandContainerCommandAndArgs with a fully resolved list of environment.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">ExpandContainerCommandOnlyStatic</span><span class="p">(</span><span class="nx">containerCommand</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">envs</span> <span class="p">[]</span><span class="nx">v1</span><span class="p">.</span><span class="nx">EnvVar</span><span class="p">)</span> <span class="p">(</span><span class="nx">command</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">//v1EnvVarsToMap function 將 container []v1.EnvVar 環境變數轉換成 map[string]string 形式
+</span><span class="c1"></span>    <span class="c1">//接著把 map[string]string 透過 expansion.MappingFuncFor 封裝成一個function 
+</span><span class="c1"></span>	<span class="nx">mapping</span> <span class="o">:=</span> <span class="nx">expansion</span><span class="p">.</span><span class="nf">MappingFuncFor</span><span class="p">(</span><span class="nf">v1EnvVarsToMap</span><span class="p">(</span><span class="nx">envs</span><span class="p">))</span>
+	<span class="c1">//先判斷 containerCommand 是否為零，若是不為 0 的話需要進行整理
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">containerCommand</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+		<span class="c1">//透過迴圈把數入的 command 透過 expansion.Expand 一個一個處理
+</span><span class="c1"></span>		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cmd</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">containerCommand</span> <span class="p">{</span>
+			<span class="nx">command</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span> <span class="nx">expansion</span><span class="p">.</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">cmd</span><span class="p">,</span> <span class="nx">mapping</span><span class="p">))</span>
 		<span class="p">}</span>
-		<span class="c1">// Redirect &gt;=10 就不轉發了，直接噴錯。
-</span><span class="c1"></span>		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">via</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">10</span> <span class="p">{</span>
-			<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;stopped after 10 redirects&#34;</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">command</span>
+<span class="p">}</span>
+<span class="c1">//v1EnvVarsToMap 將 container []v1.EnvVar 環境變數轉換成 map[string]string 形式
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">v1EnvVarsToMap</span><span class="p">(</span><span class="nx">envs</span> <span class="p">[]</span><span class="nx">v1</span><span class="p">.</span><span class="nx">EnvVar</span><span class="p">)</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span> <span class="p">{</span>
+	<span class="c1">//建立map[string]string ，並且遞迴 envs 將環境變數以存入map。
+</span><span class="c1"></span>	<span class="nx">result</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{}</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">env</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">envs</span> <span class="p">{</span>
+		<span class="nx">result</span><span class="p">[</span><span class="nx">env</span><span class="p">.</span><span class="nx">Name</span><span class="p">]</span> <span class="p">=</span> <span class="nx">env</span><span class="p">.</span><span class="nx">Value</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nx">result</span>
+<span class="p">}</span>
+<span class="c1">//傳入 map[string]string 形式的環境變數回傳一個 function ，這個 function 會檢查傳入的 string 
+</span><span class="c1">//是否有包含環境變數的 key ，如果有的話直接回傳包含的環境變數，若是沒有需要透過 syntaxWrap function 封裝一層
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">MappingFuncFor</span><span class="p">(</span><span class="nx">context</span> <span class="o">...</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+		<span class="c1">//透過 for 迴圈把環境變數全部跑一次
+</span><span class="c1"></span>		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">vars</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">context</span> <span class="p">{</span>
+			<span class="c1">//檢查 map 是否有對應 key 拿出對應的 value 回傳
+</span><span class="c1"></span>			<span class="nx">val</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">vars</span><span class="p">[</span><span class="nx">input</span><span class="p">]</span>
+			<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="nx">val</span>
+			<span class="p">}</span>
 		<span class="p">}</span>
-		<span class="k">return</span> <span class="kc">nil</span>
+
+		<span class="k">return</span> <span class="nf">syntaxWrap</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span>
 	<span class="p">}</span>
 <span class="p">}</span>
 
-<span class="c1">// GetHTTPInterface 用於發出 HTTP 請求的 interface ，回傳 response 跟 error ，這個 interface http client 有實作，可以能是未來可以抽換用的吧？
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">GetHTTPInterface</span> <span class="kd">interface</span> <span class="p">{</span>
-	<span class="nf">Do</span><span class="p">(</span><span class="nx">req</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Response</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+<span class="kd">const</span> <span class="p">(</span>
+	<span class="nx">operator</span>        <span class="p">=</span> <span class="sc">&#39;$&#39;</span>
+	<span class="nx">referenceOpener</span> <span class="p">=</span> <span class="sc">&#39;(&#39;</span>
+	<span class="nx">referenceCloser</span> <span class="p">=</span> <span class="sc">&#39;)&#39;</span>
+<span class="p">)</span>
+<span class="c1">// syntaxWrap function 回傳 shell 語法所需要的字串，例如 cat /etc/resolv.conf，會透過這個方法封裝成$(cat /etc/resolv.conf)
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">syntaxWrap</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="nx">operator</span><span class="p">)</span> <span class="o">+</span> <span class="nb">string</span><span class="p">(</span><span class="nx">referenceOpener</span><span class="p">)</span> <span class="o">+</span> <span class="nx">input</span> <span class="o">+</span> <span class="nb">string</span><span class="p">(</span><span class="nx">referenceCloser</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="c1">// DoHTTPProbe checks if a GET request to the url succeeds.
-</span><span class="c1">// If the HTTP response code is successful (i.e. 400 &gt; code &gt;= 200), it returns Success.
-</span><span class="c1">// If the HTTP response code is unsuccessful or HTTP communication fails, it returns Failure.
-</span><span class="c1">// This is exported because some other packages may want to do direct HTTP probes.
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">DoHTTPProbe</span><span class="p">(</span><span class="nx">url</span> <span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span><span class="p">,</span> <span class="nx">headers</span> <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span><span class="p">,</span> <span class="nx">client</span> <span class="nx">GetHTTPInterface</span><span class="p">)</span> <span class="p">(</span><span class="nx">probe</span><span class="p">.</span><span class="nx">Result</span><span class="p">,</span> <span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">//透過 http NewRequest 建立 get 方法，目標為 url 物件的網址
-</span><span class="c1"></span>	<span class="nx">req</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">NewRequest</span><span class="p">(</span><span class="s">&#34;GET&#34;</span><span class="p">,</span> <span class="nx">url</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span> <span class="kc">nil</span><span class="p">)</span>
-	<span class="c1">// 建立 http requeset 失敗，報錯回傳
+<span class="c1">// 透過 Expand function 把 cmd 所含的環境變提取出來
+</span><span class="c1">// 我這邊假設三種情境（有點複雜只能透過這樣，呈現給大家，請見諒）
+</span><span class="c1">// 我們都假設環境變數都存在
+</span><span class="c1">//情境A input : ls -al $(VAR_A)
+</span><span class="c1">//情境B input : kubectl apply -f $(VAR_A) -f $(VAR_B)
+</span><span class="c1">//情境C input : kubectl apply -f $(VAR_A)-1
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="c1">//先建立一個bytes.Buffer
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">buf</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+	<span class="c1">//checkpoint從0開始
+</span><span class="c1"></span>	<span class="nx">checkpoint</span> <span class="o">:=</span> <span class="mi">0</span>
+	<span class="c1">//開始遞迴 input 情境
+</span><span class="c1"></span>	<span class="c1">// Ａ 的 input ls -al $(VAR_A)
+</span><span class="c1"></span>	<span class="c1">// B input : kubectl apply -f $(VAR_A) -f $(VAR_B)
+</span><span class="c1"></span>	<span class="c1">// C input : kubectl apply -f $(VAR_A)-1
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">cursor</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">cursor</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">input</span><span class="p">);</span> <span class="nx">cursor</span><span class="o">++</span> <span class="p">{</span>
+		<span class="c1">//case A input : ls -al $(VAR_A)
+</span><span class="c1"></span>		<span class="c1">//前面的ls -al 都不會處理，直到遇到第一個 $ 才會開始處理，這時候 cursor 是 7 也就是指到 input 的 $ 位置上。
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">input</span><span class="p">[</span><span class="nx">cursor</span><span class="p">]</span> <span class="o">==</span> <span class="nx">operator</span> <span class="o">&amp;&amp;</span> <span class="nx">cursor</span><span class="o">+</span><span class="mi">1</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span> <span class="p">{</span>
+			<span class="c1">// 從 check point 到 cursor 之間的數值寫到 buf 中
+</span><span class="c1"></span>			<span class="c1">//case A input : ls -al $(VAR_A)
+</span><span class="c1"></span>            <span class="c1">// 這時 check point 為 0 到 cursor 7 之間的數值寫到 buf 中，也就是 &#34;ls -al &#34; 會寫到 buf
+</span><span class="c1"></span>			<span class="nx">buf</span><span class="p">.</span><span class="nf">WriteString</span><span class="p">(</span><span class="nx">input</span><span class="p">[</span><span class="nx">checkpoint</span><span class="p">:</span><span class="nx">cursor</span><span class="p">])</span>
+
+			<span class="c1">// Attempt to read the variable name as defined by the
+</span><span class="c1"></span>			<span class="c1">// syntax from the input string
+</span><span class="c1"></span>			
+			<span class="c1">//用以判斷輸入的字串是否有包含環境變數，如果有環境變數的話回傳
+</span><span class="c1"></span>			<span class="c1">//advance 是為了環境變數之後還有其他指令，下次可以從該index開始找環境變數           
+</span><span class="c1"></span>			<span class="c1">//case A input : ls -al $(VAR_A)
+</span><span class="c1"></span>			<span class="c1">//read 為 環境變數例如 VAR_A
+</span><span class="c1"></span>			<span class="c1">//isVar 為 true 表示為環境變數
+</span><span class="c1"></span>			<span class="c1">//advance 為 從 (VAR_A) 的 ( 算到 ) +1 的 index (index 從0 開始算) ，case A 例子為 7 。
+</span><span class="c1"></span>			
+			<span class="nx">read</span><span class="p">,</span> <span class="nx">isVar</span><span class="p">,</span> <span class="nx">advance</span> <span class="o">:=</span> <span class="nf">tryReadVariableName</span><span class="p">(</span><span class="nx">input</span><span class="p">[</span><span class="nx">cursor</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span>
+			<span class="c1">//如果有包含變數的話需要從環境變數中找到對應的value，並且寫入buffer
+</span><span class="c1"></span>			<span class="k">if</span> <span class="nx">isVar</span> <span class="p">{</span>
+				<span class="c1">//從外部傳來的 mapping function 找到對應的環境變數，如果忘記的朋友可以上去複習一下 MappingFuncFor
+</span><span class="c1"></span>				<span class="c1">//case A input : ls -al $(VAR_A)
+</span><span class="c1"></span>				<span class="c1">//在這個情境下我們 透過 mapping function 找 VAR_A 對應的環境變數，我們這裡假設為example.yaml
+</span><span class="c1"></span>				<span class="nx">buf</span><span class="p">.</span><span class="nf">WriteString</span><span class="p">(</span><span class="nf">mapping</span><span class="p">(</span><span class="nx">read</span><span class="p">))</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="c1">// 如果不包含環境變數的話接寫入 buffer
+</span><span class="c1"></span>				<span class="nx">buf</span><span class="p">.</span><span class="nf">WriteString</span><span class="p">(</span><span class="nx">read</span><span class="p">)</span>
+			<span class="p">}</span>
+
+			<span class="c1">//把 cursor 指標往前移到剛剛判斷是否為環境變數的地方，因為要從剛剛判斷環境變數的地方繼續跑
+</span><span class="c1"></span>			<span class="c1">//case A input : ls -al $(VAR_A)
+</span><span class="c1"></span>			<span class="c1">//在這個情境下 cursor 會移動到 14 的位置上
+</span><span class="c1"></span>			<span class="nx">cursor</span> <span class="o">+=</span> <span class="nx">advance</span>
+
+			<span class="c1">//check point 往前移動
+</span><span class="c1"></span>			<span class="c1">//case A input : ls -al $(VAR_A)
+</span><span class="c1"></span>			<span class="c1">//在這個情境下 cursor 會移動到 15 的位置上
+</span><span class="c1"></span>			<span class="nx">checkpoint</span> <span class="p">=</span> <span class="nx">cursor</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="c1">//把 buffer 與剩下的 cmd 全部倒入並且回傳
+</span><span class="c1"></span>	<span class="c1">//case A input : ls -al $(VAR_A)
+</span><span class="c1"></span>	<span class="c1">//在這個情境下會回傳剛剛寫入到 buffer 的東東要全部倒出來 ls -al example.yaml
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">buf</span><span class="p">.</span><span class="nf">String</span><span class="p">()</span> <span class="o">+</span> <span class="nx">input</span><span class="p">[</span><span class="nx">checkpoint</span><span class="p">:]</span>
+<span class="p">}</span>
+
+
+<span class="c1">//雖然離得有點遠這一段是在 runProbe function 中被呼叫的，忘記的可以回去複習。
+</span><span class="c1"></span>
+<span class="c1">//回傳一個實作 exec.Cmd interface 的物件，這邊實作的對象是 execInContainer struct，並且帶入run function 為 pb.runner.RunInContainer，等等下面會來看
+</span><span class="c1">//exec.Cmd interface  以及實作 execInContainer 的部分
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">pb</span> <span class="o">*</span><span class="nx">prober</span><span class="p">)</span> <span class="nf">newExecInContainer</span><span class="p">(</span><span class="nx">container</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">containerID</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">ContainerID</span><span class="p">,</span> <span class="nx">cmd</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">timeout</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span> <span class="nx">exec</span><span class="p">.</span><span class="nx">Cmd</span> <span class="p">{</span>
+	<span class="c1">// exec.Cmd interface 被 execInContainer 實作，我們等等來看 execInContainer 底層的實作。
+</span><span class="c1"></span>	<span class="c1">// execInContainer 帶入 run function ，這裡的 function 採用的是 pb.runner.RunInContainer(containerID, cmd, timeout)
+</span><span class="c1"></span>	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">execInContainer</span><span class="p">{</span><span class="nx">run</span><span class="p">:</span> <span class="kd">func</span><span class="p">()</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">runner</span><span class="p">.</span><span class="nf">RunInContainer</span><span class="p">(</span><span class="nx">containerID</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">,</span> <span class="nx">timeout</span><span class="p">)</span>
+	<span class="p">}}</span>
+<span class="p">}</span>
+
+<span class="c1">// RunInContainer synchronously executes the command in the container, and returns the output.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">kubeGenericRuntimeManager</span><span class="p">)</span> <span class="nf">RunInContainer</span><span class="p">(</span><span class="nx">id</span> <span class="nx">kubecontainer</span><span class="p">.</span><span class="nx">ContainerID</span><span class="p">,</span> <span class="nx">cmd</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">timeout</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">runtimeService</span><span class="p">.</span><span class="nf">ExecSync</span><span class="p">(</span><span class="nx">id</span><span class="p">.</span><span class="nx">ID</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">,</span> <span class="nx">timeout</span><span class="p">)</span>
+	<span class="c1">// NOTE(tallclair): This does not correctly interleave stdout &amp; stderr, but should be sufficient
+</span><span class="c1"></span>	<span class="c1">// for logging purposes. A combined output option will need to be added to the ExecSyncRequest
+</span><span class="c1"></span>	<span class="c1">// if more precise output ordering is ever required.
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nb">append</span><span class="p">(</span><span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span><span class="o">...</span><span class="p">),</span> <span class="nx">err</span>
+<span class="p">}</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="exec/exec.go">source code</a><br />
+Cmd 是一個 interface，它提供了一個與 os/exec 中的 Cmd 非常相似的 API。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Cmd</span> <span class="kd">interface</span> <span class="p">{</span>
+	<span class="c1">// Run runs the command to the completion.
+</span><span class="c1"></span>	<span class="nf">Run</span><span class="p">()</span> <span class="kt">error</span>
+	<span class="c1">// CombinedOutput runs the command and returns its combined standard output
+</span><span class="c1"></span>	<span class="c1">// and standard error. This follows the pattern of package os/exec.
+</span><span class="c1"></span>	<span class="nf">CombinedOutput</span><span class="p">()</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+	<span class="c1">// Output runs the command and returns standard output, but not standard err
+</span><span class="c1"></span>	<span class="nf">Output</span><span class="p">()</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+	<span class="nf">SetDir</span><span class="p">(</span><span class="nx">dir</span> <span class="kt">string</span><span class="p">)</span>
+	<span class="nf">SetStdin</span><span class="p">(</span><span class="nx">in</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">)</span>
+	<span class="nf">SetStdout</span><span class="p">(</span><span class="nx">out</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span>
+	<span class="nf">SetStderr</span><span class="p">(</span><span class="nx">out</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span>
+	<span class="nf">SetEnv</span><span class="p">(</span><span class="nx">env</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span>
+
+	<span class="c1">// StdoutPipe and StderrPipe for getting the process&#39; Stdout and Stderr as
+</span><span class="c1"></span>	<span class="c1">// Readers
+</span><span class="c1"></span>	<span class="nf">StdoutPipe</span><span class="p">()</span> <span class="p">(</span><span class="nx">io</span><span class="p">.</span><span class="nx">ReadCloser</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+	<span class="nf">StderrPipe</span><span class="p">()</span> <span class="p">(</span><span class="nx">io</span><span class="p">.</span><span class="nx">ReadCloser</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+
+	<span class="c1">// Start and Wait are for running a process non-blocking
+</span><span class="c1"></span>	<span class="nf">Start</span><span class="p">()</span> <span class="kt">error</span>
+	<span class="nf">Wait</span><span class="p">()</span> <span class="kt">error</span>
+
+	<span class="c1">// Stops the command by sending SIGTERM. It is not guaranteed the
+</span><span class="c1"></span>	<span class="c1">// process will stop before this function returns. If the process is not
+</span><span class="c1"></span>	<span class="c1">// responding, an internal timer function will send a SIGKILL to force
+</span><span class="c1"></span>	<span class="c1">// terminate after 10 seconds.
+</span><span class="c1"></span>	<span class="nf">Stop</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我們來看一下實作 Cmd interface 的 結構體，這個 struct 就是上面 exec prob 呼叫的，由於 interface 有許多 signature 以下範例我們只看 prob exec 會用到的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">execInContainer</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="c1">// run function 就是在 container 中執行命令。執行結束會回傳 stdout 和 stderr 。如果執行 function 發生錯誤，透過 error 回傳。
+</span><span class="c1"></span>	<span class="nx">run</span>    <span class="kd">func</span><span class="p">()</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+	<span class="nx">writer</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span>
+<span class="p">}</span>
+
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p>前面講了很多相關的東西只為了組出實作 exec.cmd interface 的物件，execProber 的 prob function 用，我們就來看看底層是怎麼處理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">pr</span> <span class="nx">execProber</span><span class="p">)</span> <span class="nf">Probe</span><span class="p">(</span><span class="nx">e</span> <span class="nx">exec</span><span class="p">.</span><span class="nx">Cmd</span><span class="p">)</span> <span class="p">(</span><span class="nx">probe</span><span class="p">.</span><span class="nx">Result</span><span class="p">,</span> <span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">//建立一個 bytes buffer
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">dataBuffer</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+	<span class="nx">writer</span> <span class="o">:=</span> <span class="nx">ioutils</span><span class="p">.</span><span class="nf">LimitWriter</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">dataBuffer</span><span class="p">,</span> <span class="nx">maxReadLength</span><span class="p">)</span>
+
+	<span class="c1">//設定cmd的 stderr 以及 stdout 為 LimitWriter 的 writer
+</span><span class="c1"></span>	<span class="nx">e</span><span class="p">.</span><span class="nf">SetStderr</span><span class="p">(</span><span class="nx">writer</span><span class="p">)</span>
+	<span class="nx">e</span><span class="p">.</span><span class="nf">SetStdout</span><span class="p">(</span><span class="nx">writer</span><span class="p">)</span>
+    
+	<span class="c1">//開始執行cmd    
+</span><span class="c1"></span>	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.</span><span class="nf">Start</span><span class="p">()</span>
+	<span class="c1">//判斷 cmd 執行錯誤，若是錯誤為 nil 就執行 cmd wait ，雖然 wait 沒有做任何事情。（不清楚為什麼要這樣設計，跪求大大提點）
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">err</span> <span class="p">=</span> <span class="nx">e</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
+	<span class="p">}</span>
+
+	<span class="c1">//從 buffer 中取回 byte
+</span><span class="c1"></span>	<span class="nx">data</span> <span class="o">:=</span> <span class="nx">dataBuffer</span><span class="p">.</span><span class="nf">Bytes</span><span class="p">()</span>
+
+	<span class="c1">//印 log 看執行會傳什麼 response 
+</span><span class="c1"></span>	<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Exec probe response: %q&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+    
+
+	<span class="c1">//如果 cmd 執行錯誤的話
 </span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="c1">// Convert errors into failures to catch timeouts.
-</span><span class="c1"></span>		<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Failure</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">(),</span> <span class="kc">nil</span>
-	<span class="p">}</span>
-    
-	<span class="c1">//如果 header 沒有 User-Agent 的話，就主動幫他加入 header 與 User-Agent 的 key 以及 value 為 kube-probe/&lt;Major version&gt;.&lt;Minor version&gt;
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">headers</span><span class="p">[</span><span class="s">&#34;User-Agent&#34;</span><span class="p">];</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">headers</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-			<span class="nx">headers</span> <span class="p">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span><span class="p">{}</span>
+		<span class="c1">//先把 error 轉成  exec.ExitError  
+</span><span class="c1"></span>		<span class="nx">exit</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">err</span><span class="p">.(</span><span class="nx">exec</span><span class="p">.</span><span class="nx">ExitError</span><span class="p">)</span>
+		<span class="c1">//如果轉換換成功的話 ，進一步判斷ExitStatus是否為正常退出
+</span><span class="c1"></span>		<span class="c1">//也就是 ExitStatus = 0 ，如果 ExitStatus 不為 0 就當作失敗。
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="nx">exit</span><span class="p">.</span><span class="nf">ExitStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Success</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span> <span class="kc">nil</span>
+			<span class="p">}</span>
+            
+			<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Failure</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span> <span class="kc">nil</span>
 		<span class="p">}</span>
-		<span class="c1">// explicitly set User-Agent so it&#39;s not set to default Go value
-</span><span class="c1"></span>		<span class="nx">v</span> <span class="o">:=</span> <span class="nx">version</span><span class="p">.</span><span class="nf">Get</span><span class="p">()</span>
-		<span class="nx">headers</span><span class="p">.</span><span class="nf">Set</span><span class="p">(</span><span class="s">&#34;User-Agent&#34;</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;kube-probe/%s.%s&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">Major</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">Minor</span><span class="p">))</span>
+		<span class="c1">//轉換失敗當做未知錯誤來處理
+</span><span class="c1"></span>		<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Unknown</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">err</span>
 	<span class="p">}</span>
-    
-	<span class="c1">//將 Header 加入 request 
-</span><span class="c1"></span>	<span class="nx">req</span><span class="p">.</span><span class="nx">Header</span> <span class="p">=</span> <span class="nx">headers</span>
-	
-	<span class="c1">//如果 header 有 Host 的話就把 header 的 host 的數值加入到 requeset 的 host 
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">headers</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;Host&#34;</span><span class="p">)</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
-		<span class="nx">req</span><span class="p">.</span><span class="nx">Host</span> <span class="p">=</span> <span class="nx">headers</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;Host&#34;</span><span class="p">)</span>
-	<span class="p">}</span>
-    
-	<span class="c1">//透過外面注入進來的 http client 執行 requeset 的請求
-</span><span class="c1"></span>	<span class="nx">res</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Do</span><span class="p">(</span><span class="nx">req</span><span class="p">)</span>
-    
-	<span class="c1">//請求失敗，報錯回傳
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="c1">// Convert errors into failures to catch timeouts.
-</span><span class="c1"></span>		<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Failure</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">(),</span> <span class="kc">nil</span>
-	<span class="p">}</span>
-	
-	<span class="c1">// defer 關閉 io 的讀取
-</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">res</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
-    
-	<span class="c1">//讀取 request body ，並且限制 body 長度
-</span><span class="c1"></span>	<span class="nx">b</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">utilio</span><span class="p">.</span><span class="nf">ReadAtMost</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">Body</span><span class="p">,</span> <span class="nx">maxRespBodyLength</span><span class="p">)</span>
-	<span class="c1">//如果有錯誤的話就直接報錯，並且判斷是否超過 body 長度限制
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="nx">utilio</span><span class="p">.</span><span class="nx">ErrLimitReached</span> <span class="p">{</span>
-			<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Non fatal body truncation for %s, Response: %v&#34;</span><span class="p">,</span> <span class="nx">url</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span> <span class="o">*</span><span class="nx">res</span><span class="p">)</span>
-		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-			<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Failure</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">err</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-    
-	<span class="c1">//讀出來的 body byte 轉成 string
-</span><span class="c1"></span>	<span class="nx">body</span> <span class="o">:=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span>
-    
-	<span class="c1">//判斷 StatusCode ，若是 StatusCode 介於 200 ~ 400 之間就當作成功，但是...StatusCode 為重新導向的話 （300） ，就回報 warring 。
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">res</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="o">&gt;=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span> <span class="o">&amp;&amp;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="p">&lt;</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusBadRequest</span> <span class="p">{</span>
-    
-		<span class="c1">//StatusCode 為重新導向的話 （300） ，就回報 warring 。
-</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">res</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="o">&gt;=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusMultipleChoices</span> <span class="p">{</span> <span class="c1">// Redirect
-</span><span class="c1"></span>			<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Probe terminated redirects for %s, Response: %v&#34;</span><span class="p">,</span> <span class="nx">url</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span> <span class="o">*</span><span class="nx">res</span><span class="p">)</span>
-			<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Warning</span><span class="p">,</span> <span class="nx">body</span><span class="p">,</span> <span class="kc">nil</span>
-		<span class="p">}</span>
-        
-		<span class="c1">//StatusCode 不為 300 的 200 ~ 400 其他狀況回報成功
-</span><span class="c1"></span>		<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Probe succeeded for %s, Response: %v&#34;</span><span class="p">,</span> <span class="nx">url</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span> <span class="o">*</span><span class="nx">res</span><span class="p">)</span>
-		<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Success</span><span class="p">,</span> <span class="nx">body</span><span class="p">,</span> <span class="kc">nil</span>
-	<span class="p">}</span>
-    
-	<span class="c1">//其他不是 200 ~ 400 的狀況登回報錯誤
-</span><span class="c1"></span>	<span class="nx">klog</span><span class="p">.</span><span class="nf">V</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Probe failed for %s with request headers %v, response body: %v&#34;</span><span class="p">,</span> <span class="nx">url</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span> <span class="nx">headers</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span>
-	<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Failure</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;HTTP probe failed with statuscode: %d&#34;</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">StatusCode</span><span class="p">),</span> <span class="kc">nil</span>
-<span class="p">}</span>
-
-<span class="c1">// ReadAtMost 可以從 Reader 中讀取 byte 如果 body 大於 limit 的話就報錯～
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">ReadAtMost</span><span class="p">(</span><span class="nx">r</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">limit</span> <span class="kt">int64</span><span class="p">)</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">limitedReader</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">io</span><span class="p">.</span><span class="nx">LimitedReader</span><span class="p">{</span><span class="nx">R</span><span class="p">:</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">N</span><span class="p">:</span> <span class="nx">limit</span><span class="p">}</span>
-	<span class="nx">data</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">limitedReader</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">err</span>
-	<span class="p">}</span>
-	<span class="k">if</span> <span class="nx">limitedReader</span><span class="p">.</span><span class="nx">N</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">ErrLimitReached</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="nx">data</span><span class="p">,</span> <span class="kc">nil</span>
+    <span class="c1">//如果 cmd 執行沒有錯誤的話 直接回傳 success 處理
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">probe</span><span class="p">.</span><span class="nx">Success</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span> <span class="kc">nil</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="小結">小結</h2>
-<p>以上為 kubelet 探測 pod 的生命症狀  Http Get 簡易分析，簡單來說 kubernetes worker node 上的 kubelet process 會有一隻 worker 的 thread 建立一個探針，該 worker 會把 pod prob spec 解析出來並建立對應的探針（這一部份在後續會揭露），本篇以 prob 為 http get 為例。</p>
-<p>我們看到了 http status code 介於 200 ~ 400 之間就當作成功，此外 StatusCode 為重新導向的話 （300） ，就回報 warring ，下一章節將會針對 kubelet 如何透過 exec Prob 探測 pod 的生命症狀。</p>
+<p>以上為 kubelet 探測 pod 的生命症狀 - exec 簡易分析，簡單來說 kubernetes worker node 上的 kubelet process 會有一隻 worker 的 thread 建立一個探針，該 worker 會把 pod prob spec 解析出來並建立對應的探針，本篇以 prob 為 exec 為例。</p>
+<p>我們看到了 exec 執行的結果回傳為 0 的話就當作當作成功，其他結果都回報 Failure ，下一章節將會針對 kubelet 如何透過 TCP Prob 探測 pod 的生命症狀。</p>
 <p>文章中若有出現錯誤的見解希望各位在觀看文章的大大們可以指出哪裡有問題，讓我學習改進，謝謝。</p>
     </article>
     
@@ -2919,6 +3106,10 @@
     <ul class="related-ul">
         
         <li>
+          <a href="/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/" class="related__link">Kubernetes kubelet 探測 pod 的生命症狀 Http Get</a>
+        </li>
+        
+        <li>
           <a href="/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-secret-overlay/" class="related__link"> Kubernetes kubelet 怎麼抓住你的 secret</a>
         </li>
         
@@ -2934,10 +3125,6 @@
           <a href="/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-cachebasedmanager/" class="related__link">Kubernetes kubelet configmap &amp; secret 與 cacheBasedManager 激情四射</a>
         </li>
         
-        <li>
-          <a href="/posts/kubernetes/source-code/controller/redlector/reflector-3/" class="related__link">Kubernetes Reflector 我在盯著你 （ III  ）</a>
-        </li>
-        
     </ul>
     
   </section>
@@ -2945,21 +3132,14 @@
 <nav class="pagination-single">
   
     
-      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/configmapsecret/kubernetes-kubelet-secret-overlay/" class="pagination-single__left">
+      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-http-get/" class="pagination-single__left">
         <div class="pagination-single__icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
         </div>
-        <div class="pagination-single__left-title"> Kubernetes kubelet 怎麼抓住你的 secret</div>      
+        <div class="pagination-single__left-title">Kubernetes kubelet 探測 pod 的生命症狀 Http Get</div>      
       </a>
     
     <div class="grow"></div>
-    
-      <a href="https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-exec/" class="pagination-single__right">      
-        <div class="pagination-single__right-title">Kubernetes kubelet 探測 pod 的生命症狀 Exec</div>
-        <div class="pagination-single__icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
-        </div>
-      </a>
     
   
 </nav>
@@ -4076,7 +4256,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <ul>
     <li><a href="#probes">probes</a>
       <ul>
-        <li><a href="#http-request">HTTP request</a></li>
+        <li><a href="#exec">exec</a></li>
       </ul>
     </li>
     <li><a href="#小結">小結</a></li>

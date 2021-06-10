@@ -14,13 +14,61 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Tue, 25 May 2021 10:29:32 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jun 2021 10:29:32 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/categories/source-code/index.xml" rel="self" type="application/rss+xml" />
     
     
     
 
+      
+      <item>
+        <title>Kubernetes kubelet 探測 pod 的生命症狀 Exec</title>
+        <link>https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-exec/</link>
+        <pubDate>Thu, 10 Jun 2021 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Thu, 10 Jun 2021 10:29:32 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-exec/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/kubernetes-kubelet-liveness-exec.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+          
+            
+              <category>kubernetes</category>
+            
+          
+            
+              <category>kubelet</category>
+            
+          
+            
+              <category>probes</category>
+            
+          
+            
+              <category>source-code</category>
+            
+          
+        
+        
+      </item>
       
       <item>
         <title>Kubernetes kubelet 探測 pod 的生命症狀 Http Get</title>
