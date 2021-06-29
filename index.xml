@@ -44,7 +44,7 @@
 
       
       <item>
-        <title>Kubernetes kubelet 探測 pod 的生命症狀 Exec</title>
+        <title>Kubernetes kubelet 探測 pod 的生命症狀 tcp socket</title>
         <link>https://blog.jjmengze.website/posts/kubernetes/source-code/kubelet/prob/kubernetes-kubelet-tcp-socket/</link>
         <pubDate>Fri, 18 Jun 2021 10:29:32 +0800</pubDate>
         <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
