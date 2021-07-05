@@ -14,13 +14,45 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Fri, 18 Jun 2021 10:29:32 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 05 Jul 2021 10:29:32 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     
 
+      
+      <item>
+        <title>我的 cache 沒感覺了</title>
+        <link>https://blog.jjmengze.website/posts/cache/common/cache/</link>
+        <pubDate>Mon, 05 Jul 2021 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        <atom:modified>Mon, 05 Jul 2021 10:29:32 +0800</atom:modified>
+        <guid>https://blog.jjmengze.website/posts/cache/common/cache/</guid>
+        <description>&lt;figure&gt;
+    &lt;img src=&#34;https://blog.jjmengze.website/images/theme/cache-consistency.png&#34;/&gt; 
+&lt;/figure&gt;</description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+          
+            
+              <category>cache</category>
+            
+          
+        
+        
+          
+            
+              <category>cache</category>
+            
+          
+        
+        
+      </item>
       
       <item>
         <title>Kubernetes kubelet 探測 pod 的生命症狀 tcp socket</title>

@@ -14,13 +14,31 @@
     <managingEditor>jason.meng.lee@gmail.com (Meng Ze Li)</managingEditor>
     <webMaster>jason.meng.lee@gmail.com (Meng Ze Li)</webMaster>
     <copyright>&amp;copy;{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Fri, 18 Jun 2021 10:29:32 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 05 Jul 2021 10:29:32 +0800</lastBuildDate>
     
         <atom:link href="https://blog.jjmengze.website/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     
 
+      
+      <item>
+        <title>cache</title>
+        <link>https://blog.jjmengze.website/tags/cache/</link>
+        <pubDate>Mon, 05 Jul 2021 10:29:32 +0800</pubDate>
+        <author>jason.meng.lee@gmail.com (Meng Ze Li)</author>
+        
+        <guid>https://blog.jjmengze.website/tags/cache/</guid>
+        <description></description>
+        
+        <dc:creator>Meng Ze Li</dc:creator>
+        
+        
+        
+        
+        
+        
+      </item>
       
       <item>
         <title>kubernetes</title>
